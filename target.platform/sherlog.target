@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.2"?>
+
+<target name="sherlog.target">
+
+   <location path="${workspace_loc}/target.platform/equinox-3.4/plugins"/>
+
+   <content useAllPlugins="true">
+      <plugins>
+      </plugins>
+      <features>
+      </features>
+      <extraLocations>
+         <location path="${workspace_loc}/target.platform/ebr"/>
+         <location path="${workspace_loc}/target.platform/codehaus"/>
+      </extraLocations>
+   </content>
+
+</target>
