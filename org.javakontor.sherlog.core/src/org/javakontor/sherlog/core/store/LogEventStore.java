@@ -31,7 +31,7 @@ public interface LogEventStore extends Filterable {
    *
    * @return the size of the log event list.
    */
-  public int getLogEventsCount();
+  public int getLogEventCount();
 
   /**
    * <p>
@@ -50,7 +50,7 @@ public interface LogEventStore extends Filterable {
    *
    * @return the size of the filtered log event list.
    */
-  public int getFilteredLogEventsCount();
+  public int getFilteredLogEventCount();
 
   /**
    * <p>
