@@ -8,6 +8,7 @@ Import-Package: org.javakontor.sherlog.core,
  org.javakontor.sherlog.core.filter,
  org.javakontor.sherlog.core.reader,
  org.javakontor.sherlog.core.store,
+ org.javakontor.sherlog.util,
  org.osgi.framework;version="1.4.0",
  org.osgi.service.component;version="1.0.0",
  org.osgi.service.url;version="1.0.0"

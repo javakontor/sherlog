@@ -14,9 +14,7 @@ public abstract class AbstractLogEvent implements LogEvent {
 
   static final long           serialVersionUID   = 1L;
 
-  // private Color backgroundcolor;
-
-  private LogSourceIdentifier datenHerkunft;
+  private LogSourceIdentifier _logSourceIdentifier;
 
   private String              fileThreadName;
 
@@ -51,11 +49,11 @@ public abstract class AbstractLogEvent implements LogEvent {
   }
 
   public String getLogSource() {
-    return this.datenHerkunft.toString();
+    return this._logSourceIdentifier.toString();
   }
 
   public void setDatenHerkunft(final LogSourceIdentifier datenHerkunft) {
-    this.datenHerkunft = datenHerkunft;
+    this._logSourceIdentifier = datenHerkunft;
   }
 
   // TODO!!
@@ -84,15 +82,6 @@ public abstract class AbstractLogEvent implements LogEvent {
   public long getIdentifier() {
     return this.erzeugungNr;
   }
-
-  // public Color getMarkierungColor() {
-  // // if (new Random().nextBoolean()) return Color.RED;
-  // return this.backgroundcolor;
-  // }
-  //
-  // public void setMarkierungColor(final Color c) {
-  // this.backgroundcolor = c;
-  // }
 
   public Object getUserDefinedField(Object key) {
     // TODO Auto-generated method stub

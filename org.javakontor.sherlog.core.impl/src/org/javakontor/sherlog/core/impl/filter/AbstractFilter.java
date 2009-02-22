@@ -6,6 +6,7 @@ import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.filter.LogEventFilterChangeEvent;
 import org.javakontor.sherlog.core.filter.LogEventFilterListener;
 import org.javakontor.sherlog.core.filter.LogEventFilterMemento;
+import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>
@@ -36,6 +37,8 @@ public abstract class AbstractFilter implements LogEventFilter {
    * </p>
    */
   public void addLogFilterListener(LogEventFilterListener listener) {
+    Assert.notNull(listener);
+
     this._logFilterListener.add(listener);
   }
 
@@ -46,6 +49,8 @@ public abstract class AbstractFilter implements LogEventFilter {
    * </p>
    */
   public void removeLogFilterListener(LogEventFilterListener listener) {
+    Assert.notNull(listener);
+
     this._logFilterListener.remove(listener);
   }
 
@@ -58,7 +63,12 @@ public abstract class AbstractFilter implements LogEventFilter {
    * After the filter has been restored, a {@link LogEventFilterChangeEvent} is fired
    */
   public synchronized final void restoreFromMemento(LogEventFilterMemento memento) {
+    Assert.notNull(memento);
+
+    // delegate to 'onRestoreFromMemento'
     onRestoreFromMemento(memento);
+
+    // fire change event
     fireFilterChange();
   }
 
