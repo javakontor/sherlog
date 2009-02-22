@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- - - - - - - - - - - - - - - - - - - - - - - -
+	The logStoreComponentFactory can be used to
+	create new instances of type LogStore.
+	- - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- <component name="logStoreComponentFactory" factory="logStoreComponentFactory"> -->
+<component name="logStoreComponent">
+	<implementation
+		class="org.javakontor.sherlog.core.impl.internal.store.LogStoreComponent" />
+	<service>
+		<provide interface="org.javakontor.sherlog.core.store.LogEventStore" />
+	</service>
+</component>

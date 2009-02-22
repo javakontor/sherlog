@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="zipURLStreamHandler" immediate="true">
+	<implementation
+		class="org.javakontor.sherlog.core.impl.internal.zipurlstreamhandler.ZipURLStreamHandler" />
+	<property name="url.handler.protocol">zip</property>
+	<service>
+		<provide
+			interface="org.osgi.service.url.URLStreamHandlerService" />
+	</service>
+</component>
