@@ -1,28 +1,39 @@
 package org.javakontor.sherlog.ui.loadwizzard.internal;
 
-import static org.lumberjack.application.menu.MenuConstants.FILE_MENU_ID;
-import static org.lumberjack.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
+import static org.lumberjack.application.menu.MenuConstants.*;
 
-import javax.swing.SwingUtilities;
-
+import org.javakontor.sherlog.core.reader.BatchLogEventHandler;
 import org.javakontor.sherlog.core.reader.LogEventReader;
+import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.ui.loadwizzard.LoadLogFileWizzard;
 import org.lumberjack.application.action.impl.AbstractAction;
 
 public class LoadLogFileAction extends AbstractAction {
 
   private final ModifiableLogEventStore _logEventStore;
 
-  private LoadLogFileAction(ModifiableLogEventStore logEventStore) {
+  private LogEventReaderFactory         _logEventReaderFactory;
+
+  public LoadLogFileAction(ModifiableLogEventStore logEventStore) {
     super(FILE_MENU_ID + ".loadLogFile", FILE_MENU_TARGET_ID + "(first)", "&Load log file...");
     _logEventStore = logEventStore;
   }
 
   public void execute() {
+    LogEventReader logEventReader = LoadLogFileWizzard.openLogFileDialog(null, getLogEventReaderFactory());
+    if (logEventReader != null) {
+      logEventReader.addLogEventHandler(new BatchLogEventHandler(_logEventStore));
+    }
+  }
 
-    LogEventReader logEventReader = LoadLogFileDialog.openLogFileDialog(SwingUtilities.getWindowAncestor(LogView.this),
-        getModel().getLogEventReaderFactory());
+  public LogEventReaderFactory getLogEventReaderFactory() {
+    return _logEventReaderFactory;
+  }
 
+  public void setLogEventReaderFactory(LogEventReaderFactory logEventReaderFactory) {
+    _logEventReaderFactory = logEventReaderFactory;
+    setEnabled((_logEventReaderFactory != null));
   }
 
 }

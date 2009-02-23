@@ -47,7 +47,7 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
   public ValidationResult validateForm() {
 
     ValidationResult result = validateSelectedLogFile();
-    if (result != null) {
+    if (result.hasError()) {
       return result;
     }
 
