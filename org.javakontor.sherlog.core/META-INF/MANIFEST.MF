@@ -8,3 +8,4 @@ Export-Package: org.javakontor.sherlog.core,
  org.javakontor.sherlog.core.filter,
  org.javakontor.sherlog.core.reader,
  org.javakontor.sherlog.core.store
+Import-Package: org.javakontor.sherlog.util
