@@ -31,7 +31,7 @@ public class LoadLogFileWizzardComponent {
   }
 
   protected void deactivate(ComponentContext componentContext) {
-    _logger.trace(" -> deactivate");
+    _logger.debug(" -> deactivate");
     removeLoadMenu();
     this._context = null;
   }
@@ -42,7 +42,7 @@ public class LoadLogFileWizzardComponent {
   }
 
   public void unsetLogEventStore(LogEventStore logEventStore) {
-    _logger.trace(" -> unsetLogEventStore: " + logEventStore);
+    _logger.debug(" -> unsetLogEventStore: " + logEventStore);
     this._logEventStore = null;
   }
 
@@ -60,8 +60,7 @@ public class LoadLogFileWizzardComponent {
     Assert.notNull(_context);
     Assert.notNull(_logEventStore);
     Assert.assertTrue(_loadLogFileAction == null, "Property 'loadLogFileAction' must be null");
-    _logger.info(" * * * INFO * * *");
-    System.err.println("-> registerLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
+    _logger.debug("-> registerLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
 
     _loadLogFileAction = new LoadLogFileAction(_logEventStore);
     _loadLogFileAction.setLogEventReaderFactory(_logEventReaderFactory);
@@ -71,7 +70,7 @@ public class LoadLogFileWizzardComponent {
   }
 
   public synchronized void updateLoadMenu() {
-    System.err.println("-> updateLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
+    _logger.debug("-> updateLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
     if (_loadLogFileAction == null) {
       return;
     }
