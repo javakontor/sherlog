@@ -14,3 +14,4 @@ Import-Package: org.javakontor.sherlog.core,
  org.osgi.service.url;version="1.0.0"
 Export-Package: org.javakontor.sherlog.core.impl.filter,
  org.javakontor.sherlog.core.impl.reader
+Service-Component: OSGI-INF/logeventreaderfactory-component-description.xml,OSGI-INF/logstore-component-description.xml,OSGI-INF/zipurlstream-component-description.xml
