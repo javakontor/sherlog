@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<component name="translationServiceComponent">
+<component name="TextExampleLogEventProvider">
 	<implementation
 		class="org.lumberjack.core.logeventflavour.textexample.TextExampleLogEventProvider" />
 	<property name="logevent.flavour" value="text example" />
