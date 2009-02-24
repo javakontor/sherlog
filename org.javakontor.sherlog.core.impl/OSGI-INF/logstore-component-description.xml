@@ -9,5 +9,6 @@
 		class="org.javakontor.sherlog.core.impl.internal.store.LogStoreComponent" />
 	<service>
 		<provide interface="org.javakontor.sherlog.core.store.LogEventStore" />
+		<provide interface="org.javakontor.sherlog.core.store.ModifiableLogEventStore"/>
 	</service>
 </component>
