@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<component name="translationServiceComponent">
+<component name="L4JBinaryLogEventProvider">
 	<implementation
 		class="org.javakontor.sherlog.core.logeventflavour.l4jbinary.L4JBinaryLogEventProvider" />
 	<property name="logevent.flavour" value="log4j 1.2.15 (binary)" />
