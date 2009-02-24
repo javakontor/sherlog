@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.loadwizzard.internal;
+package org.javakontor.sherlog.ui.loadwizard.internal;
 
 import static org.lumberjack.application.menu.MenuConstants.*;
 
@@ -6,7 +6,7 @@ import org.javakontor.sherlog.core.reader.BatchLogEventHandler;
 import org.javakontor.sherlog.core.reader.LogEventReader;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
-import org.javakontor.sherlog.ui.loadwizzard.LoadLogFileWizzard;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizard;
 import org.lumberjack.application.action.impl.AbstractAction;
 
 public class LoadLogFileAction extends AbstractAction {
@@ -21,7 +21,7 @@ public class LoadLogFileAction extends AbstractAction {
   }
 
   public void execute() {
-    LogEventReader logEventReader = LoadLogFileWizzard.openLogFileDialog(null, getLogEventReaderFactory());
+    LogEventReader logEventReader = LoadLogFileWizard.openLogFileDialog(null, getLogEventReaderFactory());
     if (logEventReader != null) {
       logEventReader.addLogEventHandler(new BatchLogEventHandler(_logEventStore));
     }

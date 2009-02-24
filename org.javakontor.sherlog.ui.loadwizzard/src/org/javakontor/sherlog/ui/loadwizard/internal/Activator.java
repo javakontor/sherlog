@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.loadwizzard.internal;
+package org.javakontor.sherlog.ui.loadwizard.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

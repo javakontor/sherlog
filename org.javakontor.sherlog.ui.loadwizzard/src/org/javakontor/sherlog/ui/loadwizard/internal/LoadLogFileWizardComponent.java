@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.loadwizzard.internal;
+package org.javakontor.sherlog.ui.loadwizard.internal;
 
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.LogEventStore;
@@ -10,7 +10,7 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoadLogFileWizzardComponent {
+public class LoadLogFileWizardComponent {
 
   private final Logger            _logger = LoggerFactory.getLogger(getClass());
 
