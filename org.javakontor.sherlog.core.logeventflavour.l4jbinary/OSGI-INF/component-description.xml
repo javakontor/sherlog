@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="translationServiceComponent">
+	<implementation
+		class="org.javakontor.sherlog.core.logeventflavour.l4jbinary.L4JBinaryLogEventProvider" />
+	<property name="logevent.flavour" value="log4j 1.2.15 (binary)" />
+	<service>
+		<provide
+			interface="org.javakontor.sherlog.core.impl.reader.ObjectLogEventProvider" />
+	</service>
+</component>
