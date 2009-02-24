@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<component name="loadLogFileWizzardComponent" immediate="true">
+<component name="loadLogFileWizardComponent" immediate="true">
 	<implementation
-		class="org.javakontor.sherlog.ui.loadwizzard.internal.LoadLogFileWizzardComponent" />
+		class="org.javakontor.sherlog.ui.loadwizard.internal.LoadLogFileWizardComponent" />
 	<reference name="logEventStore"
 		interface="org.javakontor.sherlog.core.store.LogEventStore"
 		bind="setLogEventStore" unbind="unsetLogEventStore"
