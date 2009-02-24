@@ -31,7 +31,7 @@ public class LogStoreComponent implements ModifiableLogEventStore {
   private final EventListenerList _eventListenerList;
 
   /**
-   *
+   * 
    */
   public LogStoreComponent() {
     _logEvents = new ArrayList<LogEvent>();
@@ -71,7 +71,7 @@ public class LogStoreComponent implements ModifiableLogEventStore {
 
   public List<LogEventFilter> getLogEventFilters() {
     // TODO Auto-generated method stub
-    return null;
+    return new LinkedList<LogEventFilter>();
   }
 
   public void removeLogEventFilter(LogEventFilter logEventFilter) {

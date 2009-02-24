@@ -1,10 +1,13 @@
 package org.javakontor.sherlog.ui.logview.filterview;
 
+import java.util.Set;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.ModelChangedEvent;
@@ -12,10 +15,10 @@ import org.lumberjack.application.mvc.ModelChangedEvent;
 public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEventFilterModelReasonForChange> {
 
   /** - */
-  private static final long serialVersionUID = 1L;
+  private static final long                serialVersionUID = 1L;
 
   private FilterConfigurationEditorFactory _configurationEditorFactory;
-  
+
   public LogEventFilterView(LogEventFilterModel model) {
     super(model);
   }
@@ -35,7 +38,8 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
 
     switch (event.getReasonForChange()) {
     case filterAdded:
-
+      LogEventFilter logEventFilter = (LogEventFilter) event.getObjects()[0];
+      createFilterConfigurationEditor(logEventFilter);
       break;
     default:
       // ignore
@@ -43,9 +47,14 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     }
   }
 
-  public void addPanel(JPanel panel) {
-    add(panel);
-    Box.createVerticalGlue();
+  private void createFilterConfigurationEditor(LogEventFilter logEventFilter) {
+    if (_configurationEditorFactory != null
+        && _configurationEditorFactory.canCreateFilterConfigurationEditor(logEventFilter)) {
+
+      JPanel editorPanel = _configurationEditorFactory.createFilterConfigurationEditor(logEventFilter);
+      add(editorPanel);
+      Box.createVerticalGlue();
+    }
   }
 
   public void removePanel(JPanel filterConfigView) {
@@ -55,5 +64,12 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
 
   public void setFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
     _configurationEditorFactory = factory;
+
+    if (factory != null) {
+      Set<LogEventFilter> filters = getModel().getLogEventFilter();
+      for (LogEventFilter logEventFilter : filters) {
+        createFilterConfigurationEditor(logEventFilter);
+      }
+    }
   }
 }

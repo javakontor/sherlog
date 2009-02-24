@@ -12,5 +12,7 @@ Import-Package: org.javakontor.sherlog.core,
  org.lumberjack.application.request,
  org.lumberjack.application.view,
  org.osgi.framework;version="1.4.0",
+ org.osgi.service.component;version="1.0.0",
  org.osgi.util.tracker;version="1.3.3"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Service-Component: OSGI-INF/component-description.xml

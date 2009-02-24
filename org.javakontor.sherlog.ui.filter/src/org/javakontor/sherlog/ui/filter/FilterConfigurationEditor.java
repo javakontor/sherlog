@@ -6,7 +6,7 @@ import org.javakontor.sherlog.core.filter.LogEventFilter;
 
 public interface FilterConfigurationEditor {
 
-  public JPanel createFilterConfigurationEditorPanel();
+  public JPanel createFilterConfigurationEditorPanel(LogEventFilter logEventFilter);
 
   public boolean isSuitableFor(LogEventFilter logEventFilter);
 }

@@ -1,5 +1,6 @@
 package org.javakontor.sherlog.ui.logview.filterview;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,6 +8,7 @@ import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.LogEventStoreAdapter;
 import org.javakontor.sherlog.ui.logview.osgi.GuiExecutor;
+import org.javakontor.sherlog.util.Assert;
 import org.lumberjack.application.mvc.AbstractModel;
 
 /**
@@ -32,6 +34,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
    *          the {@link LogEventStore}
    */
   public LogEventFilterModel(LogEventStore logEventStore) {
+    Assert.notNull(logEventStore);
 
     // the log event store
     this._logEventStore = logEventStore;
@@ -67,5 +70,9 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
 
     // add the existing filters
     _logEventFilter.addAll(_logEventStore.getLogEventFilters());
+  }
+
+  public Set<LogEventFilter> getLogEventFilter() {
+    return Collections.unmodifiableSet(_logEventFilter);
   }
 }
