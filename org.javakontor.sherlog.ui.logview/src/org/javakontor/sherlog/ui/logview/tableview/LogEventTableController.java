@@ -8,10 +8,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.javakontor.sherlog.core.LogEvent;
+import org.lumberjack.application.menu.AbstractContextMenuListener;
+import org.lumberjack.application.menu.ContextMenu;
 import org.lumberjack.application.mvc.AbstractController;
 import org.lumberjack.application.request.RequestHandler;
 
 public class LogEventTableController extends AbstractController<LogEventTableModel, LogEventTableView> {
+
+  private ContextMenu         _contextMenu;
+
+  private ContextMenuListener _contextMenuListener;
 
   public LogEventTableController(LogEventTableModel model, LogEventTableView view, RequestHandler successor) {
     super(model, view, successor);
@@ -27,13 +33,13 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
 
   private void initializeListener() {
     getView().getLogEventTableTable().getSelectionModel().addListSelectionListener(new LogEventSelectionListener());
-  }
 
-  // AbstractContextMenuListener _popupListener;
-  //
-  // public AbstractContextMenuListener getContextMenuListener() {
-  // return this._popupListener;
-  // }
+    this._contextMenu = new ContextMenu("logEventView.contextMenu");
+
+    // enable popup menu
+    _contextMenuListener = new ContextMenuListener(this._contextMenu);
+    getView().getLogEventTableTable().addMouseListener(this._contextMenuListener);
+  }
 
   class LogEventSelectionListener implements ListSelectionListener {
 
@@ -70,45 +76,26 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
 
     return events.toArray(new LogEvent[0]);
   }
-  
-  // private ContextMenu _contextMenu;
-  //
-  // private ContextMenuListener _popupListener;
-  //  
-  // private void createListener() {
-  // // getView().getLogEventListView().addTableSelectionListener(new LogEventSelectionListener());
-  //
-  // this._contextMenu = new ContextMenu(getModel().getBundleContext(), "logEventView.contextMenu");
-  // this._contextMenu.open();
-  //
-  // // enable popup menu
-  // this._popupListener = new ContextMenuListener(this._contextMenu);
-  // getView().getLogEventTableView().getLogEventTableTable().addMouseListener(this._popupListener);
-  // }
-  //
-  // @Override
-  // public void close() {
-  // super.close();
-  // if (this._contextMenu != null) {
-  // this._contextMenu.close();
-  // this._contextMenu = null;
-  // }
-  // }
-  //
-  // class ContextMenuListener extends AbstractContextMenuListener {
-  //
-  // public ContextMenuListener(ContextMenu contextMenu) {
-  // super(contextMenu);
-  // }
-  //
-  // @Override
-  // protected Object getActionContext() {
-  // return getModel();
-  // }
-  //
-  // @Override
-  // protected void afterMenu() {
-  // getView().getLogEventTableView().getLogEventTableTable().repaint();
-  // }
-  // }
+
+  class ContextMenuListener extends AbstractContextMenuListener {
+
+    public ContextMenuListener(ContextMenu contextMenu) {
+      super(contextMenu);
+    }
+
+    @Override
+    protected Object getActionContext() {
+      return getModel();
+    }
+
+    @Override
+    protected void afterMenu() {
+      getView().getLogEventTableTable().repaint();
+    }
+
+    @Override
+    protected boolean showPopupMenu() {
+      return getModel().getSelectedLogEvents().length > 0;
+    }
+  }
 }
