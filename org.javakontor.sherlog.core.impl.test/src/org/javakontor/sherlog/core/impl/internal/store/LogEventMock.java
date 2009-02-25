@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.core.impl.interal.store;
+package org.javakontor.sherlog.core.impl.internal.store;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
