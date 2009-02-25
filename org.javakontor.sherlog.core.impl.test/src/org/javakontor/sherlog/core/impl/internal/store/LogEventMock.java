@@ -56,7 +56,7 @@ public class LogEventMock implements LogEvent {
     return this._logLevel;
   }
 
-  public String getLogSource() {
+  public String getLogEventSource() {
     return this._logSource;
   }
 

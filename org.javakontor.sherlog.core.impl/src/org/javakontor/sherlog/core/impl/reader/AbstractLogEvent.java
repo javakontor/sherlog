@@ -1,36 +1,27 @@
 package org.javakontor.sherlog.core.impl.reader;
 
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
 import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.core.impl.internal.reader.LogSourceIdentifier;
-import org.javakontor.sherlog.core.impl.internal.reader.ThreadMode;
-import org.javakontor.sherlog.core.impl.internal.reader.ThreadNameFactory;
 
 public abstract class AbstractLogEvent implements LogEvent {
 
-  static final long           serialVersionUID   = 1L;
+  private static int          _instanceCounter   = 0;
 
-  private LogSourceIdentifier _logSourceIdentifier;
+  /**
+   * 
+   */
+  private static final long   serialVersionUID   = 1L;
 
-  private String              fileThreadName;
+  private final int           _logId;
 
-  private String              filePatternThreadName;
-
-  private static int          laufendeNummer     = 0;
-
-  private final Date          modelTimestamp     = null;
-
-  // private final boolean modellTimestampExtracted = false;
-  private final int           erzeugungNr;
+  private String              _logEventSource;
 
   private Map<Object, Object> _userDefinedFields = null;
 
   public AbstractLogEvent() {
-    this.erzeugungNr = laufendeNummer++;
+    this._logId = _instanceCounter++;
   }
 
   public Map<Object, Object> getUserDefinedFields() {
@@ -40,109 +31,30 @@ public abstract class AbstractLogEvent implements LogEvent {
     return _userDefinedFields;
   }
 
-  public Date getModelTimestamp() {
-    // if (!this.modellTimestampExtracted) {
-    // final String msg = getRenderedMessage();
-    // // [...]
-    // }
-    return this.modelTimestamp;
+  public String getLogEventSource() {
+    return _logEventSource;
   }
 
-  public String getLogSource() {
-    return this._logSourceIdentifier.toString();
-  }
-
-  public void setDatenHerkunft(final LogSourceIdentifier datenHerkunft) {
-    this._logSourceIdentifier = datenHerkunft;
-  }
-
-  // TODO!!
-  public String getLJThreadName() {
-    if (ThreadMode.ORIGINAL == ThreadMode.getThreadMode()) {
-      return getThreadName();
-    }
-    if (ThreadMode.DATENHERKUNFT == ThreadMode.getThreadMode()) {
-      if (this.fileThreadName == null) {
-        this.fileThreadName = ThreadNameFactory.getThreadname(getThreadName(), getLogSource());
-      }
-      return this.fileThreadName;
-    }
-    if (ThreadMode.PATTERN == ThreadMode.getThreadMode()) {
-      if (this.filePatternThreadName == null) {
-        this.filePatternThreadName = ThreadNameFactory.getThreadnamePattern(getThreadName(), getLogSource());
-      }
-      return this.filePatternThreadName;
-    }
-    // nun ist was falsch :-(
-    // org.apache.log4j.Logger.getLogger(LogEventAdapter.class).error(
-    // "Threadmode invalid, use mode " + ThreadMode.ORIGINAL);
-    return getThreadName();
+  public void setLogEventSource(String logEventSource) {
+    _logEventSource = logEventSource;
   }
 
   public long getIdentifier() {
-    return this.erzeugungNr;
+    return this._logId;
   }
 
   public Object getUserDefinedField(Object key) {
-    // TODO Auto-generated method stub
-    return null;
+    return getUserDefinedFields().get(key);
   }
 
   public void setUserDefinedField(Object key, Object value) {
-    // TODO Auto-generated method stub
-
-  }
-
-  public String getCategory() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public LogLevel getLogLevel() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public String getMessage() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public Object getNestedDiagnosticContext() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public String getThreadName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public Object getThrowableInformation() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public String[] getThrowableStrRep() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public long getTimeStamp() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  public boolean hasNestedDiagnosticContext() {
-    // TODO Auto-generated method stub
-    return false;
+    getUserDefinedFields().put(key, value);
   }
 
   public int compareByTime(final Object o) {
     if (equals(o)) {
       return 0;
     }
-    // sonst niemals 0!
     final LogEvent secondEvent = (LogEvent) o;
     int ret = (int) (getTimeStamp() - secondEvent.getTimeStamp());
     if (ret == 0) {

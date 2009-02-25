@@ -7,10 +7,10 @@ import java.util.Map;
  * <p>
  * Represents a log event.
  * </p>
- *
+ * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
- *
+ * 
  */
 public interface LogEvent extends Serializable, Comparable<LogEvent> {
 
@@ -18,16 +18,16 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the LogSource for this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the LogSource for this {@link LogEvent}.
    */
-  public String getLogSource();
+  public String getLogEventSource();
 
   /**
    * <p>
    * Returns the unique identifier of this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the unique identifier of this {@link LogEvent}.
    */
   public long getIdentifier();
@@ -36,7 +36,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the time stamp of this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the time stamp of this {@link LogEvent}.
    */
   public long getTimeStamp();
@@ -45,7 +45,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the category of this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the category of this {@link LogEvent}.
    */
   public String getCategory();
@@ -54,7 +54,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the log level of this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the log level of this {@link LogEvent}.
    */
   public LogLevel getLogLevel();
@@ -63,7 +63,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the messages of this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the messages of this {@link LogEvent}.
    */
   public String getMessage();
@@ -72,7 +72,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the name of the thread that created this {@link LogEvent}.
    * </p>
-   *
+   * 
    * @return the name of the thread that created this {@link LogEvent}.
    */
   // TODO: THREADMODE?
@@ -82,7 +82,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns <code>true</code>, if this {@link LogEvent} contains a nested diagnostics context (NDC).
    * </p>
-   *
+   * 
    * @return <code>true</code>, if this {@link LogEvent} contains a nested diagnostics context (NDC).
    */
   public boolean hasNestedDiagnosticContext();
@@ -91,7 +91,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the nested diagnostics context (NDC).
    * </p>
-   *
+   * 
    * @return the nested diagnostics context (NDC).
    */
   public Object getNestedDiagnosticContext();
@@ -100,7 +100,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the throwable information.
    * </p>
-   *
+   * 
    * @return the throwable information.
    */
   public Object getThrowableInformation();
@@ -111,7 +111,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * </p>
    * <p>
    * To <b>remove</b> a user defined field, pass <tt>null</tt> as value to this method
-   *
+   * 
    * @param key
    *          the key of the user defined field. Must not be <tt>null</tt>
    * @param value
@@ -123,7 +123,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns the value of the user defined field with the given key.
    * </p>
-   *
+   * 
    * @param key
    *          the key of the user defined field.
    * @return the value of the user defined field with the given key.
@@ -134,7 +134,7 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * Returns a map with all user defined fields.
    * </p>
-   *
+   * 
    * @return a map with all user defined fields.
    */
   public Map<Object, Object> getUserDefinedFields();

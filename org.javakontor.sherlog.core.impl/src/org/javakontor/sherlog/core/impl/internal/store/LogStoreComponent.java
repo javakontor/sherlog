@@ -5,16 +5,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.swing.event.EventListenerList;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
+import org.javakontor.sherlog.core.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
-import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>
@@ -22,20 +20,18 @@ import org.javakontor.sherlog.util.Assert;
  * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class LogStoreComponent implements ModifiableLogEventStore {
+public class LogStoreComponent extends AbstractFilterable implements ModifiableLogEventStore {
 
   /** */
   private final List<LogEvent>    _logEvents;
-  
-  private final List<LogEvent> _filteredLogEvents;
+
+  private final List<LogEvent>    _filteredLogEvents;
 
   /** */
   private final List<String>      _categories;
 
   /** */
   private final EventListenerList _eventListenerList;
-  
-  private final CopyOnWriteArrayList<LogEventFilter> _logEventFilters;
 
   /**
    * 
@@ -45,7 +41,6 @@ public class LogStoreComponent implements ModifiableLogEventStore {
     _categories = new ArrayList<String>();
     _filteredLogEvents = new ArrayList<LogEvent>();
     _eventListenerList = new EventListenerList();
-    _logEventFilters = new CopyOnWriteArrayList<LogEventFilter>();
   }
 
   public void addLogStoreListener(LogEventStoreListener listener) {
@@ -72,33 +67,32 @@ public class LogStoreComponent implements ModifiableLogEventStore {
     return _filteredLogEvents.size();
   }
 
-  public void addLogEventFilter(LogEventFilter logEventFilter) {
-    Assert.notNull("Parameter 'logEventFilter' must not be null", logEventFilter);
-    boolean added = _logEventFilters.addIfAbsent(logEventFilter);
-    if (added) {
+  @Override
+  public boolean addLogEventFilter(LogEventFilter logEventFilter) {
+    boolean logEventFilterAdded = super.addLogEventFilter(logEventFilter);
+    if (logEventFilterAdded) {
       refilter();
     }
+    return logEventFilterAdded;
   }
 
-  public List<LogEventFilter> getLogEventFilters() {
-    return Collections.unmodifiableList(_logEventFilters);
+  @Override
+  public boolean removeLogEventFilter(LogEventFilter logEventFilter) {
+    boolean logEventFilterRemoved = super.removeLogEventFilter(logEventFilter);
+    if (logEventFilterRemoved) {
+      refilter();
+    }
+    return logEventFilterRemoved;
   }
 
-  public void removeLogEventFilter(LogEventFilter logEventFilter) {
-    _logEventFilters.remove(logEventFilter);
-    
-    refilter();
-  }
-  
   protected void refilter() {
     _filteredLogEvents.clear();
-    
+
     for (LogEvent logEvent : _logEvents) {
       if (isFiltered(logEvent)) {
         _filteredLogEvents.add(logEvent);
       }
     }
-    
   }
 
   /** ModifiableLoggingEventStore */
@@ -108,26 +102,14 @@ public class LogStoreComponent implements ModifiableLogEventStore {
     list.add(event);
     addLogEvents(list);
   }
-  
-  protected boolean isFiltered(LogEvent event) {
-    if (this._logEventFilters.isEmpty()) {
-      return true;
-    }
-    for (LogEventFilter filter : this._logEventFilters) {
-      if (!filter.matches(event)) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   public void addLogEvents(List<LogEvent> events) {
     if (events.isEmpty()) {
       return;
     }
-    
+
     List<String> newCategories = new LinkedList<String>();
-    List<LogEvent> newFilteredEvents =new LinkedList<LogEvent>();
+    List<LogEvent> newFilteredEvents = new LinkedList<LogEvent>();
 
     for (LogEvent event : events) {
       // add to logEvents list
@@ -139,20 +121,20 @@ public class LogStoreComponent implements ModifiableLogEventStore {
         _categories.add(category);
         newCategories.add(category);
       }
-      
+
       // check if it's a filtered event
       if (isFiltered(event)) {
         _filteredLogEvents.add(event);
         newFilteredEvents.add(event);
       }
     }
-    
+
     Collections.sort(_logEvents);
     if (!newFilteredEvents.isEmpty()) {
       Collections.sort(_filteredLogEvents);
     }
-    
-    // TODO 
+
+    // TODO
     fireLogEventsAdded(events);
   }
 

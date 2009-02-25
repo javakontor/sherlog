@@ -8,119 +8,110 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.filter.LogEventFilter;
+import org.javakontor.sherlog.core.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.core.reader.LogEventHandler;
 import org.javakontor.sherlog.core.reader.LogEventReader;
 
-public abstract class AbstractURLLogEventReader implements LogEventReader {
+public abstract class AbstractURLLogEventReader extends AbstractFilterable implements LogEventReader {
 
-	private final List<LogEventHandler> _listener = new ArrayList<LogEventHandler>();
+  private final List<LogEventHandler> _listener = new ArrayList<LogEventHandler>();
 
-	private LogEventFilter _filter = null;
+  private boolean                     _isActive;
 
-	private boolean _isActive;
+  private boolean                     _stopRequested;
 
-	private boolean _stopRequested;
+  // private final boolean infoCorruptedLogfile = true;
 
-	// private final boolean infoCorruptedLogfile = true;
+  private final URL[]                 _urls;
 
-	private final URL[] _urls;
+  /**
+   * @param urls
+   */
+  public AbstractURLLogEventReader(final URL[] urls) {
+    this._urls = urls;
+    this._isActive = false;
+  }
 
-	/**
-	 * @param urls
-	 */
-	public AbstractURLLogEventReader(final URL[] urls) {
-		this._urls = urls;
-		this._isActive = false;
-	}
+  public void start() {
+    this._isActive = true;
+    Thread thread = new Thread(new Runnable() {
+      public void run() {
+        try {
+          readLogFiles();
+        } catch (CancellationException e) {
+          e.printStackTrace();
+        }
+        AbstractURLLogEventReader.this._isActive = false;
+      }
+    });
+    thread.start();
+  }
 
-	public void start() {
-		this._isActive = true;
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				try {
-					readLogFiles();
-				} catch (CancellationException e) {
-					e.printStackTrace();
-				}
-				AbstractURLLogEventReader.this._isActive = false;
-			}
-		});
-		thread.start();
-	}
+  public void stop() {
+    this._stopRequested = true;
+  }
 
-	public void stop() {
-		this._stopRequested = true;
-	}
+  public boolean isActive() {
+    return this._isActive;
+  }
 
-	public boolean isActive() {
-		return this._isActive;
-	}
+  public boolean isStopRequested() {
+    return this._stopRequested;
+  }
 
-	public boolean isStopRequested() {
-		return this._stopRequested;
-	}
+  public final void addLogEventHandler(final LogEventHandler handler) {
+    this._listener.add(handler);
+  }
 
-	public void setFilter(final LogEventFilter sf) {
-		this._filter = sf;
-	}
+  public final void removeLogEventHandler(final LogEventHandler handler) {
+    this._listener.remove(handler);
+  }
 
-	public final void addLogEventHandler(final LogEventHandler handler) {
-		this._listener.add(handler);
-	}
+  // public boolean corruptedLogfileInfo() {
+  // return this.infoCorruptedLogfile;
+  // }
 
-	public final void removeLogEventHandler(final LogEventHandler handler) {
-		this._listener.remove(handler);
-	}
+  protected final void fireLogEventHandler(final LogEvent event) {
+    if (!isFiltered(event)) {
+      return;
+    }
 
-	// public boolean corruptedLogfileInfo() {
-	// return this.infoCorruptedLogfile;
-	// }
+    for (LogEventHandler handler : this._listener) {
+      handler.handle(event);
+    }
+  }
 
-	protected final void fireLogEventHandler(final LogEvent event) {
-		if (this._filter != null && !this._filter.matches(event)) {
-			return;
-		}
+  protected final void fireSetup() {
+    for (LogEventHandler handler : this._listener) {
+      handler.initialize();
+    }
+  }
 
-		for (LogEventHandler handler : this._listener) {
-			handler.handle(event);
-		}
-	}
+  protected final void fireTearDown() {
+    for (LogEventHandler handler : this._listener) {
+      handler.dispose();
+    }
+  }
 
-	protected final void fireSetup() {
-		for (LogEventHandler handler : this._listener) {
-			handler.initialize();
-		}
-	}
+  public void readLogFiles() {
+    // notify LogEventHandler
+    fireSetup();
 
-	protected final void fireTearDown() {
-		for (LogEventHandler handler : this._listener) {
-			handler.dispose();
-		}
-	}
+    for (URL url : this._urls) {
 
-	public void readLogFiles() {
-		// notify LogEventHandler
-		fireSetup();
+      String logEventSource = url.toExternalForm();
+      try {
+        readLogFileStream(url.openStream(), logEventSource);
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
 
-		for (URL url : this._urls) {
+    // notify LogEventHandler
+    fireTearDown();
+  }
 
-			// get the (flyweigth) LogSourceIdentifier
-			LogSourceIdentifier logSourceIdentifier = LogSourceIdentifierImpl
-					.getDatenherkuft(url.toExternalForm());
-			try {
-				readLogFileStream(url.openStream(), logSourceIdentifier);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		// notify LogEventHandler
-		fireTearDown();
-	}
-
-	protected abstract void readLogFileStream(InputStream stream,
-			LogSourceIdentifier logSourceIdentifier);
+  protected abstract void readLogFileStream(InputStream stream, String logEventSource);
 
 }

@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.concurrent.CancellationException;
 
-import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.core.impl.reader.TextLogEventProvider;
 
@@ -38,7 +37,7 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
   }
 
   @Override
-  public void readLogFileStream(final InputStream in, final LogSourceIdentifier logSourceIdentifier) {
+  public void readLogFileStream(final InputStream in, final String logEventSource) {
 
     Scanner scanner = new Scanner(in);
     try {
@@ -47,7 +46,7 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
         if (isStopRequested()) {
           throw new CancellationException();
         } else {
-          processLine(scanner.nextLine(), logSourceIdentifier);
+          processLine(scanner.nextLine(), logEventSource);
 
         }
 
@@ -59,7 +58,7 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
 
   }
 
-  private void processLine(final String aLine, final LogSourceIdentifier logSourceIdentifier) {
+  private void processLine(final String aLine, final String logEventSource) {
 
     if (aLine.startsWith(this.startTag)) {
       String string = this._textLogEventBuilder.toString();
@@ -67,11 +66,8 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
         this._textLogEventBuilder.append(aLine);
         return;
       }
-      LogEvent logEvent = this._logEventProvider.wrapLogEvent(string);
-
-      if (logEvent instanceof AbstractLogEvent) {
-        ((AbstractLogEvent) logEvent).setDatenHerkunft(logSourceIdentifier);
-      }
+      AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(string);
+      logEvent.setLogEventSource(logEventSource);
       fireLogEventHandler(logEvent);
 
       this._textLogEventBuilder = new StringBuilder();

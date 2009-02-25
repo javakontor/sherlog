@@ -8,7 +8,7 @@ import org.javakontor.sherlog.core.store.LogEventStore;
  * <p>
  * Defines methods to add and remove {@link LogEventFilter LogEventFilters} to resp. from the {@link LogEventStore}.
  * </p>
- *
+ * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
@@ -18,28 +18,30 @@ public interface Filterable {
    * <p>
    * Returns all {@link LogEventFilter LogEventFilters} that have been added to the {@link LogEventStore}.
    * </p>
-   *
+   * 
    * @return all {@link LogEventFilter LogEventFilters} that have been added to the {@link LogEventStore}.
    */
   public List<LogEventFilter> getLogEventFilters();
 
   /**
    * <p>
-   * Adds the specified {@link LogEventFilter}.
+   * Adds the specified {@link LogEventFilter} if this Filterable doesn't contain it already
    * </p>
-   *
+   * 
    * @param logEventFilter
    *          the {@link LogEventFilter} to add.
+   * @return true if the logEventFilter has been added
    */
-  public void addLogEventFilter(LogEventFilter logEventFilter);
+  public boolean addLogEventFilter(LogEventFilter logEventFilter);
 
   /**
    * <p>
-   * Removes the specified {@link LogEventFilter}.
+   * Removes the specified {@link LogEventFilter}
    * </p>
-   *
+   * 
    * @param logEventFilter
    *          the {@link LogEventFilter} to remove.
+   * @return true if the logEventFilter has been removed
    */
-  public void removeLogEventFilter(LogEventFilter logEventFilter);
+  public boolean removeLogEventFilter(LogEventFilter logEventFilter);
 }
