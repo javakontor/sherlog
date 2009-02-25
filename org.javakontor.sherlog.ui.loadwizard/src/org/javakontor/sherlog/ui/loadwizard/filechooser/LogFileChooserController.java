@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.loadwizard;
+package org.javakontor.sherlog.ui.loadwizard.filechooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +48,8 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
     getView().getFlavourBox().addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
-        getModel().setSelectedFlavour((LogEventFlavour) getView().getFlavourBox().getSelectedItem());
+        Object object = getView().getFlavourBox().getSelectedItem();
+        getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
       }
     });
 

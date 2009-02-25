@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.javakontor.sherlog.ui.loadwizard
 Bundle-Version: 1.0.0
 Bundle-Activator: org.javakontor.sherlog.ui.loadwizard.internal.Activator
 Import-Package: com.jgoodies.forms.builder,
+ com.jgoodies.forms.debug,
  com.jgoodies.forms.factories,
  com.jgoodies.forms.layout,
  org.javakontor.sherlog.core.reader,

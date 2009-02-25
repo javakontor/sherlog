@@ -1,5 +1,6 @@
 package org.javakontor.sherlog.ui.loadwizard;
 
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,9 @@ import javax.swing.JPanel;
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
 import org.javakontor.sherlog.core.reader.LogEventReader;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserController;
+import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserModel;
+import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserView;
 import org.lumberjack.application.request.RequestHandlerImpl;
 
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -69,8 +73,9 @@ public class LoadLogFileWizard extends JDialog {
     setTitle(LoadLogFileWizardMessages.loadLogFile);
     setModal(true);
 
-    this._logFileChooserModel = new LogFileChooserModel(this._logEventReaderFactory);
+    this._logFileChooserModel = new LogFileChooserModel(this._logEventReaderFactory.getSupportedLogEventFlavours());
     LogFileChooserView view = new LogFileChooserView(this._logFileChooserModel);
+    view.setBorder(BorderFactory.createLineBorder(Color.RED));
     new LogFileChooserController(this._logFileChooserModel, view, new LogFileOpenDialogHandler());
 
     JPanel contentPanel = new JPanel();
@@ -122,10 +127,10 @@ public class LoadLogFileWizard extends JDialog {
 
         try {
           URL url = LoadLogFileWizard.this._logFileChooserModel.getSelectedLogFile().toURL();
-          LogEventFlavour logEventFlavour = LoadLogFileWizard.this._logFileChooserModel.getSelectedFlavour();
+          LogEventFlavour logEventFlavour = LoadLogFileWizard.this._logFileChooserModel.getSelectedLogEventFlavour();
 
-          LoadLogFileWizard.this._logEventReader = LoadLogFileWizard.this._logEventReaderFactory.getLogEventReader(
-              url, logEventFlavour);
+          LoadLogFileWizard.this._logEventReader = LoadLogFileWizard.this._logEventReaderFactory.getLogEventReader(url,
+              logEventFlavour);
 
           setVisible(false);
         } catch (MalformedURLException ex) {

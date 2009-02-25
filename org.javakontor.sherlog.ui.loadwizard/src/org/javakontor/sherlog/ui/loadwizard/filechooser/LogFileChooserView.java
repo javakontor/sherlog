@@ -1,7 +1,8 @@
-package org.javakontor.sherlog.ui.loadwizard;
+package org.javakontor.sherlog.ui.loadwizard.filechooser;
 
 import java.awt.Component;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -19,35 +20,42 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class LogFileChooserView extends AbstractView<LogFileChooserModel, DefaultReasonForChange> {
 
-  private JTextField        _fileNameField;
+  private JTextField                   _fileNameField;
 
-  private JButton           _fileChooserButton;
+  private JButton                      _fileChooserButton;
 
-  private JComboBox         _flavourBox;
+  private JComboBox                    _logEventFlavourComboBox;
+
+  private LogEventFlavourComboBoxModel _logEventFlavourComboBoxModel;
 
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
+  private static final long            serialVersionUID = 1L;
 
   public LogFileChooserView(LogFileChooserModel model) {
     super(model);
   }
 
   public void modelChanged(ModelChangedEvent<LogFileChooserModel, DefaultReasonForChange> event) {
+    updateView();
+  }
+
+  protected void updateView() {
     this._fileNameField.setText(getModel().getFileName());
-    this._flavourBox.setSelectedItem(getModel().getSelectedFlavour());
+    this._logEventFlavourComboBoxModel.setLogEventFlavours(getModel().getSupportedLogEventFlavours());
+    this._logEventFlavourComboBoxModel.setSelectedItem(getModel().getSelectedLogEventFlavour());
   }
 
   private void createComponents() {
     this._fileNameField = new JTextField();
     this._fileNameField.setText(getModel().getFileName());
     this._fileChooserButton = new JButton("...");
-    this._flavourBox = new JComboBox(getModel().getSupportedFlavours());
-    this._flavourBox.setEditable(false);
-    this._flavourBox.setSelectedItem(getModel().getSelectedFlavour());
-    FlavourCellRenderer renderer = new FlavourCellRenderer(this._flavourBox.getRenderer());
-    this._flavourBox.setRenderer(renderer);
+    this._logEventFlavourComboBoxModel = new LogEventFlavourComboBoxModel();
+    this._logEventFlavourComboBox = new JComboBox(_logEventFlavourComboBoxModel);
+    this._logEventFlavourComboBox.setEditable(false);
+    FlavourCellRenderer renderer = new FlavourCellRenderer(this._logEventFlavourComboBox.getRenderer());
+    this._logEventFlavourComboBox.setRenderer(renderer);
   }
 
   class FlavourCellRenderer implements ListCellRenderer {
@@ -81,6 +89,7 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
         "50dlu,5dlu,fill:100dlu:grow,5dlu,left:pref", // cols
         "p, 3dlu, p" // rows
     );
+
     PanelBuilder builder = new PanelBuilder(formLayout, this);
 
     // add components to layout
@@ -92,7 +101,10 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
 
     // 2dn row
     builder.addLabel("Flavour:", cc.rc(3, 1));
-    builder.add(this._flavourBox, cc.rc(3, 3));
+    builder.add(this._logEventFlavourComboBox, cc.rc(3, 3));
+
+    // fill form with initial data from view
+    // updateView();
   }
 
   public JTextField getFileNameField() {
@@ -112,11 +124,27 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
   }
 
   public JComboBox getFlavourBox() {
-    return this._flavourBox;
+    return this._logEventFlavourComboBox;
   }
 
   public void setFlavourBox(JComboBox flavourBox) {
-    this._flavourBox = flavourBox;
+    this._logEventFlavourComboBox = flavourBox;
+  }
+
+  class LogEventFlavourComboBoxModel extends DefaultComboBoxModel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public void setLogEventFlavours(LogEventFlavour[] flavours) {
+      removeAll();
+
+      for (LogEventFlavour flavour : flavours) {
+        addElement(flavour);
+      }
+    }
   }
 
 }
