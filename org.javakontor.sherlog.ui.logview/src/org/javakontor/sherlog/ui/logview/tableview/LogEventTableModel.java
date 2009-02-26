@@ -135,9 +135,10 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
   public final void sendSetStatusMessageRequest() {
 
     // format the status message
-    String message = String.format("%d stored messages, %d filtered messages, %d selected messages",
-        this._logEventStore.getLogEventCount(), this._logEventStore.getFilteredLogEvents().size(),
-        this._selectedLogEvents.length);
+    String message = String.format(
+        "%d stored messages, %d filtered messages, %d selected messages (%d filter registered)", this._logEventStore
+            .getLogEventCount(), this._logEventStore.getFilteredLogEvents().size(), this._selectedLogEvents.length,
+        this._logEventStore.getLogEventFilters().size());
 
     // set the status message
     StatusMessage statusMessage = new StatusMessage(message, StatusMessage.INFORMATION);
