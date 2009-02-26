@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.javakontor.sherlog.core.store.LogEventStore;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
+import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager;
 import org.javakontor.sherlog.ui.logview.LogView;
 import org.javakontor.sherlog.ui.logview.LogViewContribution;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
@@ -26,7 +26,7 @@ public class LogViewComponent {
   /** the component context */
   private ComponentContext                                    _componentContext;
 
-  private FilterConfigurationEditorFactory                    _filterConfigurationEditorFactory;
+  private FilterConfigurationEditorFactoryManager             _filterConfigurationEditorFactoryManager;
 
   /** - */
   private final Map<LogEventStore, LogViewContributionHolder> _registeredContributions;
@@ -83,8 +83,8 @@ public class LogViewComponent {
 
     // the LogViewContributionHolder
     LogViewContributionHolder logViewContributionHolder = new LogViewContributionHolder(logEventStore);
-    
-    logViewContributionHolder.setFilterConfigurationEditorFactory(_filterConfigurationEditorFactory);
+
+    logViewContributionHolder.setFilterConfigurationEditorFactoryManager(_filterConfigurationEditorFactoryManager);
 
     // add to contribution set
     _registeredContributions.put(logEventStore, logViewContributionHolder);
@@ -142,11 +142,11 @@ public class LogViewComponent {
    * 
    * @param factory
    */
-  public void bindFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
-    _filterConfigurationEditorFactory = factory;
+  public void bindFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
+    _filterConfigurationEditorFactoryManager = factory;
 
     for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
-      logViewContributionHolder.setFilterConfigurationEditorFactory(_filterConfigurationEditorFactory);
+      logViewContributionHolder.setFilterConfigurationEditorFactoryManager(_filterConfigurationEditorFactoryManager);
     }
   }
 
@@ -156,11 +156,11 @@ public class LogViewComponent {
    * 
    * @param factory
    */
-  public void unbindFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
-    _filterConfigurationEditorFactory = null;
-    
+  public void unbindFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
+    _filterConfigurationEditorFactoryManager = null;
+
     for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
-      logViewContributionHolder.setFilterConfigurationEditorFactory(_filterConfigurationEditorFactory);
+      logViewContributionHolder.setFilterConfigurationEditorFactoryManager(_filterConfigurationEditorFactoryManager);
     }
   }
 
@@ -173,16 +173,16 @@ public class LogViewComponent {
   public static class LogViewContributionHolder {
 
     /** - */
-    private LogEventStore                    _logEventStore;
+    private LogEventStore                           _logEventStore;
 
     /** - */
-    private LogViewContribution              _logViewContribution;
+    private LogViewContribution                     _logViewContribution;
 
     /** - */
-    private ServiceRegistration              _serviceRegistration;
+    private ServiceRegistration                     _serviceRegistration;
 
     /** - */
-    private FilterConfigurationEditorFactory _factory;
+    private FilterConfigurationEditorFactoryManager _filterConfigurationEditorFactoryManager;
 
     /**
      * @param logEventStore
@@ -209,7 +209,8 @@ public class LogViewComponent {
 
       _logViewContribution = new LogViewContribution(bundleContext, _logEventStore);
 
-      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactory(_factory);
+      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(
+          _filterConfigurationEditorFactoryManager);
 
       _serviceRegistration = bundleContext
           .registerService(ViewContribution.class.getName(), _logViewContribution, null);
@@ -228,16 +229,16 @@ public class LogViewComponent {
         return;
       }
 
-      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactory(null);
+      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(null);
 
       _serviceRegistration.unregister();
     }
 
-    public void setFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
-      _factory = factory;
+    public void setFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
+      _filterConfigurationEditorFactoryManager = factory;
 
       if (hasLogViewContribution()) {
-        _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactory(factory);
+        _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(factory);
       }
     }
 

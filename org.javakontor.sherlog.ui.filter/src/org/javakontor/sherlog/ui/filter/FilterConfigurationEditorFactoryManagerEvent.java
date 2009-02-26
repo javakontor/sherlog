@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.filter;
 
 import java.util.EventObject;
 
-public class FilterConfigurationEditorFactoryEvent extends EventObject {
+public class FilterConfigurationEditorFactoryManagerEvent extends EventObject {
 
   /** serialVersionUID */
   private static final long serialVersionUID = 1L;
@@ -13,7 +13,7 @@ public class FilterConfigurationEditorFactoryEvent extends EventObject {
    * 
    * @param source
    */
-  public FilterConfigurationEditorFactoryEvent(Object source) {
+  public FilterConfigurationEditorFactoryManagerEvent(Object source) {
     super(source);
   }
 

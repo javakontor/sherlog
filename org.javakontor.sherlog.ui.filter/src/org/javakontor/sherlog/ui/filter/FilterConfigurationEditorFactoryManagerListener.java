@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.filter;
 
-public interface FilterConfigurationEditorFactoryListener {
+public interface FilterConfigurationEditorFactoryManagerListener {
 
   public void FilterConfigurationEditorAdded();
   
