@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<component name="SimpleFilterConfigurationEditorFactory">
+	<implementation
+		class="org.javakontor.sherlog.core.simplefilter.ui.SimpleFilterConfigurationEditorFactory" />
+	<service>
+		<provide interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory" />
+	</service>
+</component>
