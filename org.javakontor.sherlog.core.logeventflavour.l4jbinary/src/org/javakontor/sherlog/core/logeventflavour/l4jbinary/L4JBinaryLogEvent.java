@@ -1,11 +1,10 @@
 package org.javakontor.sherlog.core.logeventflavour.l4jbinary;
 
-import java.util.Date;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 import org.javakontor.sherlog.core.LogLevel;
 import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
+import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>
@@ -16,105 +15,96 @@ import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
 class L4JBinaryLogEvent extends AbstractLogEvent {
 
   /** - */
-  static final long serialVersionUID = 1L;
+  static final long          serialVersionUID = 1L;
 
   /** - */
-  LoggingEvent      myEvent;
+  private final LoggingEvent _loggingEvent;
 
-  /** - */
-  String            calculatedThreadName;
-
-  public L4JBinaryLogEvent(final Object in) {
-    super();
-    final LoggingEvent orgL4JEvent = (LoggingEvent) in;
-    this.myEvent = orgL4JEvent;
+  /**
+   * 
+   * @param loggingEventObject
+   *          a {@link LoggingEvent}
+   */
+  public L4JBinaryLogEvent(final Object loggingEventObject) {
+    Assert.instanceOf("LoggingEventObject", loggingEventObject, LoggingEvent.class);
+    this._loggingEvent = (LoggingEvent) loggingEventObject;
   }
 
   public long getTimeStamp() {
-    return this.myEvent.timeStamp;
+    return this._loggingEvent.timeStamp;
   }
 
   public String getRenderedMessage() {
-    return this.myEvent.getRenderedMessage() != null ? this.myEvent.getRenderedMessage() : "";
+    return this._loggingEvent.getRenderedMessage() != null ? this._loggingEvent.getRenderedMessage() : "";
   }
 
   public String getCategory() {
-    return this.myEvent.getLoggerName();
+    return this._loggingEvent.getLoggerName();
   }
 
   public LogLevel getLogLevel() {
-    // if (myEvent.priority.equals(Priority.ERROR))return LogLevel.ERROR;
-    // if (myEvent.priority.equals(Priority.WARN))return LogLevel.WARN;
-    // if (myEvent.priority.equals(Priority.INFO))return LogLevel.INFO;
-    // if (myEvent.priority.equals(Priority.FATAL))return LogLevel.FATAL;
-    // if (myEvent.priority.equals(Priority.DEBUG))return LogLevel.DEBUG;
-
-    if (this.myEvent.getLevel().equals(Level.ERROR)) {
+    if (this._loggingEvent.getLevel().equals(Level.ERROR)) {
       return LogLevel.ERROR;
     }
-    if (this.myEvent.getLevel().equals(Level.WARN)) {
+    if (this._loggingEvent.getLevel().equals(Level.WARN)) {
       return LogLevel.WARN;
     }
-    if (this.myEvent.getLevel().equals(Level.INFO)) {
+    if (this._loggingEvent.getLevel().equals(Level.INFO)) {
       return LogLevel.INFO;
     }
-    if (this.myEvent.getLevel().equals(Level.FATAL)) {
+    if (this._loggingEvent.getLevel().equals(Level.FATAL)) {
       return LogLevel.FATAL;
     }
-    if (this.myEvent.getLevel().equals(Level.DEBUG)) {
+    if (this._loggingEvent.getLevel().equals(Level.DEBUG)) {
       return LogLevel.DEBUG;
     }
     return LogLevel.UNDEF;
   }
 
   public String getThreadName() {
-    return this.myEvent.getThreadName();
+    return this._loggingEvent.getThreadName();
   }
 
   public String getMessage() {
-    return this.myEvent.getRenderedMessage();
+    return this._loggingEvent.getRenderedMessage();
   }
 
   public Object getThrowableInformation() {
-    return this.myEvent.getThrowableInformation();
-  }
-
-  public Object getNDC() {
-    return this.myEvent.getNDC();
-  }
-
-  public String[] getThrowableStrRep() {
-    return this.myEvent.getThrowableStrRep();
+    return this._loggingEvent.getThrowableInformation();
   }
 
   public Object getNestedDiagnosticContext() {
-    return this.myEvent.getNDC();
+    return this._loggingEvent.getNDC();
   }
 
   public boolean hasNestedDiagnosticContext() {
-    return this.myEvent.getNDC() != null;
+    return this._loggingEvent.getNDC() != null;
   }
 
   @Override
   public boolean equals(final Object o) {
-    return this.myEvent.equals(((L4JBinaryLogEvent) o).myEvent);
+    return this._loggingEvent.equals(((L4JBinaryLogEvent) o)._loggingEvent);
   }
 
   @Override
   public int hashCode() {
-    return this.myEvent.hashCode();
+    return this._loggingEvent.hashCode();
   }
 
-  public Object getInternalRepraesentation() {
-    return this.myEvent;
-  }
-
+  /**
+   * Constructs a <code>String</code> with all attributes in name = value format.
+   * 
+   * @return a <code>String</code> representation of this object.
+   */
   @Override
   public String toString() {
-    final StringBuffer retVal = new StringBuffer("L4JEvent2 [");
-    retVal.append("TS:" + new Date(this.myEvent.getTimeStamp()));
-    retVal.append(";Msg:" + this.myEvent.getRenderedMessage());
-    retVal.append("]");
-    return retVal.toString();
+
+    final String retValue = "L4JBinaryLogEvent ( " // prefix
+        + super.toString() // add super attributes
+        + ", _loggingEvent = '" + this._loggingEvent + "'" // _loggingEvent
+        + " )";
+
+    return retValue;
   }
+
 }
