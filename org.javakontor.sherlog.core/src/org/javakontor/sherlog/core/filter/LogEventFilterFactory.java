@@ -21,7 +21,7 @@ public interface LogEventFilterFactory {
    * 
    * @return
    */
-  public void createLogEventFilterFor(Filterable filterable);
+  public LogEventFilter createLogEventFilter();
 
   /**
    * <p>

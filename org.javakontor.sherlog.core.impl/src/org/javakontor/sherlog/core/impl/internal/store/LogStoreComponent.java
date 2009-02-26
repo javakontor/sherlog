@@ -2,8 +2,10 @@ package org.javakontor.sherlog.core.impl.internal.store;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.event.EventListenerList;
 
@@ -16,6 +18,8 @@ import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -25,16 +29,20 @@ import org.javakontor.sherlog.util.Assert;
  */
 public class LogStoreComponent extends AbstractFilterable implements ModifiableLogEventStore {
 
-  /** */
-  private final List<LogEvent>    _logEvents;
-
-  private final List<LogEvent>    _filteredLogEvents;
+  Logger                                                   _logger = LoggerFactory.getLogger(getClass());
 
   /** */
-  private final List<String>      _categories;
+  private final List<LogEvent>                             _logEvents;
+
+  private final List<LogEvent>                             _filteredLogEvents;
 
   /** */
-  private final EventListenerList _eventListenerList;
+  private final List<String>                               _categories;
+
+  /** */
+  private final EventListenerList                          _eventListenerList;
+
+  private final Map<LogEventFilterFactory, LogEventFilter> _registeredLogEventFilters;
 
   /**
    * 
@@ -44,6 +52,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     _categories = new ArrayList<String>();
     _filteredLogEvents = new ArrayList<LogEvent>();
     _eventListenerList = new EventListenerList();
+    _registeredLogEventFilters = new Hashtable<LogEventFilterFactory, LogEventFilter>();
   }
 
   public void addLogStoreListener(LogEventStoreListener listener) {
@@ -154,7 +163,18 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   }
 
   public void addLogEventFilterFactory(LogEventFilterFactory logEventFilterFactory) {
-    logEventFilterFactory.createLogEventFilterFor(this);
+    _logger.debug("LogEventFilterFactory added: " + logEventFilterFactory);
+    LogEventFilter logEventFilter = logEventFilterFactory.createLogEventFilter();
+    addLogEventFilter(logEventFilter);
+    _registeredLogEventFilters.put(logEventFilterFactory, logEventFilter);
+  }
+
+  public void removeLogEventFilterFactory(LogEventFilterFactory logEventFilterFactory) {
+    _logger.debug("LogEventFilterFactory removed: " + logEventFilterFactory);
+    LogEventFilter logEventFilter = _registeredLogEventFilters.remove(logEventFilterFactory);
+    if (logEventFilter != null) {
+      removeLogEventFilter(logEventFilter);
+    }
   }
 
   protected void fireLogEventsAdded(final List<LogEvent> loggingEvents, final List<LogEvent> filteredLogEvents,

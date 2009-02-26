@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.javakontor.sherlog.core.filter.LogEventFilter;
@@ -71,7 +70,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   public void setFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
     _configurationEditorFactoryManager = factory;
 
-    createFilterConfigurationEditor(null);
+    // createFilterConfigurationEditor(null);
 
     if (factory != null) {
       Set<LogEventFilter> filters = getModel().getLogEventFilter();
