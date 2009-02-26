@@ -44,4 +44,8 @@ public interface Filterable {
    * @return true if the logEventFilter has been removed
    */
   public boolean removeLogEventFilter(LogEventFilter logEventFilter);
+
+  public boolean addFilterableChangeListener(FilterableChangeListener filterableChangeListener);
+
+  public boolean removeFilterableChangeListener(FilterableChangeListener filterableChangeListener);
 }

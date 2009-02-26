@@ -15,7 +15,7 @@ public class LogEventMock implements LogEvent {
    */
   private static final long serialVersionUID = 1L;
 
-  private final String      _category;
+  private String            _category;
 
   private final long        _identifier;
 
@@ -120,6 +120,10 @@ public class LogEventMock implements LogEvent {
     } else {
       this._userDefinedFields.put(key, value);
     }
+  }
+
+  public void setCategory(String category) {
+    _category = category;
   }
 
   private final Map<Object, Object> _userDefinedFields = new Hashtable<Object, Object>();

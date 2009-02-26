@@ -1,7 +1,6 @@
 package org.javakontor.sherlog.core.impl.internal.store;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +9,13 @@ import javax.swing.event.EventListenerList;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
+import org.javakontor.sherlog.core.filter.LogEventFilterChangeEvent;
+import org.javakontor.sherlog.core.filter.LogEventFilterFactory;
 import org.javakontor.sherlog.core.impl.filter.AbstractFilterable;
+import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>
@@ -68,21 +71,18 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   }
 
   @Override
-  public boolean addLogEventFilter(LogEventFilter logEventFilter) {
-    boolean logEventFilterAdded = super.addLogEventFilter(logEventFilter);
-    if (logEventFilterAdded) {
-      refilter();
-    }
-    return logEventFilterAdded;
+  protected void logEventFilterAdded(LogEventFilter logEventFilter) {
+    refilter();
   }
 
   @Override
-  public boolean removeLogEventFilter(LogEventFilter logEventFilter) {
-    boolean logEventFilterRemoved = super.removeLogEventFilter(logEventFilter);
-    if (logEventFilterRemoved) {
-      refilter();
-    }
-    return logEventFilterRemoved;
+  protected void logEventFilterRemoved(LogEventFilter logEventFilter) {
+    refilter();
+  }
+
+  @Override
+  public void filterChanged(LogEventFilterChangeEvent event) {
+    refilter();
   }
 
   protected void refilter() {
@@ -104,12 +104,14 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   }
 
   public void addLogEvents(List<LogEvent> events) {
+    Assert.notNull("Parameter 'events' must not be null", events);
+
     if (events.isEmpty()) {
       return;
     }
 
-    List<String> newCategories = new LinkedList<String>();
-    List<LogEvent> newFilteredEvents = new LinkedList<LogEvent>();
+    final List<String> newCategories = new LinkedList<String>();
+    final List<LogEvent> newFilteredEvents = new LinkedList<LogEvent>();
 
     for (LogEvent event : events) {
       // add to logEvents list
@@ -117,7 +119,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
 
       // add new categories and save for event handling later on
       String category = event.getCategory();
-      if (!_categories.contains(newCategories)) {
+      if (!_categories.contains(category)) {
         _categories.add(category);
         newCategories.add(category);
       }
@@ -134,8 +136,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
       Collections.sort(_filteredLogEvents);
     }
 
-    // TODO
-    fireLogEventsAdded(events);
+    fireLogEventsAdded(events, newFilteredEvents, newCategories);
   }
 
   public void reset() {
@@ -149,32 +150,22 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   /** Filterable */
 
   public List<LogEvent> getFilteredLogEvents() {
-    return getLogEvents();
+    return _filteredLogEvents;
   }
 
-  protected void fireLogEventsAdded(final Collection<LogEvent> loggingEvents) {
-    if (loggingEvents == null) {
-      return;
-    }
-
-    // System.err.println("hae");
-
-    for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
-
-      // System.err.println(logEventStoreListener);
-
-      logEventStoreListener.logEventsAdded(loggingEvents);
-    }
+  public void addLogEventFilterFactory(LogEventFilterFactory logEventFilterFactory) {
+    logEventFilterFactory.createLogEventFilterFor(this);
   }
 
-  protected void fireCategoriesAdded(final Collection<String> categories) {
-    if (categories == null) {
-      return;
-    }
-    for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
-      logEventStoreListener.categoriesAdded(categories);
-    }
+  protected void fireLogEventsAdded(final List<LogEvent> loggingEvents, final List<LogEvent> filteredLogEvents,
+      final List<String> categoriesAdded) {
 
+    LogEventStoreChangeEvent event = new LogEventStoreChangeEvent(this, Collections.unmodifiableList(loggingEvents),
+        Collections.unmodifiableList(filteredLogEvents), Collections.unmodifiableList(categoriesAdded));
+
+    for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
+      logEventStoreListener.logEventsAdded(event);
+    }
   }
 
   protected void fireLogEventStoreReset() {

@@ -1,6 +1,5 @@
 package org.javakontor.sherlog.ui.loadwizard;
 
-import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +45,7 @@ public class LoadLogFileWizard extends JDialog {
    */
   private static final long           serialVersionUID = 1L;
 
-  public static LogEventReader openLogFileDialog(Window owner, LogEventReaderFactory logEventReaderFactory) {
+  public static LogEventReader openLoadLogFileWizard(Window owner, LogEventReaderFactory logEventReaderFactory) {
     LoadLogFileWizard dialog;
     if (owner instanceof JFrame) {
       dialog = new LoadLogFileWizard((JFrame) owner, logEventReaderFactory);
@@ -75,7 +74,6 @@ public class LoadLogFileWizard extends JDialog {
 
     this._logFileChooserModel = new LogFileChooserModel(this._logEventReaderFactory.getSupportedLogEventFlavours());
     LogFileChooserView view = new LogFileChooserView(this._logFileChooserModel);
-    view.setBorder(BorderFactory.createLineBorder(Color.RED));
     new LogFileChooserController(this._logFileChooserModel, view, new LogFileOpenDialogHandler());
 
     JPanel contentPanel = new JPanel();
@@ -118,7 +116,7 @@ public class LoadLogFileWizard extends JDialog {
     this._okButton.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
-        ValidationResult result = _logFileChooserModel.validateForm();
+        ValidationResult result = LoadLogFileWizard.this._logFileChooserModel.validateForm();
         if (result.hasError()) {
           JOptionPane.showMessageDialog(LoadLogFileWizard.this, result.getErrorMessage(),
               LoadLogFileWizardMessages.couldNotLoadLogFile, JOptionPane.ERROR_MESSAGE);

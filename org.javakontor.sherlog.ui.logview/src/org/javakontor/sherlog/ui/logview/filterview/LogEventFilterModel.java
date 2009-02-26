@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.javakontor.sherlog.core.filter.FilterableChangeListener;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.store.LogEventStore;
-import org.javakontor.sherlog.core.store.LogEventStoreAdapter;
 import org.javakontor.sherlog.ui.logview.osgi.GuiExecutor;
 import org.javakontor.sherlog.util.Assert;
 import org.lumberjack.application.mvc.AbstractModel;
@@ -24,7 +24,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
 
   /** - */
   private final Set<LogEventFilter> _logEventFilter;
-  
+
   /**
    * <p>
    * Creates a new instance of type {@link LogEventFilterModel}.
@@ -43,10 +43,9 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
     _logEventFilter = new HashSet<LogEventFilter>();
 
     // add the log store listener
-    this._logEventStore.addLogStoreListener(new LogEventStoreAdapter() {
+    this._logEventStore.addFilterableChangeListener(new FilterableChangeListener() {
 
-      @Override
-      public void filterAdded(final LogEventFilter logEventFilter) {
+      public void logEventFilterAdded(final LogEventFilter logEventFilter) {
         GuiExecutor.execute(new Runnable() {
           public void run() {
             if (_logEventFilter.add(logEventFilter)) {
@@ -56,8 +55,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
         });
       }
 
-      @Override
-      public void filterRemoved(final LogEventFilter logEventFilter) {
+      public void logEventFilterRemoved(final LogEventFilter logEventFilter) {
         GuiExecutor.execute(new Runnable() {
           public void run() {
             if (_logEventFilter.remove(logEventFilter)) {

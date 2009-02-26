@@ -8,6 +8,11 @@ package org.javakontor.sherlog.core.filter;
  */
 public interface LogEventFilterFactory {
 
+  /**
+   * Returns a human readable description of this factory (to be displa
+   * 
+   * @return
+   */
   public String getDescription();
 
   /**
@@ -16,7 +21,7 @@ public interface LogEventFilterFactory {
    * 
    * @return
    */
-  public LogEventFilter createLogEventFilter();
+  public void createLogEventFilterFor(Filterable filterable);
 
   /**
    * <p>

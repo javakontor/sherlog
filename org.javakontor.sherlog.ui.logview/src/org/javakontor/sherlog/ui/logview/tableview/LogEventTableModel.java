@@ -1,11 +1,11 @@
 package org.javakontor.sherlog.ui.logview.tableview;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.store.LogEventStore;
-import org.javakontor.sherlog.core.store.LogEventStoreAdapter;
+import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.util.Assert;
 import org.lumberjack.application.mvc.AbstractModel;
 import org.lumberjack.application.request.SetStatusMessageRequest;
@@ -21,10 +21,10 @@ import org.lumberjack.application.request.StatusMessage;
 public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEventTableModelReasonForChange> {
 
   /** the log event store that should be displayed */
-  private final LogEventStore    _logEventStore;
+  private final LogEventStore _logEventStore;
 
   /** the selected log events */
-  private LogEvent[]             _selectedLogEvents = new LogEvent[0];
+  private LogEvent[]          _selectedLogEvents = new LogEvent[0];
 
   /**
    * <p>
@@ -43,11 +43,9 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
     this._logEventStore = logEventStore;
 
     // add a log store listener
-    this._logEventStore.addLogStoreListener(new LogEventStoreAdapter() {
+    this._logEventStore.addLogStoreListener(new LogEventStoreListener() {
 
-      @Override
-      public void logEventsAdded(Collection<LogEvent> logEvents) {
-
+      public void logEventsAdded(LogEventStoreChangeEvent event) {
         // since we work directly on the log event list from the log event store,
         // there is no need to set the logEvents here...
 
@@ -58,9 +56,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
         sendSetStatusMessageRequest();
       }
 
-      @Override
       public void logEventStoreReset() {
-
         // since we work directly on the log event list from the log event store,
         // there is no need to reset the logEvents here...
 
@@ -69,6 +65,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
         // set status message request
         sendSetStatusMessageRequest();
+
       }
     });
 

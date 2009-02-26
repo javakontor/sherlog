@@ -1,68 +1,32 @@
 package org.javakontor.sherlog.core.store;
 
-import java.util.Collection;
-
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.filter.LogEventFilter;
-
 /**
  * <p>
  * An abstract adapter class for receiving log event store events. The methods in this class are empty. This class
  * exists as convenience for creating listener objects.
  * </p>
- *
+ * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
- *
+ * 
  */
 public class LogEventStoreAdapter implements LogEventStoreListener {
 
-  /**
-   * {@inheritDoc}
+  /*
+   * (non-Javadoc)
+   * 
+   * @seeorg.javakontor.sherlog.core.store.LogEventStoreListener#logEventsAdded(org.javakontor.sherlog.core.store.
+   * LogEventStoreChangeEvent)
    */
-  public void categoriesAdded(Collection<String> categories) {
-    // empty implementation
+  public void logEventsAdded(LogEventStoreChangeEvent event) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public void categoriesRemoved(Collection<String> categories) {
-    // empty implementation
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void logEventsAdded(Collection<LogEvent> logEvents) {
-    // empty implementation
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void logEventsRemoved(Collection<LogEvent> logEvents) {
-    // empty implementation
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void filterAdded(LogEventFilter logEventFilter) {
-    // empty implementation
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void filterRemoved(LogEventFilter logEventFilter) {
-    // empty implementation
-  }
-
-  /**
-   * {@inheritDoc}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.javakontor.sherlog.core.store.LogEventStoreListener#logEventStoreReset()
    */
   public void logEventStoreReset() {
-    // empty implementation
   }
+
 }

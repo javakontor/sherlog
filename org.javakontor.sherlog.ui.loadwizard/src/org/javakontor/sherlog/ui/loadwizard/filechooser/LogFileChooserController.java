@@ -22,10 +22,9 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
 
   protected void createListener() {
 
+    // "File chooser" button
     getView().getFileChooserButton().addActionListener(new ActionListener() {
-
       public void actionPerformed(ActionEvent e) {
-
         File selectedLogFile = getModel().getSelectedLogFile();
         File directory = (selectedLogFile != null ? selectedLogFile.getParentFile() : getDefaultDirectory());
 
@@ -38,6 +37,7 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
       }
     });
 
+    // save file name to model when user leaves filename textfield
     getView().getFileNameField().addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent e) {
@@ -45,9 +45,10 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
       }
     });
 
-    getView().getFlavourBox().addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
+    // set Flavour to model when user leaves the Flavour ComboBox
+    getView().getFlavourBox().addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent e) {
         Object object = getView().getFlavourBox().getSelectedItem();
         getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
       }

@@ -20,6 +20,9 @@ public class LoadLogFileWizardMessages {
   @NLSMessage("Could not load log file")
   public static String couldNotLoadLogFile;
 
+  @NLSMessage("control shift L")
+  public static String openLogFileWizardShortcut;
+
   static {
     NLS.initialize(LoadLogFileWizardMessages.class);
   }

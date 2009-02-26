@@ -1,4 +1,4 @@
-#Thu Feb 26 15:03:51 CET 2009
+#Thu Feb 26 12:45:01 CET 2009
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
 formatter_profile=_Lumberjack Code Formatter Profile
@@ -13,7 +13,7 @@ sp_cleanup.add_missing_override_annotations=true
 sp_cleanup.add_serial_version_id=false
 sp_cleanup.always_use_blocks=true
 sp_cleanup.always_use_parentheses_in_expressions=false
-sp_cleanup.always_use_this_for_non_static_field_access=true
+sp_cleanup.always_use_this_for_non_static_field_access=false
 sp_cleanup.always_use_this_for_non_static_method_access=false
 sp_cleanup.convert_to_enhanced_for_loop=false
 sp_cleanup.correct_indentation=false
@@ -50,7 +50,7 @@ sp_cleanup.sort_members_all=false
 sp_cleanup.use_blocks=false
 sp_cleanup.use_blocks_only_for_return_and_throw=false
 sp_cleanup.use_parentheses_in_expressions=false
-sp_cleanup.use_this_for_non_static_field_access=true
-sp_cleanup.use_this_for_non_static_field_access_only_if_necessary=false
-sp_cleanup.use_this_for_non_static_method_access=true
+sp_cleanup.use_this_for_non_static_field_access=false
+sp_cleanup.use_this_for_non_static_field_access_only_if_necessary=true
+sp_cleanup.use_this_for_non_static_method_access=false
 sp_cleanup.use_this_for_non_static_method_access_only_if_necessary=true

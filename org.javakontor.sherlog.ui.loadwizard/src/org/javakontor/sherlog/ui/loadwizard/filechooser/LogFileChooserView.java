@@ -49,10 +49,10 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
 
   private void createComponents() {
     this._fileNameField = new JTextField();
-    this._fileNameField.setText(getModel().getFileName());
+    // this._fileNameField.setText(getModel().getFileName());
     this._fileChooserButton = new JButton("...");
     this._logEventFlavourComboBoxModel = new LogEventFlavourComboBoxModel();
-    this._logEventFlavourComboBox = new JComboBox(_logEventFlavourComboBoxModel);
+    this._logEventFlavourComboBox = new JComboBox(this._logEventFlavourComboBoxModel);
     this._logEventFlavourComboBox.setEditable(false);
     FlavourCellRenderer renderer = new FlavourCellRenderer(this._logEventFlavourComboBox.getRenderer());
     this._logEventFlavourComboBox.setRenderer(renderer);
@@ -104,7 +104,7 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
     builder.add(this._logEventFlavourComboBox, cc.rc(3, 3));
 
     // fill form with initial data from view
-    // updateView();
+    updateView();
   }
 
   public JTextField getFileNameField() {
@@ -139,8 +139,7 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
     private static final long serialVersionUID = 1L;
 
     public void setLogEventFlavours(LogEventFlavour[] flavours) {
-      removeAll();
-
+      removeAllElements();
       for (LogEventFlavour flavour : flavours) {
         addElement(flavour);
       }
