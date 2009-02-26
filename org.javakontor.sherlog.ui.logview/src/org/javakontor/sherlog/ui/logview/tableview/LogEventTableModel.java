@@ -3,6 +3,8 @@ package org.javakontor.sherlog.ui.logview.tableview;
 import java.util.Arrays;
 
 import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.core.filter.FilterableChangeListener;
+import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
@@ -66,6 +68,17 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
         // set status message request
         sendSetStatusMessageRequest();
 
+      }
+    });
+
+    this._logEventStore.addFilterableChangeListener(new FilterableChangeListener() {
+
+      public void logEventFilterRemoved(LogEventFilter logEventFilter) {
+        sendSetStatusMessageRequest();
+      }
+
+      public void logEventFilterAdded(LogEventFilter logEventFilter) {
+        sendSetStatusMessageRequest();
       }
     });
 
