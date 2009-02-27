@@ -6,7 +6,7 @@
 	<reference name="logEventStore"
 		interface="org.javakontor.sherlog.core.store.LogEventStore"
 		bind="addLogEventStore" unbind="removeLogEventStore"
-		cardinality="0..1" policy="dynamic" />
+		cardinality="1..n" policy="dynamic" />
 
 	<reference name="logEventDecorator"
 		interface="org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator"
@@ -17,6 +17,6 @@
 		interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager"
 		bind="bindFilterConfigurationEditorFactoryManager"
 		unbind="unbindFilterConfigurationEditorFactoryManager"
-		cardinality="0..1" policy="dynamic" />
+		cardinality="1..1" policy="dynamic" />
 
 </component>

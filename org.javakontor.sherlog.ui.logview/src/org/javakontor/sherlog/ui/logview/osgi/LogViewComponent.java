@@ -143,6 +143,9 @@ public class LogViewComponent {
    * @param factory
    */
   public void bindFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
+
+    System.err.println("bindFilterConfigurationEditorFactoryManager(" + factory + ")");
+
     _filterConfigurationEditorFactoryManager = factory;
 
     for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
@@ -157,6 +160,8 @@ public class LogViewComponent {
    * @param factory
    */
   public void unbindFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
+    System.err.println("unbindFilterConfigurationEditorFactoryManager(" + factory + ")");
+
     _filterConfigurationEditorFactoryManager = null;
 
     for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
@@ -173,7 +178,7 @@ public class LogViewComponent {
   public static class LogViewContributionHolder {
 
     /** - */
-    private LogEventStore                           _logEventStore;
+    private final LogEventStore                     _logEventStore;
 
     /** - */
     private LogViewContribution                     _logViewContribution;
@@ -209,9 +214,10 @@ public class LogViewComponent {
 
       _logViewContribution = new LogViewContribution(bundleContext, _logEventStore);
 
-      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(
-          _filterConfigurationEditorFactoryManager);
-
+      if (_filterConfigurationEditorFactoryManager != null) {
+        _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(
+            _filterConfigurationEditorFactoryManager);
+      }
       _serviceRegistration = bundleContext
           .registerService(ViewContribution.class.getName(), _logViewContribution, null);
     }
@@ -229,17 +235,30 @@ public class LogViewComponent {
         return;
       }
 
-      _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(null);
+      if (_filterConfigurationEditorFactoryManager != null) {
+        _logViewContribution.getView().getLogEventFilterView().unsetFilterConfigurationEditorFactoryManager(
+            _filterConfigurationEditorFactoryManager);
+      }
 
       _serviceRegistration.unregister();
     }
 
+    /**
+     * @param factory
+     */
     public void setFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
-      _filterConfigurationEditorFactoryManager = factory;
 
       if (hasLogViewContribution()) {
-        _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(factory);
+
+        if (factory != null) {
+          _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(factory);
+        } else {
+          _logViewContribution.getView().getLogEventFilterView().unsetFilterConfigurationEditorFactoryManager(
+              _filterConfigurationEditorFactoryManager);
+        }
       }
+
+      _filterConfigurationEditorFactoryManager = factory;
     }
 
     /**

@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.filter;
 
 public interface FilterConfigurationEditorFactoryManagerListener {
 
-  public void FilterConfigurationEditorAdded();
+  public void FilterConfigurationEditorManagerAdded();
   
-  public void FilterConfigurationEditorRemoved();
+  public void FilterConfigurationEditorManagerRemoved();
 }

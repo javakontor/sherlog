@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilter;
-import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilterMemento;
 
 public class SimpleFilterConfigurationEditorFactory implements FilterConfigurationEditorFactory {
 
@@ -15,6 +14,7 @@ public class SimpleFilterConfigurationEditorFactory implements FilterConfigurati
   public JPanel createFilterConfigurationEditorPanel(LogEventFilter logEventFilter) {
     SimpleFilterConfigurationModel model = new SimpleFilterConfigurationModel((SimpleLogEventFilter) logEventFilter);
     SimpleFilterConfigurationView view = new SimpleFilterConfigurationView(model);
+    new SimpleFilterConfigurationController(model, view);
     return view;
   }
 

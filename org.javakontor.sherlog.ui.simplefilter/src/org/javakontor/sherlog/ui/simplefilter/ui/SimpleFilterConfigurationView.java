@@ -1,8 +1,7 @@
 package org.javakontor.sherlog.ui.simplefilter.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,30 +14,28 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.MutableComboBoxModel;
 
-import org.javakontor.sherlog.core.LogLevel;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
 import org.lumberjack.application.mvc.ModelChangedEvent;
 
 public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConfigurationModel, DefaultReasonForChange> {
 
-  private JComboBox _levelComboBox;
-
-  private JComboBox _threadComboBox;
-
-  private JComboBox _categoryComboBox;
-
-  private JComboBox _messageComboBox;
-
-  protected SimpleFilterConfigurationView(SimpleFilterConfigurationModel model) {
-    super(model);
-    model.addModelChangedListener(this);
-  }
-
   /**
-   *
+   * 
    */
   private static final long serialVersionUID = 1L;
+
+  private JComboBox         _levelComboBox;
+
+  private JComboBox         _threadComboBox;
+
+  private JComboBox         _categoryComboBox;
+
+  private JComboBox         _messageComboBox;
+
+  public SimpleFilterConfigurationView(SimpleFilterConfigurationModel model) {
+    super(model);
+  }
 
   public void modelChanged(ModelChangedEvent<SimpleFilterConfigurationModel, DefaultReasonForChange> event) {
     SimpleFilterConfigurationModel model = (SimpleFilterConfigurationModel) event.getSource();
@@ -49,6 +46,22 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     setContent(this._messageComboBox, model.getMessage(), model.getMessageHistory());
   }
 
+  JComboBox getLevelComboBox() {
+    return _levelComboBox;
+  }
+
+  JComboBox getThreadComboBox() {
+    return _threadComboBox;
+  }
+
+  JComboBox getCategoryComboBox() {
+    return _categoryComboBox;
+  }
+
+  JComboBox getMessageComboBox() {
+    return _messageComboBox;
+  }
+
   protected void setContent(JComboBox comboBox, String selectedItem, String... history) {
     HistoryComboBoxModel comboBoxModel = (HistoryComboBoxModel) comboBox.getModel();
     comboBoxModel.setContent(selectedItem, history);
@@ -56,12 +69,6 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
 
   @Override
   protected void setUp() {
-
-    createComponents();
-    addListener();
-  }
-
-  private void createComponents() {
 
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -74,17 +81,19 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     this._messageComboBox = createAndAddComboBox(SimpleFilterMessages.message);
   }
 
-  JComboBox createAndAddComboBox(String label) {
+  private JComboBox createAndAddComboBox(String label) {
     return createAndAddComboBox(label, new HistoryComboBoxModel());
   }
 
-  JComboBox createAndAddComboBox(String label, ComboBoxModel model) {
+  private JComboBox createAndAddComboBox(String label, ComboBoxModel model) {
 
     JComboBox comboBox = new AlignedComboBox(model);
     new EditPopupMenu(comboBox);
 
     comboBox.setEditable(true);
-    add(new JLabel(label));
+    JLabel jlabel = new JLabel(label);
+    //jlabel.setForeground(Color.ORANGE);
+    add(jlabel);
     add(Box.createVerticalStrut(2));
     add(comboBox);
     add(Box.createVerticalStrut(7));
@@ -94,7 +103,7 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
 
   final class AlignedComboBox extends JComboBox {
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
 
@@ -110,33 +119,6 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     }
   }
 
-  /**
-   * TODO add to controller ?
-   */
-  private void addListener() {
-    this._levelComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        LogLevel logLevel = (LogLevel) SimpleFilterConfigurationView.this._levelComboBox.getSelectedItem();
-        getModel().setLogLevel(logLevel);
-      }
-    });
-    this._threadComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        getModel().setThreadName((String) SimpleFilterConfigurationView.this._threadComboBox.getSelectedItem());
-      }
-    });
-    this._categoryComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        getModel().setCategory((String) SimpleFilterConfigurationView.this._categoryComboBox.getSelectedItem());
-      }
-    });
-    this._messageComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        getModel().setMessage((String) SimpleFilterConfigurationView.this._messageComboBox.getSelectedItem());
-      }
-    });
-  }
-
   class HistoryComboBoxModel extends AbstractListModel implements MutableComboBoxModel {
 
     private final List<Object> _items;
@@ -144,7 +126,7 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     private Object             _selectedItem;
 
     /**
-     *
+     * 
      */
     private static final long  serialVersionUID = 1L;
 
