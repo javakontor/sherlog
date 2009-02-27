@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LogStoreComponent extends AbstractFilterable implements ModifiableLogEventStore {
 
-  Logger                                                   _logger = LoggerFactory.getLogger(getClass());
+  private final Logger                                     _logger = LoggerFactory.getLogger(getClass());
 
   /** */
   private final List<LogEvent>                             _logEvents;
@@ -103,7 +103,6 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
       }
     }
 
-    // TODO!!
     fireLogEventStoreReset();
 
   }
