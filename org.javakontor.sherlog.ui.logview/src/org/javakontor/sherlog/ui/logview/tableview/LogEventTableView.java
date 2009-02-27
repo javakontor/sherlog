@@ -48,7 +48,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     this._logEventTableTable = new LogEventTableTable();
     // this._logEventTableTable = new JTable();
     // this._cellRenderer = new LogEventListCellRenderer();
-    this._logEventListTableModel = new LogEventTableTableModel(getModel().getLogEventStore().getLogEvents());
+    this._logEventListTableModel = new LogEventTableTableModel(getModel().getLogEventStore().getFilteredLogEvents());
     this._logEventTableTable.setModel(this._logEventListTableModel);
     // this._logEventListTable.setDefaultRenderer(Object.class, new LogEventListCellRenderer());
     this._logEventTableTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -104,11 +104,11 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     return this._logEventTableTable;
   }
 
-  /**
+/**
    * <p>
    * Adds the specified {@link LogEventDecorator.
    * </p>
-   * 
+   *
    * @param eventDecorator
    *          the specified {@link LogEventDecorator}.
    */

@@ -45,7 +45,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   private final Map<LogEventFilterFactory, LogEventFilter> _registeredLogEventFilters;
 
   /**
-   * 
+   *
    */
   public LogStoreComponent() {
     _logEvents = new ArrayList<LogEvent>();
@@ -102,6 +102,10 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
         _filteredLogEvents.add(logEvent);
       }
     }
+
+    // TODO!!
+    fireLogEventStoreReset();
+
   }
 
   /** ModifiableLoggingEventStore */

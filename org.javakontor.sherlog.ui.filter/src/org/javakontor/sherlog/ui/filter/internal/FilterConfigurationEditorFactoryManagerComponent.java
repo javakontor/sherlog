@@ -3,7 +3,6 @@ package org.javakontor.sherlog.ui.filter.internal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.javakontor.sherlog.core.filter.LogEventFilter;
@@ -20,17 +19,19 @@ public class FilterConfigurationEditorFactoryManagerComponent implements FilterC
   }
 
   public JPanel createFilterConfigurationEditor(LogEventFilter logEventFilter) {
-    JPanel panel = new JPanel();
-    panel.add(new JButton("hirz"));
-    return panel;
+    System.err.println("*******************************");
+    System.err.println(logEventFilter);
+    for (FilterConfigurationEditorFactory factory : _filterConfigurationEditorFactories) {
+      if (factory.isSuitableFor(logEventFilter)) {
 
-    // for (FilterConfigurationEditorFactory factory : _filterConfigurationEditorFactories) {
-    // if (factory.isSuitableFor(logEventFilter)) {
-    // return factory.createFilterConfigurationEditorPanel(logEventFilter);
-    // }
-    // }
-    //    
-    // return null;
+        JPanel panel = factory.createFilterConfigurationEditorPanel(logEventFilter);
+        System.err.println(panel);
+        System.err.println("*******************************");
+        return panel;
+      }
+    }
+
+    return null;
   }
 
   public void addFilterConfigurationEditorFactoryListener(FilterConfigurationEditorFactoryManagerListener listener) {
