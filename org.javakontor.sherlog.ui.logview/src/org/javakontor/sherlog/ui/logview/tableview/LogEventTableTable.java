@@ -12,6 +12,7 @@ import javax.swing.table.TableCellRenderer;
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecoratorContext;
+import org.javakontor.sherlog.ui.util.SherlogTable;
 
 /**
  * <p>
@@ -26,7 +27,7 @@ import org.javakontor.sherlog.ui.logview.decorator.LogEventDecoratorContext;
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  */
-public class LogEventTableTable extends JTable {
+public class LogEventTableTable extends SherlogTable {
 
   /** serialVersionUID */
   private static final long            serialVersionUID = 1L;
@@ -71,23 +72,23 @@ public class LogEventTableTable extends JTable {
     return this._delegatingCellRenderer;
   }
 
-  /**
-   * <p>
-   * Returns {@code true} if the preferred height of the table is smaller than the viewport's height.
-   * </p>
-   * <p>
-   * Taken from the Java6 implementation of this method.
-   * </p>
-   * 
-   * @see javax.swing.JTable#getScrollableTracksViewportHeight()
-   */
-  @Override
-  public boolean getScrollableTracksViewportHeight() {
-
-    // Make sure, table is at least as large as the view port
-    // (taken from Java6 JTable implementation)
-    return (getParent() instanceof JViewport) && (((JViewport) getParent()).getHeight() > getPreferredSize().height);
-  }
+  // /**
+  // * <p>
+  // * Returns {@code true} if the preferred height of the table is smaller than the viewport's height.
+  // * </p>
+  // * <p>
+  // * Taken from the Java6 implementation of this method.
+  // * </p>
+  // *
+  // * @see javax.swing.JTable#getScrollableTracksViewportHeight()
+  // */
+  // @Override
+  // public boolean getScrollableTracksViewportHeight() {
+  //
+  // // Make sure, table is at least as large as the view port
+  // // (taken from Java6 JTable implementation)
+  // return (getParent() instanceof JViewport) && (((JViewport) getParent()).getHeight() > getPreferredSize().height);
+  // }
 
   /**
    * <p>

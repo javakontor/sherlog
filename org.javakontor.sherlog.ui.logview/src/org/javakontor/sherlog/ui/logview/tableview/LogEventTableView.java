@@ -3,7 +3,6 @@ package org.javakontor.sherlog.ui.logview.tableview;
 import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
@@ -100,7 +99,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
    * 
    * @return the 'log event table' table.
    */
-  JTable getLogEventTableTable() {
+  LogEventTableTable getLogEventTableTable() {
     return this._logEventTableTable;
   }
 

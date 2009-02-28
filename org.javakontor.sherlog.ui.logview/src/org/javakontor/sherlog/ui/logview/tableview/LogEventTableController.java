@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.ui.util.SherlogTable;
 import org.lumberjack.application.menu.AbstractContextMenuListener;
 import org.lumberjack.application.menu.ContextMenu;
 import org.lumberjack.application.mvc.AbstractController;
@@ -66,9 +67,12 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
 
     final List<LogEvent> events = new LinkedList<LogEvent>();
 
+    SherlogTable sherlogTable = getView().getLogEventTableTable();
+
     for (int i = minIndex; i <= maxIndex; i++) {
       if (selectionModel.isSelectedIndex(i)) {
-        events.add(getModel().getLogEventStore().getFilteredLogEvents().get(i));
+        int convertedIndex = sherlogTable.convertRowIndexToModel(i);
+        events.add(getModel().getLogEventStore().getFilteredLogEvents().get(convertedIndex));
       }
     }
 
