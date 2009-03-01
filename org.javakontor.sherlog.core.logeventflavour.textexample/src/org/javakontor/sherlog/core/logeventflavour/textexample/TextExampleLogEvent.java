@@ -1,8 +1,12 @@
 package org.javakontor.sherlog.core.logeventflavour.textexample;
 
+import static java.lang.String.format;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javakontor.sherlog.core.LogLevel;
 import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
@@ -12,9 +16,15 @@ public class TextExampleLogEvent extends AbstractLogEvent {
 
   static final long          serialVersionUID = 1L;
 
+  /**
+   * {@link Pattern} used to parse a text-logevent
+   */
+  static Pattern             pattern          = Pattern.compile("\\|(.*) \\[(.*)\\] \\<(.*)\\> ([^\\s]*) ((.*))",
+                                                  Pattern.DOTALL);
+
   transient SimpleDateFormat timeformat       = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
 
-  private final String       _loggingEventString;
+  private final String       _logEventAsString;
 
   private Long               _timestamp;
 
@@ -28,29 +38,26 @@ public class TextExampleLogEvent extends AbstractLogEvent {
 
   public TextExampleLogEvent(final Object loggingEventString) {
     Assert.instanceOf("loggingEventString", loggingEventString, String.class);
-    this._loggingEventString = (String) loggingEventString;
+    this._logEventAsString = (String) loggingEventString;
     parseString();
   }
 
   private void parseString() {
     try {
-      // |timestamp|[Thread]LOGLEVEL| category message
-      // System.out.println(myEvent);
-      String tmp = this._loggingEventString;
-      int index = tmp.substring(1).indexOf('|');
-      final String tsString = tmp.substring(1, index);
-      final Date ts = this.timeformat.parse(tsString);
+      Matcher matcher = pattern.matcher(_logEventAsString);
+      if (!matcher.find()) {
+        // TODO ignore log event?
+        throw new RuntimeException("Invalid log '" + _logEventAsString + "'");
+      }
+
+      String timestampString = matcher.group(1);
+      final Date ts = this.timeformat.parse(timestampString);
       this._timestamp = new Long(ts.getTime());
-      index = tmp.indexOf(']');
-      this._threadName = tmp.substring(tmp.indexOf('[') + 1, index);
-      tmp = tmp.substring(index + 1).trim();
-      index = tmp.indexOf(' ');
-      this._logLevel = LogLevel.valueOf(tmp.substring(0, index));
-      tmp = tmp.substring(index).trim();
-      index = tmp.indexOf(' ');
-      this._category = tmp.substring(0, index);
-      tmp = tmp.substring(index).trim();
-      this._renderedMessage = tmp;
+
+      this._threadName = matcher.group(2);
+      this._logLevel = LogLevel.valueOf(matcher.group(3));
+      this._category = matcher.group(4);
+      this._renderedMessage = matcher.group(5);
     } catch (final ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -99,20 +106,41 @@ public class TextExampleLogEvent extends AbstractLogEvent {
 
   @Override
   public boolean equals(final Object o) {
-    return this._loggingEventString.equals(((TextExampleLogEvent) o)._loggingEventString);
+    return this._logEventAsString.equals(((TextExampleLogEvent) o)._logEventAsString);
   }
 
   @Override
   public int hashCode() {
-    return this._loggingEventString.hashCode();
+    return this._logEventAsString.hashCode();
   }
 
   public Object getInternalRepraesentation() {
-    return this._loggingEventString;
+    return this._logEventAsString;
   }
 
   @Override
   public String toString() {
-    return _loggingEventString;
+    return _logEventAsString;
+  }
+
+  public static void main(String[] args) {
+    try {
+      // |timestamp [Thread] <LOGLEVEL> category message
+      Pattern pattern = Pattern.compile("\\|(.*) \\[(.*)\\] \\<(.*)\\> ([^\\s]*) ((.*))");
+      String log = "|2009-03-01 18:28:31,765 [Log Event Dispatcher] <INFO> org.javakontor.sherlog.core.logeventflavour.textexample ServiceEvent REGISTERED";
+      Matcher matcher = pattern.matcher(log);
+      if (!matcher.find()) {
+        throw new RuntimeException("Invalid log '" + log + "'");
+      }
+
+      matcher.groupCount();
+      for (int i = 0; i < matcher.groupCount(); i++) {
+        System.out.println(format("%d: '%s'", i, matcher.group(i)));
+      }
+
+    } catch (Exception ex) {
+      System.err.println("Exception caught in main: " + ex);
+      ex.printStackTrace();
+    }
   }
 }

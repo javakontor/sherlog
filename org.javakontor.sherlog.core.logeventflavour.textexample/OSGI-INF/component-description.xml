@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <component name="TextExampleLogEventProvider">
 	<implementation
-		class="org.lumberjack.core.logeventflavour.textexample.TextExampleLogEventProvider" />
+		class="org.javakontor.sherlog.core.logeventflavour.textexample.TextExampleLogEventProvider" />
 	<property name="logevent.flavour" value="text example" />
 	<service>
 		<provide
