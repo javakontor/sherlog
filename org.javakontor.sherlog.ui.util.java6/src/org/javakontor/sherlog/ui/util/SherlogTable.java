@@ -28,4 +28,24 @@ public class SherlogTable extends JTable {
     }
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see javax.swing.JTable#convertRowIndexToModel(int)
+   */
+  @Override
+  public int convertRowIndexToModel(int i) {
+    return super.convertRowIndexToModel(i);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see javax.swing.JTable#setFillsViewportHeight(boolean)
+   */
+  @Override
+  public void setFillsViewportHeight(boolean fillsViewportHeight) {
+    super.setFillsViewportHeight(fillsViewportHeight);
+  }
+
 }

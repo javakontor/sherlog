@@ -77,7 +77,6 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
   /**
    * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
    */
-  @SuppressWarnings("unchecked")
   public void modelChanged(ModelChangedEvent<LogEventTableModel, LogEventTableModelReasonForChange> event) {
 
     switch (event.getReasonForChange()) {

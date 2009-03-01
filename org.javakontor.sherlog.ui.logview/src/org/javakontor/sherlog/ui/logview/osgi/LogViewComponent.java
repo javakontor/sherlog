@@ -9,6 +9,8 @@ import org.javakontor.sherlog.ui.logview.LogView;
 import org.javakontor.sherlog.ui.logview.LogViewContribution;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
 import org.javakontor.sherlog.util.Assert;
+import org.lumberjack.application.action.ActionSet;
+import org.lumberjack.application.action.ActionSetManager;
 import org.lumberjack.application.view.ViewContribution;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -52,7 +54,9 @@ public class LogViewComponent {
     // register LogViewContributions
     for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
       logViewContributionHolder.registerLogViewContribution(this._componentContext.getBundleContext());
+      logViewContributionHolder.setActionSets(this._actionSetManager);
     }
+
   }
 
   /**
@@ -169,6 +173,25 @@ public class LogViewComponent {
     }
   }
 
+  private ActionSetManager _actionSetManager;
+
+  public void bindActionSetManager(ActionSetManager component) {
+    _actionSetManager = component;
+    for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
+      logViewContributionHolder.setActionSets(component);
+    }
+  }
+
+  public void unbindActionSetManager(ActionSetManager actionSetManager) {
+    this._actionSetManager = null;
+    for (LogViewContributionHolder logViewContributionHolder : this._registeredContributions.values()) {
+      if (logViewContributionHolder.hasLogViewContribution()) {
+        logViewContributionHolder.setActionSets(null);
+      }
+    }
+
+  }
+
   /**
    * <p>
    * </p>
@@ -220,6 +243,19 @@ public class LogViewComponent {
       }
       _serviceRegistration = bundleContext
           .registerService(ViewContribution.class.getName(), _logViewContribution, null);
+    }
+
+    public void setActionSets(ActionSetManager actionSetManager) {
+      if (!hasLogViewContribution()) {
+        return;
+      }
+
+      ActionSet actionSet = null;
+      if (actionSetManager != null) {
+        actionSet = actionSetManager.getActionSet("logEventView.contextMenu");
+      }
+      _logViewContribution.getModel().getLogEventTableModel().setContextMenuActionSet(actionSet);
+
     }
 
     /**

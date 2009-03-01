@@ -48,7 +48,11 @@ public abstract class AbstractLogEvent implements LogEvent {
   }
 
   public void setUserDefinedField(Object key, Object value) {
-    getUserDefinedFields().put(key, value);
+    if (value == null) {
+      getUserDefinedFields().remove(key);
+    } else {
+      getUserDefinedFields().put(key, value);
+    }
   }
 
   public int compareByTime(final Object o) {

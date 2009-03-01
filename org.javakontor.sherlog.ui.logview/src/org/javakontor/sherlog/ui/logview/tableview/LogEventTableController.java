@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.ui.util.SherlogTable;
+import org.lumberjack.application.action.ActionSet;
 import org.lumberjack.application.menu.AbstractContextMenuListener;
 import org.lumberjack.application.menu.ContextMenu;
 import org.lumberjack.application.mvc.AbstractController;
@@ -35,7 +36,8 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
   private void initializeListener() {
     getView().getLogEventTableTable().getSelectionModel().addListSelectionListener(new LogEventSelectionListener());
 
-    this._contextMenu = new ContextMenu("logEventView.contextMenu");
+    // "logEventView.contextMenu"
+    this._contextMenu = new ContextMenu();
 
     // enable popup menu
     _contextMenuListener = new ContextMenuListener(this._contextMenu);
@@ -93,13 +95,18 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
     }
 
     @Override
+    protected ActionSet getActionGroupRegistry() {
+      return getModel().getActionGroupRegistry();
+    }
+
+    @Override
     protected void afterMenu() {
       getView().getLogEventTableTable().repaint();
     }
 
-    @Override
-    protected boolean showPopupMenu() {
-      return getModel().getSelectedLogEvents().length > 0;
-    }
+    // @Override
+    // protected boolean showPopupMenu() {
+    // return getModel().getSelectedLogEvents().length > 0;
+    // }
   }
 }

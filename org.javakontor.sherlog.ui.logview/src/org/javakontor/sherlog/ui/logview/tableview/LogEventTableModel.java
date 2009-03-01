@@ -9,6 +9,7 @@ import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.util.Assert;
+import org.lumberjack.application.action.ActionSet;
 import org.lumberjack.application.mvc.AbstractModel;
 import org.lumberjack.application.request.SetStatusMessageRequest;
 import org.lumberjack.application.request.StatusMessage;
@@ -27,6 +28,8 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
   /** the selected log events */
   private LogEvent[]          _selectedLogEvents = new LogEvent[0];
+
+  private ActionSet _actionGroupRegistry;
 
   /**
    * <p>
@@ -158,6 +161,18 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
     // handle the request
     handleRequest(new SetStatusMessageRequest(this, statusMessage));
+  }
+
+  public ActionSet getActionGroupRegistry() {
+    return _actionGroupRegistry;
+  }
+
+  /**
+   * Set an ActionSet that should be used to display the context menu
+   * 
+   */
+  public void setContextMenuActionSet(ActionSet actionGroupRegistry) {
+    _actionGroupRegistry = actionGroupRegistry;
   }
 
   /**
