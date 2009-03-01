@@ -56,6 +56,9 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
       scanner.close();
     }
 
+    if (_textLogEventBuilder.length() > 0) {
+      createLogEvent(_textLogEventBuilder.toString(), logEventSource);
+    }
   }
 
   private void processLine(final String aLine, final String logEventSource) {
@@ -66,14 +69,21 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
         this._textLogEventBuilder.append(aLine);
         return;
       }
-      AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(string);
-      logEvent.setLogEventSource(logEventSource);
-      fireLogEventHandler(logEvent);
+      createLogEvent(string, logEventSource);
+      // AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(string);
+      // logEvent.setLogEventSource(logEventSource);
+      // fireLogEventHandler(logEvent);
 
       this._textLogEventBuilder = new StringBuilder();
     } else {
       this._textLogEventBuilder.append(System.getProperty("line.separator"));
     }
     this._textLogEventBuilder.append(aLine);
+  }
+
+  private void createLogEvent(String line, String logEventSource) {
+    AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(line);
+    logEvent.setLogEventSource(logEventSource);
+    fireLogEventHandler(logEvent);
   }
 }

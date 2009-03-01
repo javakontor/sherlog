@@ -82,13 +82,28 @@ class L4JBinaryLogEvent extends AbstractLogEvent {
   }
 
   @Override
-  public boolean equals(final Object o) {
-    return this._loggingEvent.equals(((L4JBinaryLogEvent) o)._loggingEvent);
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((this._loggingEvent == null) ? 0 : this._loggingEvent.hashCode());
+    return result;
   }
 
   @Override
-  public int hashCode() {
-    return this._loggingEvent.hashCode();
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    L4JBinaryLogEvent other = (L4JBinaryLogEvent) obj;
+    if (this._loggingEvent == null) {
+      if (other._loggingEvent != null)
+        return false;
+    } else if (!this._loggingEvent.equals(other._loggingEvent))
+      return false;
+    return true;
   }
 
   /**

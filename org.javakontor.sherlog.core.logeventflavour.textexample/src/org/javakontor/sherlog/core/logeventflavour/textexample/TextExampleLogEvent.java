@@ -105,13 +105,28 @@ public class TextExampleLogEvent extends AbstractLogEvent {
   }
 
   @Override
-  public boolean equals(final Object o) {
-    return this._logEventAsString.equals(((TextExampleLogEvent) o)._logEventAsString);
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    TextExampleLogEvent other = (TextExampleLogEvent) obj;
+    if (_logEventAsString == null) {
+      if (other._logEventAsString != null)
+        return false;
+    } else if (!_logEventAsString.equals(other._logEventAsString))
+      return false;
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return this._logEventAsString.hashCode();
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((_logEventAsString == null) ? 0 : _logEventAsString.hashCode());
+    return result;
   }
 
   public Object getInternalRepraesentation() {
