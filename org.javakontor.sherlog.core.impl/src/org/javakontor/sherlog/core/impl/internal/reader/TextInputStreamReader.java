@@ -1,14 +1,21 @@
 package org.javakontor.sherlog.core.impl.internal.reader;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Scanner;
 import java.util.concurrent.CancellationException;
 
 import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.core.impl.reader.TextLogEventProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextInputStreamReader extends AbstractURLLogEventReader {
+
+  private final Logger               _logger  = LoggerFactory.getLogger(getClass());
 
   private final TextLogEventProvider _logEventProvider;
 
@@ -39,26 +46,38 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
   @Override
   public void readLogFileStream(final InputStream in, final String logEventSource) {
 
-    Scanner scanner = new Scanner(in);
+    // Scanner scanner = new Scanner(new BufferedInputStream(in));
+
+    long start = System.currentTimeMillis();
+
+    BufferedReader scanner = new BufferedReader(new InputStreamReader(new BufferedInputStream(in)));
+    String line = null;
     try {
       // first use a Scanner to get each line
-      while (scanner.hasNextLine()) {
+      // while (scanner.hasNextLine()) {
+      while ((line = scanner.readLine()) != null) {
         if (isStopRequested()) {
           throw new CancellationException();
         } else {
-          processLine(scanner.nextLine(), logEventSource);
+          // processLine(scanner.nextLine(), logEventSource);
+          processLine(line, logEventSource);
 
         }
 
       }
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
     } finally {
       // ensure the underlying stream is always closed
-      scanner.close();
+      // scanner.close();
     }
 
     if (_textLogEventBuilder.length() > 0) {
       createLogEvent(_textLogEventBuilder.toString(), logEventSource);
     }
+
+    _logger.debug("Reading log events took " + (System.currentTimeMillis() - start) + "ms");
+
   }
 
   private void processLine(final String aLine, final String logEventSource) {

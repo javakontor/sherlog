@@ -42,22 +42,72 @@ public class TextExampleLogEvent extends AbstractLogEvent {
     parseString();
   }
 
+  class Parser {
+    private int _currentPos = 1;
+
+    public String getSubstring(char lastChar) {
+      StringBuilder buffer = new StringBuilder();
+      while (_currentPos < _logEventAsString.length() - 1) {
+        char c = _logEventAsString.charAt(_currentPos++);
+        if (c == lastChar) {
+          break;
+        }
+        buffer.append(c);
+
+      }
+      return buffer.toString();
+    }
+
+    public void skip(int count) {
+      _currentPos += count;
+    }
+
+    public String getRest() {
+      return _logEventAsString.substring(_currentPos);
+    }
+
+  }
+
   private void parseString() {
     try {
-      Matcher matcher = pattern.matcher(_logEventAsString);
-      if (!matcher.find()) {
-        // TODO ignore log event?
-        throw new RuntimeException("Invalid log '" + _logEventAsString + "'");
-      }
 
-      String timestampString = matcher.group(1);
+      // if (false) {
+      // this._timestamp = System.currentTimeMillis();
+      // this._threadName = "Thread-1";
+      // this._logLevel = LogLevel.DEBUG;
+      // this._category = "org.sherlog.test.bla";
+      // this._renderedMessage =
+      // "AbcdeffasdAbcdeffasdAbcdeffasd Abcdeffasd Abcdeffasd  AbcdeffasdAbcdeffasdAbcdeffasd AbcdeffasdAbcdeffasdAbcdeffasdAbcdeffasdAbcdeffasdAbcdeffasd";
+      // return;
+      // }
+      //
+      Parser parser = new Parser();
+
+      String timestampString = parser.getSubstring('[');
       final Date ts = this.timeformat.parse(timestampString);
       this._timestamp = new Long(ts.getTime());
 
-      this._threadName = matcher.group(2);
-      this._logLevel = LogLevel.valueOf(matcher.group(3));
-      this._category = matcher.group(4);
-      this._renderedMessage = matcher.group(5);
+      this._threadName = parser.getSubstring(']');
+      parser.skip(2);
+      this._logLevel = LogLevel.valueOf(parser.getSubstring('>'));
+      parser.skip(1);
+      this._category = parser.getSubstring(' ');
+      this._renderedMessage = parser.getRest();
+
+      // Matcher matcher = pattern.matcher(_logEventAsString);
+      // if (!matcher.find()) {
+      // // TODO ignore log event?
+      // throw new RuntimeException("Invalid log '" + _logEventAsString + "'");
+      // }
+      //
+      // String timestampString = matcher.group(1);
+      // final Date ts = this.timeformat.parse(timestampString);
+      // this._timestamp = new Long(ts.getTime());
+      //
+      // this._threadName = matcher.group(2);
+      // this._logLevel = LogLevel.valueOf(matcher.group(3));
+      // this._category = matcher.group(4);
+      // this._renderedMessage = matcher.group(5);
     } catch (final ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
