@@ -5,9 +5,9 @@
 	<reference name="logEventStore"
 		interface="org.javakontor.sherlog.core.store.LogEventStore"
 		bind="setLogEventStore" unbind="unsetLogEventStore"
-		cardinality="1..1" policy="dynamic" />
+		cardinality="1..1" policy="static" />
 	<reference name="logEventReaderFactory"
 		interface="org.javakontor.sherlog.core.reader.LogEventReaderFactory"
 		bind="setLogEventReaderFactory" unbind="unsetLogEventReaderFactory"
-		cardinality="0..1" policy="dynamic" />
+		cardinality="0..1" policy="static" />
 </component>

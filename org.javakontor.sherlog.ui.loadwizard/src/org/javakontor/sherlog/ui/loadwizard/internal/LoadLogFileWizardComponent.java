@@ -24,25 +24,27 @@ public class LoadLogFileWizardComponent {
 
   private ServiceRegistration     _loadLogFileActionRegistration;
 
+  private ServiceRegistration     _resetLogEventStoreActionRegistration;
+
   protected void activate(ComponentContext componentContext) {
-    _logger.debug("activate");
+    this._logger.debug("activate");
     this._context = componentContext;
-    registerLoadMenu();
+    registerMenus();
   }
 
   protected void deactivate(ComponentContext componentContext) {
-    _logger.debug(" -> deactivate");
-    removeLoadMenu();
+    this._logger.debug(" -> deactivate");
+    removeMenus();
     this._context = null;
   }
 
   public void setLogEventStore(LogEventStore logEventStore) {
-    _logger.debug(" -> setLogEventStore: " + logEventStore);
+    this._logger.debug(" -> setLogEventStore: " + logEventStore);
     this._logEventStore = (ModifiableLogEventStore) logEventStore;
   }
 
   public void unsetLogEventStore(LogEventStore logEventStore) {
-    _logger.debug(" -> unsetLogEventStore: " + logEventStore);
+    this._logger.debug(" -> unsetLogEventStore: " + logEventStore);
     this._logEventStore = null;
   }
 
@@ -56,33 +58,43 @@ public class LoadLogFileWizardComponent {
     updateLoadMenu();
   }
 
-  public synchronized void registerLoadMenu() {
-    Assert.notNull(_context);
-    Assert.notNull(_logEventStore);
-    Assert.assertTrue(_loadLogFileAction == null, "Property 'loadLogFileAction' must be null");
-    _logger.debug("-> registerLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
+  public synchronized void registerMenus() {
+    Assert.notNull(this._context);
+    Assert.notNull(this._logEventStore);
+    Assert.assertTrue(this._loadLogFileAction == null, "Property 'loadLogFileAction' must be null");
+    this._logger.debug("-> registerLoadMenu, _logEventReaderFactory: " + this._logEventReaderFactory);
 
-    _loadLogFileAction = new LoadLogFileAction(_logEventStore);
-    _loadLogFileAction.setLogEventReaderFactory(_logEventReaderFactory);
+    this._loadLogFileAction = new LoadLogFileAction(this._logEventStore);
+    this._loadLogFileAction.setLogEventReaderFactory(this._logEventReaderFactory);
 
-    _loadLogFileActionRegistration = ActionGroupElementServiceHelper.registerAction(_context.getBundleContext(),
-        _loadLogFileAction, _loadLogFileAction.getServiceProperties());
+    this._loadLogFileActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
+        .getBundleContext(), this._loadLogFileAction, this._loadLogFileAction.getServiceProperties());
+
+    ResetLogEventStoreAction resetLogEventStoreAction = new ResetLogEventStoreAction(this._logEventStore);
+    this._resetLogEventStoreActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
+        .getBundleContext(), resetLogEventStoreAction, resetLogEventStoreAction.getServiceProperties());
   }
 
   public synchronized void updateLoadMenu() {
-    _logger.debug("-> updateLoadMenu, _logEventReaderFactory: " + _logEventReaderFactory);
-    if (_loadLogFileAction == null) {
+    this._logger.debug("-> updateLoadMenu, _logEventReaderFactory: " + this._logEventReaderFactory);
+    if (this._loadLogFileAction == null) {
       return;
     }
-    _loadLogFileAction.setLogEventReaderFactory(_logEventReaderFactory);
+    this._loadLogFileAction.setLogEventReaderFactory(this._logEventReaderFactory);
   }
 
-  public synchronized void removeLoadMenu() {
-    if (_loadLogFileActionRegistration != null) {
-      _loadLogFileActionRegistration.unregister();
+  public synchronized void removeMenus() {
+    if (this._loadLogFileActionRegistration != null) {
+      this._loadLogFileActionRegistration.unregister();
     }
-    _loadLogFileAction = null;
-    _loadLogFileActionRegistration = null;
+
+    if (this._resetLogEventStoreActionRegistration != null) {
+      this._resetLogEventStoreActionRegistration = null;
+    }
+
+    this._loadLogFileAction = null;
+    this._loadLogFileActionRegistration = null;
+    this._resetLogEventStoreActionRegistration = null;
   }
 
 }
