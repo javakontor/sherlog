@@ -49,6 +49,8 @@ public class LogEventTableTable extends SherlogTable {
 
     // the delegating cell renderer
     this._delegatingCellRenderer = new DelegatingCellRenderer();
+
+    setFillsViewportHeight(true);
   }
 
   /**
