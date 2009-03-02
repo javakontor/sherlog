@@ -6,7 +6,7 @@
 
 	<service>
 		<provide
-			interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager" />
+			interface="org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager" />
 	</service>
 
 	<reference name="filterConfigurationEditorFactory"

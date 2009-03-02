@@ -76,11 +76,11 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
     this._logEventStore.addFilterableChangeListener(new FilterableChangeListener() {
 
-      public void logEventFilterRemoved(LogEventFilter logEventFilter) {
+      public void filterRemoved(LogEventFilter logEventFilter) {
         sendSetStatusMessageRequest();
       }
 
-      public void logEventFilterAdded(LogEventFilter logEventFilter) {
+      public void filterAdded(LogEventFilter logEventFilter) {
         sendSetStatusMessageRequest();
       }
     });

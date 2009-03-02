@@ -4,5 +4,13 @@ public enum LogEventFilterModelReasonForChange {
 
   filterAdded,
 
-  filterRemoved;
+  filterRemoved,
+
+  factoryAdded,
+
+  factoryRemoved,
+
+  factoryManagerAdded,
+
+  factoryManagerRemoved;
 }

@@ -4,7 +4,9 @@ Bundle-Name: org.javakontor.sherlog.ui.filter
 Bundle-SymbolicName: org.javakontor.sherlog.ui.filter
 Bundle-Version: 1.0.0
 Import-Package: org.javakontor.sherlog.core.filter,
+ org.javakontor.sherlog.util,
  org.lumberjack.application.request
-Export-Package: org.javakontor.sherlog.ui.filter
+Export-Package: org.javakontor.sherlog.ui.filter,
+ org.javakontor.sherlog.ui.filter.manager
 Service-Component: OSGI-INF/component-description.xml
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

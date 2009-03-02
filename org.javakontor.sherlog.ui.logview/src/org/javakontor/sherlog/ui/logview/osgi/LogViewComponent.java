@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.javakontor.sherlog.core.store.LogEventStore;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager;
+import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager;
 import org.javakontor.sherlog.ui.logview.LogView;
 import org.javakontor.sherlog.ui.logview.LogViewContribution;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
@@ -28,6 +28,7 @@ public class LogViewComponent {
   /** the component context */
   private ComponentContext                                    _componentContext;
 
+  /** - */
   private FilterConfigurationEditorFactoryManager             _filterConfigurationEditorFactoryManager;
 
   /** - */
@@ -237,10 +238,9 @@ public class LogViewComponent {
 
       _logViewContribution = new LogViewContribution(bundleContext, _logEventStore);
 
-      if (_filterConfigurationEditorFactoryManager != null) {
-        _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(
-            _filterConfigurationEditorFactoryManager);
-      }
+      _logViewContribution.getModel().getLogEventFilterModel().setConfigurationEditorFactoryManager(
+          _filterConfigurationEditorFactoryManager);
+
       _serviceRegistration = bundleContext
           .registerService(ViewContribution.class.getName(), _logViewContribution, null);
     }
@@ -271,10 +271,7 @@ public class LogViewComponent {
         return;
       }
 
-      if (_filterConfigurationEditorFactoryManager != null) {
-        _logViewContribution.getView().getLogEventFilterView().unsetFilterConfigurationEditorFactoryManager(
-            _filterConfigurationEditorFactoryManager);
-      }
+      _logViewContribution.getModel().getLogEventFilterModel().setConfigurationEditorFactoryManager(null);
 
       _serviceRegistration.unregister();
     }
@@ -285,13 +282,7 @@ public class LogViewComponent {
     public void setFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
 
       if (hasLogViewContribution()) {
-
-        if (factory != null) {
-          _logViewContribution.getView().getLogEventFilterView().setFilterConfigurationEditorFactoryManager(factory);
-        } else {
-          _logViewContribution.getView().getLogEventFilterView().unsetFilterConfigurationEditorFactoryManager(
-              _filterConfigurationEditorFactoryManager);
-        }
+        _logViewContribution.getModel().getLogEventFilterModel().setConfigurationEditorFactoryManager(factory);
       }
 
       _filterConfigurationEditorFactoryManager = factory;

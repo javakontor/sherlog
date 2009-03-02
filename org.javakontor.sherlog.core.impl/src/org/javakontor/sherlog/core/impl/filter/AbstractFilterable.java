@@ -15,10 +15,18 @@ import org.javakontor.sherlog.util.Assert;
 
 public class AbstractFilterable implements Filterable, LogEventFilterListener {
 
+  /** the lock object used for synchronization */
+  private final Object                                        _lock = new Object();
+
+  /** - */
   private final CopyOnWriteArrayList<LogEventFilter>          _logEventFilters;
 
+  /** - */
   private final CopyOnWriteArraySet<FilterableChangeListener> _filterableChangeListener;
 
+  /**
+   * 
+   */
   public AbstractFilterable() {
     _logEventFilters = new CopyOnWriteArrayList<LogEventFilter>();
     _filterableChangeListener = new CopyOnWriteArraySet<FilterableChangeListener>();
@@ -27,18 +35,20 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
   /**
    * Subclasses that wants to react on an added log event filter must overwrite logEventFilterAdded() to make sure the
    * correct events are sent after adding a new LogEventFilter
-   * 
    */
   public final boolean addLogEventFilter(LogEventFilter logEventFilter) {
     Assert.notNull("Parameter 'logEventFilter' must not be null", logEventFilter);
-    boolean logEventFilterAdded = _logEventFilters.addIfAbsent(logEventFilter);
+    boolean logEventFilterAdded;
+    synchronized (_lock) {
+      logEventFilterAdded = _logEventFilters.addIfAbsent(logEventFilter);
+    }
     if (logEventFilterAdded) {
       // invoke hook method for subclasses
       logEventFilterAdded(logEventFilter);
 
       // inform registered listener about new LogFilterEvent
       for (FilterableChangeListener filterableChangeListener : _filterableChangeListener) {
-        filterableChangeListener.logEventFilterAdded(logEventFilter);
+        filterableChangeListener.filterAdded(logEventFilter);
       }
 
       logEventFilter.addLogFilterListener(this);
@@ -75,7 +85,7 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
 
       // inform listener
       for (FilterableChangeListener filterableChangeListener : _filterableChangeListener) {
-        filterableChangeListener.logEventFilterRemoved(logEventFilter);
+        filterableChangeListener.filterRemoved(logEventFilter);
       }
     }
     return logEventFilterRemoved;
@@ -99,12 +109,18 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
   protected void logEventFilterRemoved(LogEventFilter logEventFilter) {
   }
 
-  public boolean addFilterableChangeListener(FilterableChangeListener filterableChangeListener) {
-    return _filterableChangeListener.add(filterableChangeListener);
+  @SuppressWarnings("unchecked")
+  public List<LogEventFilter> addFilterableChangeListener(FilterableChangeListener filterableChangeListener) {
+    synchronized (_lock) {
+      _filterableChangeListener.add(filterableChangeListener);
+      return (List<LogEventFilter>) _logEventFilters.clone();
+    }
   }
 
   public boolean removeFilterableChangeListener(FilterableChangeListener filterableChangeListener) {
-    return _filterableChangeListener.remove(filterableChangeListener);
+    synchronized (_lock) {
+      return _filterableChangeListener.remove(filterableChangeListener);
+    }
   }
 
   /**
@@ -115,15 +131,20 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
    * @return
    */
   protected boolean isFiltered(LogEvent logEvent) {
-    List<LogEventFilter> logEventFilters = _logEventFilters;
-    if (logEventFilters.isEmpty()) {
+
+    // return immediately if filter list is empty
+    if (_logEventFilters.isEmpty()) {
       return true;
     }
-    for (LogEventFilter filter : logEventFilters) {
+
+    // is event filtered ?
+    for (LogEventFilter filter : _logEventFilters) {
       if (!filter.matches(logEvent)) {
         return false;
       }
     }
+
+    // return true
     return true;
   }
 

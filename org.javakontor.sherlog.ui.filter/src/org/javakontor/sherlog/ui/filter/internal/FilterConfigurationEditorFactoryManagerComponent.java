@@ -1,52 +1,116 @@
 package org.javakontor.sherlog.ui.filter.internal;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JPanel;
-
-import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManagerListener;
+import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager;
+import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerEvent;
+import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerListener;
+import org.javakontor.sherlog.util.Assert;
 
 public class FilterConfigurationEditorFactoryManagerComponent implements FilterConfigurationEditorFactoryManager {
 
-  private Set<FilterConfigurationEditorFactory> _filterConfigurationEditorFactories;
+  /** - */
+  private Object                                                _lock = new Object();
 
+  /** - */
+  private Set<FilterConfigurationEditorFactory>                 _filterConfigurationEditorFactories;
+
+  /** - */
+  private List<FilterConfigurationEditorFactoryManagerListener> _filterConfigurationEditorFactoryManagerListeners;
+
+  /**
+   * 
+   */
   public FilterConfigurationEditorFactoryManagerComponent() {
     _filterConfigurationEditorFactories = new HashSet<FilterConfigurationEditorFactory>();
+    _filterConfigurationEditorFactoryManagerListeners = new CopyOnWriteArrayList<FilterConfigurationEditorFactoryManagerListener>();
   }
 
-  public JPanel createFilterConfigurationEditor(LogEventFilter logEventFilter) {
-    System.err.println("*******************************");
-    System.err.println(logEventFilter);
-    for (FilterConfigurationEditorFactory factory : _filterConfigurationEditorFactories) {
-      if (factory.isSuitableFor(logEventFilter)) {
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager#getFilterConfigurationEditorFactories()
+   */
+  public Set<FilterConfigurationEditorFactory> getFilterConfigurationEditorFactories() {
+    synchronized (_lock) {
+      return Collections.unmodifiableSet(_filterConfigurationEditorFactories);
+    }
+  }
 
-        JPanel panel = factory.createFilterConfigurationEditorPanel(logEventFilter);
-        System.err.println(panel);
-        System.err.println("*******************************");
-        return panel;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager#addFilterConfigurationEditorFactoryListener(org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerListener)
+   */
+  public Set<FilterConfigurationEditorFactory> addFilterConfigurationEditorFactoryListener(
+      FilterConfigurationEditorFactoryManagerListener listener) {
+
+    synchronized (_lock) {
+      _filterConfigurationEditorFactoryManagerListeners.add(listener);
+      return new HashSet<FilterConfigurationEditorFactory>(_filterConfigurationEditorFactories);
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager#removeFilterConfigurationEditorFactoryListener(org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerListener)
+   */
+  public void removeFilterConfigurationEditorFactoryListener(FilterConfigurationEditorFactoryManagerListener listener) {
+    _filterConfigurationEditorFactoryManagerListeners.remove(listener);
+  }
+
+  /**
+   * @param factory
+   */
+  public void addFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
+    synchronized (_lock) {
+      _filterConfigurationEditorFactories.add(factory);
+    }
+    fireManagerAdded(factory);
+  }
+
+  /**
+   * @param factory
+   */
+  public void removeFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
+    synchronized (_lock) {
+      _filterConfigurationEditorFactories.remove(factory);
+    }
+    fireManagerRemoved(factory);
+  }
+
+  /**
+   * @param factory
+   */
+  protected final void fireManagerAdded(FilterConfigurationEditorFactory factory) {
+    Assert.notNull(factory);
+
+    FilterConfigurationEditorFactoryManagerEvent event = new FilterConfigurationEditorFactoryManagerEvent(factory);
+    for (FilterConfigurationEditorFactoryManagerListener modelListener : _filterConfigurationEditorFactoryManagerListeners) {
+      if (modelListener != null) {
+        modelListener.factoryAdded(event);
       }
     }
-
-    return null;
   }
 
-  public void addFilterConfigurationEditorFactoryListener(FilterConfigurationEditorFactoryManagerListener listener) {
-    // TODO
-  }
+  /**
+   * @param factory
+   */
+  protected final void fireManagerRemoved(FilterConfigurationEditorFactory factory) {
+    Assert.notNull(factory);
 
-  public void removeFilterConfigurationEditorFactoryListener(FilterConfigurationEditorFactoryManagerListener listener) {
-    // TODO
-  }
+    FilterConfigurationEditorFactoryManagerEvent event = new FilterConfigurationEditorFactoryManagerEvent(factory);
 
-  public void addFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
-    _filterConfigurationEditorFactories.add(factory);
-  }
-
-  public void removeFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
-    _filterConfigurationEditorFactories.remove(factory);
+    for (FilterConfigurationEditorFactoryManagerListener modelListener : _filterConfigurationEditorFactoryManagerListeners) {
+      if (modelListener != null) {
+        modelListener.factoryRemoved(event);
+      }
+    }
   }
 }

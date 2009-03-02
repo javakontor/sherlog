@@ -1,15 +1,16 @@
 package org.javakontor.sherlog.ui.logview.filterview;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 import org.javakontor.sherlog.core.filter.LogEventFilter;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactoryManager;
-import org.javakontor.sherlog.util.Assert;
+import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
+import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.ModelChangedEvent;
 
@@ -19,13 +20,13 @@ import org.lumberjack.application.mvc.ModelChangedEvent;
 public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEventFilterModelReasonForChange> {
 
   /** serialVersionUID */
-  private static final long                       serialVersionUID = 1L;
+  private static final long                              serialVersionUID = 1L;
 
   /** filterConfigurationEditors */
-  private final Map<LogEventFilter, JPanel>       _filterConfigurationEditors;
+  private Map<LogEventFilter, FilterConfigurationEditor> _filterConfigurationEditors;
 
-  /** - */
-  private FilterConfigurationEditorFactoryManager _configurationEditorFactoryManager;
+  /** filterConfigurationEditors */
+  private List<LogEventFilter>                           _unboundFilters;
 
   /**
    * <p>
@@ -37,94 +38,105 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
    */
   public LogEventFilterView(LogEventFilterModel model) {
     super(model);
-
-    _filterConfigurationEditors = new HashMap<LogEventFilter, JPanel>();
   }
 
   @Override
   protected void setUp() {
+
+    _filterConfigurationEditors = new HashMap<LogEventFilter, FilterConfigurationEditor>();
+    _unboundFilters = new LinkedList<LogEventFilter>();
+
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-    // TODO layout (Apply filter-Button should be last on view)
-
-    // add(new LogEventFilterPanel());
-    // add(new JButton("Apply Filter"));
+    for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
+      createEditor(logEventFilter);
+    }
   }
 
   public void modelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
-
     switch (event.getReasonForChange()) {
-    case filterAdded:
-      LogEventFilter logEventFilter = (LogEventFilter) event.getObjects()[0];
-      createFilterConfigurationEditor(logEventFilter);
+    case filterAdded: {
+      createEditor((LogEventFilter) event.getObjects()[0]);
       break;
+    }
+    case filterRemoved: {
+      disposeEditor((LogEventFilter) event.getObjects()[0]);
+      break;
+    }
+    case factoryAdded: {
+      handleFactoryAdded((FilterConfigurationEditorFactory) event.getObjects()[0]);
+      break;
+    }
+    case factoryRemoved: {
+      removedFactory((FilterConfigurationEditorFactory) event.getObjects()[0]);
+      break;
+    }
+    case factoryManagerAdded: {
+      for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
+        createEditor(logEventFilter);
+      }
+      break;
+    }
+    case factoryManagerRemoved: {
+      for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
+        disposeEditor(logEventFilter);
+      }
+      break;
+    }
     default:
       // ignore
       break;
     }
   }
 
-  public synchronized void setFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
-    Assert.notNull(factory);
-
-    // set the factory
-    _configurationEditorFactoryManager = factory;
-
-    // create FilterConfigurationEditors
-    for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
-      createFilterConfigurationEditor(logEventFilter);
-    }
-  }
-
-  /**
-   * @param factory
-   */
-  public synchronized void unsetFilterConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager factory) {
-    Assert.notNull(factory);
-
-    if (_configurationEditorFactoryManager == null) {
-      return;
-    }
-
-    for (LogEventFilter logEventFilter : _filterConfigurationEditors.keySet()) {
-      disposeFilterConfigurationEditor(logEventFilter);
-    }
-
-    _configurationEditorFactoryManager = null;
-  }
-
-  /**
-   * @param logEventFilter
-   */
-  private void createFilterConfigurationEditor(LogEventFilter logEventFilter) {
-
-    // assert that the FilterConfigurationEditorFactoryManager is set
-    if (_configurationEditorFactoryManager != null) {
-
-      JPanel editorPanel = _configurationEditorFactoryManager.createFilterConfigurationEditor(logEventFilter);
-
-      //
-      if (editorPanel != null) {
-
-        //
-        _filterConfigurationEditors.put(logEventFilter, editorPanel);
-        System.err.println("'''''''''''''''''''''''''");
-        System.err.println(editorPanel);
-        System.err.println("'''''''''''''''''''''''''");
-        add(editorPanel);
-        repaintComponent();
+  private void handleFactoryAdded(FilterConfigurationEditorFactory filterConfigurationEditorFactory) {
+    for (LogEventFilter filter : _unboundFilters) {
+      if (createEditor(filter, filterConfigurationEditorFactory)) {
+        _unboundFilters.remove(filter);
       }
     }
   }
 
-  private void disposeFilterConfigurationEditor(LogEventFilter logEventFilter) {
+  private void removedFactory(FilterConfigurationEditorFactory filterConfigurationEditorFactory) {
+    // TODO Auto-generated method stub
 
-    //
-    JPanel panel = _filterConfigurationEditors.get(logEventFilter);
+  }
 
-    if (panel != null) {
-      remove(panel);
+  private void createEditor(LogEventFilter logEventFilter) {
+
+    for (FilterConfigurationEditorFactory factory : getModel().getFilterConfigurationEditorFactories()) {
+
+      if (createEditor(logEventFilter, factory)) {
+        return;
+      }
+    }
+
+    _unboundFilters.add(logEventFilter);
+  }
+
+  private boolean createEditor(LogEventFilter logEventFilter, FilterConfigurationEditorFactory factory) {
+
+    if (factory.isSuitableFor(logEventFilter)) {
+      System.err.println(logEventFilter);
+      System.err.println(factory);
+      FilterConfigurationEditor configurationEditor = factory.createFilterConfigurationEditor(logEventFilter);
+      _filterConfigurationEditors.put(logEventFilter, configurationEditor);
+      System.err.println(configurationEditor.getPanel());
+      add(configurationEditor.getPanel());
+      repaintComponent();
+      return true;
+    }
+    return false;
+  }
+
+  private void disposeEditor(LogEventFilter logEventFilter) {
+    System.err.println("disposeEditor");
+    System.err.println(logEventFilter);
+
+    FilterConfigurationEditor editor = _filterConfigurationEditors.remove(logEventFilter);
+    if (editor != null) {
+      remove(editor.getPanel());
       repaintComponent();
     }
   }
@@ -133,7 +145,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
    * 
    */
   private void repaintComponent() {
-    LogEventFilterView.this.revalidate();
-    LogEventFilterView.this.repaint();
+    revalidate();
+    repaint();
   }
 }

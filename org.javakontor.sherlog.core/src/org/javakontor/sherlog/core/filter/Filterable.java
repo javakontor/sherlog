@@ -30,7 +30,6 @@ public interface Filterable {
    * 
    * @param logEventFilter
    *          the {@link LogEventFilter} to add.
-   * @return true if the logEventFilter has been added
    */
   public boolean addLogEventFilter(LogEventFilter logEventFilter);
 
@@ -45,7 +44,7 @@ public interface Filterable {
    */
   public boolean removeLogEventFilter(LogEventFilter logEventFilter);
 
-  public boolean addFilterableChangeListener(FilterableChangeListener filterableChangeListener);
+  public List<LogEventFilter> addFilterableChangeListener(FilterableChangeListener filterableChangeListener);
 
   public boolean removeFilterableChangeListener(FilterableChangeListener filterableChangeListener);
 }

@@ -1,12 +1,26 @@
 package org.javakontor.sherlog.ui.filter;
 
-import javax.swing.JPanel;
-
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 
+/**
+ * <p>
+ * To provide an editor for a specific filter configuration, you have to implement an instance of type
+ * {@link FilterConfigurationEditor} and register it with the OSGi service registry.
+ * </p>
+ * 
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+ */
 public interface FilterConfigurationEditorFactory {
 
-  public JPanel createFilterConfigurationEditorPanel(LogEventFilter logEventFilter);
-
+  /**
+   * @param logEventFilter
+   * @return
+   */
   public boolean isSuitableFor(LogEventFilter logEventFilter);
+
+  /**
+   * @param logEventFilter
+   * @return
+   */
+  public FilterConfigurationEditor createFilterConfigurationEditor(LogEventFilter logEventFilter);
 }
