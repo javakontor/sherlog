@@ -10,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.ui.util.SortableTableModel;
 import org.javakontor.sherlog.util.Assert;
 
 /**
@@ -20,7 +19,7 @@ import org.javakontor.sherlog.util.Assert;
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  */
-public class LogEventTableTableModel extends AbstractTableModel implements SortableTableModel {
+public class LogEventTableTableModel extends AbstractTableModel {
 
   /** serialVersionUID */
   private static final long      serialVersionUID   = 1L;
@@ -119,11 +118,6 @@ public class LogEventTableTableModel extends AbstractTableModel implements Sorta
    */
   public int getRowCount() {
     return this._logEvents.size();
-  }
-
-  public int getDefaultSortColumn() {
-    // don't "presort"
-    return -1;
   }
 
 }
