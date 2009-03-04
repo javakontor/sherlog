@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
+import org.javakontor.sherlog.ui.logview.osgi.GuiExecutor;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.ModelChangedEvent;
 
@@ -115,16 +116,23 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     _unboundFilters.add(logEventFilter);
   }
 
-  private boolean createEditor(LogEventFilter logEventFilter, FilterConfigurationEditorFactory factory) {
+  private boolean createEditor(final LogEventFilter logEventFilter, final FilterConfigurationEditorFactory factory) {
 
     if (factory.isSuitableFor(logEventFilter)) {
-      System.err.println(logEventFilter);
-      System.err.println(factory);
+      // throw new RuntimeException("Bratz");
+      System.err.println("createEditor " + logEventFilter);
+      System.err.println("createEditor " + factory);
       FilterConfigurationEditor configurationEditor = factory.createFilterConfigurationEditor(logEventFilter);
       _filterConfigurationEditors.put(logEventFilter, configurationEditor);
-      System.err.println(configurationEditor.getPanel());
+      System.err.println("createEditor " + configurationEditor.getPanel());
       add(configurationEditor.getPanel());
-      repaintComponent();
+      GuiExecutor.execute(new Runnable() {
+        public void run() {
+          repaintComponent();
+        }
+      });
+      ;
+
       return true;
     }
     return false;
@@ -137,7 +145,12 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     FilterConfigurationEditor editor = _filterConfigurationEditors.remove(logEventFilter);
     if (editor != null) {
       remove(editor.getPanel());
-      repaintComponent();
+      GuiExecutor.execute(new Runnable() {
+        public void run() {
+          repaintComponent();
+        }
+      });
+
     }
   }
 

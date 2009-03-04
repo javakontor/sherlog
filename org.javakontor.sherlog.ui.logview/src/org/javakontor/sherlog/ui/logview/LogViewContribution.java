@@ -3,11 +3,10 @@ package org.javakontor.sherlog.ui.logview;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
-import org.osgi.framework.BundleContext;
 
 public class LogViewContribution extends AbstractMvcViewContribution<LogModel, LogView, LogController> {
 
-  public LogViewContribution(BundleContext bundleContext, LogEventStore logEventStore) {
+  public LogViewContribution(LogEventStore logEventStore) {
     super(new DescriptorImpl("Log", false, true, false, true, true), new LogModel(
         (ModifiableLogEventStore) logEventStore), LogView.class, LogController.class);
   }

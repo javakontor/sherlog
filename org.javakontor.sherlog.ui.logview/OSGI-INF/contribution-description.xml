@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<component name="logViewContributionHolder"
+	factory="contributionHolderFactory">
+
+	<implementation
+		class="org.javakontor.sherlog.ui.logview.osgi.LogViewContributionHolder" />
+
+	<reference name="actionSetManager"
+		interface="org.lumberjack.application.action.ActionSetManager"
+		bind="bindActionSetManager" unbind="unbindActionSetManager"
+		cardinality="1..1" policy="dynamic" />
+
+	<reference name="filterConfigurationEditorFactoryManager"
+		interface="org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager"
+		bind="bindFilterConfigurationEditorFactoryManager"
+		unbind="unbindFilterConfigurationEditorFactoryManager"
+		cardinality="1..1" policy="dynamic" />
+
+	<reference name="logEventDecorator"
+		interface="org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator"
+		bind="bindLogEventDecorator" unbind="unbindLogEventDecorator"
+		cardinality="0..n" policy="dynamic" />
+
+</component>

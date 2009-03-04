@@ -26,22 +26,22 @@ import org.lumberjack.application.mvc.AbstractModel;
 public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogEventFilterModelReasonForChange> {
 
   /** the log event store that should be displayed */
-  private final Filterable                                     _filterable;
+  private final Filterable                                           _filterable;
 
   /** - */
-  private final List<LogEventFilter>                           _logEventFilter;
+  private final List<LogEventFilter>                                 _logEventFilter;
 
   /** - */
-  private final InnerFilterableChangeListener                  _filterableChangeListener;
+  private final InnerFilterableChangeListener                        _filterableChangeListener;
 
   /** - */
-  private FilterConfigurationEditorFactoryManager              _configurationEditorFactoryManager;
+  private FilterConfigurationEditorFactoryManager                    _configurationEditorFactoryManager;
 
   /** - */
-  private final Set<FilterConfigurationEditorFactory>          _configurationEditorFactories;
+  private final Set<FilterConfigurationEditorFactory>                _configurationEditorFactories;
 
   /** - */
-  private InnerFilterConfigurationEditorFactoryManagerListener _configurationEditorFactoryListener;
+  private final InnerFilterConfigurationEditorFactoryManagerListener _configurationEditorFactoryListener;
 
   /**
    * <p>
@@ -66,6 +66,8 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
     _logEventFilter.addAll(filters);
     // 
     _configurationEditorFactories = new HashSet<FilterConfigurationEditorFactory>();
+
+    _configurationEditorFactoryListener = new InnerFilterConfigurationEditorFactoryManagerListener();
   }
 
   /**
