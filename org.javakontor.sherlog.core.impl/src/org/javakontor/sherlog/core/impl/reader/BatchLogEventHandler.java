@@ -1,9 +1,10 @@
-package org.javakontor.sherlog.core.reader;
+package org.javakontor.sherlog.core.impl.reader;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.core.reader.DefaultLogEventHandler;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.util.Assert;
 
