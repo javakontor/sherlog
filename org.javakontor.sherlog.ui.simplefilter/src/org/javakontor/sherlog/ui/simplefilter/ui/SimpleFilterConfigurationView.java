@@ -1,6 +1,5 @@
 package org.javakontor.sherlog.ui.simplefilter.ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.MutableComboBoxModel;
 
+import org.javakontor.sherlog.ui.util.EditPopupMenu;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
 import org.lumberjack.application.mvc.ModelChangedEvent;
@@ -33,12 +33,12 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
 
   private JComboBox         _messageComboBox;
 
-  public SimpleFilterConfigurationView(SimpleFilterConfigurationModel model) {
+  public SimpleFilterConfigurationView(final SimpleFilterConfigurationModel model) {
     super(model);
   }
 
-  public void modelChanged(ModelChangedEvent<SimpleFilterConfigurationModel, DefaultReasonForChange> event) {
-    SimpleFilterConfigurationModel model = (SimpleFilterConfigurationModel) event.getSource();
+  public void modelChanged(final ModelChangedEvent<SimpleFilterConfigurationModel, DefaultReasonForChange> event) {
+    final SimpleFilterConfigurationModel model = (SimpleFilterConfigurationModel) event.getSource();
     this._levelComboBox.setSelectedItem(model.getLogLevel());
 
     setContent(this._threadComboBox, model.getThreadName(), model.getThreadNameHistory());
@@ -47,23 +47,23 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
   }
 
   JComboBox getLevelComboBox() {
-    return _levelComboBox;
+    return this._levelComboBox;
   }
 
   JComboBox getThreadComboBox() {
-    return _threadComboBox;
+    return this._threadComboBox;
   }
 
   JComboBox getCategoryComboBox() {
-    return _categoryComboBox;
+    return this._categoryComboBox;
   }
 
   JComboBox getMessageComboBox() {
-    return _messageComboBox;
+    return this._messageComboBox;
   }
 
-  protected void setContent(JComboBox comboBox, String selectedItem, String... history) {
-    HistoryComboBoxModel comboBoxModel = (HistoryComboBoxModel) comboBox.getModel();
+  protected void setContent(final JComboBox comboBox, final String selectedItem, final String... history) {
+    final HistoryComboBoxModel comboBoxModel = (HistoryComboBoxModel) comboBox.getModel();
     comboBoxModel.setContent(selectedItem, history);
   }
 
@@ -72,7 +72,7 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
 
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-    DefaultComboBoxModel levelModel = new DefaultComboBoxModel(getModel().getAllLogLevels());
+    final DefaultComboBoxModel levelModel = new DefaultComboBoxModel(getModel().getAllLogLevels());
     this._levelComboBox = createAndAddComboBox(SimpleFilterMessages.level, levelModel);
     this._levelComboBox.setEditable(false);
 
@@ -81,18 +81,18 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     this._messageComboBox = createAndAddComboBox(SimpleFilterMessages.message);
   }
 
-  private JComboBox createAndAddComboBox(String label) {
+  private JComboBox createAndAddComboBox(final String label) {
     return createAndAddComboBox(label, new HistoryComboBoxModel());
   }
 
-  private JComboBox createAndAddComboBox(String label, ComboBoxModel model) {
+  private JComboBox createAndAddComboBox(final String label, final ComboBoxModel model) {
 
-    JComboBox comboBox = new AlignedComboBox(model);
-    new EditPopupMenu(comboBox);
+    final JComboBox comboBox = new AlignedComboBox(model);
+    EditPopupMenu.createEditPopupMenuFor(comboBox);
 
     comboBox.setEditable(true);
-    JLabel jlabel = new JLabel(label);
-    //jlabel.setForeground(Color.ORANGE);
+    final JLabel jlabel = new JLabel(label);
+    // jlabel.setForeground(Color.ORANGE);
     add(jlabel);
     add(Box.createVerticalStrut(2));
     add(comboBox);
@@ -107,14 +107,14 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
      */
     private static final long serialVersionUID = 1L;
 
-    AlignedComboBox(ComboBoxModel model) {
+    AlignedComboBox(final ComboBoxModel model) {
       super(model);
       setAlignmentX(0);
     }
 
     @Override
     public Dimension getMaximumSize() {
-      Dimension maximumSize = super.getMaximumSize();
+      final Dimension maximumSize = super.getMaximumSize();
       return new Dimension(maximumSize.width, getPreferredSize().height);
     }
   }
@@ -134,7 +134,7 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
       this._items = new LinkedList<Object>();
     }
 
-    public Object getElementAt(int index) {
+    public Object getElementAt(final int index) {
       return this._items.get(index);
     }
 
@@ -142,20 +142,20 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
       return this._items.size();
     }
 
-    public void addElement(Object anObject) {
+    public void addElement(final Object anObject) {
       throw new UnsupportedOperationException("addElement");
 
     }
 
-    public void insertElementAt(Object obj, int index) {
+    public void insertElementAt(final Object obj, final int index) {
       throw new UnsupportedOperationException("insertElementAt");
     }
 
-    public void removeElement(Object obj) {
+    public void removeElement(final Object obj) {
       throw new UnsupportedOperationException("removeElement");
     }
 
-    public void removeElementAt(int index) {
+    public void removeElementAt(final int index) {
       throw new UnsupportedOperationException("removeElementAt");
     }
 
@@ -163,7 +163,7 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
       return this._selectedItem;
     }
 
-    public void setSelectedItem(Object anItem) {
+    public void setSelectedItem(final Object anItem) {
       if (((this._selectedItem != null) && !this._selectedItem.equals(anItem))
           || ((this._selectedItem == null) && (anItem != null))) {
         this._selectedItem = anItem;
@@ -171,9 +171,9 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
       }
     }
 
-    public void setContent(String selectedItem, String... history) {
+    public void setContent(final String selectedItem, final String... history) {
       this._items.clear();
-      for (Object object : history) {
+      for (final Object object : history) {
         this._items.add(object);
       }
       setSelectedItem(selectedItem);

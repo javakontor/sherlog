@@ -1,8 +1,6 @@
 package org.javakontor.sherlog.core.impl.internal.store;
 
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.javakontor.sherlog.core.LogEvent;
@@ -81,19 +79,20 @@ public class LogEventMock implements LogEvent {
     return this._throwable;
   }
 
-  public String[] getThrowableStrRep() {
-    if (this._throwable == null) {
-      return null;
+  public String getThrowableInformationAsString() {
+    if (hasThrowableInformation()) {
+      StringBuilder builder = new StringBuilder();
+      for (StackTraceElement element : this._throwable.getStackTrace()) {
+        builder.append(element.toString());
+        builder.append('\n');
+      }
+      return builder.toString();
     }
+    return "";
+  }
 
-    List<String> strRep = new LinkedList<String>();
-    strRep.add(this._throwable.toString());
-    for (StackTraceElement element : this._throwable.getStackTrace()) {
-      strRep.add(element.toString());
-    }
-
-    return strRep.toArray(new String[0]);
-
+  public boolean hasThrowableInformation() {
+    return (this._throwable != null);
   }
 
   public long getTimeStamp() {

@@ -8,6 +8,7 @@ import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
+import org.javakontor.sherlog.ui.logview.LogViewMessages;
 import org.javakontor.sherlog.util.Assert;
 import org.lumberjack.application.action.ActionSet;
 import org.lumberjack.application.mvc.AbstractModel;
@@ -29,7 +30,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
   /** the selected log events */
   private LogEvent[]          _selectedLogEvents = new LogEvent[0];
 
-  private ActionSet _actionGroupRegistry;
+  private ActionSet           _actionGroupRegistry;
 
   /**
    * <p>
@@ -57,7 +58,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
         // fire model changed
         fireModelChangedEvent(LogEventTableModelReasonForChange.logEventsAdded);
 
-        // set status message request
+        // set status messageColumnTitle request
         sendSetStatusMessageRequest();
       }
 
@@ -68,7 +69,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
         // fire model changed
         fireModelChangedEvent(LogEventTableModelReasonForChange.reset);
 
-        // set status message request
+        // set status messageColumnTitle request
         sendSetStatusMessageRequest();
 
       }
@@ -85,7 +86,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
       }
     });
 
-    // send a status message request
+    // send a status messageColumnTitle request
     sendSetStatusMessageRequest();
   }
 
@@ -118,7 +119,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
       // fire model changed event
       fireModelChangedEvent(LogEventTableModelReasonForChange.selectionChanged);
 
-      // send the status message request
+      // send the status messageColumnTitle request
       sendSetStatusMessageRequest();
 
       // send the selected log events request
@@ -145,18 +146,17 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
   /**
    * <p>
-   * Sends a request to set the status message.
+   * Sends a request to set the status messageColumnTitle.
    * </p>
    */
   public final void sendSetStatusMessageRequest() {
 
-    // format the status message
-    String message = String.format(
-        "%d stored messages, %d filtered messages, %d selected messages (%d filter registered)", this._logEventStore
-            .getLogEventCount(), this._logEventStore.getFilteredLogEvents().size(), this._selectedLogEvents.length,
-        this._logEventStore.getLogEventFilters().size());
+    // format the status messageColumnTitle
+    String message = String.format(LogViewMessages.defaultStatusBarMessage, this._logEventStore.getLogEventCount(),
+        this._logEventStore.getFilteredLogEvents().size(), this._selectedLogEvents.length, this._logEventStore
+            .getLogEventFilters().size());
 
-    // set the status message
+    // set the status messageColumnTitle
     StatusMessage statusMessage = new StatusMessage(message, StatusMessage.INFORMATION);
 
     // handle the request

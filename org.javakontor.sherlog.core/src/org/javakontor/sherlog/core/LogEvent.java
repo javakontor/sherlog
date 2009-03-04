@@ -75,7 +75,6 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * 
    * @return the name of the thread that created this {@link LogEvent}.
    */
-  // TODO: THREADMODE?
   public String getThreadName();
 
   /**
@@ -104,6 +103,21 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * @return the throwable information.
    */
   public Object getThrowableInformation();
+
+  /**
+   * Returns <tt>true if there is a {@link #getThrowableInformation() ThrowableInformation} object
+   * attaced to this LogEvent
+   * 
+   * @return true if this LogEvent has a ThrowableInformation
+   */
+  public boolean hasThrowableInformation();
+
+  /**
+   * Returns the throwable information as a String or an empty string if there is no throwable information attached
+   * 
+   * @return the throwable information or an empty string - never null
+   */
+  public String getThrowableInformationAsString();
 
   /**
    * <p>

@@ -146,12 +146,12 @@ public class TextExampleLogEvent extends AbstractLogEvent {
     return null;
   }
 
-  public Object getNDC() {
-    return null;
+  public String getThrowableInformationAsString() {
+    return "";
   }
 
-  public String[] getThrowableStrRep() {
-    return null;
+  public boolean hasThrowableInformation() {
+    return false;
   }
 
   @Override

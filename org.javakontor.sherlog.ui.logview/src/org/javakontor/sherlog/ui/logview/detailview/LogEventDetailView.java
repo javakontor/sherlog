@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.ui.util.EditPopupMenu;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
 import org.lumberjack.application.mvc.ModelChangedEvent;
@@ -47,6 +48,7 @@ public class LogEventDetailView extends AbstractView<LogEventDetailModel, Defaul
     this._detailsPane = new JEditorPane();
     this._detailsPane.setEditorKit(new HTMLEditorKit());
     this._detailsPane.setEditable(false);
+    EditPopupMenu.createEditPopupMenuFor(_detailsPane);
 
     JScrollPane scrollPane = new JScrollPane();
     scrollPane.setViewportView(this._detailsPane);
@@ -67,7 +69,7 @@ public class LogEventDetailView extends AbstractView<LogEventDetailModel, Defaul
     // render HTML
     String details = String.format(DETAILS_FORMAT, logEvent.getTimeStamp(), logEvent.getIdentifier(), logEvent
         .getLogLevel(), logEvent.getThreadName(), logEvent.getLogEventSource(), logEvent.getCategory(), logEvent
-        .getMessage(), logEvent.getThrowableInformation());
+        .getMessage(), logEvent.getThrowableInformationAsString());
 
     // set the text
     this._detailsPane.setText(details);

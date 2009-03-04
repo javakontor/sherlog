@@ -73,6 +73,23 @@ class L4JBinaryLogEvent extends AbstractLogEvent {
     return this._loggingEvent.getThrowableInformation();
   }
 
+  public String getThrowableInformationAsString() {
+    if (hasThrowableInformation()) {
+      String[] stringRep = this._loggingEvent.getThrowableInformation().getThrowableStrRep();
+      StringBuilder builder = new StringBuilder();
+      for (String rep : stringRep) {
+        builder.append(rep);
+        builder.append('\n');
+      }
+      return builder.toString();
+    }
+    return "";
+  }
+
+  public boolean hasThrowableInformation() {
+    return (this._loggingEvent.getThrowableInformation() != null);
+  }
+
   public Object getNestedDiagnosticContext() {
     return this._loggingEvent.getNDC();
   }

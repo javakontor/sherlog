@@ -55,35 +55,15 @@ public abstract class AbstractLogEvent implements LogEvent {
     }
   }
 
-  public int compareByTime(final Object o) {
+  public int compareTo(final LogEvent o) {
     if (equals(o)) {
       return 0;
     }
-    final LogEvent secondEvent = (LogEvent) o;
+    final LogEvent secondEvent = o;
     int ret = (int) (getTimeStamp() - secondEvent.getTimeStamp());
     if (ret == 0) {
       ret = (int) (getIdentifier() - secondEvent.getIdentifier());
     }
-    if (ret == 0) {
-      System.err.println("compareTo fails");
-    }
     return ret;
-  }
-
-  public int compareByID(final Object o) {
-    if (equals(o)) {
-      return 0;
-    }
-    // sonst niemals 0!
-    final LogEvent secondEvent = (LogEvent) o;
-    final long ret = getIdentifier() - secondEvent.getIdentifier();
-    if (ret == 0) {
-      System.err.println("compareTo fails");
-    }
-    return (int) ret;
-  }
-
-  public int compareTo(final LogEvent o) {
-    return compareByTime(o);
   }
 }

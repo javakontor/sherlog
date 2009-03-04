@@ -10,6 +10,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.LogLevel;
+import org.javakontor.sherlog.ui.logview.LogViewMessages;
 import org.javakontor.sherlog.util.Assert;
 
 /**
@@ -24,11 +25,12 @@ public class LogEventTableTableModel extends AbstractTableModel {
   /** serialVersionUID */
   private static final long      serialVersionUID   = 1L;
 
-  /** the constant DEFAULT_DATEFORMAT */
-  public static final DateFormat DEFAULT_DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  /** the DateFormat used to format the timestamp of a LogEvent */
+  public static final DateFormat DEFAULT_DATEFORMAT = new SimpleDateFormat(LogViewMessages.defaultDateFormat);
 
-  /** - */
-  public static final String[]   COLUMN_NAMES       = new String[] { "Time", "LogLevel", "Trace", "Category", "Message" };
+  /** The titles of the columns of the table */
+  public static final String[]   COLUMN_NAMES       = new String[] { LogViewMessages.timeColumnTitle, LogViewMessages.logLevelColumnTitle,
+      LogViewMessages.traceColumnTitle, LogViewMessages.categoryColumnTitle, LogViewMessages.messageColumnTitle };
 
   /** the list of all log events */
   private final List<LogEvent>   _logEvents;
