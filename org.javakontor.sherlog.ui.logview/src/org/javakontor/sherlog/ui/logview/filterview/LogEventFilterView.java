@@ -1,9 +1,10 @@
 package org.javakontor.sherlog.ui.logview.filterview;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,7 +27,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   private Map<LogEventFilter, FilterConfigurationEditor> _filterConfigurationEditors;
 
   /** filterConfigurationEditors */
-  private List<LogEventFilter>                           _unboundFilters;
+  private Set<LogEventFilter>                            _unboundFilters;
 
   /**
    * <p>
@@ -44,7 +45,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   protected void setUp() {
 
     _filterConfigurationEditors = new HashMap<LogEventFilter, FilterConfigurationEditor>();
-    _unboundFilters = new LinkedList<LogEventFilter>();
+    _unboundFilters = new HashSet<LogEventFilter>();
 
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -55,6 +56,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   }
 
   public void modelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
+
     switch (event.getReasonForChange()) {
     case filterAdded: {
       createEditor((LogEventFilter) event.getObjects()[0]);
@@ -91,9 +93,11 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   }
 
   private void handleFactoryAdded(FilterConfigurationEditorFactory filterConfigurationEditorFactory) {
-    for (LogEventFilter filter : _unboundFilters) {
+
+    for (Iterator<LogEventFilter> iterator = _unboundFilters.iterator(); iterator.hasNext();) {
+      LogEventFilter filter = iterator.next();
       if (createEditor(filter, filterConfigurationEditorFactory)) {
-        _unboundFilters.remove(filter);
+        iterator.remove();
       }
     }
   }
@@ -125,12 +129,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
       _filterConfigurationEditors.put(logEventFilter, configurationEditor);
       System.err.println("createEditor " + configurationEditor.getPanel());
       add(configurationEditor.getPanel());
-      // GuiExecutor.execute(new Runnable() {
-      // public void run() {
       repaintComponent();
-      // }
-      // });
-      // ;
 
       return true;
     }
@@ -144,17 +143,13 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     FilterConfigurationEditor editor = _filterConfigurationEditors.remove(logEventFilter);
     if (editor != null) {
       remove(editor.getPanel());
-      // GuiExecutor.execute(new Runnable() {
-      // public void run() {
       repaintComponent();
-      // }
-      // });
-
     }
+    _unboundFilters.remove(logEventFilter);
   }
 
   /**
-   *
+   * 
    */
   private void repaintComponent() {
     revalidate();

@@ -142,6 +142,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
      */
     public void filterAdded(final LogEventFilter logEventFilter) {
       if (_logEventFilter.add(logEventFilter)) {
+        System.err.println("filterAdded(" + logEventFilter + ")");
         fireModelChangedEvent(LogEventFilterModelReasonForChange.filterAdded, logEventFilter);
       }
     }
@@ -151,6 +152,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
      */
     public void filterRemoved(final LogEventFilter logEventFilter) {
       if (_logEventFilter.remove(logEventFilter)) {
+        System.err.println("filterRemoved(" + logEventFilter + ")");
         fireModelChangedEvent(LogEventFilterModelReasonForChange.filterRemoved, logEventFilter);
       }
     }
