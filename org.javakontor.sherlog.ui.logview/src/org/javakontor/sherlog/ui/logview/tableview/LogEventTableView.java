@@ -50,7 +50,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     this._logEventListTableModel = new LogEventTableTableModel(getModel().getLogEventStore().getFilteredLogEvents());
     this._logEventTableTable.setModel(this._logEventListTableModel);
     // this._logEventListTable.setDefaultRenderer(Object.class, new LogEventListCellRenderer());
-    this._logEventTableTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+    // this._logEventTableTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
     TableColumnModel columnModel = this._logEventTableTable.getColumnModel();
     // configureColumn(0, 110);
     // configureColumn(1, 50);
