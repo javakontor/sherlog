@@ -7,10 +7,10 @@ Import-Package: org.javakontor.sherlog.core,
  org.javakontor.sherlog.core.filter,
  org.javakontor.sherlog.core.store,
  org.javakontor.sherlog.ui.filter,
- org.javakontor.sherlog.ui.filter.manager,
  org.javakontor.sherlog.ui.util,
  org.javakontor.sherlog.util,
  org.javakontor.sherlog.util.nls,
+ org.javakontor.sherlog.util.servicemanager,
  org.lumberjack.application.action,
  org.lumberjack.application.menu,
  org.lumberjack.application.mvc,
@@ -20,7 +20,7 @@ Import-Package: org.javakontor.sherlog.core,
  org.osgi.service.component;version="1.0.0",
  org.osgi.util.tracker;version="1.3.3"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Service-Component: OSGI-INF/component-description.xml, OSGI-INF/contribution-description.xml
+Service-Component: OSGI-INF/component-description.xml,OSGI-INF/decorator-manager-description.xml
 Export-Package: org.javakontor.sherlog.ui.logview,
  org.javakontor.sherlog.ui.logview.decorator,
  org.javakontor.sherlog.ui.logview.tableview

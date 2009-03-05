@@ -11,10 +11,10 @@ import org.javakontor.sherlog.core.filter.FilterableChangeListener;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
-import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManager;
-import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerEvent;
-import org.javakontor.sherlog.ui.filter.manager.FilterConfigurationEditorFactoryManagerListener;
 import org.javakontor.sherlog.util.Assert;
+import org.javakontor.sherlog.util.servicemanager.ServiceManager;
+import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
+import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
 import org.lumberjack.application.mvc.AbstractModel;
 
 /**
@@ -26,22 +26,19 @@ import org.lumberjack.application.mvc.AbstractModel;
 public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogEventFilterModelReasonForChange> {
 
   /** the log event store that should be displayed */
-  private final Filterable                                           _filterable;
+  private final Filterable                                               _filterable;
 
   /** - */
-  private final List<LogEventFilter>                                 _logEventFilter;
+  private final List<LogEventFilter>                                     _logEventFilter;
 
   /** - */
-  private final InnerFilterableChangeListener                        _filterableChangeListener;
+  private final InnerFilterableChangeListener                            _filterableChangeListener;
 
   /** - */
-  private FilterConfigurationEditorFactoryManager                    _configurationEditorFactoryManager;
+  private ServiceManager<FilterConfigurationEditorFactory>               _serviceManager;
 
   /** - */
-  private final Set<FilterConfigurationEditorFactory>                _configurationEditorFactories;
-
-  /** - */
-  private final InnerFilterConfigurationEditorFactoryManagerListener _configurationEditorFactoryListener;
+  private final ServiceManagerListener<FilterConfigurationEditorFactory> _configurationEditorFactoryListener;
 
   /**
    * <p>
@@ -64,10 +61,17 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
     List<LogEventFilter> filters = this._filterable.addFilterableChangeListener(_filterableChangeListener);
     // add the existing filters
     _logEventFilter.addAll(filters);
-    // 
-    _configurationEditorFactories = new HashSet<FilterConfigurationEditorFactory>();
 
-    _configurationEditorFactoryListener = new InnerFilterConfigurationEditorFactoryManagerListener();
+    _configurationEditorFactoryListener = new ServiceManagerListener<FilterConfigurationEditorFactory>() {
+
+      public void serviceAdded(ServiceManagerEvent<FilterConfigurationEditorFactory> event) {
+        fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryAdded, event.getService());
+      }
+
+      public void serviceRemoved(ServiceManagerEvent<FilterConfigurationEditorFactory> event) {
+        fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryRemoved, event.getService());
+      }
+    };
   }
 
   /**
@@ -81,7 +85,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
    * @return
    */
   public Set<FilterConfigurationEditorFactory> getFilterConfigurationEditorFactories() {
-    return Collections.unmodifiableSet(_configurationEditorFactories);
+    return _serviceManager != null ? _serviceManager.getServices() : new HashSet<FilterConfigurationEditorFactory>();
   }
 
   /**
@@ -90,35 +94,27 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
    * 
    * @param configurationEditorFactoryManager
    */
-  public void setConfigurationEditorFactoryManager(FilterConfigurationEditorFactoryManager manager) {
+  public void setConfigurationEditorFactoryManager(ServiceManager<FilterConfigurationEditorFactory> manager) {
 
-    if (_configurationEditorFactoryManager == null && manager != null) {
+    if (_serviceManager == null && manager != null) {
 
       // set factory manager
-      _configurationEditorFactoryManager = manager;
+      _serviceManager = manager;
 
       // add listener
-      Set<FilterConfigurationEditorFactory> factories = _configurationEditorFactoryManager
-          .addFilterConfigurationEditorFactoryListener(_configurationEditorFactoryListener);
-
-      // set all known factories
-      _configurationEditorFactories.addAll(factories);
+      _serviceManager.addServiceManagerListener(_configurationEditorFactoryListener);
 
       // added
       fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryManagerAdded);
     }
 
-    else if (_configurationEditorFactoryManager != null && manager == null) {
+    else if (_serviceManager != null && manager == null) {
 
       //
-      _configurationEditorFactoryManager
-          .removeFilterConfigurationEditorFactoryListener(_configurationEditorFactoryListener);
+      _serviceManager.removeServiceManagerListener(_configurationEditorFactoryListener);
 
       //
-      _configurationEditorFactories.clear();
-
-      //
-      _configurationEditorFactoryManager = null;
+      _serviceManager = null;
 
       // removed
       fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryManagerRemoved);
@@ -154,27 +150,6 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
       if (_logEventFilter.remove(logEventFilter)) {
         System.err.println("filterRemoved(" + logEventFilter + ")");
         fireModelChangedEvent(LogEventFilterModelReasonForChange.filterRemoved, logEventFilter);
-      }
-    }
-  }
-
-  /**
-   * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
-   */
-  private final class InnerFilterConfigurationEditorFactoryManagerListener implements
-      FilterConfigurationEditorFactoryManagerListener {
-
-    public void factoryAdded(final FilterConfigurationEditorFactoryManagerEvent event) {
-      if (_configurationEditorFactories.add(event.getFilterConfigurationEditorFactory())) {
-        fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryAdded, event
-            .getFilterConfigurationEditorFactory());
-      }
-    }
-
-    public void factoryRemoved(final FilterConfigurationEditorFactoryManagerEvent event) {
-      if (_configurationEditorFactories.remove(event.getFilterConfigurationEditorFactory())) {
-        fireModelChangedEvent(LogEventFilterModelReasonForChange.factoryRemoved, event
-            .getFilterConfigurationEditorFactory());
       }
     }
   }

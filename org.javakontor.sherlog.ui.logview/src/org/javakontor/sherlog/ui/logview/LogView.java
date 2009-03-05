@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JSplitPane;
+import javax.swing.text.View;
 
 import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailView;
 import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterView;
@@ -12,6 +13,14 @@ import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
 import org.lumberjack.application.mvc.ModelChangedEvent;
 
+/**
+ * <p>
+ * The {@link View} for the {@link LogViewContribution}.
+ * </p>
+ * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+ */
 public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
 
   /** serialVersionUID */
@@ -26,10 +35,10 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
   /** the log event detail view */
   private LogEventDetailView _logEventDetailView;
 
-  /** - */
-  private LogEventTableView  _logEventListView;
+  /** the log event table view */
+  private LogEventTableView  _logEventTableView;
 
-  /** - */
+  /** the log event filter view */
   private LogEventFilterView _logEventFilterView;
 
   /**
@@ -44,13 +53,16 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
     super(model);
   }
 
+  /**
+   * @see org.lumberjack.application.mvc.AbstractView#setUp()
+   */
   @Override
   protected void setUp() {
 
     this._logEventFilterView = new LogEventFilterView(getModel().getLogEventFilterModel());
     this._logEventDetailView = new LogEventDetailView(getModel().getLogEventDetailModel());
-    this._logEventListView = new LogEventTableView(getModel().getLogEventTableModel());
-    
+    this._logEventTableView = new LogEventTableView(getModel().getLogEventTableModel());
+
     setLayout(new BorderLayout());
     setPreferredSize(new Dimension(700, 350));
 
@@ -59,7 +71,7 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
     this._verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
     this._verticalSplitPane.setOneTouchExpandable(true);
     this._verticalSplitPane.setRightComponent(this._logEventDetailView);
-    this._verticalSplitPane.setLeftComponent(this._logEventListView);
+    this._verticalSplitPane.setLeftComponent(this._logEventTableView);
 
     this._horizontalSplitPane = new JSplitPane();
     this._horizontalSplitPane.setOneTouchExpandable(true);
@@ -69,19 +81,44 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
     add(this._horizontalSplitPane, BorderLayout.CENTER);
   }
 
+  /**
+   * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
+   */
+  public void modelChanged(ModelChangedEvent<LogModel, DefaultReasonForChange> event) {
+    // nothing to do here...
+  }
+
+  /**
+   * <p>
+   * Returns the {@link LogEventDetailView}.
+   * </p>
+   * 
+   * @return the {@link LogEventDetailView}.
+   */
   public LogEventDetailView getLogEventDetailView() {
     return this._logEventDetailView;
   }
 
+  /**
+   * <p>
+   * Returns the {@link LogEventTableView}.
+   * </p>
+   * 
+   * @return the {@link LogEventTableView}.
+   */
   public LogEventTableView getLogEventTableView() {
-    return this._logEventListView;
+    return this._logEventTableView;
   }
 
+  /**
+   * <p>
+   * Returns the {@link LogEventFilterView}.
+   * </p>
+   * 
+   * @return the {@link LogEventFilterView}.
+   */
   public LogEventFilterView getLogEventFilterView() {
     return this._logEventFilterView;
   }
 
-  public void modelChanged(ModelChangedEvent<LogModel, DefaultReasonForChange> event) {
-    // nothing to do here...
-  }
 }

@@ -1,16 +1,35 @@
 <?xml version="1.0"?>
 <component name="logView" immediate="true">
 	<implementation
-		class="org.javakontor.sherlog.ui.logview.osgi.LogViewComponent" />
-	
-	<reference name="componentFactory"
-		interface="org.osgi.service.component.ComponentFactory"
-		bind="bindComponentFactory" unbind="unbindComponentFactory"
-		cardinality="1..1" policy="dynamic" />
+		class="org.javakontor.sherlog.ui.logview.LogViewContribution" />
+
+	<service>
+		<provide
+			interface="org.lumberjack.application.view.ViewContribution" />
+	</service>
 
 	<reference name="logEventStore"
-		interface="org.javakontor.sherlog.core.store.LogEventStore"
+		interface="org.javakontor.sherlog.core.store.ModifiableLogEventStore"
 		bind="bindLogEventStore" unbind="unbindLogEventStore"
-		cardinality="0..n" policy="dynamic" />
+		cardinality="1..1" policy="static" />
+
+	<reference name="actionSetManager"
+		interface="org.lumberjack.application.action.ActionSetManager"
+		bind="bindActionSetManager" unbind="unbindActionSetManager"
+		cardinality="1..1" policy="static" />
+
+	<reference name="filterConfigurationEditorFactoryManager"
+		interface="org.javakontor.sherlog.util.servicemanager.ServiceManager"
+		bind="bindFilterConfigurationEditorFactoryManager"
+		unbind="unbindFilterConfigurationEditorFactoryManager"
+		target="(service.type=org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory)"
+		cardinality="1..1" policy="static" />
+
+	<reference name="logEventDecoratorManager"
+		interface="org.javakontor.sherlog.util.servicemanager.ServiceManager"
+		bind="bindLogEventDecoratorManager"
+		unbind="unbindLogEventDecoratorManager"
+		target="(service.type=org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator)"
+		cardinality="1..1" policy="static" />
 
 </component>

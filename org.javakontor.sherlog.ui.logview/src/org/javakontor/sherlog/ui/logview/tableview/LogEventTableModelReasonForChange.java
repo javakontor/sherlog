@@ -18,6 +18,10 @@ public enum LogEventTableModelReasonForChange {
    */
   selectionChanged,
 
+  decoratorAdded,
+
+  decoratorRemoved,
+
   /**
    * The model (or parts of) has been reseted. The views be updated from scratch
    */

@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-<component name="filterConfigurationEditorFactoryManagerComponent"
+<component name="logEventDecoratorManagerComponent"
 	immediate="true">
 	<implementation
 		class="org.javakontor.sherlog.util.servicemanager.DefaultServiceManager" />
 
-	<property name="service.type" value="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory" />
+	<property name="service.type" value="org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator" />
 
 	<service>
 		<provide
 			interface="org.javakontor.sherlog.util.servicemanager.ServiceManager" />
 	</service>
 
-	<reference name="filterConfigurationEditorFactory"
-		interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory"
+	<reference name="logEventDecorator"
+		interface="org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator"
 		bind="bindService" unbind="unbindService" cardinality="0..n"
 		policy="dynamic" />
 

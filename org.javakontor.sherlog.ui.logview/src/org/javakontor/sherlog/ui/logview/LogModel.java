@@ -11,9 +11,12 @@ import org.lumberjack.application.mvc.Model;
 import org.lumberjack.application.request.RequestHandler;
 
 /**
- * The {@link Model} for the {@link LogView}.
+ * <p>
+ * The {@link Model} for the {@link LogViewContribution}.
+ * </p>
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class LogModel extends AbstractModel<LogModel, DefaultReasonForChange> implements RequestHandler {
 
