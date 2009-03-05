@@ -17,9 +17,9 @@ import org.lumberjack.application.request.RequestHandler;
 
 public class LogEventTableController extends AbstractController<LogEventTableModel, LogEventTableView> {
 
-  private ContextMenu         _contextMenu;
+  private ContextMenu<LogEventTableModel> _contextMenu;
 
-  private ContextMenuListener _contextMenuListener;
+  private ContextMenuListener             _contextMenuListener;
 
   public LogEventTableController(LogEventTableModel model, LogEventTableView view, RequestHandler successor) {
     super(model, view, successor);
@@ -37,7 +37,7 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
     getView().getLogEventTableTable().getSelectionModel().addListSelectionListener(new LogEventSelectionListener());
 
     // "logEventView.contextMenu"
-    this._contextMenu = new ContextMenu();
+    this._contextMenu = new ContextMenu<LogEventTableModel>();
 
     // enable popup menu
     _contextMenuListener = new ContextMenuListener(this._contextMenu);
@@ -83,14 +83,14 @@ public class LogEventTableController extends AbstractController<LogEventTableMod
     return events.toArray(new LogEvent[0]);
   }
 
-  class ContextMenuListener extends AbstractContextMenuListener {
+  class ContextMenuListener extends AbstractContextMenuListener<LogEventTableModel> {
 
-    public ContextMenuListener(ContextMenu contextMenu) {
+    public ContextMenuListener(ContextMenu<LogEventTableModel> contextMenu) {
       super(contextMenu);
     }
 
     @Override
-    protected Object getActionContext() {
+    protected LogEventTableModel getActionContext() {
       return getModel();
     }
 
