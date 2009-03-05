@@ -11,7 +11,6 @@ import javax.swing.BoxLayout;
 import org.javakontor.sherlog.core.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
-import org.javakontor.sherlog.ui.logview.osgi.GuiExecutor;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.ModelChangedEvent;
 
@@ -126,12 +125,12 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
       _filterConfigurationEditors.put(logEventFilter, configurationEditor);
       System.err.println("createEditor " + configurationEditor.getPanel());
       add(configurationEditor.getPanel());
-      GuiExecutor.execute(new Runnable() {
-        public void run() {
-          repaintComponent();
-        }
-      });
-      ;
+      // GuiExecutor.execute(new Runnable() {
+      // public void run() {
+      repaintComponent();
+      // }
+      // });
+      // ;
 
       return true;
     }
@@ -145,17 +144,17 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     FilterConfigurationEditor editor = _filterConfigurationEditors.remove(logEventFilter);
     if (editor != null) {
       remove(editor.getPanel());
-      GuiExecutor.execute(new Runnable() {
-        public void run() {
-          repaintComponent();
-        }
-      });
+      // GuiExecutor.execute(new Runnable() {
+      // public void run() {
+      repaintComponent();
+      // }
+      // });
 
     }
   }
 
   /**
-   * 
+   *
    */
   private void repaintComponent() {
     revalidate();
