@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.logview;
 
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
-import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.lumberjack.application.action.ActionSetManager;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
@@ -19,7 +19,7 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
   private ServiceManager<FilterConfigurationEditorFactory> _filterConfigurationEditorFactoryManager;
 
   /** - */
-  private ServiceManager<LogEventDecorator>                _decoratorManager;
+  private ServiceManager<LogEventTableCellDecorator>                _decoratorManager;
 
   /** - */
   private ActionSetManager                                 _actionSetManager;
@@ -78,11 +78,11 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
     _filterConfigurationEditorFactoryManager = null;
   }
 
-  public void bindLogEventDecoratorManager(ServiceManager<LogEventDecorator> manager) {
+  public void bindLogEventDecoratorManager(ServiceManager<LogEventTableCellDecorator> manager) {
     _decoratorManager = manager;
   }
 
-  public void unbindLogEventDecoratorManager(ServiceManager<LogEventDecorator> manager) {
+  public void unbindLogEventDecoratorManager(ServiceManager<LogEventTableCellDecorator> manager) {
     _decoratorManager = null;
   }
 

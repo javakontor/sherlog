@@ -9,7 +9,7 @@ import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
 import org.javakontor.sherlog.ui.logview.LogViewMessages;
-import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
@@ -29,18 +29,18 @@ import org.lumberjack.application.request.StatusMessage;
 public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEventTableModelReasonForChange> {
 
   /** the log event store that should be displayed */
-  private final LogEventStore                             _logEventStore;
+  private final LogEventStore                                      _logEventStore;
 
   /** the selected log events */
-  private LogEvent[]                                      _selectedLogEvents = new LogEvent[0];
+  private LogEvent[]                                               _selectedLogEvents = new LogEvent[0];
 
-  private ActionSet                                       _actionGroupRegistry;
-
-  /** - */
-  private ServiceManager<LogEventDecorator>               _logEventDecoratorManager;
+  private ActionSet                                                _actionGroupRegistry;
 
   /** - */
-  private final ServiceManagerListener<LogEventDecorator> _logEventDecoratorManagerListener;
+  private ServiceManager<LogEventTableCellDecorator>               _logEventDecoratorManager;
+
+  /** - */
+  private final ServiceManagerListener<LogEventTableCellDecorator> _logEventDecoratorManagerListener;
 
   /**
    * <p>
@@ -55,12 +55,12 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
     Assert.notNull(logEventStore);
 
-    _logEventDecoratorManagerListener = new ServiceManagerListener<LogEventDecorator>() {
-      public void serviceAdded(ServiceManagerEvent<LogEventDecorator> event) {
+    _logEventDecoratorManagerListener = new ServiceManagerListener<LogEventTableCellDecorator>() {
+      public void serviceAdded(ServiceManagerEvent<LogEventTableCellDecorator> event) {
         fireModelChangedEvent(LogEventTableModelReasonForChange.decoratorAdded, event.getService());
       }
 
-      public void serviceRemoved(ServiceManagerEvent<LogEventDecorator> event) {
+      public void serviceRemoved(ServiceManagerEvent<LogEventTableCellDecorator> event) {
         fireModelChangedEvent(LogEventTableModelReasonForChange.decoratorRemoved, event.getService());
       }
     };
@@ -195,7 +195,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
     _actionGroupRegistry = actionGroupRegistry;
   }
 
-  public void setLogEventDecoratorManager(ServiceManager<LogEventDecorator> manager) {
+  public void setLogEventDecoratorManager(ServiceManager<LogEventTableCellDecorator> manager) {
 
     if (_logEventDecoratorManager == null && manager != null) {
 

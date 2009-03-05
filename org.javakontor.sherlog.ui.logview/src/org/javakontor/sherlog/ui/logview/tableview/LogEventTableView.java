@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumnModel;
 
-import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.Assert;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.ModelChangedEvent;
@@ -104,13 +104,13 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
 
 /**
    * <p>
-   * Adds the specified {@link LogEventDecorator.
+   * Adds the specified {@link LogEventTableCellDecorator.
    * </p>
    *
    * @param eventDecorator
-   *          the specified {@link LogEventDecorator}.
+   *          the specified {@link LogEventTableCellDecorator}.
    */
-  public void addLogEventDecorator(LogEventDecorator eventDecorator) {
+  public void addLogEventDecorator(LogEventTableCellDecorator eventDecorator) {
     Assert.notNull(eventDecorator);
 
     // add the log event decorator
@@ -119,13 +119,13 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
 
   /**
    * <p>
-   * Removes the specified {@link LogEventDecorator}.
+   * Removes the specified {@link LogEventTableCellDecorator}.
    * </p>
    * 
    * @param eventDecorator
-   *          the specified {@link LogEventDecorator}.
+   *          the specified {@link LogEventTableCellDecorator}.
    */
-  public void removeLogEventDecorator(LogEventDecorator eventDecorator) {
+  public void removeLogEventDecorator(LogEventTableCellDecorator eventDecorator) {
     Assert.notNull(eventDecorator);
 
     // remove the log event decorator

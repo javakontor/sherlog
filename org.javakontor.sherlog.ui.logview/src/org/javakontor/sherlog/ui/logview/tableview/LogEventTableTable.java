@@ -10,13 +10,13 @@ import javax.swing.JViewport;
 import javax.swing.table.TableCellRenderer;
 
 import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.ui.logview.decorator.LogEventDecorator;
-import org.javakontor.sherlog.ui.logview.decorator.LogEventDecoratorContext;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecoratorContext;
 import org.javakontor.sherlog.ui.util.SherlogTable;
 
 /**
  * <p>
- * The LogEventTable adds support for {@link LogEventDecorator LogEventDecorators} to a JTable. Using LogEventDecorators
+ * The LogEventTable adds support for {@link LogEventTableCellDecorator LogEventDecorators} to a JTable. Using LogEventDecorators
  * clients can customize ("decorate") the table cells, to get a context-specific rendering (e.g. highlight rows
  * according to client specific criteria).
  * </p>
@@ -32,8 +32,8 @@ public class LogEventTableTable extends SherlogTable {
   /** serialVersionUID */
   private static final long            serialVersionUID = 1L;
 
-  /** list of registered {@link LogEventDecorator LogEventDecorators} that will be applied to a cell component */
-  private final Set<LogEventDecorator> _logEventDecorators;
+  /** list of registered {@link LogEventTableCellDecorator LogEventDecorators} that will be applied to a cell component */
+  private final Set<LogEventTableCellDecorator> _logEventDecorators;
 
   /** {@link DelegatingCellRenderer} that applies the registered LogEventDecorators to a rendered cell component */
   private final DelegatingCellRenderer _delegatingCellRenderer;
@@ -45,7 +45,7 @@ public class LogEventTableTable extends SherlogTable {
    */
   public LogEventTableTable() {
     // the log event decorator list
-    this._logEventDecorators = new HashSet<LogEventDecorator>();
+    this._logEventDecorators = new HashSet<LogEventTableCellDecorator>();
 
     // the delegating cell renderer
     this._delegatingCellRenderer = new DelegatingCellRenderer();
@@ -56,7 +56,7 @@ public class LogEventTableTable extends SherlogTable {
   /**
    * <p>
    * This implementation wraps the {@link TableCellRenderer} returned by the superclass with a
-   * {@link DelegatingCellRenderer} that applies all registered {@link LogEventDecorator LogEventDecorators}
+   * {@link DelegatingCellRenderer} that applies all registered {@link LogEventTableCellDecorator LogEventDecorators}
    * </p>
    * 
    * @see javax.swing.JTable#getCellRenderer(int, int)
@@ -94,7 +94,7 @@ public class LogEventTableTable extends SherlogTable {
 
   /**
    * <p>
-   * A {@link TableCellRenderer} implementation that asks a list of {@link LogEventDecorator LogEventDecorators} to
+   * A {@link TableCellRenderer} implementation that asks a list of {@link LogEventTableCellDecorator LogEventDecorators} to
    * decorate a component that was returned by a wrapped TableCellRenderer.
    * </p>
    */
@@ -157,11 +157,11 @@ public class LogEventTableTable extends SherlogTable {
       LogEvent logEvent = tableModel.getLogEvent(row);
 
       // Apply decorators on the rendered cell component
-      LogEventDecoratorContext.Attribute attribute = LogEventDecoratorContext.Attribute.values()[column];
-      LogEventDecoratorContext context = new LogEventDecoratorContext(component, logEvent, attribute, value, hasFocus,
+      LogEventTableCellDecoratorContext.Attribute attribute = LogEventTableCellDecoratorContext.Attribute.values()[column];
+      LogEventTableCellDecoratorContext context = new LogEventTableCellDecoratorContext(component, logEvent, attribute, value, hasFocus,
           isSelected);
-      for (LogEventDecorator decorator : LogEventTableTable.this._logEventDecorators) {
-        decorator.decorate(context);
+      for (LogEventTableCellDecorator decorator : LogEventTableTable.this._logEventDecorators) {
+        decorator.decorateLogEventTableCell(context);
       }
 
       // return the decorated component
@@ -171,25 +171,25 @@ public class LogEventTableTable extends SherlogTable {
 
   /**
    * <p>
-   * Add the specified {@link LogEventDecorator} to the list of decorators, that are used to decorate a table cell
+   * Add the specified {@link LogEventTableCellDecorator} to the list of decorators, that are used to decorate a table cell
    * </p>
    * 
    * @param eventDecorator
-   *          the {@link LogEventDecorator}
+   *          the {@link LogEventTableCellDecorator}
    */
-  public void addLogEventDecorator(LogEventDecorator eventDecorator) {
+  public void addLogEventDecorator(LogEventTableCellDecorator eventDecorator) {
     this._logEventDecorators.add(eventDecorator);
   }
 
   /**
    * <p>
-   * Removes the specified {@link LogEventDecorator} from the list of registered decorators
+   * Removes the specified {@link LogEventTableCellDecorator} from the list of registered decorators
    * </p>
    * 
    * @param eventDecorator
-   *          the {@link LogEventDecorator}
+   *          the {@link LogEventTableCellDecorator}
    */
-  public void removeLogEventDecorator(LogEventDecorator eventDecorator) {
+  public void removeLogEventDecorator(LogEventTableCellDecorator eventDecorator) {
     this._logEventDecorators.remove(eventDecorator);
   }
 }

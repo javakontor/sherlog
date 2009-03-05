@@ -4,12 +4,12 @@ import org.javakontor.sherlog.core.LogEvent;
 
 /**
  * <p>
- * A LogEventDecorator decorates a component that displays an attribute of a {@link LogEvent}.
+ * A LogEventTableCellDecorator decorates a component that displays an attribute of a {@link LogEvent}.
  * </p>
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  */
-public interface LogEventDecorator {
+public interface LogEventTableCellDecorator {
 
   /**
    * <p>
@@ -17,6 +17,6 @@ public interface LogEventDecorator {
    * 
    * @param context
    */
-  public void decorate(LogEventDecoratorContext context);
+  public void decorateLogEventTableCell(LogEventTableCellDecoratorContext context);
 
 }

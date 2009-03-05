@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import org.javakontor.sherlog.core.LogEvent;
 
-public class LogEventDecoratorContext {
+public class LogEventTableCellDecoratorContext {
 
   // MOVE?
   public static enum Attribute {
@@ -23,7 +23,7 @@ public class LogEventDecoratorContext {
 
   private final boolean   _selected;
 
-  public LogEventDecoratorContext(Component component, LogEvent logEvent, Attribute attribute, Object value,
+  public LogEventTableCellDecoratorContext(Component component, LogEvent logEvent, Attribute attribute, Object value,
       boolean focus, boolean selected) {
     super();
 
