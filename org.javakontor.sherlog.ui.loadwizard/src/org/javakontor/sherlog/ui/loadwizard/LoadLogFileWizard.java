@@ -82,10 +82,10 @@ public class LoadLogFileWizard extends JDialog {
     contentPanel.setLayout(layout);
 
     // ~~ build the buttons and the button bar
-    this._okButton = new JButton("OK");
+    this._okButton = new JButton(LoadLogFileWizardMessages.ok);
     getRootPane().setDefaultButton(this._okButton);
     // this._okButton.setEnabled(this._logFileChooserModel.isFormValid());
-    this._cancelButton = new JButton("Cancel");
+    this._cancelButton = new JButton(LoadLogFileWizardMessages.cancel);
     PanelBuilder builder = new PanelBuilder(layout, contentPanel);
     CellConstraints cc = new CellConstraints();
     builder.add(view, cc.rc(1, 1));

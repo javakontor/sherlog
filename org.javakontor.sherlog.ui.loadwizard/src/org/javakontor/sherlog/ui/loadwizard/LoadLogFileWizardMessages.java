@@ -5,8 +5,20 @@ import org.javakontor.sherlog.util.nls.NLSMessage;
 
 public class LoadLogFileWizardMessages {
 
+  @NLSMessage("OK")
+  public static String ok;
+
+  @NLSMessage("Cancel")
+  public static String cancel;
+
   @NLSMessage("Load log file")
   public static String loadLogFile;
+
+  @NLSMessage("&Log file:")
+  public static String logFileLabel;
+
+  @NLSMessage("&Flavour:")
+  public static String flavourLabel;
 
   @NLSMessage("No flavour selected")
   public static String noFlavourSelected;

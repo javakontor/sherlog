@@ -1,15 +1,18 @@
 package org.javakontor.sherlog.ui.loadwizard.filechooser;
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
 import org.lumberjack.application.mvc.ModelChangedEvent;
@@ -95,12 +98,15 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
     // add components to layout
     // 1st row
     CellConstraints cc = new CellConstraints();
-    builder.addLabel("Log File:", cc.rc(1, 1));
+    JLabel label = builder.addLabel(LoadLogFileWizardMessages.logFileLabel, cc.rc(1, 1));
+    label.setLabelFor(this._fileNameField);
     builder.add(this._fileNameField, cc.rc(1, 3, "fill,default"));
     builder.add(this._fileChooserButton, cc.rc(1, 5));
+    this._fileChooserButton.setMnemonic(KeyEvent.VK_PERIOD);
 
     // 2dn row
-    builder.addLabel("Flavour:", cc.rc(3, 1));
+    label = builder.addLabel(LoadLogFileWizardMessages.flavourLabel, cc.rc(3, 1));
+    label.setLabelFor(this._logEventFlavourComboBox);
     builder.add(this._logEventFlavourComboBox, cc.rc(3, 3));
 
     // fill form with initial data from view
