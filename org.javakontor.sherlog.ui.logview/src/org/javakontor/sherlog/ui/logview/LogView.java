@@ -79,6 +79,7 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
     this._horizontalSplitPane.setRightComponent(this._verticalSplitPane);
 
     add(this._horizontalSplitPane, BorderLayout.CENTER);
+
   }
 
   /**

@@ -73,5 +73,8 @@ public class LogEventDetailView extends AbstractView<LogEventDetailModel, Defaul
 
     // set the text
     this._detailsPane.setText(details);
+
+    // set first line to top of display
+    this._detailsPane.setCaretPosition(0);
   }
 }
