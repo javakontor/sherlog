@@ -86,6 +86,12 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     case reset:
       this._logEventListTableModel.fireTableDataChanged();
       break;
+    case decoratorAdded:
+      this._logEventTableTable.addLogEventDecorator((LogEventTableCellDecorator) event.getObjects()[0]);
+      break;
+    case decoratorRemoved:
+      this._logEventTableTable.removeLogEventDecorator((LogEventTableCellDecorator) event.getObjects()[0]);
+      break;
     default:
       // ignore;
     }
@@ -102,11 +108,11 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     return this._logEventTableTable;
   }
 
-/**
+  /**
    * <p>
    * Adds the specified {@link LogEventTableCellDecorator.
    * </p>
-   *
+   * 
    * @param eventDecorator
    *          the specified {@link LogEventTableCellDecorator}.
    */
