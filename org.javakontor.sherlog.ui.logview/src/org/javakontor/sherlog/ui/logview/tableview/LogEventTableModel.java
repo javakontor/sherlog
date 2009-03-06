@@ -51,8 +51,6 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
    *          the {@link LogEventStore}
    */
   public LogEventTableModel(LogEventStore logEventStore) {
-    super();
-
     Assert.notNull(logEventStore);
 
     _logEventDecoratorManagerListener = new ServiceManagerListener<LogEventTableCellDecorator>() {
@@ -204,10 +202,6 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
       // add listener
       _logEventDecoratorManager.addServiceManagerListener(_logEventDecoratorManagerListener);
-
-      // added
-      // no dynmaic here
-      // fireModelChangedEvent(LogEventTableModelReasonForChange.selectionChanged);
     }
 
     else if (_logEventDecoratorManager != null && manager == null) {
@@ -217,10 +211,6 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
 
       //
       _logEventDecoratorManager = null;
-
-      // removed
-      // TODO no dynamic here
-      // fireModelChangedEvent(LogEventTableModelReasonForChange.selectionChanged);
     }
 
     else {

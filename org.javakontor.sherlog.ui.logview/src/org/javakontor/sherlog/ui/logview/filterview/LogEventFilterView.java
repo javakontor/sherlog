@@ -43,16 +43,11 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
 
   @Override
   protected void setUp() {
-
     _filterConfigurationEditors = new HashMap<LogEventFilter, FilterConfigurationEditor>();
     _unboundFilters = new HashSet<LogEventFilter>();
 
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-    for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
-      createEditor(logEventFilter);
-    }
   }
 
   public void modelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
@@ -149,7 +144,7 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   }
 
   /**
-   * 
+   *
    */
   private void repaintComponent() {
     revalidate();

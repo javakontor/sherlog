@@ -20,7 +20,7 @@ Import-Package: org.javakontor.sherlog.core,
  org.osgi.service.component;version="1.0.0",
  org.osgi.util.tracker;version="1.3.3"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Service-Component: OSGI-INF/component-description.xml,OSGI-INF/decorator-manager-description.xml
+Service-Component: OSGI-INF/component-description.xml
 Export-Package: org.javakontor.sherlog.ui.logview,
  org.javakontor.sherlog.ui.logview.decorator,
  org.javakontor.sherlog.ui.logview.tableview

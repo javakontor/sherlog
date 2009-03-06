@@ -18,18 +18,14 @@
 		bind="bindActionSetManager" unbind="unbindActionSetManager"
 		cardinality="1..1" policy="static" />
 
-	<reference name="filterConfigurationEditorFactoryManager"
-		interface="org.javakontor.sherlog.util.servicemanager.ServiceManager"
-		bind="bindFilterConfigurationEditorFactoryManager"
-		unbind="unbindFilterConfigurationEditorFactoryManager"
-		target="(service.type=org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory)"
-		cardinality="1..1" policy="static" />
+	<reference name="logEventDecorator"
+		interface="org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator"
+		bind="bindLogEventDecorator" unbind="unbindLogEventDecorator" cardinality="0..n"
+		policy="dynamic" />
 
-	<reference name="logEventDecoratorManager"
-		interface="org.javakontor.sherlog.util.servicemanager.ServiceManager"
-		bind="bindLogEventDecoratorManager"
-		unbind="unbindLogEventDecoratorManager"
-		target="(service.type=org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator)"
-		cardinality="1..1" policy="static" />
+	<reference name="filterConfigurationEditorFactory"
+		interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory"
+		bind="bindFilterConfigurationEditorFactory" unbind="unbindFilterConfigurationEditorFactory" cardinality="0..n"
+		policy="dynamic" />
 
 </component>

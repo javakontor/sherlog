@@ -3,7 +3,7 @@ package org.javakontor.sherlog.ui.logview;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
-import org.javakontor.sherlog.util.servicemanager.ServiceManager;
+import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.lumberjack.application.action.ActionSetManager;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
 import org.osgi.service.component.ComponentContext;
@@ -13,19 +13,23 @@ import org.osgi.service.component.ComponentContext;
  */
 public class LogViewContribution extends AbstractMvcViewContribution<LogModel, LogView, LogController> {
 
-  private ModifiableLogEventStore                          _logEventStore;
+  private ModifiableLogEventStore                                       _logEventStore;
 
   /** - */
-  private ServiceManager<FilterConfigurationEditorFactory> _filterConfigurationEditorFactoryManager;
+  private final DefaultServiceManager<FilterConfigurationEditorFactory> _filterConfigurationEditorFactoryManager;
 
   /** - */
-  private ServiceManager<LogEventTableCellDecorator>                _decoratorManager;
+  private final DefaultServiceManager<LogEventTableCellDecorator>       _decoratorManager;
 
   /** - */
-  private ActionSetManager                                 _actionSetManager;
+  private ActionSetManager                                              _actionSetManager;
 
   public LogViewContribution() {
     super(new DescriptorImpl("Log", false, true, false, true, true), LogView.class, LogController.class);
+
+    _decoratorManager = new DefaultServiceManager<LogEventTableCellDecorator>();
+
+    _filterConfigurationEditorFactoryManager = new DefaultServiceManager<FilterConfigurationEditorFactory>();
   }
 
   /**
@@ -70,20 +74,20 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
   /**
    * @param factory
    */
-  public void bindFilterConfigurationEditorFactoryManager(ServiceManager<FilterConfigurationEditorFactory> factory) {
-    _filterConfigurationEditorFactoryManager = factory;
+  public void bindFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
+    _filterConfigurationEditorFactoryManager.bindService(factory);
   }
 
-  public void unbindFilterConfigurationEditorFactoryManager(ServiceManager<FilterConfigurationEditorFactory> factory) {
-    _filterConfigurationEditorFactoryManager = null;
+  public void unbindFilterConfigurationEditorFactory(FilterConfigurationEditorFactory factory) {
+    _filterConfigurationEditorFactoryManager.unbindService(factory);
   }
 
-  public void bindLogEventDecoratorManager(ServiceManager<LogEventTableCellDecorator> manager) {
-    _decoratorManager = manager;
+  public void bindLogEventDecorator(LogEventTableCellDecorator decorator) {
+    _decoratorManager.bindService(decorator);
   }
 
-  public void unbindLogEventDecoratorManager(ServiceManager<LogEventTableCellDecorator> manager) {
-    _decoratorManager = null;
+  public void unbindLogEventDecoratorManager(LogEventTableCellDecorator decorator) {
+    _decoratorManager.unbindService(decorator);
   }
 
 }
