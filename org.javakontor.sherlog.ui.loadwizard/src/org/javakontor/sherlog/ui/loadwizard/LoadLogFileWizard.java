@@ -45,15 +45,23 @@ public class LoadLogFileWizard extends JDialog {
    */
   private static final long           serialVersionUID = 1L;
 
-  public static LogEventReader openLoadLogFileWizard(Window owner, LogEventReaderFactory logEventReaderFactory) {
+  public static LogEventReader openLoadLogFileWizard(Window owner, LogEventReaderFactory logEventReaderFactory,
+      String preselectedFile) {
     LoadLogFileWizard dialog;
     if (owner instanceof JFrame) {
       dialog = new LoadLogFileWizard((JFrame) owner, logEventReaderFactory);
     } else {
       dialog = new LoadLogFileWizard((JDialog) owner, logEventReaderFactory);
     }
+    if (preselectedFile != null) {
+      dialog.getLogFileChooserModel().setFileName(preselectedFile);
+    }
     dialog.setVisible(true);
     return dialog.getLogEventReader();
+  }
+
+  public static LogEventReader openLoadLogFileWizard(Window owner, LogEventReaderFactory logEventReaderFactory) {
+    return openLoadLogFileWizard(owner, logEventReaderFactory, null);
   }
 
   public LoadLogFileWizard(JFrame owner, LogEventReaderFactory logEventReaderFactory) {
@@ -149,6 +157,10 @@ public class LoadLogFileWizard extends JDialog {
 
   class LogFileOpenDialogHandler extends RequestHandlerImpl {
 
+  }
+
+  public LogFileChooserModel getLogFileChooserModel() {
+    return this._logFileChooserModel;
   }
 
   public LogEventReader getLogEventReader() {

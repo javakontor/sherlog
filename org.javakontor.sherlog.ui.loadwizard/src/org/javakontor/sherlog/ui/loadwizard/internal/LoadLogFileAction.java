@@ -19,13 +19,13 @@ public class LoadLogFileAction extends AbstractAction {
 
   public LoadLogFileAction(ModifiableLogEventStore logEventStore) {
     super(FILE_MENU_ID + ".loadLogFile", FILE_MENU_TARGET_ID + "(first)", "&Load log file...");
-    _logEventStore = logEventStore;
+    this._logEventStore = logEventStore;
   }
 
   public void execute() {
     LogEventReader logEventReader = LoadLogFileWizard.openLoadLogFileWizard(null, getLogEventReaderFactory());
     if (logEventReader != null) {
-      logEventReader.addLogEventHandler(new BatchLogEventHandler(_logEventStore));
+      logEventReader.addLogEventHandler(new BatchLogEventHandler(this._logEventStore));
       logEventReader.start();
     }
   }
@@ -36,12 +36,12 @@ public class LoadLogFileAction extends AbstractAction {
   }
 
   public LogEventReaderFactory getLogEventReaderFactory() {
-    return _logEventReaderFactory;
+    return this._logEventReaderFactory;
   }
 
   public void setLogEventReaderFactory(LogEventReaderFactory logEventReaderFactory) {
-    _logEventReaderFactory = logEventReaderFactory;
-    setEnabled((_logEventReaderFactory != null));
+    this._logEventReaderFactory = logEventReaderFactory;
+    setEnabled((this._logEventReaderFactory != null));
   }
 
 }
