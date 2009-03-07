@@ -68,11 +68,11 @@ public class LoadLogFileWizardComponent {
     this._loadLogFileAction.setLogEventReaderFactory(this._logEventReaderFactory);
 
     this._loadLogFileActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
-        .getBundleContext(), this._loadLogFileAction, this._loadLogFileAction.getServiceProperties());
+        .getBundleContext(), this._loadLogFileAction);
 
     ResetLogEventStoreAction resetLogEventStoreAction = new ResetLogEventStoreAction(this._logEventStore);
     this._resetLogEventStoreActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
-        .getBundleContext(), resetLogEventStoreAction, resetLogEventStoreAction.getServiceProperties());
+        .getBundleContext(), resetLogEventStoreAction);
   }
 
   public synchronized void updateLoadMenu() {
