@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
+import org.javakontor.sherlog.ui.loadwizard.DefaultButtonFocusListener;
 import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
@@ -54,6 +55,7 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
     this._fileNameField = new JTextField();
     // this._fileNameField.setText(getModel().getFileName());
     this._fileChooserButton = new JButton("...");
+    this._fileChooserButton.addFocusListener(new DefaultButtonFocusListener());
     this._logEventFlavourComboBoxModel = new LogEventFlavourComboBoxModel();
     this._logEventFlavourComboBox = new JComboBox(this._logEventFlavourComboBoxModel);
     this._logEventFlavourComboBox.setEditable(false);

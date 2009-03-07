@@ -91,9 +91,23 @@ public class LoadLogFileWizard extends JDialog {
 
     // ~~ build the buttons and the button bar
     this._okButton = new JButton(LoadLogFileWizardMessages.ok);
+    // this._okButton.addFocusListener(new DefaultButtonFocusListener());
     getRootPane().setDefaultButton(this._okButton);
+    // getRootPane().addFocusListener(new FocusListener() {
+    //
+    // public void focusLost(FocusEvent e) {
+    //
+    // System.err.println("focusLost: " + e);
+    // }
+    //
+    // public void focusGained(FocusEvent e) {
+    // System.err.println("focusGained: " + e);
+    //
+    // }
+    // });
     // this._okButton.setEnabled(this._logFileChooserModel.isFormValid());
     this._cancelButton = new JButton(LoadLogFileWizardMessages.cancel);
+    this._cancelButton.addFocusListener(new DefaultButtonFocusListener());
     PanelBuilder builder = new PanelBuilder(layout, contentPanel);
     CellConstraints cc = new CellConstraints();
     builder.add(view, cc.rc(1, 1));
