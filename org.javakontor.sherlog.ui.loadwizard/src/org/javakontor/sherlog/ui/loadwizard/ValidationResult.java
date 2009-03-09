@@ -10,11 +10,15 @@ public class ValidationResult {
 
   public ValidationResult(String errorMessage) {
     super();
-    _errorMessage = errorMessage;
+    this._errorMessage = errorMessage;
   }
 
   public boolean hasError() {
-    return (_errorMessage != null);
+    return (this._errorMessage != null);
+  }
+
+  public boolean isValid() {
+    return (this._errorMessage == null);
   }
 
   public String getErrorMessage() {

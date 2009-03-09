@@ -32,6 +32,9 @@ public class LoadLogFileWizardComponent {
     registerMenus();
   }
 
+  /**
+   * @param componentContext
+   */
   protected void deactivate(ComponentContext componentContext) {
     this._logger.debug(" -> deactivate");
     removeMenus();
@@ -53,6 +56,10 @@ public class LoadLogFileWizardComponent {
     updateLoadMenu();
   }
 
+  /**
+   * @param logEventReaderFactory
+   *          the LogEventReaderFactory that has been unregistered
+   */
   public void unsetLogEventReaderFactory(LogEventReaderFactory logEventReaderFactory) {
     this._logEventReaderFactory = null;
     updateLoadMenu();
@@ -64,7 +71,7 @@ public class LoadLogFileWizardComponent {
     Assert.assertTrue(this._loadLogFileAction == null, "Property 'loadLogFileAction' must be null");
     this._logger.debug("-> registerLoadMenu, _logEventReaderFactory: " + this._logEventReaderFactory);
 
-    this._loadLogFileAction = new LoadLogFileAction(this._logEventStore);
+    this._loadLogFileAction = new LoadLogFileAction(this._context.getBundleContext(), this._logEventStore);
     this._loadLogFileAction.setLogEventReaderFactory(this._logEventReaderFactory);
 
     this._loadLogFileActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
