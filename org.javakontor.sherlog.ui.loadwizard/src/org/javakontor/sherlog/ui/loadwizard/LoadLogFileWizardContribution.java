@@ -1,14 +1,17 @@
 package org.javakontor.sherlog.ui.loadwizard;
 
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
+import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
 
 public class LoadLogFileWizardContribution extends
     AbstractMvcViewContribution<LoadLogFileWizardModel, LoadLogFileWizardView, LoadLogFileWizardController> {
 
-  public LoadLogFileWizardContribution(LogEventFlavour[] supportedFlavours) {
-    super(new DescriptorImpl("Load log file", true, true, false, false, false), new LoadLogFileWizardModel(
-        supportedFlavours), LoadLogFileWizardView.class, LoadLogFileWizardController.class);
+  public LoadLogFileWizardContribution(ModifiableLogEventStore logEventStore,
+      LogEventReaderFactory logEventReaderFactory) {
+    super(new DescriptorImpl(LoadLogFileWizardMessages.loadLogFile, true, true, false, false, false),
+        new LoadLogFileWizardModel(logEventStore, logEventReaderFactory), LoadLogFileWizardView.class,
+        LoadLogFileWizardController.class);
   }
 
   @Override

@@ -47,6 +47,13 @@ public class LoadLogFileWizardController extends AbstractController<LoadLogFileW
         ValidationResult result = getModel().validateForm();
 
         if (result.isValid()) {
+          try {
+            getModel().loadLogFile();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(getView(), ex.getMessage(), LoadLogFileWizardMessages.couldNotLoadLogFile,
+                JOptionPane.ERROR_MESSAGE);
+            return;
+          }
           // TODO load logfile
           CloseDialogRequest request = new CloseDialogRequest(CloseDialogRequest.OK);
           handleRequest(request);

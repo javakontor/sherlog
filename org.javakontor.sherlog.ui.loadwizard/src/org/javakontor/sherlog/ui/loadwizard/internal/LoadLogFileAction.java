@@ -1,7 +1,6 @@
 package org.javakontor.sherlog.ui.loadwizard.internal;
 
-import static org.lumberjack.application.menu.MenuConstants.FILE_MENU_ID;
-import static org.lumberjack.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
+import static org.lumberjack.application.menu.MenuConstants.*;
 
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
@@ -30,8 +29,8 @@ public class LoadLogFileAction extends AbstractAction {
   public void execute() {
 
     // ~~ create a new LoadLogFileWizardContribution
-    LoadLogFileWizardContribution contribution = new LoadLogFileWizardContribution(getLogEventReaderFactory()
-        .getSupportedLogEventFlavours());
+    LoadLogFileWizardContribution contribution = new LoadLogFileWizardContribution(this._logEventStore,
+        getLogEventReaderFactory());
 
     // ~~ register the contribution
     ServiceRegistration serviceRegistration = this._bundleContext.registerService(ViewContribution.class.getName(),
