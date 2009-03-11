@@ -16,7 +16,6 @@ public class LoadLogFileWizardContribution extends
 
   @Override
   public void viewEventOccured(ViewEvent viewEvent) {
-    System.err.println("viewEvent: " + viewEvent);
   }
 
 }
