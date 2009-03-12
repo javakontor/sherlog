@@ -16,7 +16,7 @@ public class SimpleOsgiTest extends AbstractEclipseArtefactLocatorTest {
 
   protected OsgiPlatform createPlatform() {
 
-    File root = new File("R:/workspaces/sherlog/target.platform");
+    File root = new File(getWorkspaceLocation(), "target.platform");
 
     File[] targetPlatformLocations = new File[6];
 
@@ -27,13 +27,19 @@ public class SimpleOsgiTest extends AbstractEclipseArtefactLocatorTest {
     targetPlatformLocations[4] = new File(root, "test/spring-2.5.5");
     targetPlatformLocations[5] = new File(root, "test/spring-dm-1.1.3");
 
-    File workspaceLocation = new File("R:/workspaces/sherlog");
+    File workspaceLocation =getWorkspaceLocation();
 
     this._eclipseArtifactLocator = new EclipseArtifactLocator(workspaceLocation, targetPlatformLocations);
 
     System.setProperty("osgi.dev", "bin");
 
     return super.createPlatform();
+  }
+  
+  protected File getWorkspaceLocation() {
+    File userDir = new File(System.getProperty("user.dir"));
+    File workspaceDir = userDir.getParentFile();
+    return workspaceDir;
   }
 
   protected String getManifestLocation() {
