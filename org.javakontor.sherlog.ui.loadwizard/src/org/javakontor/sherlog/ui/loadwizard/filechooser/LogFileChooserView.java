@@ -3,7 +3,6 @@ package org.javakontor.sherlog.ui.loadwizard.filechooser;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -32,10 +31,12 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
 
   private LogEventFlavourComboBoxModel _logEventFlavourComboBoxModel;
 
+  private boolean                      _updateInProgress = false;
+
   /**
    * 
    */
-  private static final long            serialVersionUID = 1L;
+  private static final long            serialVersionUID  = 1L;
 
   public LogFileChooserView(LogFileChooserModel model) {
     super(model);
@@ -46,9 +47,14 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
   }
 
   protected void updateView() {
-    this._fileNameField.setText(getModel().getFileName());
-    this._logEventFlavourComboBoxModel.setLogEventFlavours(getModel().getSupportedLogEventFlavours());
-    this._logEventFlavourComboBoxModel.setSelectedItem(getModel().getSelectedLogEventFlavour());
+    if (!this._updateInProgress) {
+      this._updateInProgress = true;
+      this._fileNameField.setText(getModel().getFileName());
+      this._logEventFlavourComboBoxModel.setLogEventFlavours(getModel().getSupportedLogEventFlavours());
+      this._logEventFlavourComboBoxModel.setSelectedItem(getModel().getSelectedLogEventFlavour());
+      this._updateInProgress = false;
+    }
+
   }
 
   private void createComponents() {
@@ -137,21 +143,6 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
 
   public void setFlavourBox(JComboBox flavourBox) {
     this._logEventFlavourComboBox = flavourBox;
-  }
-
-  class LogEventFlavourComboBoxModel extends DefaultComboBoxModel {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    public void setLogEventFlavours(LogEventFlavour[] flavours) {
-      removeAllElements();
-      for (LogEventFlavour flavour : flavours) {
-        addElement(flavour);
-      }
-    }
   }
 
 }

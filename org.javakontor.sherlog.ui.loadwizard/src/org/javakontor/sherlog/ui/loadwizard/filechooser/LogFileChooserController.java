@@ -46,9 +46,9 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
     });
 
     // set Flavour to model when user leaves the Flavour ComboBox
-    getView().getFlavourBox().addFocusListener(new FocusAdapter() {
-      @Override
-      public void focusLost(FocusEvent e) {
+    getView().getFlavourBox().addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
         Object object = getView().getFlavourBox().getSelectedItem();
         getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
       }
