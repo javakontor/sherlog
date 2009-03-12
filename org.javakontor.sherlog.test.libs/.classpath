@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="lib" path="/target.platform/ebr/com.springsource.slf4j.api-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="/target.platform/ebr/com.springsource.slf4j.log4j-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="/target.platform/test/ebr/com.springsource.junit-3.8.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/target.platform/test/jemmy/jemmy-bnd.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
