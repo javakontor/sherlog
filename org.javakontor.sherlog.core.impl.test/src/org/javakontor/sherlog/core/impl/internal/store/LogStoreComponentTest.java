@@ -1,22 +1,20 @@
 package org.javakontor.sherlog.core.impl.internal.store;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.core.LogLevel;
 import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.core.store.LogEventStoreListener;
-import org.junit.Assert;
-import org.junit.Test;
 
-public class LogStoreComponentTest {
+public class LogStoreComponentTest extends TestCase {
 
   private static long _eventIdentifier = 1L;
 
-  @Test
   public void test_Simple() {
     LogStoreComponent logStoreComponent = new LogStoreComponent();
 
@@ -77,7 +75,8 @@ public class LogStoreComponentTest {
     logStoreComponent.addLogEvents(newEvents);
 
     assertEquals(1, listener._addedInvocations);
-    assertEquals(0, listener._storeResetInvocations);
+    // adding a filter leads to a store reset
+    assertEquals(1, listener._storeResetInvocations);
     Assert.assertNotNull(listener._lastEvent);
     assertEquals(newEvents, listener._lastEvent.getLogEvents());
     // only the 'org.javakontor.sherlog.test' log event should have been filtered

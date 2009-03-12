@@ -2,10 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.core.impl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.core"/>
-	<classpathentry kind="lib" path="/target.platform/ebr/com.springsource.slf4j.log4j-1.5.6.jar"/>
-	<classpathentry kind="lib" path="/target.platform/ebr/com.springsource.org.apache.log4j-1.2.15.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.test.libs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
