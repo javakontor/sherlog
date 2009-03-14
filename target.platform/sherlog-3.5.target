@@ -13,6 +13,7 @@
       <extraLocations>
          <location path="${workspace_loc}/target.platform/ebr"/>
          <location path="${workspace_loc}/target.platform/codehaus"/>
+         <location path="${workspace_loc}/target.platform/test/jemmy"/>
          <location path="${workspace_loc}/target.platform/test/ebr"/>
          <location path="${workspace_loc}/target.platform/test/spring-2.5.5"/>
          <location path="${workspace_loc}/target.platform/test/spring-dm-1.1.3"/>
