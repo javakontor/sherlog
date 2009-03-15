@@ -9,6 +9,7 @@ import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.javakontor.sherlog.ui.loadwizard.ValidationResult;
 import org.lumberjack.application.mvc.AbstractModel;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
+import org.lumberjack.application.mvc.ModelChangedEvent;
 
 public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, DefaultReasonForChange> {
 
@@ -23,13 +24,13 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
   }
 
   public LogEventFlavour[] getSupportedLogEventFlavours() {
-    return _supportedLogEventFlavours;
+    return this._supportedLogEventFlavours;
   }
 
   public void setSupportedLogEventFlavours(LogEventFlavour[] supportedLogEventFlavours) {
-    Object oldValue = _supportedLogEventFlavours;
-    _supportedLogEventFlavours = supportedLogEventFlavours;
-    fireModelChangedEvent(oldValue, _supportedLogEventFlavours);
+    Object oldValue = this._supportedLogEventFlavours;
+    this._supportedLogEventFlavours = supportedLogEventFlavours;
+    fireModelChangedEvent(oldValue, this._supportedLogEventFlavours);
   }
 
   public LogEventFlavour getSelectedLogEventFlavour() {
@@ -37,9 +38,9 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
   }
 
   public void setSelectedLogEventFlavour(LogEventFlavour selectedFlavour) {
-    Object oldValue = _selectedLogEventFlavour;
+    Object oldValue = this._selectedLogEventFlavour;
     this._selectedLogEventFlavour = selectedFlavour;
-    fireModelChangedEvent(oldValue, _selectedLogEventFlavour);
+    fireModelChangedEvent(oldValue, this._selectedLogEventFlavour);
   }
 
   public String getFileName() {
@@ -47,11 +48,17 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
   }
 
   public void setFileName(String fileName) {
-    Object oldValue = _fileName;
+    Object oldValue = this._fileName;
     this._fileName = fileName;
-    fireModelChangedEvent(oldValue, _fileName);
+    fireModelChangedEvent(oldValue, this._fileName);
   }
 
+  /**
+   * Fires a {@link ModelChangedEvent} only if oldValue differs from newValue
+   * 
+   * @param oldValue
+   * @param newValue
+   */
   protected void fireModelChangedEvent(Object oldValue, Object newValue) {
     if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
       return;

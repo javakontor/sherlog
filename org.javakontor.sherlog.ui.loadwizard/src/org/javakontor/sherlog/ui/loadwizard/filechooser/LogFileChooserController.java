@@ -20,6 +20,20 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
     createListener();
   }
 
+  public void commit() {
+    commitFileNameField();
+    commitLogEventFlavourBox();
+  }
+
+  protected void commitLogEventFlavourBox() {
+    Object object = getView().getFlavourBox().getSelectedItem();
+    getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
+  }
+
+  protected void commitFileNameField() {
+    getModel().setFileName(getView().getFileNameField().getText());
+  }
+
   protected void createListener() {
 
     // "File chooser" button
@@ -41,18 +55,26 @@ public class LogFileChooserController extends AbstractController<LogFileChooserM
     getView().getFileNameField().addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent e) {
-        getModel().setFileName(getView().getFileNameField().getText());
+        commitFileNameField();
       }
     });
 
-    // set Flavour to model when user leaves the Flavour ComboBox
-    getView().getFlavourBox().addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-        Object object = getView().getFlavourBox().getSelectedItem();
-        getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
+    getView().getFlavourBox().addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        commitLogEventFlavourBox();
       }
+
     });
+
+    // // set Flavour to model when user leaves the Flavour ComboBox
+    // getView().getFlavourBox().addActionListener(new ActionListener() {
+    //
+    // public void actionPerformed(ActionEvent e) {
+    // Object object = getView().getFlavourBox().getSelectedItem();
+    // getModel().setSelectedLogEventFlavour((LogEventFlavour) object);
+    // }
+    // });
 
   }
 

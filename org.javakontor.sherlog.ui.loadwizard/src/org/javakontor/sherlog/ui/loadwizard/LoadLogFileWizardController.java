@@ -43,6 +43,9 @@ public class LoadLogFileWizardController extends AbstractController<LoadLogFileW
     getView().getOkButton().addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
+        // commit all values from view to model
+        commit();
+        System.err.println(" * OK BUTTON PRESSED !");
 
         ValidationResult result = getModel().validateForm();
 
@@ -68,8 +71,14 @@ public class LoadLogFileWizardController extends AbstractController<LoadLogFileW
     });
   }
 
+  /**
+   * Commits all data from the view(s) to the corresponding model(s)
+   */
+  public void commit() {
+    getLogFileChooserController().commit();
+  }
+
   public LogFileChooserController getLogFileChooserController() {
     return this._logFileChooserController;
   }
-
 }

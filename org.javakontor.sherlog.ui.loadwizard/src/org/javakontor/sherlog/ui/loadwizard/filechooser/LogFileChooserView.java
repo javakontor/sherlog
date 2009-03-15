@@ -31,12 +31,10 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
 
   private LogEventFlavourComboBoxModel _logEventFlavourComboBoxModel;
 
-  private boolean                      _updateInProgress = false;
-
   /**
    * 
    */
-  private static final long            serialVersionUID  = 1L;
+  private static final long            serialVersionUID = 1L;
 
   public LogFileChooserView(LogFileChooserModel model) {
     super(model);
@@ -47,14 +45,9 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
   }
 
   protected void updateView() {
-    if (!this._updateInProgress) {
-      this._updateInProgress = true;
-      this._fileNameField.setText(getModel().getFileName());
-      this._logEventFlavourComboBoxModel.setLogEventFlavours(getModel().getSupportedLogEventFlavours());
-      this._logEventFlavourComboBoxModel.setSelectedItem(getModel().getSelectedLogEventFlavour());
-      this._updateInProgress = false;
-    }
-
+    this._fileNameField.setText(getModel().getFileName());
+    this._logEventFlavourComboBoxModel.setLogEventFlavours(getModel().getSupportedLogEventFlavours());
+    this._logEventFlavourComboBoxModel.setSelectedItem(getModel().getSelectedLogEventFlavour());
   }
 
   private void createComponents() {

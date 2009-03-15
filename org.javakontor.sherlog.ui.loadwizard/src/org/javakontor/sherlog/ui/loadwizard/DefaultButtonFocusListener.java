@@ -27,7 +27,6 @@ public class DefaultButtonFocusListener implements FocusListener {
     JButton button = (JButton) source;
     JRootPane rootPane = SwingUtilities.getRootPane(button);
     if (rootPane != null) {
-      System.err.println("Rootpane: " + rootPane);
       this._defaultButton = rootPane.getDefaultButton();
       rootPane.setDefaultButton(button);
     }
