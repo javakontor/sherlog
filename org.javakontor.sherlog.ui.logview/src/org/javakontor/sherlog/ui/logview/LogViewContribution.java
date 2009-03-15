@@ -6,6 +6,7 @@ import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.lumberjack.application.action.ActionSetManager;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
+import org.lumberjack.application.view.DescriptorImpl;
 import org.osgi.service.component.ComponentContext;
 
 /**

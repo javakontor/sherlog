@@ -3,6 +3,7 @@ package org.javakontor.sherlog.ui.loadwizard;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.lumberjack.application.mvc.AbstractMvcViewContribution;
+import org.lumberjack.application.view.DescriptorImpl;
 
 public class LoadLogFileWizardContribution extends
     AbstractMvcViewContribution<LoadLogFileWizardModel, LoadLogFileWizardView, LoadLogFileWizardController> {
