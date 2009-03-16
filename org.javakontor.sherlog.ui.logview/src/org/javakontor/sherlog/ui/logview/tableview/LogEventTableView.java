@@ -77,7 +77,8 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
   /**
    * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
    */
-  public void modelChanged(ModelChangedEvent<LogEventTableModel, LogEventTableModelReasonForChange> event) {
+  @Override
+  public void onModelChanged(ModelChangedEvent<LogEventTableModel, LogEventTableModelReasonForChange> event) {
 
     switch (event.getReasonForChange()) {
     case logEventsAdded:
@@ -108,7 +109,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
     return this._logEventTableTable;
   }
 
-  /**
+/**
    * <p>
    * Adds the specified {@link LogEventTableCellDecorator.
    * </p>

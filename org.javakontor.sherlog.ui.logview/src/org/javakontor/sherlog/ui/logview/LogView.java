@@ -11,7 +11,6 @@ import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterView;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableView;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
-import org.lumberjack.application.mvc.ModelChangedEvent;
 
 /**
  * <p>
@@ -80,13 +79,6 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
 
     add(this._horizontalSplitPane, BorderLayout.CENTER);
 
-  }
-
-  /**
-   * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
-   */
-  public void modelChanged(ModelChangedEvent<LogModel, DefaultReasonForChange> event) {
-    // nothing to do here...
   }
 
   /**

@@ -19,7 +19,7 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
 
   private LogEventFlavour[] _supportedLogEventFlavours;
 
-  public LogFileChooserModel(LogEventFlavour[] supportedFlavours) {
+  public LogFileChooserModel(LogEventFlavour... supportedFlavours) {
     this._supportedLogEventFlavours = supportedFlavours;
   }
 
@@ -60,7 +60,7 @@ public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, Defa
    * @param newValue
    */
   protected void fireModelChangedEvent(Object oldValue, Object newValue) {
-    if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+    if ((oldValue == null && newValue == null) || oldValue != null && newValue != null && oldValue.equals(newValue)) {
       return;
     }
     fireModelChangedEvent(DefaultReasonForChange.modelChanged);

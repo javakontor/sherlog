@@ -50,7 +50,8 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
     setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
   }
 
-  public void modelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
+  @Override
+  public void onModelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
 
     switch (event.getReasonForChange()) {
     case filterAdded: {

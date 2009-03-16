@@ -12,21 +12,21 @@ import org.lumberjack.application.mvc.DefaultReasonForChange;
 public class SimpleFilterConfigurationModel extends
     AbstractModel<SimpleFilterConfigurationModel, DefaultReasonForChange> {
 
-  private SimpleLogEventFilterMemento _memento;
+  private final SimpleLogEventFilterMemento _memento;
 
-  private SimpleLogEventFilter        _filter;
+  private final SimpleLogEventFilter        _filter;
 
-  private final HistoryList           _threadNameHistory;
+  private final HistoryList                 _threadNameHistory;
 
-  private final HistoryList           _categoryHistory;
+  private final HistoryList                 _categoryHistory;
 
-  private final HistoryList           _messageHistory;
+  private final HistoryList                 _messageHistory;
 
-  public SimpleFilterConfigurationModel(SimpleLogEventFilter filter) {
+  public SimpleFilterConfigurationModel(final SimpleLogEventFilter filter) {
     super();
-    _filter = filter;
-    _memento = (SimpleLogEventFilterMemento)filter.saveToMemento();
-    _memento.setLogLevel(LogLevel.getFinestLogLevel());
+    this._filter = filter;
+    this._memento = (SimpleLogEventFilterMemento) filter.saveToMemento();
+    this._memento.setLogLevel(LogLevel.getFinestLogLevel());
     this._threadNameHistory = new HistoryList();
     this._categoryHistory = new HistoryList();
     this._messageHistory = new HistoryList();
@@ -37,46 +37,46 @@ public class SimpleFilterConfigurationModel extends
     return this._memento.getLogLevel();
   }
 
-  public void setLogLevel(LogLevel logLevel) {
+  public void setLogLevel(final LogLevel logLevel) {
     if (logLevel == null) {
-      _memento.setLogLevel(LogLevel.getFinestLogLevel());
+      this._memento.setLogLevel(LogLevel.getFinestLogLevel());
     } else {
-      _memento.setLogLevel(logLevel);
+      this._memento.setLogLevel(logLevel);
     }
-    _filter.restoreFromMemento(_memento);
+    this._filter.restoreFromMemento(this._memento);
     fireModelChangedEvent(DefaultReasonForChange.modelChanged);
   }
 
   public String getThreadName() {
-    return _memento.getThread();
+    return this._memento.getThread();
   }
 
   public String getCategory() {
-    return _memento.getCategory();
+    return this._memento.getCategory();
   }
 
   public String getMessage() {
-    return _memento.getMessage();
+    return this._memento.getMessage();
   }
 
-  public void setThreadName(String threadName) {
+  public void setThreadName(final String threadName) {
     this._memento.setThread(threadName);
     this._threadNameHistory.addHistoryItem(threadName);
-    _filter.restoreFromMemento(_memento);
+    this._filter.restoreFromMemento(this._memento);
     fireModelChangedEvent(DefaultReasonForChange.modelChanged);
   }
 
-  public void setCategory(String category) {
+  public void setCategory(final String category) {
     this._memento.setCategory(category);
     this._categoryHistory.addHistoryItem(category);
-    _filter.restoreFromMemento(_memento);
+    this._filter.restoreFromMemento(this._memento);
     fireModelChangedEvent(DefaultReasonForChange.modelChanged);
   }
 
-  public void setMessage(String message) {
+  public void setMessage(final String message) {
     this._memento.setMessage(message);
     this._messageHistory.addHistoryItem(message);
-    _filter.restoreFromMemento(_memento);
+    this._filter.restoreFromMemento(this._memento);
     fireModelChangedEvent(DefaultReasonForChange.modelChanged);
   }
 
@@ -112,10 +112,10 @@ public class SimpleFilterConfigurationModel extends
 
     /**
      * Inserts an item at the beginning to the list. make sure that a default item ("") is added at first position
-     *
+     * 
      * @param item
      */
-    public void addHistoryItem(String item) {
+    public void addHistoryItem(final String item) {
       if (!hasText(item)) {
         return;
       }
@@ -132,7 +132,7 @@ public class SimpleFilterConfigurationModel extends
 
   }
 
-  protected static boolean hasText(String s) {
+  protected static boolean hasText(final String s) {
     return ((s != null) && (s.trim().length() > 0));
   }
 

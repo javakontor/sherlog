@@ -55,7 +55,8 @@ public class LogEventDetailView extends AbstractView<LogEventDetailModel, Defaul
     add(scrollPane, BorderLayout.CENTER);
   }
 
-  public void modelChanged(ModelChangedEvent<LogEventDetailModel, DefaultReasonForChange> event) {
+  @Override
+  public void onModelChanged(ModelChangedEvent<LogEventDetailModel, DefaultReasonForChange> event) {
 
     // no event set?
     if (getModel().getLogEvent() == null) {

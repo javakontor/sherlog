@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserView;
 import org.lumberjack.application.mvc.AbstractView;
 import org.lumberjack.application.mvc.DefaultReasonForChange;
-import org.lumberjack.application.mvc.ModelChangedEvent;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
@@ -30,11 +29,6 @@ public class LoadLogFileWizardView extends AbstractView<LoadLogFileWizardModel, 
 
   public LoadLogFileWizardView(LoadLogFileWizardModel model) {
     super(model);
-  }
-
-  public void modelChanged(ModelChangedEvent<LoadLogFileWizardModel, DefaultReasonForChange> event) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override

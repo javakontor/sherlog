@@ -40,7 +40,8 @@ public class LogFileChooserView extends AbstractView<LogFileChooserModel, Defaul
     super(model);
   }
 
-  public void modelChanged(ModelChangedEvent<LogFileChooserModel, DefaultReasonForChange> event) {
+  @Override
+  public void onModelChanged(ModelChangedEvent<LogFileChooserModel, DefaultReasonForChange> event) {
     updateView();
   }
 

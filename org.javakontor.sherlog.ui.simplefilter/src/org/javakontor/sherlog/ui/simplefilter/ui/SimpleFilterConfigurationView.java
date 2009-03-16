@@ -37,7 +37,8 @@ public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConf
     super(model);
   }
 
-  public void modelChanged(final ModelChangedEvent<SimpleFilterConfigurationModel, DefaultReasonForChange> event) {
+  @Override
+  public void onModelChanged(final ModelChangedEvent<SimpleFilterConfigurationModel, DefaultReasonForChange> event) {
     final SimpleFilterConfigurationModel model = (SimpleFilterConfigurationModel) event.getSource();
     this._levelComboBox.setSelectedItem(model.getLogLevel());
 
