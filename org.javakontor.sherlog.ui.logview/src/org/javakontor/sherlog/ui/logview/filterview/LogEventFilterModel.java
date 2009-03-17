@@ -15,7 +15,7 @@ import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
-import org.lumberjack.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
 
 /**
  * <p>

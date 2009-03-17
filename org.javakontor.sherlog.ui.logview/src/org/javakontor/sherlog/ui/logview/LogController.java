@@ -4,9 +4,9 @@ import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailController;
 import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterController;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableController;
 import org.javakontor.sherlog.ui.logview.tableview.SetSelectedLogEventsRequest;
-import org.lumberjack.application.mvc.AbstractController;
-import org.lumberjack.application.request.Request;
-import org.lumberjack.application.request.RequestHandler;
+import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.request.Request;
+import org.javakontor.sherlog.application.request.RequestHandler;
 
 /**
  * <p>
@@ -47,7 +47,7 @@ public class LogController extends AbstractController<LogModel, LogView> {
   }
 
   /**
-   * @see org.lumberjack.application.mvc.AbstractController#canHandleRequest(org.lumberjack.application.request.Request)
+   * @see org.javakontor.sherlog.application.mvc.AbstractController#canHandleRequest(org.javakontor.sherlog.application.request.Request)
    */
   @Override
   public boolean canHandleRequest(Request request) {
@@ -55,7 +55,7 @@ public class LogController extends AbstractController<LogModel, LogView> {
   }
 
   /**
-   * @see org.lumberjack.application.mvc.AbstractController#doHandleRequest(org.lumberjack.application.request.Request)
+   * @see org.javakontor.sherlog.application.mvc.AbstractController#doHandleRequest(org.javakontor.sherlog.application.request.Request)
    */
   @Override
   public void doHandleRequest(Request request) {

@@ -9,8 +9,8 @@ import javax.swing.text.View;
 import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailView;
 import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterView;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableView;
-import org.lumberjack.application.mvc.AbstractView;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.AbstractView;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 
 /**
  * <p>
@@ -53,7 +53,7 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
   }
 
   /**
-   * @see org.lumberjack.application.mvc.AbstractView#setUp()
+   * @see org.javakontor.sherlog.application.mvc.AbstractView#setUp()
    */
   @Override
   protected void setUp() {

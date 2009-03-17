@@ -1,12 +1,12 @@
 package org.javakontor.sherlog.ui.logview;
 
+import org.javakontor.sherlog.application.action.ActionSetManager;
+import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
+import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
-import org.lumberjack.application.action.ActionSetManager;
-import org.lumberjack.application.mvc.AbstractMvcViewContribution;
-import org.lumberjack.application.view.DescriptorImpl;
 import org.osgi.service.component.ComponentContext;
 
 /**
@@ -26,7 +26,8 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
   private ActionSetManager                                              _actionSetManager;
 
   public LogViewContribution() {
-    super(new DescriptorImpl("Log", false, true, false, true, true), LogView.class, LogController.class);
+    super(new DefaultViewContributionDescriptor("Log", false, true, false, true, true), LogView.class,
+        LogController.class);
 
     _decoratorManager = new DefaultServiceManager<LogEventTableCellDecorator>();
 
@@ -34,7 +35,7 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
   }
 
   /**
-   * @see org.lumberjack.application.mvc.AbstractMvcViewContribution#viewEventOccured(org.lumberjack.application.view.ViewContribution.ViewEvent)
+   * @see org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution#viewEventOccured(org.javakontor.sherlog.application.view.ViewContribution.ViewEvent)
    */
   @Override
   public void viewEventOccured(ViewEvent viewEvent) {

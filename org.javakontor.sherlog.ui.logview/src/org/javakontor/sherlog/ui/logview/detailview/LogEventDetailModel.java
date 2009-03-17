@@ -2,8 +2,8 @@ package org.javakontor.sherlog.ui.logview.detailview;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.util.Assert;
-import org.lumberjack.application.mvc.AbstractModel;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 
 /**
  * <p>

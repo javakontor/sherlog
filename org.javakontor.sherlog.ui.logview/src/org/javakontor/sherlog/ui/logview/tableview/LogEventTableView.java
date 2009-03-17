@@ -7,8 +7,8 @@ import javax.swing.table.TableColumnModel;
 
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.Assert;
-import org.lumberjack.application.mvc.AbstractView;
-import org.lumberjack.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.application.mvc.AbstractView;
+import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
 
 public class LogEventTableView extends AbstractView<LogEventTableModel, LogEventTableModelReasonForChange> {
 
@@ -75,7 +75,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
   }
 
   /**
-   * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
+   * @see org.javakontor.sherlog.application.mvc.ModelChangedListener#modelChanged(org.javakontor.sherlog.application.mvc.ModelChangedEvent)
    */
   @Override
   public void onModelChanged(ModelChangedEvent<LogEventTableModel, LogEventTableModelReasonForChange> event) {

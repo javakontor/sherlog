@@ -14,10 +14,10 @@ import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
-import org.lumberjack.application.action.ActionSet;
-import org.lumberjack.application.mvc.AbstractModel;
-import org.lumberjack.application.request.SetStatusMessageRequest;
-import org.lumberjack.application.request.StatusMessage;
+import org.javakontor.sherlog.application.action.ActionSet;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
+import org.javakontor.sherlog.application.request.StatusMessage;
 
 /**
  * <p>

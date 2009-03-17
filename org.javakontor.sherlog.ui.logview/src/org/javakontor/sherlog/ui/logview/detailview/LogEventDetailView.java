@@ -8,9 +8,9 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.ui.util.EditPopupMenu;
-import org.lumberjack.application.mvc.AbstractView;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
-import org.lumberjack.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.application.mvc.AbstractView;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
 
 public class LogEventDetailView extends AbstractView<LogEventDetailModel, DefaultReasonForChange> {
 

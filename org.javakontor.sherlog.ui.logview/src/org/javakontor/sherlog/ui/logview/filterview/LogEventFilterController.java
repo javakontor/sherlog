@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.ui.logview.filterview;
 
-import org.lumberjack.application.mvc.AbstractController;
-import org.lumberjack.application.request.RequestHandler;
+import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.request.RequestHandler;
 
 public class LogEventFilterController extends AbstractController<LogEventFilterModel, LogEventFilterView> {
 
