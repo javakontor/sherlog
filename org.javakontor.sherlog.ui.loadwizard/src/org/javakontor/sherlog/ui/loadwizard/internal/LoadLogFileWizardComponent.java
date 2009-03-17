@@ -4,7 +4,7 @@ import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.util.Assert;
-import org.lumberjack.application.action.impl.ActionGroupElementServiceHelper;
+import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;

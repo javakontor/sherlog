@@ -13,9 +13,9 @@ import javax.swing.ListCellRenderer;
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
 import org.javakontor.sherlog.ui.loadwizard.DefaultButtonFocusListener;
 import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
-import org.lumberjack.application.mvc.AbstractView;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
-import org.lumberjack.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.application.mvc.AbstractView;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;

@@ -9,8 +9,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
-import org.lumberjack.application.mvc.AbstractController;
-import org.lumberjack.application.request.RequestHandler;
+import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.request.RequestHandler;
 
 public class LogFileChooserController extends AbstractController<LogFileChooserModel, LogFileChooserView> {
 

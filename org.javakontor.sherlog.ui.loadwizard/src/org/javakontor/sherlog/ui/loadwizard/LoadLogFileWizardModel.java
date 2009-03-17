@@ -9,8 +9,8 @@ import org.javakontor.sherlog.core.reader.LogEventReader;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserModel;
-import org.lumberjack.application.mvc.AbstractModel;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
