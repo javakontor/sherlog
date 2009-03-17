@@ -2,8 +2,8 @@ package org.javakontor.sherlog.application.mvc;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.SwingUtilities;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.request.RequestHandlerImpl;
 import org.javakontor.sherlog.util.Assert;
 
@@ -23,6 +23,8 @@ import org.javakontor.sherlog.util.Assert;
 public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> extends RequestHandlerImpl implements
     Model<M, E> {
 
+  private final Log                                           _logger;
+
   /** all registered listeners */
   private final CopyOnWriteArrayList<ModelChangedListener<M, E>> _listenerList;
 
@@ -32,6 +34,7 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
    * </p>
    */
   public AbstractModel() {
+    this._logger = LogFactory.getLog(getClass());
 
     // create a thread safe CopyOnWriteArrayList
     this._listenerList = new CopyOnWriteArrayList<ModelChangedListener<M, E>>();
@@ -45,14 +48,14 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
    * Note: overriding methods must call <tt>super.dispose()</tt>!
    * </p>
    * 
-   * @see org.javakontor.sherlog.application.mvc.Model#dispose()
+   * @see org.lumberjack.application.mvc.Model#dispose()
    */
   public void dispose() {
     removeModelChangedListeners();
   }
 
   /**
-   * {@inheritDoc}}
+   * {@inheritDoc}
    */
   public void addModelChangedListener(ModelChangedListener<M, E> modelChangeListener) {
     Assert.notNull("Parameter modelChangeListener has to be set!", modelChangeListener);
@@ -61,7 +64,7 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
   }
 
   /**
-   * {@inheritDoc}}
+   * {@inheritDoc}
    */
   public void removeModelChangedListener(ModelChangedListener<M, E> modelChangeListener) {
     Assert.notNull("Parameter modelChangeListener has to be set!", modelChangeListener);
@@ -70,7 +73,7 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
   }
 
   /**
-   * {@inheritDoc}}
+   * {@inheritDoc}
    */
   public void removeModelChangedListeners() {
     _listenerList.clear();
@@ -121,20 +124,13 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
   protected final void fireModelChangedEvent(final ModelChangedEvent<M, E> event) {
     Assert.notNull("Parameter event has to be set!", event);
 
-    // create a new runnable
-    Runnable runnable = new Runnable() {
-      public void run() {
-        for (ModelChangedListener<M, E> modelListener : _listenerList) {
-          modelListener.modelChanged(event);
-        }
+    for (ModelChangedListener<M, E> modelListener : _listenerList) {
+      try {
+        modelListener.modelChanged(event);
+      } catch (RuntimeException ex) {
+        _logger.warn("Exception while invoking ModelChangedListener '" + modelListener + "' with event '" + event
+            + "': " + ex, ex);
       }
-    };
-
-    // make sure that the event is fired on the event dispatch thread
-    if (SwingUtilities.isEventDispatchThread()) {
-      runnable.run();
-    } else {
-      SwingUtilities.invokeLater(runnable);
     }
   }
 }

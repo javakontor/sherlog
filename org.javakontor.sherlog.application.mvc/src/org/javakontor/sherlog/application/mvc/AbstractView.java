@@ -2,6 +2,7 @@ package org.javakontor.sherlog.application.mvc;
 
 import javax.swing.JPanel;
 
+import org.javakontor.sherlog.ui.util.GuiExecutor;
 import org.javakontor.sherlog.util.Assert;
 
 /**
@@ -54,4 +55,35 @@ public abstract class AbstractView<M extends Model<M, E>, E extends Enum<E>> ext
    * </p>
    */
   protected abstract void setUp();
+  
+
+  /**
+   * Forwards the ModelChangedEvent to {@link #onModelChanged(ModelChangedEvent)}. This method makes sure,
+   * {@link #onModelChanged(ModelChangedEvent)} is called on the Event Dispatcher Thread.
+   * 
+   * <p>
+   * Subclasses should override {@link #onModelChanged(ModelChangedEvent)} to react on the event
+   * 
+   * @see org.lumberjack.application.mvc.ModelChangedListener#modelChanged(org.lumberjack.application.mvc.ModelChangedEvent)
+   */
+  public final void modelChanged(final ModelChangedEvent<M, E> event) {
+    GuiExecutor.execute(new Runnable() {
+      public void run() {
+        onModelChanged(event);
+      }
+    });
+  }
+
+  /**
+   * Override this method in subclasses to react on ModelChangedEvents.
+   * 
+   * <p>
+   * This method will be invoked on the Swing Event Dispatcher Thread when a {@link ModelChangedEvent} occured.
+   * </p>
+   * 
+   * @see #modelChanged(ModelChangedEvent)
+   */
+  protected void onModelChanged(final ModelChangedEvent<M, E> event) {
+
+  }
 }

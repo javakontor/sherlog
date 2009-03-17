@@ -3,19 +3,19 @@ package org.javakontor.sherlog.ui.loadwizard;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.core.impl.reader.BatchLogEventHandler;
 import org.javakontor.sherlog.core.reader.LogEventFlavour;
 import org.javakontor.sherlog.core.reader.LogEventReader;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserModel;
-import org.javakontor.sherlog.application.mvc.AbstractModel;
-import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LoadLogFileWizardModel extends AbstractModel<LoadLogFileWizardModel, DefaultReasonForChange> {
-  Logger                                _logger = LoggerFactory.getLogger(getClass());
+  private final Log                     _logger = LogFactory.getLog(getClass());
 
   private final LogEventReaderFactory   _logEventReaderFactory;
 

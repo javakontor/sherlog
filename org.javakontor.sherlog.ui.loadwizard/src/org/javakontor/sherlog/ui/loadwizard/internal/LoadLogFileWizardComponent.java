@@ -1,18 +1,18 @@
 package org.javakontor.sherlog.ui.loadwizard.internal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
 import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.core.store.LogEventStore;
 import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.util.Assert;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LoadLogFileWizardComponent {
 
-  private final Logger            _logger = LoggerFactory.getLogger(getClass());
+  private final Log               _logger = LogFactory.getLog(getClass());
 
   private ComponentContext        _context;
 
