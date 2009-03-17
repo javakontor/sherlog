@@ -6,8 +6,8 @@ import java.util.List;
 import org.javakontor.sherlog.core.LogLevel;
 import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilter;
 import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilterMemento;
-import org.lumberjack.application.mvc.AbstractModel;
-import org.lumberjack.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 
 public class SimpleFilterConfigurationModel extends
     AbstractModel<SimpleFilterConfigurationModel, DefaultReasonForChange> {

@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import org.javakontor.sherlog.core.LogLevel;
-import org.lumberjack.application.mvc.AbstractController;
-import org.lumberjack.application.request.RequestHandler;
+import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.request.RequestHandler;
 
 public class SimpleFilterConfigurationController extends
     AbstractController<SimpleFilterConfigurationModel, SimpleFilterConfigurationView> {

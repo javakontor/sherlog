@@ -11,8 +11,8 @@ Import-Package: org.javakontor.sherlog.core,
  org.javakontor.sherlog.ui.util;version="1.0.0",
  org.javakontor.sherlog.util,
  org.javakontor.sherlog.util.nls,
- org.lumberjack.application.mvc,
- org.lumberjack.application.request,
+ org.javakontor.sherlog.application.mvc,
+ org.javakontor.sherlog.application.request,
  org.slf4j;version="1.5.6"
 Service-Component: OSGI-INF/filterFactoryComponent-description.xml,OSGI-INF/configurationEditorFactoryComponent-description.xml
  
