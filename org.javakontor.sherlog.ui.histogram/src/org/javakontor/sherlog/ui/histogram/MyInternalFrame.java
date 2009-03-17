@@ -2,9 +2,6 @@ package org.javakontor.sherlog.ui.histogram;
 
 import javax.swing.JInternalFrame;
 
-import java.awt.event.*;
-import java.awt.*;
-
 /* Used by InternalFrameDemo.java. */
 public class MyInternalFrame extends JInternalFrame {
   static int openFrameCount = 0;

@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.histogram;
 
-import org.lumberjack.application.view.ViewContribution;
+import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 

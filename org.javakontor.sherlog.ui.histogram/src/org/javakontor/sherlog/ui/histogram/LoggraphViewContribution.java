@@ -2,9 +2,10 @@ package org.javakontor.sherlog.ui.histogram;
 
 import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.javakontor.sherlog.application.view.AbstractViewContribution;
+import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,15 +14,13 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.lumberjack.application.view.AbstractViewContribution;
-import org.lumberjack.application.view.DescriptorImpl;
 
 public class LoggraphViewContribution extends AbstractViewContribution {
 
   private JPanel _panel;
 
-  public Descriptor getDescriptor() {
-    return new DescriptorImpl("Loggraph", false, true, false, true, false);
+  public DefaultViewContributionDescriptor getDescriptor() {
+    return new DefaultViewContributionDescriptor("Loggraph", false, true, false, true, false);
   }
 
   public JPanel getPanel() {
