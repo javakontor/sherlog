@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.Insets;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,11 +55,9 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
   /**
    * Creates an instance of type MainWindow.
    * 
-   * @param title
-   *          -
+   * @param title -
    * 
-   * @throws HeadlessException
-   *           -
+   * @throws HeadlessException -
    */
   public DefaultApplicationWindow(String title) throws HeadlessException {
     super(title);
@@ -206,7 +203,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     setWallpaperLayoutStyle(WallpaperDesktopPane.STRETCH);
     setWallpaper(image);
 
-    initMenuBar();
+    setJMenuBar(new JMenuBar());
 
     setSize(new Dimension(800, 600));
     setLocationRelativeTo(null);
@@ -248,9 +245,8 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     // Create new DialogFrame instance
     final DialogFrame dialogFrame = new DialogFrame(this, viewContribution);
 
-    // add Frame (centered) to desktop pane
+    // add Frame to desktop pane
     this._desktopPane.add(dialogFrame);
-    setCenteredPosition(dialogFrame);
 
     // maximize if requested
     if (viewContribution.getDescriptor().openMaximized()) {
@@ -270,28 +266,6 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     });
 
     return dialogFrame;
-  }
-
-  /**
-   * Sets the specified dialog frame in a centered position.
-   * 
-   * @param dialogFrame
-   *          the dialog frame to center.
-   */
-  private void setCenteredPosition(DialogFrame dialogFrame) {
-    Assert.notNull("Parameter dialogFrame has to be set!", dialogFrame);
-
-    Dimension dim = this._desktopPane.getSize();
-    Insets insets = this._desktopPane.getInsets();
-    int xPos = (dim.width - (insets.left + insets.right + dialogFrame.getSize().width)) / 2;
-    int yPos = (dim.height - (insets.top + insets.bottom + dialogFrame.getSize().height)) / 2;
-    dialogFrame.setLocation(xPos, yPos);
-  }
-
-  protected void initMenuBar() {
-    final JMenuBar menubar = new JMenuBar();
-
-    setJMenuBar(menubar);
   }
 
 }
