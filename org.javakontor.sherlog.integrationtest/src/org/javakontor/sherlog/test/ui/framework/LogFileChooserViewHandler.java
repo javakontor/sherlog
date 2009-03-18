@@ -2,13 +2,13 @@ package org.javakontor.sherlog.test.ui.framework;
 
 import javax.swing.ComboBoxModel;
 
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
+import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JComboBoxOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.operators.WindowOperator;
 
-public class LogFileChooserViewHandler extends AbstractViewHandler {
+public class LogFileChooserViewHandler extends AbstractViewContributionHandler {
 
   private final JTextFieldOperator _fileNameTextFieldOperator;
 
@@ -16,7 +16,8 @@ public class LogFileChooserViewHandler extends AbstractViewHandler {
 
   private final JComboBoxOperator  _logEventFlavourComboBoxOperator;
 
-  LogFileChooserViewHandler(WindowOperator containerOperator) {
+  LogFileChooserViewHandler(GuiTestContext testContext, WindowOperator containerOperator) {
+    super(testContext);
     _fileNameTextFieldOperator = new JTextFieldOperator(containerOperator);
     _selectFileButtonOperator = new JButtonOperator(containerOperator, "...");
     _logEventFlavourComboBoxOperator = new JComboBoxOperator(containerOperator);
