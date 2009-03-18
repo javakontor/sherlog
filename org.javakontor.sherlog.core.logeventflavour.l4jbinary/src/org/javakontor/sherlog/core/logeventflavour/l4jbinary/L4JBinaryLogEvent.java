@@ -2,8 +2,8 @@ package org.javakontor.sherlog.core.logeventflavour.l4jbinary;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
-import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.core.impl.reader.AbstractLogEvent;
+import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.util.Assert;
 
 /**

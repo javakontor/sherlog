@@ -5,6 +5,6 @@
 	<property name="logevent.flavour" value="log4j 1.2.15 (binary)" />
 	<service>
 		<provide
-			interface="org.javakontor.sherlog.core.impl.reader.ObjectLogEventProvider" />
+			interface="org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider" />
 	</service>
 </component>
