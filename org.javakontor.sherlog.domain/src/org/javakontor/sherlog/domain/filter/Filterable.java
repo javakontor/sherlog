@@ -44,7 +44,7 @@ public interface Filterable {
    */
   public boolean removeLogEventFilter(LogEventFilter logEventFilter);
 
-  public List<LogEventFilter> addFilterableChangeListener(FilterableChangeListener filterableChangeListener);
+  public List<LogEventFilter> addRegisteredFilterChangeListener(RegisteredFilterChangeListener filterableChangeListener);
 
-  public boolean removeFilterableChangeListener(FilterableChangeListener filterableChangeListener);
+  public boolean removeRegisteredFilterChangeListener(RegisteredFilterChangeListener filterableChangeListener);
 }

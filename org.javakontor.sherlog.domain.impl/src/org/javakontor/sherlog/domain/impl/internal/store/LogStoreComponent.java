@@ -187,7 +187,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
         Collections.unmodifiableList(filteredLogEvents), Collections.unmodifiableList(categoriesAdded));
 
     for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
-      logEventStoreListener.logEventsAdded(event);
+      logEventStoreListener.logEventStoreChanged(event);
     }
   }
 

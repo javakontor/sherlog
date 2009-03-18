@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.domain.filter.Filterable;
-import org.javakontor.sherlog.domain.filter.FilterableChangeListener;
+import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
@@ -58,7 +58,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
     // create LogStoreChangeListener
     _filterableChangeListener = new InnerFilterableChangeListener();
     // add the log store listener
-    List<LogEventFilter> filters = this._filterable.addFilterableChangeListener(_filterableChangeListener);
+    List<LogEventFilter> filters = this._filterable.addRegisteredFilterChangeListener(_filterableChangeListener);
     // add the existing filters
     _logEventFilter.addAll(filters);
 
@@ -131,10 +131,10 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
    * 
    * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
    */
-  private class InnerFilterableChangeListener implements FilterableChangeListener {
+  private class InnerFilterableChangeListener implements RegisteredFilterChangeListener {
 
     /**
-     * @see org.javakontor.sherlog.core.filter.FilterableChangeListener#filterAdded(org.javakontor.sherlog.core.filter.LogEventFilter)
+     * @see org.javakontor.sherlog.core.filter.RegisteredFilterChangeListener#filterAdded(org.javakontor.sherlog.core.filter.LogEventFilter)
      */
     public void filterAdded(final LogEventFilter logEventFilter) {
       if (_logEventFilter.add(logEventFilter)) {
@@ -144,7 +144,7 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
     }
 
     /**
-     * @see org.javakontor.sherlog.core.filter.FilterableChangeListener#filterRemoved(org.javakontor.sherlog.core.filter.LogEventFilter)
+     * @see org.javakontor.sherlog.core.filter.RegisteredFilterChangeListener#filterRemoved(org.javakontor.sherlog.core.filter.LogEventFilter)
      */
     public void filterRemoved(final LogEventFilter logEventFilter) {
       if (_logEventFilter.remove(logEventFilter)) {

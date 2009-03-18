@@ -4,7 +4,10 @@ Bundle-Name: org.javakontor.sherlog.ui.histogram bundle
 Bundle-SymbolicName: org.javakontor.sherlog.ui.histogram
 Bundle-Version: 1.0.0
 Bundle-Activator: org.javakontor.sherlog.ui.histogram.Activator
-Import-Package: org.javakontor.sherlog.domain,
+Import-Package: org.javakontor.sherlog.application.request,
+ org.javakontor.sherlog.application.view,
+ org.javakontor.sherlog.domain,
+ org.javakontor.sherlog.domain.store,
  org.jfree.chart;version="1.0.9",
  org.jfree.chart.axis;version="1.0.9",
  org.jfree.chart.labels;version="1.0.9",
@@ -18,7 +21,6 @@ Import-Package: org.javakontor.sherlog.domain,
  org.jfree.data.time;version="1.0.9",
  org.jfree.data.xy;version="1.0.9",
  org.jfree.util;version="1.0.12",
- org.javakontor.sherlog.application.request,
- org.javakontor.sherlog.application.view,
- org.osgi.framework;version="1.3.0"
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.4.2"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

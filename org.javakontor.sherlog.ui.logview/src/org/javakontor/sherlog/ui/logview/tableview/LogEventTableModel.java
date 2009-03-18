@@ -7,8 +7,8 @@ import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
 import org.javakontor.sherlog.application.request.StatusMessage;
 import org.javakontor.sherlog.domain.LogEvent;
-import org.javakontor.sherlog.domain.filter.FilterableChangeListener;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
@@ -69,7 +69,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
     // add a log store listener
     this._logEventStore.addLogStoreListener(new LogEventStoreListener() {
 
-      public void logEventsAdded(LogEventStoreChangeEvent event) {
+      public void logEventStoreChanged(LogEventStoreChangeEvent event) {
         // since we work directly on the log event list from the log event store,
         // there is no need to set the logEvents here...
 
@@ -93,7 +93,7 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
       }
     });
 
-    this._logEventStore.addFilterableChangeListener(new FilterableChangeListener() {
+    this._logEventStore.addRegisteredFilterChangeListener(new RegisteredFilterChangeListener() {
 
       public void filterRemoved(LogEventFilter logEventFilter) {
         sendSetStatusMessageRequest();

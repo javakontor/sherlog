@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.domain.filter.Filterable;
-import org.javakontor.sherlog.domain.filter.FilterableChangeListener;
+import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.filter.LogEventFilterChangeEvent;
 import org.javakontor.sherlog.domain.filter.LogEventFilterListener;
@@ -22,14 +22,14 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
   private final CopyOnWriteArrayList<LogEventFilter>          _logEventFilters;
 
   /** - */
-  private final CopyOnWriteArraySet<FilterableChangeListener> _filterableChangeListener;
+  private final CopyOnWriteArraySet<RegisteredFilterChangeListener> _filterableChangeListener;
 
   /**
    * 
    */
   public AbstractFilterable() {
     _logEventFilters = new CopyOnWriteArrayList<LogEventFilter>();
-    _filterableChangeListener = new CopyOnWriteArraySet<FilterableChangeListener>();
+    _filterableChangeListener = new CopyOnWriteArraySet<RegisteredFilterChangeListener>();
   }
 
   /**
@@ -47,7 +47,7 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
       logEventFilterAdded(logEventFilter);
 
       // inform registered listener about new LogFilterEvent
-      for (FilterableChangeListener filterableChangeListener : _filterableChangeListener) {
+      for (RegisteredFilterChangeListener filterableChangeListener : _filterableChangeListener) {
         filterableChangeListener.filterAdded(logEventFilter);
       }
 
@@ -60,7 +60,7 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
    * Can be used in subclasses to react immediately if a new LogEventFilter has been added.
    * 
    * <p>
-   * <b>Note</b> The {@link FilterableChangeListener} get's informed after the execution of this method
+   * <b>Note</b> The {@link RegisteredFilterChangeListener} get's informed after the execution of this method
    * 
    * @param logEventFilter
    */
@@ -84,7 +84,7 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
       logEventFilterRemoved(logEventFilter);
 
       // inform listener
-      for (FilterableChangeListener filterableChangeListener : _filterableChangeListener) {
+      for (RegisteredFilterChangeListener filterableChangeListener : _filterableChangeListener) {
         filterableChangeListener.filterRemoved(logEventFilter);
       }
     }
@@ -102,7 +102,7 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
    * Can be used in subclasses to react immediately if a LogEventFilter has been removed.
    * 
    * <p>
-   * <b>Note</b> The {@link FilterableChangeListener} get's informed after the execution of this method
+   * <b>Note</b> The {@link RegisteredFilterChangeListener} get's informed after the execution of this method
    * 
    * @param logEventFilter
    */
@@ -110,14 +110,14 @@ public class AbstractFilterable implements Filterable, LogEventFilterListener {
   }
 
   @SuppressWarnings("unchecked")
-  public List<LogEventFilter> addFilterableChangeListener(FilterableChangeListener filterableChangeListener) {
+  public List<LogEventFilter> addRegisteredFilterChangeListener(RegisteredFilterChangeListener filterableChangeListener) {
     synchronized (_lock) {
       _filterableChangeListener.add(filterableChangeListener);
       return (List<LogEventFilter>) _logEventFilters.clone();
     }
   }
 
-  public boolean removeFilterableChangeListener(FilterableChangeListener filterableChangeListener) {
+  public boolean removeRegisteredFilterChangeListener(RegisteredFilterChangeListener filterableChangeListener) {
     synchronized (_lock) {
       return _filterableChangeListener.remove(filterableChangeListener);
     }

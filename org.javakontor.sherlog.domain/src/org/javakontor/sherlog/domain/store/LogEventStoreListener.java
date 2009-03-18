@@ -24,7 +24,7 @@ public interface LogEventStoreListener extends EventListener {
    * @param event
    *          the event containing the added events and categories
    */
-  public void logEventsAdded(LogEventStoreChangeEvent event);
+  public void logEventStoreChanged(LogEventStoreChangeEvent event);
 
   /**
    * <p>

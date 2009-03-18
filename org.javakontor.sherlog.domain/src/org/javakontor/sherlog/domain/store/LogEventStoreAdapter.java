@@ -18,7 +18,7 @@ public class LogEventStoreAdapter implements LogEventStoreListener {
    * @seeorg.javakontor.sherlog.core.store.LogEventStoreListener#logEventsAdded(org.javakontor.sherlog.core.store.
    * LogEventStoreChangeEvent)
    */
-  public void logEventsAdded(LogEventStoreChangeEvent event) {
+  public void logEventStoreChanged(LogEventStoreChangeEvent event) {
   }
 
   /*
