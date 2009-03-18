@@ -11,7 +11,7 @@ Import-Package: org.apache.commons.logging;version="1.1.1",
  org.javakontor.sherlog.domain.filter,
  org.javakontor.sherlog.domain.impl.filter,
  org.javakontor.sherlog.ui.filter,
- org.javakontor.sherlog.ui.util;version="1.0.0",
+ org.javakontor.sherlog.util.ui;version="1.0.0",
  org.javakontor.sherlog.util,
  org.javakontor.sherlog.util.nls
 Service-Component: OSGI-INF/filterFactoryComponent-description.xml,OSGI-INF/configurationEditorFactoryComponent-description.xml

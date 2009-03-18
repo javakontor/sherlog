@@ -23,8 +23,8 @@ import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.application.request.RequestHandlerImpl;
 import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
 import org.javakontor.sherlog.application.view.ViewContribution;
-import org.javakontor.sherlog.ui.util.GuiExecutor;
 import org.javakontor.sherlog.util.Assert;
+import org.javakontor.sherlog.util.ui.GuiExecutor;
 
 /**
  * Implements a default application window.
