@@ -15,3 +15,5 @@ Export-Package: org.javakontor.sherlog.application.action,
  org.javakontor.sherlog.application.menu,
  org.javakontor.sherlog.application.request,
  org.javakontor.sherlog.application.view
+Service-Component: OSGI-INF/actionset-component-description.xml,OSGI-INF/windowmenu-component-description.xml,OSGI-INF/component-description.xml
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
