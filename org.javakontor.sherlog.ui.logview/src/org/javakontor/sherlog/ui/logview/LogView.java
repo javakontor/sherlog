@@ -6,11 +6,11 @@ import java.awt.Dimension;
 import javax.swing.JSplitPane;
 import javax.swing.text.View;
 
+import org.javakontor.sherlog.application.mvc.AbstractView;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailView;
 import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterView;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableView;
-import org.javakontor.sherlog.application.mvc.AbstractView;
-import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 
 /**
  * <p>

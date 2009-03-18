@@ -1,14 +1,15 @@
 package org.javakontor.sherlog.ui.loadwizard.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
 
-import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
-import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
-import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardContribution;
-import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.javakontor.sherlog.application.action.impl.AbstractAction;
 import org.javakontor.sherlog.application.request.CloseDialogRequestHandler;
 import org.javakontor.sherlog.application.view.ViewContribution;
+import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardContribution;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 

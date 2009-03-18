@@ -9,7 +9,7 @@
 	</service>
 
 	<reference name="logEventStore"
-		interface="org.javakontor.sherlog.core.store.ModifiableLogEventStore"
+		interface="org.javakontor.sherlog.domain.store.ModifiableLogEventStore"
 		bind="bindLogEventStore" unbind="unbindLogEventStore"
 		cardinality="1..1" policy="static" />
 

@@ -1,11 +1,11 @@
 package org.javakontor.sherlog.ui.simplefilter;
 
-import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.core.filter.LogEventFilterMemento;
+import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.domain.filter.LogEventFilterMemento;
 
 /**
- *
- *
+ * 
+ * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  */
 public class SimpleLogEventFilterMemento implements LogEventFilterMemento {
@@ -21,23 +21,24 @@ public class SimpleLogEventFilterMemento implements LogEventFilterMemento {
 
   private String   _message;
 
-  public void setLogLevel(LogLevel logLevel) {
-    _logLevel = logLevel;
+  public void setLogLevel(final LogLevel logLevel) {
+    this._logLevel = logLevel;
   }
 
-  public void setThread(String thread) {
-    _thread = thread;
+  public void setThread(final String thread) {
+    this._thread = thread;
   }
 
-  public void setCategory(String category) {
-    _category = category;
+  public void setCategory(final String category) {
+    this._category = category;
   }
 
-  public void setMessage(String message) {
-    _message = message;
+  public void setMessage(final String message) {
+    this._message = message;
   }
 
-  public SimpleLogEventFilterMemento(LogLevel logLevel, String thread, String category, String message) {
+  public SimpleLogEventFilterMemento(final LogLevel logLevel, final String thread, final String category,
+      final String message) {
     this._logLevel = logLevel;
     this._thread = thread;
     this._category = category;

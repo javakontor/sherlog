@@ -2,22 +2,22 @@ package org.javakontor.sherlog.ui.logview.tableview;
 
 import java.util.Arrays;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.filter.FilterableChangeListener;
-import org.javakontor.sherlog.core.filter.LogEventFilter;
-import org.javakontor.sherlog.core.store.LogEventStore;
-import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
-import org.javakontor.sherlog.core.store.LogEventStoreListener;
+import org.javakontor.sherlog.application.action.ActionSet;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
+import org.javakontor.sherlog.application.request.StatusMessage;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.filter.FilterableChangeListener;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.store.LogEventStore;
+import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 import org.javakontor.sherlog.ui.logview.LogViewMessages;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
-import org.javakontor.sherlog.application.action.ActionSet;
-import org.javakontor.sherlog.application.mvc.AbstractModel;
-import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
-import org.javakontor.sherlog.application.request.StatusMessage;
 
 /**
  * <p>

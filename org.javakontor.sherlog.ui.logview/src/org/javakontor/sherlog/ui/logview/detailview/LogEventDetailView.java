@@ -6,11 +6,11 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.ui.util.EditPopupMenu;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.ui.util.EditPopupMenu;
 
 public class LogEventDetailView extends AbstractView<LogEventDetailModel, DefaultReasonForChange> {
 

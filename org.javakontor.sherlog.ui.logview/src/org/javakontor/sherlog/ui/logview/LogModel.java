@@ -1,14 +1,14 @@
 package org.javakontor.sherlog.ui.logview;
 
-import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
-import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailModel;
-import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterModel;
-import org.javakontor.sherlog.ui.logview.tableview.LogEventTableModel;
-import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.mvc.Model;
 import org.javakontor.sherlog.application.request.RequestHandler;
+import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailModel;
+import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterModel;
+import org.javakontor.sherlog.ui.logview.tableview.LogEventTableModel;
+import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>

@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.simplefilter.ui;
 
-import org.javakontor.sherlog.core.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.ui.filter.DefaultFilterConfigurationEditor;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;

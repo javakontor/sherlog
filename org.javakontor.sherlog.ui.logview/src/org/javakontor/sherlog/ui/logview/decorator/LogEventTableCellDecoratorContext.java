@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.logview.decorator;
 
 import java.awt.Component;
 
-import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.domain.LogEvent;
 
 public class LogEventTableCellDecoratorContext {
 

@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.ui.logview.tableview;
 
-import org.javakontor.sherlog.core.LogEvent;
 import org.javakontor.sherlog.application.request.Request;
+import org.javakontor.sherlog.domain.LogEvent;
 
 /**
  * <p>

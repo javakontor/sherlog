@@ -4,7 +4,7 @@ Bundle-Name: org.javakontor.sherlog.ui.histogram bundle
 Bundle-SymbolicName: org.javakontor.sherlog.ui.histogram
 Bundle-Version: 1.0.0
 Bundle-Activator: org.javakontor.sherlog.ui.histogram.Activator
-Import-Package: org.javakontor.sherlog.core,
+Import-Package: org.javakontor.sherlog.domain,
  org.jfree.chart;version="1.0.9",
  org.jfree.chart.axis;version="1.0.9",
  org.jfree.chart.labels;version="1.0.9",

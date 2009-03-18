@@ -6,16 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.javakontor.sherlog.core.filter.Filterable;
-import org.javakontor.sherlog.core.filter.FilterableChangeListener;
-import org.javakontor.sherlog.core.filter.LogEventFilter;
-import org.javakontor.sherlog.core.store.LogEventStore;
+import org.javakontor.sherlog.application.mvc.AbstractModel;
+import org.javakontor.sherlog.domain.filter.Filterable;
+import org.javakontor.sherlog.domain.filter.FilterableChangeListener;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.servicemanager.ServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
-import org.javakontor.sherlog.application.mvc.AbstractModel;
 
 /**
  * <p>

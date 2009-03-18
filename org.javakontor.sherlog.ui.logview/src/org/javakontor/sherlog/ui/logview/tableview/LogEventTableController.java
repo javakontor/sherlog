@@ -7,13 +7,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.ui.util.SherlogTable;
 import org.javakontor.sherlog.application.action.ActionSet;
 import org.javakontor.sherlog.application.menu.AbstractContextMenuListener;
 import org.javakontor.sherlog.application.menu.ContextMenu;
 import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.RequestHandler;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.ui.util.SherlogTable;
 
 public class LogEventTableController extends AbstractController<LogEventTableModel, LogEventTableView> {
 

@@ -9,11 +9,11 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
-import org.javakontor.sherlog.core.filter.LogEventFilter;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
-import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.ui.filter.FilterConfigurationEditor;
+import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 
 /**
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)

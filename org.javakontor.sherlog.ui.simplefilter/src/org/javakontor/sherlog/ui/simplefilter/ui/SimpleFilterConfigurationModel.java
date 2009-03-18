@@ -3,11 +3,11 @@ package org.javakontor.sherlog.ui.simplefilter.ui;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilter;
-import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilterMemento;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
+import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilter;
+import org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilterMemento;
 
 public class SimpleFilterConfigurationModel extends
     AbstractModel<SimpleFilterConfigurationModel, DefaultReasonForChange> {
@@ -101,7 +101,7 @@ public class SimpleFilterConfigurationModel extends
     private final List<String> _list;
 
     /**
-     *
+     * 
      */
     private static final long  serialVersionUID = 1L;
 

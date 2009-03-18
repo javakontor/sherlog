@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserController;
 import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.CloseDialogRequest;
 import org.javakontor.sherlog.application.request.RequestHandler;
+import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserController;
 
 public class LoadLogFileWizardController extends AbstractController<LoadLogFileWizardModel, LoadLogFileWizardView> {
 

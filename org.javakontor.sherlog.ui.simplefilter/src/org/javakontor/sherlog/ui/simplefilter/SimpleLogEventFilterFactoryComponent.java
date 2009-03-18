@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.ui.simplefilter;
 
-import org.javakontor.sherlog.core.filter.LogEventFilter;
-import org.javakontor.sherlog.core.filter.LogEventFilterFactory;
-import org.javakontor.sherlog.core.filter.LogEventFilterMemento;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.filter.LogEventFilterFactory;
+import org.javakontor.sherlog.domain.filter.LogEventFilterMemento;
 import org.javakontor.sherlog.util.Assert;
 
 public class SimpleLogEventFilterFactoryComponent implements LogEventFilterFactory {

@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.logview.decorator;
 
-import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.domain.LogEvent;
 
 /**
  * <p>

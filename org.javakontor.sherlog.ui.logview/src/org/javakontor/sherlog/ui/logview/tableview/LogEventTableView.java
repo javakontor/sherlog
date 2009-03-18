@@ -5,10 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumnModel;
 
-import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
-import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
+import org.javakontor.sherlog.util.Assert;
 
 public class LogEventTableView extends AbstractView<LogEventTableModel, LogEventTableModelReasonForChange> {
 

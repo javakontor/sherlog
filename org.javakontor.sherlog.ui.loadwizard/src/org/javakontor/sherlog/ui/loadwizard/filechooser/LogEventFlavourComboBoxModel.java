@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.loadwizard.filechooser;
 
 import javax.swing.DefaultComboBoxModel;
 
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
+import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 
 class LogEventFlavourComboBoxModel extends DefaultComboBoxModel {
 

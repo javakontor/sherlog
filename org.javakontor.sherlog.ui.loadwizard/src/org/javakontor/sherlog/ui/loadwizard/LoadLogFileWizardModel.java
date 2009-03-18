@@ -7,11 +7,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
-import org.javakontor.sherlog.core.impl.reader.BatchLogEventHandler;
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
-import org.javakontor.sherlog.core.reader.LogEventReader;
-import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
-import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.domain.impl.reader.BatchLogEventHandler;
+import org.javakontor.sherlog.domain.reader.LogEventFlavour;
+import org.javakontor.sherlog.domain.reader.LogEventReader;
+import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserModel;
 
 public class LoadLogFileWizardModel extends AbstractModel<LoadLogFileWizardModel, DefaultReasonForChange> {

@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.table.TableCellRenderer;
 
-import org.javakontor.sherlog.core.LogEvent;
+import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecoratorContext;
 import org.javakontor.sherlog.ui.util.SherlogTable;

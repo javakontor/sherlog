@@ -2,8 +2,8 @@ package org.javakontor.sherlog.ui.loadwizard;
 
 import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
-import org.javakontor.sherlog.core.reader.LogEventReaderFactory;
-import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
 
 public class LoadLogFileWizardContribution extends
     AbstractMvcViewContribution<LoadLogFileWizardModel, LoadLogFileWizardView, LoadLogFileWizardController> {

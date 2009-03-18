@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.LogLevel;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.LogLevel;
 import org.javakontor.sherlog.ui.logview.LogViewMessages;
 import org.javakontor.sherlog.util.Assert;
 
@@ -29,8 +29,9 @@ public class LogEventTableTableModel extends AbstractTableModel {
   public static final DateFormat DEFAULT_DATEFORMAT = new SimpleDateFormat(LogViewMessages.defaultDateFormat);
 
   /** The titles of the columns of the table */
-  public static final String[]   COLUMN_NAMES       = new String[] { LogViewMessages.timeColumnTitle, LogViewMessages.logLevelColumnTitle,
-      LogViewMessages.traceColumnTitle, LogViewMessages.categoryColumnTitle, LogViewMessages.messageColumnTitle };
+  public static final String[]   COLUMN_NAMES       = new String[] { LogViewMessages.timeColumnTitle,
+      LogViewMessages.logLevelColumnTitle, LogViewMessages.traceColumnTitle, LogViewMessages.categoryColumnTitle,
+      LogViewMessages.messageColumnTitle           };
 
   /** the list of all log events */
   private final List<LogEvent>   _logEvents;

@@ -8,9 +8,9 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
 import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.RequestHandler;
+import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 
 public class LogFileChooserController extends AbstractController<LogFileChooserModel, LogFileChooserView> {
 

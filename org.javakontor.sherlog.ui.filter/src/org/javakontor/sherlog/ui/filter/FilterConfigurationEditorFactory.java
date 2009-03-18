@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.filter;
 
-import org.javakontor.sherlog.core.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.filter.LogEventFilter;
 
 /**
  * <p>

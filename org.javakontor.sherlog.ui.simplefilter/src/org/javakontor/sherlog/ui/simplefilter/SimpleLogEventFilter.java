@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.ui.simplefilter;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.filter.LogEventFilterMemento;
-import org.javakontor.sherlog.core.impl.filter.AbstractLogEventFilter;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.filter.LogEventFilterMemento;
+import org.javakontor.sherlog.domain.impl.filter.AbstractLogEventFilter;
 
 public class SimpleLogEventFilter extends AbstractLogEventFilter {
 

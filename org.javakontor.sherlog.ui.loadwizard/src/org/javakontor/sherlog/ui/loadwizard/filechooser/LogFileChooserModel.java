@@ -4,12 +4,12 @@ import static java.lang.String.format;
 
 import java.io.File;
 
-import org.javakontor.sherlog.core.reader.LogEventFlavour;
-import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
-import org.javakontor.sherlog.ui.loadwizard.ValidationResult;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.domain.reader.LogEventFlavour;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
+import org.javakontor.sherlog.ui.loadwizard.ValidationResult;
 
 public class LogFileChooserModel extends AbstractModel<LogFileChooserModel, DefaultReasonForChange> {
 

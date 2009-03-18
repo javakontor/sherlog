@@ -3,7 +3,7 @@ package org.javakontor.sherlog.ui.logview;
 import org.javakontor.sherlog.application.action.ActionSetManager;
 import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
-import org.javakontor.sherlog.core.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;

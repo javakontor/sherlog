@@ -13,10 +13,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.MutableComboBoxModel;
 
-import org.javakontor.sherlog.ui.util.EditPopupMenu;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.ui.util.EditPopupMenu;
 
 public class SimpleFilterConfigurationView extends AbstractView<SimpleFilterConfigurationModel, DefaultReasonForChange> {
 

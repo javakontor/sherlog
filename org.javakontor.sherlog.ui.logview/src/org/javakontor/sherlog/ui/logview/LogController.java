@@ -1,12 +1,12 @@
 package org.javakontor.sherlog.ui.logview;
 
+import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.request.Request;
+import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailController;
 import org.javakontor.sherlog.ui.logview.filterview.LogEventFilterController;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableController;
 import org.javakontor.sherlog.ui.logview.tableview.SetSelectedLogEventsRequest;
-import org.javakontor.sherlog.application.mvc.AbstractController;
-import org.javakontor.sherlog.application.request.Request;
-import org.javakontor.sherlog.application.request.RequestHandler;
 
 /**
  * <p>
