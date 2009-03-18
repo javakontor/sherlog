@@ -22,5 +22,5 @@ Import-Package: org.javakontor.sherlog.application.request,
  org.jfree.data.xy;version="1.0.9",
  org.jfree.util;version="1.0.12",
  org.osgi.framework;version="1.3.0",
- org.osgi.util.tracker;version="1.4.2"
+ org.osgi.util.tracker;version="1.3.3"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
