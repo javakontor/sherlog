@@ -35,8 +35,8 @@ public class HistogramPanel extends JPanel {
    * @param logEvents
    */
   public void setLogEvents(List<LogEvent> logEvents) {
-    if (logEvents == null) {
-      _chartPanel.setChart(createChart(createDataset(new double[] { 0.0 })));
+    if (logEvents == null || logEvents.isEmpty()) {
+      _chartPanel.setChart(createChart(createDataset(new double[] { 0.0})));
     } else {
       double[] values = new double[logEvents.size()];
       for (int j = 0; j < values.length; j++) {
@@ -48,7 +48,7 @@ public class HistogramPanel extends JPanel {
 
   /**
    * Creates a sample {@link HistogramDataset}.
-   * 
+   *
    * @return the dataset.
    */
   private IntervalXYDataset createDataset(double[] values) {
@@ -59,10 +59,10 @@ public class HistogramPanel extends JPanel {
 
   /**
    * Creates a chart.
-   * 
+   *
    * @param dataset
    *          a dataset.
-   * 
+   *
    * @return The chart.
    */
   private JFreeChart createChart(IntervalXYDataset dataset) {
