@@ -1,10 +1,10 @@
-package org.javakontor.sherlog.core.impl.internal.store;
+package org.javakontor.sherlog.domain.impl.internal.store;
 
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.LogLevel;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.LogLevel;
 
 public class LogEventMock implements LogEvent {
 

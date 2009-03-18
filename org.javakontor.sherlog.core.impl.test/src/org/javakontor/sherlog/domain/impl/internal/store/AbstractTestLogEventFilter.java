@@ -1,7 +1,7 @@
-package org.javakontor.sherlog.core.impl.internal.store;
+package org.javakontor.sherlog.domain.impl.internal.store;
 
-import org.javakontor.sherlog.core.filter.LogEventFilterMemento;
-import org.javakontor.sherlog.core.impl.filter.AbstractLogEventFilter;
+import org.javakontor.sherlog.domain.filter.LogEventFilterMemento;
+import org.javakontor.sherlog.domain.impl.filter.AbstractLogEventFilter;
 
 abstract class AbstractTestLogEventFilter extends AbstractLogEventFilter {
 

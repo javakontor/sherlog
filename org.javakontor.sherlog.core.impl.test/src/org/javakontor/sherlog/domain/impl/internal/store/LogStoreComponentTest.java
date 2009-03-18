@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.core.impl.internal.store;
+package org.javakontor.sherlog.domain.impl.internal.store;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,63 +6,86 @@ import java.util.List;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.javakontor.sherlog.core.LogEvent;
-import org.javakontor.sherlog.core.LogLevel;
-import org.javakontor.sherlog.core.store.LogEventStoreChangeEvent;
-import org.javakontor.sherlog.core.store.LogEventStoreListener;
+import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.domain.impl.internal.store.LogStoreComponent;
+import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 
 public class LogStoreComponentTest extends TestCase {
+  LogStoreComponent _logStoreComponent;
+
+  public LogStoreComponentTest(String name) {
+    super(name);
+  }
+
+  @Override
+  protected void setUp() throws Exception {
+    _logStoreComponent = new LogStoreComponent();
+  }
 
   private static long _eventIdentifier = 1L;
 
-  public void test_Simple() {
-    LogStoreComponent logStoreComponent = new LogStoreComponent();
+  public void test_AddLogEvent() {
+    final LogEvent testEvent = generateLogEvent();
+    _logStoreComponent.addLogEvent(testEvent);
+    assertEquals(1, _logStoreComponent.getLogEventCount());
+    assertEquals(testEvent, _logStoreComponent.getLogEvents().get(0));
+    assertEquals(1, _logStoreComponent.getFilteredLogEventCount());
+  }
 
-    LogEvent testEvent = generateLogEvent();
-    logStoreComponent.addLogEvent(testEvent);
-    assertEquals(1, logStoreComponent.getLogEventCount());
-    assertEquals(testEvent, logStoreComponent.getLogEvents().get(0));
-    assertEquals(1, logStoreComponent.getFilteredLogEventCount());
+  public void test_Filter() {
+    final LogEvent testEvent = generateLogEvent();
+    _logStoreComponent.addLogEvent(testEvent);
+
+    // add a filter that doesn't match any log events
     SimpleTestLogEventFilter simpleTestLogEventFilter = new SimpleTestLogEventFilter();
-    logStoreComponent.addLogEventFilter(simpleTestLogEventFilter);
-
-    // test adding filter
-    assertEquals(1, logStoreComponent.getLogEventCount());
-    assertEquals(testEvent, logStoreComponent.getLogEvents().get(0));
-    assertEquals(0, logStoreComponent.getFilteredLogEventCount());
+    _logStoreComponent.addLogEventFilter(simpleTestLogEventFilter);
+    assertEquals(1, _logStoreComponent.getLogEventCount());
+    assertEquals(testEvent, _logStoreComponent.getLogEvents().get(0));
+    assertEquals(0, _logStoreComponent.getFilteredLogEventCount());
 
     // test modifying filter I
     simpleTestLogEventFilter.setShouldMatch(true);
-    assertEquals(1, logStoreComponent.getLogEventCount());
-    assertEquals(testEvent, logStoreComponent.getLogEvents().get(0));
-    assertEquals(1, logStoreComponent.getFilteredLogEventCount());
+    assertEquals(1, _logStoreComponent.getLogEventCount());
+    assertEquals(testEvent, _logStoreComponent.getLogEvents().get(0));
+    assertEquals(1, _logStoreComponent.getFilteredLogEventCount());
 
     // test modifying filter II (filter should *not* match anymore)
     simpleTestLogEventFilter.setShouldMatch(false);
-    assertEquals(1, logStoreComponent.getLogEventCount());
-    assertEquals(testEvent, logStoreComponent.getLogEvents().get(0));
-    assertEquals(0, logStoreComponent.getFilteredLogEventCount());
+    assertEquals(1, _logStoreComponent.getLogEventCount());
+    assertEquals(testEvent, _logStoreComponent.getLogEvents().get(0));
+    assertEquals(0, _logStoreComponent.getFilteredLogEventCount());
 
     // remove filter
-    logStoreComponent.removeLogEventFilter(simpleTestLogEventFilter);
-    assertEquals(1, logStoreComponent.getLogEventCount());
-    assertEquals(testEvent, logStoreComponent.getLogEvents().get(0));
-    assertEquals(1, logStoreComponent.getFilteredLogEventCount());
+    _logStoreComponent.removeLogEventFilter(simpleTestLogEventFilter);
+    assertEquals(1, _logStoreComponent.getLogEventCount());
+    assertEquals(testEvent, _logStoreComponent.getLogEvents().get(0));
+    assertEquals(1, _logStoreComponent.getFilteredLogEventCount());
+  }
 
+  public void test_Listener() {
+    _logStoreComponent.addLogEvent(generateLogEvent());
     // add a listener
     MyListener listener = new MyListener();
-    logStoreComponent.addLogStoreListener(listener);
+    _logStoreComponent.addLogStoreListener(listener);
 
-    // add some events without filter
     List<LogEvent> newEvents = new LinkedList<LogEvent>();
-    final LogEventMock newLogEvent = generateLogEvent();
-    newEvents.add(newLogEvent);
-    final LogEventMock logEventMock = generateLogEvent();
-    logEventMock.setCategory("new.category");
-    newEvents.add(logEventMock);
-    logStoreComponent.addLogEvents(newEvents);
+    final LogEventMock firstLogEvent = generateLogEvent();
+    newEvents.add(firstLogEvent);
+    final LogEventMock secondLogEvent = generateLogEvent();
+    secondLogEvent.setCategory("new.category");
+    newEvents.add(secondLogEvent);
+    _logStoreComponent.addLogEvents(newEvents);
+
+    // after adding the events, the listener should have been invoked
+    // exactly once: with the logEventStoreChanged method.
+    // the logEventStoreReset should not have been invoked.
     assertEquals(1, listener._addedInvocations);
     assertEquals(0, listener._storeResetInvocations);
+
+    // the logEventStoreChanged should have received a LogEventStoreChangeEvent that
+    // should contain the delta
     Assert.assertNotNull(listener._lastEvent);
     assertEquals(newEvents, listener._lastEvent.getLogEvents());
     assertEquals(newEvents, listener._lastEvent.getFilteredLogEvents());
@@ -71,8 +94,8 @@ public class LogStoreComponentTest extends TestCase {
 
     // add more events - with filter
     listener.reset();
-    logStoreComponent.addLogEventFilter(new CategoryLogEventFilter("org.javakontor.sherlog.test"));
-    logStoreComponent.addLogEvents(newEvents);
+    _logStoreComponent.addLogEventFilter(new CategoryLogEventFilter("org.javakontor.sherlog.test"));
+    _logStoreComponent.addLogEvents(newEvents);
 
     assertEquals(1, listener._addedInvocations);
     // adding a filter leads to a store reset
@@ -81,7 +104,7 @@ public class LogStoreComponentTest extends TestCase {
     assertEquals(newEvents, listener._lastEvent.getLogEvents());
     // only the 'org.javakontor.sherlog.test' log event should have been filtered
     assertEquals(1, listener._lastEvent.getFilteredLogEvents().size());
-    assertEquals(newLogEvent, listener._lastEvent.getFilteredLogEvents().get(0));
+    assertEquals(firstLogEvent, listener._lastEvent.getFilteredLogEvents().get(0));
 
     // no new categories should have been added
     assertEquals(0, listener._lastEvent.getCategories().size());
@@ -102,7 +125,7 @@ public class LogStoreComponentTest extends TestCase {
       _lastEvent = null;
     }
 
-    public void logEventsAdded(LogEventStoreChangeEvent event) {
+    public void logEventStoreChanged(LogEventStoreChangeEvent event) {
       _addedInvocations++;
       _lastEvent = event;
     }

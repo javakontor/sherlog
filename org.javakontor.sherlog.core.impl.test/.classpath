@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.core.impl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.test.libs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.domain"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.domain.impl"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
