@@ -7,5 +7,6 @@
 	<classpathentry exported="true" kind="lib" path="/target.platform/ebr/com.springsource.slf4j.log4j-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="/target.platform/test/ebr/com.springsource.junit-3.8.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/target.platform/test/jemmy/org.javakontor.org.netbeans.jemmy-0.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/mockito-all-1.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
