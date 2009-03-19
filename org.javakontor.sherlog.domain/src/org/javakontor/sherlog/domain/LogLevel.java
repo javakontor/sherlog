@@ -12,6 +12,9 @@ public enum LogLevel {
 
   /** the log level UNDEF */
   UNDEF,
+  
+  /** the log level TRACE */
+  TRACE,
 
   /** the log level DEBUG */
   DEBUG,

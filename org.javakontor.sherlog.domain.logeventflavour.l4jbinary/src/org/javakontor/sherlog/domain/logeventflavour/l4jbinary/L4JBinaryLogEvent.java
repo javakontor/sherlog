@@ -58,6 +58,10 @@ class L4JBinaryLogEvent extends AbstractLogEvent {
     if (this._loggingEvent.getLevel().equals(Level.DEBUG)) {
       return LogLevel.DEBUG;
     }
+    if (this._loggingEvent.getLevel().equals(Level.TRACE)) {
+      return LogLevel.TRACE;
+    }
+    
     return LogLevel.UNDEF;
   }
 
