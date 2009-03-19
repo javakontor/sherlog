@@ -29,7 +29,7 @@ public class LoadLogFileWizardGuiTest extends TestCase {
         _applicationWindowHandler.getApplicationFrameOperator());
 
     File binaryLogFile = new File(_guiTestContext.getWorkspaceLocation(),
-        "org.javakontor.sherlog.core.impl.test/logs/log_small.bin");
+        "org.javakontor.sherlog.domain.impl.test/logs/log_small.bin");
     assertTrue("The binary test-logfile '" + binaryLogFile.getAbsolutePath() + "' must be an existing file",
         binaryLogFile.isFile());
     String testLogFile = binaryLogFile.getAbsolutePath();
