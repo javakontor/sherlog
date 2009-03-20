@@ -12,7 +12,7 @@ public class AbstractViewHandler {
 
   private boolean _enableComponentTraceing;
 
-  AbstractViewHandler() {
+  protected AbstractViewHandler() {
     this._enableComponentTraceing = true;
   }
 

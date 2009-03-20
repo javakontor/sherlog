@@ -16,7 +16,7 @@ public class AbstractViewContributionHandler extends Assert {
 
   private boolean              _enableComponentTraceing;
 
-  AbstractViewContributionHandler(GuiTestContext guiTestContext) {
+  protected AbstractViewContributionHandler(GuiTestContext guiTestContext) {
     this._enableComponentTraceing = true;
     this._testSupport = new GuiTestSupport(guiTestContext);
   }
@@ -33,7 +33,7 @@ public class AbstractViewContributionHandler extends Assert {
     _enableComponentTraceing = enableComponentTraceing;
   }
 
-  ComponentChooser wrapTracingComponentChooser(ComponentChooser originalChooser) {
+  protected ComponentChooser wrapTracingComponentChooser(ComponentChooser originalChooser) {
     ComponentChooser chooser;
     if (isEnableComponentTraceing()) {
       chooser = new TracingComponentChooser(originalChooser);
@@ -43,7 +43,7 @@ public class AbstractViewContributionHandler extends Assert {
     return chooser;
   }
 
-  StringComparator wrapTracingStringComparator(StringComparator originalStringComparator) {
+  protected StringComparator wrapTracingStringComparator(StringComparator originalStringComparator) {
     StringComparator stringComparator;
     if (isEnableComponentTraceing()) {
       stringComparator = new TracingStringComparator(originalStringComparator);

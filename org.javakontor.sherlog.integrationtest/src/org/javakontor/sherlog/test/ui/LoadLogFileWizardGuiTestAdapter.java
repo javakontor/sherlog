@@ -12,7 +12,7 @@ public class LoadLogFileWizardGuiTestAdapter extends AbstractEclipseArtefactLoca
   public void test_A() throws Exception {
     LoadLogFileWizardGuiTest test = new LoadLogFileWizardGuiTest(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
-    test.test_A();
+    test.test_LoadLogFile();
   }
 
   public void test_BundleView() throws Exception {
@@ -54,7 +54,7 @@ public class LoadLogFileWizardGuiTestAdapter extends AbstractEclipseArtefactLoca
         "null,org.javakontor.sherlog.application,1.0.0", "null,org.javakontor.sherlog.application.mvc,1.0.0",
         "null,org.javakontor.com.jgoodies.forms,1.2.1", "null,org.javakontor.sherlog.ui.loadwizard,1.0.0",
         "null,org.javakontor.sherlog.ui.logview,1.0.0", "null,org.javakontor.sherlog.ui.filter,1.0.0",
-        "null,org.javakontor.sherlog.util.ui,1.0.0",
+        "null,org.javakontor.sherlog.util.ui,1.0.0", "null,org.lumberjack.ui.logview.colorfilter,1.0.0",
         "null,org.javakontor.sherlog.domain.logeventflavour.l4jbinary,1.0.0",
         "null,org.javakontor.sherlog.ui.managementagent,1.0.0", };
   }

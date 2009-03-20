@@ -1,5 +1,6 @@
-package org.javakontor.sherlog.test.ui.framework;
+package org.javakontor.sherlog.test.ui.handler;
 
+import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JMenuBarOperator;
 import org.netbeans.jemmy.operators.JMenuItemOperator;

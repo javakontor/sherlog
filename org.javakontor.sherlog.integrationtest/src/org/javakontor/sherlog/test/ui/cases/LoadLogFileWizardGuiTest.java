@@ -4,10 +4,12 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
-import org.javakontor.sherlog.test.ui.framework.ApplicationWindowHandler;
-import org.javakontor.sherlog.test.ui.framework.BundleListViewHandler;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
-import org.javakontor.sherlog.test.ui.framework.LoadLogFileWizardHandler;
+import org.javakontor.sherlog.test.ui.handler.ApplicationWindowHandler;
+import org.javakontor.sherlog.test.ui.handler.BundleListViewHandler;
+import org.javakontor.sherlog.test.ui.handler.LoadLogFileWizardHandler;
+import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
+import org.netbeans.jemmy.operators.JPopupMenuOperator;
 
 public class LoadLogFileWizardGuiTest extends TestCase {
 
@@ -21,7 +23,10 @@ public class LoadLogFileWizardGuiTest extends TestCase {
     _applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);
   }
 
-  public void test_A() throws Exception {
+  /**
+   * @throws Exception
+   */
+  public void test_LoadLogFile() throws Exception {
 
     _applicationWindowHandler.pushFileMenuItem("Load log file...", false);
 
@@ -39,6 +44,25 @@ public class LoadLogFileWizardGuiTest extends TestCase {
 
     loadLogFileWizardHandler.getOkButtonOperator().clickMouse();
     loadLogFileWizardHandler.assertClosed();
+
+    LogViewHandler logViewHandler = new LogViewHandler(_guiTestContext, _applicationWindowHandler
+        .getApplicationFrameOperator());
+
+    assertEquals(2, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
+        .getRowCount());
+    logViewHandler.getLogEventTableViewHandler().selectRow(0);
+    JPopupMenuOperator contextMenu = logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
+    contextMenu.pushMenu("Mark|Mark with red");
+    logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
+    contextMenu.pushMenu("Filter|Filter by red");
+    assertEquals(1, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
+        .getRowCount());
+    logViewHandler.getLogEventTableViewHandler().selectRow(0);
+    contextMenu = logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
+    contextMenu.pushMenu("Filter|Filter by red");
+    assertEquals(2, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
+        .getRowCount());
+
   }
 
   public void test_BundleView() throws Exception {

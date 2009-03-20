@@ -1,5 +1,7 @@
-package org.javakontor.sherlog.test.ui.framework;
+package org.javakontor.sherlog.test.ui.handler;
 
+import org.javakontor.sherlog.test.ui.framework.AbstractViewContributionHandler;
+import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.netbeans.jemmy.operators.AbstractButtonOperator;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;

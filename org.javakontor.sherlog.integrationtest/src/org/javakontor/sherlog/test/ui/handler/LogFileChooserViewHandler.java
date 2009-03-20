@@ -1,8 +1,10 @@
-package org.javakontor.sherlog.test.ui.framework;
+package org.javakontor.sherlog.test.ui.handler;
 
 import javax.swing.ComboBoxModel;
 
 import org.javakontor.sherlog.domain.reader.LogEventFlavour;
+import org.javakontor.sherlog.test.ui.framework.AbstractViewContributionHandler;
+import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JComboBoxOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
