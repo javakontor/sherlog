@@ -31,6 +31,9 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
    */
   public LogEventTableView(LogEventTableModel model) {
     super(model);
+
+    setName("LogEventTableView");
+
   }
 
   // private LogEventListCellRenderer _cellRenderer;
