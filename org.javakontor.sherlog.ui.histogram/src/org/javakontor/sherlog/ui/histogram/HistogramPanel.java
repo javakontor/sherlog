@@ -54,7 +54,7 @@ public class HistogramPanel extends JPanel {
    */
   public void setLogEvents(List<LogEvent> logEvents) {
 
-    System.err.println("setLogEvents(" + logEvents + ")");
+//    System.err.println("setLogEvents(" + logEvents + ")");
     if (logEvents == null) {
       logEvents = new LinkedList<LogEvent>();
     }
