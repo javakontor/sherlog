@@ -114,4 +114,13 @@ public class LogView extends AbstractView<LogModel, DefaultReasonForChange> {
     return this._logEventFilterView;
   }
 
+  /**
+   * Resets the horizontal Splitpane to it's preferred size.
+   * 
+   * @see JSplitPane#resetToPreferredSizes()
+   */
+  public void resetHorizontalSplitPane() {
+    _horizontalSplitPane.resetToPreferredSizes();
+  }
+
 }

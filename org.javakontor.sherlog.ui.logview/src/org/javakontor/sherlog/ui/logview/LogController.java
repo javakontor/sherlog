@@ -1,5 +1,11 @@
 package org.javakontor.sherlog.ui.logview;
 
+import java.awt.Container;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+
+import javax.swing.JSplitPane;
+
 import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.Request;
 import org.javakontor.sherlog.application.request.RequestHandler;
@@ -16,11 +22,11 @@ import org.javakontor.sherlog.ui.logview.tableview.SetSelectedLogEventsRequest;
  */
 public class LogController extends AbstractController<LogModel, LogView> {
 
-  private LogEventTableController  _logEventTableController;
+  private final LogEventTableController  _logEventTableController;
 
-  private LogEventDetailController _logEventDetailController;
+  private final LogEventDetailController _logEventDetailController;
 
-  private LogEventFilterController _logEventFilterController;
+  private final LogEventFilterController _logEventFilterController;
 
   /**
    * <p>
@@ -44,6 +50,11 @@ public class LogController extends AbstractController<LogModel, LogView> {
     // create the LogEventFilterController
     _logEventFilterController = new LogEventFilterController(model.getLogEventFilterModel(), view
         .getLogEventFilterView(), this);
+
+    // Add a Listener to the LogEventFilterView that allows us to reset the size of
+    // the horizontal splitpane to make sure, the splitpane is wide enough to
+    // show the new filter configuration panels
+    view.getLogEventFilterView().addContainerListener(new LogEventFilterContainerListener());
   }
 
   /**
@@ -81,5 +92,21 @@ public class LogController extends AbstractController<LogModel, LogView> {
 
   public LogEventFilterController getLogEventFilterController() {
     return _logEventFilterController;
+  }
+
+  /**
+   * A {@link ContainerListener} that resets the {@link LogView}'s horizontal {@link JSplitPane} to it's preferred size
+   * when a component has been added to the observed {@link Container}
+   * 
+   */
+  class LogEventFilterContainerListener implements ContainerListener {
+
+    public void componentAdded(ContainerEvent e) {
+      getView().resetHorizontalSplitPane();
+    }
+
+    public void componentRemoved(ContainerEvent e) {
+      // getView().resetHorizontalSplitPane();
+    }
   }
 }
