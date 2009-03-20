@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.domain.impl.internal.store;
 
 import static org.javakontor.sherlog.domain.DomainTestUtils.generateLogEvent;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -72,29 +73,33 @@ public class LogStoreComponentTest extends TestCase {
     RegisteredFilterChangeListener listener = mock(RegisteredFilterChangeListener.class);
     LogEventFilter logEventFilter = mock(LogEventFilter.class);
 
+    // add the listener
     _logStoreComponent.addRegisteredFilterChangeListener(listener);
+
+    // add a filter
     _logStoreComponent.addLogEventFilter(logEventFilter);
 
+    // adding a filter must lead to a 'filterAdded' invocation, 'filterRemoved' should not be called
     verify(listener).filterAdded(logEventFilter);
-    verify(listener, never()).filterRemoved(logEventFilter);
+    verify(listener, never()).filterRemoved(any(LogEventFilter.class));
 
+    // remove the filter. make sure we've got a 'filterRemoved', but not a 'filterAdded'
     _logStoreComponent.removeLogEventFilter(logEventFilter);
     verify(listener, times(1)).filterAdded(logEventFilter);
     verify(listener, times(1)).filterRemoved(logEventFilter);
   }
 
-  public void test_LogStoreListener() {
+  public void test_LogStoreListener_AddEvents() {
     _logStoreComponent.addLogEvent(generateLogEvent());
     // add a listener
     LogEventStoreListener listener = mock(LogEventStoreListener.class);
     _logStoreComponent.addLogStoreListener(listener);
 
+    // add some events; should lead to logEventStoreChange invocation
     List<LogEvent> newEvents = new LinkedList<LogEvent>();
-    final LogEventMock firstLogEvent = generateLogEvent();
-    newEvents.add(firstLogEvent);
-    final LogEventMock secondLogEvent = generateLogEvent();
-    secondLogEvent.setCategory("new.category");
-    newEvents.add(secondLogEvent);
+    newEvents.add(generateLogEvent());
+    newEvents.add(generateLogEvent());
+    ((LogEventMock) newEvents.get(1)).setCategory("new.category");
     _logStoreComponent.addLogEvents(newEvents);
 
     LogEventStoreEvent expectedEvent = new LogEventStoreEvent(_logStoreComponent);
@@ -102,13 +107,26 @@ public class LogStoreComponentTest extends TestCase {
     // after adding the events, the listener should have been invoked
     // exactly once: with the logEventStoreChanged method.
     verify(listener).logEventStoreChanged(expectedEvent);
+
+    // add one more event
+    _logStoreComponent.addLogEvent(generateLogEvent());
+    verify(listener, times(2)).logEventStoreChanged(expectedEvent);
+
+    // remove listener
+    _logStoreComponent.removeLogStoreListener(listener);
+    // add an event
+    _logStoreComponent.addLogEvent(generateLogEvent());
+    // listener should not be called again since it's de-registered
+    verify(listener, times(2)).logEventStoreChanged(expectedEvent);
+
   }
 
   public void test_LogStoreListener_AddFilter() {
-    // add a listener
-    LogEventStoreListener listener = mock(LogEventStoreListener.class);
+    // add an event to store
     _logStoreComponent.addLogEvent(generateLogEvent());
 
+    // add a listener
+    LogEventStoreListener listener = mock(LogEventStoreListener.class);
     _logStoreComponent.addLogStoreListener(listener);
 
     _logStoreComponent.addLogEventFilter(mock(LogEventFilter.class));
@@ -118,21 +136,17 @@ public class LogStoreComponentTest extends TestCase {
     verify(listener).logEventStoreChanged(expectedEvent);
   }
 
-  class SimpleTestLogEventFilter extends AbstractTestLogEventFilter {
-    private boolean _shouldMatch = false;
+  public void test_LogStoreListener_reset() {
+    // add a listener
+    LogEventStoreListener listener = mock(LogEventStoreListener.class);
+    _logStoreComponent.addLogStoreListener(listener);
 
-    public boolean matches(LogEvent event) {
-      return _shouldMatch;
-    }
+    // reset the store
+    _logStoreComponent.reset();
 
-    public boolean isShouldMatch() {
-      return _shouldMatch;
-    }
+    // reset should lead to an event
+    verify(listener).logEventStoreChanged(new LogEventStoreEvent(_logStoreComponent));
 
-    public void setShouldMatch(boolean shouldMatch) {
-      _shouldMatch = shouldMatch;
-      fireFilterChange();
-    }
   }
 
 }
