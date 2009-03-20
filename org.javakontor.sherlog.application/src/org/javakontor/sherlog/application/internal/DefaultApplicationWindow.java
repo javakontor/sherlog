@@ -190,7 +190,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     this._dialogMap = new HashMap<ViewContribution, Object>();
 
     this._desktopPane = new WallpaperDesktopPane();
-    this._desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+//    this._desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(this._desktopPane, BorderLayout.CENTER);
