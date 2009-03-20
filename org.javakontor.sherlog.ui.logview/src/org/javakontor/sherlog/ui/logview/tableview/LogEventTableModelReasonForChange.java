@@ -3,14 +3,9 @@ package org.javakontor.sherlog.ui.logview.tableview;
 public enum LogEventTableModelReasonForChange {
 
   /**
-   * some LogEvents have been added to the model. object is a Collection&lt;LogEvent&gt;
+   * some LogEvents have been added or removed from the model.
    */
-  logEventsAdded,
-
-  /**
-   * new log categories have been added. object contains the new categories as a Collection of Strings
-   */
-  categoriesAdded,
+  logEventsChanged,
 
   /**
    * the selection (in the table) has been changed. object contains an array of the currently selected LogEvents (an
@@ -22,8 +17,4 @@ public enum LogEventTableModelReasonForChange {
 
   decoratorRemoved,
 
-  /**
-   * The model (or parts of) has been reseted. The views be updated from scratch
-   */
-  reset
 }

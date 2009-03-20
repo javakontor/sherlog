@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import org.javakontor.sherlog.application.view.AbstractViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.javakontor.sherlog.domain.store.LogEventStore;
-import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 
 public class LoggraphViewContribution extends AbstractViewContribution {
@@ -16,14 +16,10 @@ public class LoggraphViewContribution extends AbstractViewContribution {
 
   private LogEventStoreListener _logEventStoreListener = new LogEventStoreListener() {
 
-                                                         public void logEventStoreChanged(LogEventStoreChangeEvent event) {
+                                                         public void logEventStoreChanged(LogEventStoreEvent event) {
                                                            if (_logEventStore != null) {
                                                              _panel.setLogEvents(_logEventStore.getFilteredLogEvents());
                                                            }
-                                                         }
-
-                                                         public void logEventStoreReset() {
-                                                           _panel.setLogEvents(null);
                                                          }
                                                        };
 

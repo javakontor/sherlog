@@ -10,7 +10,7 @@ import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.store.LogEventStore;
-import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 import org.javakontor.sherlog.ui.logview.LogViewMessages;
 import org.javakontor.sherlog.ui.logview.decorator.LogEventTableCellDecorator;
@@ -69,27 +69,15 @@ public class LogEventTableModel extends AbstractModel<LogEventTableModel, LogEve
     // add a log store listener
     this._logEventStore.addLogStoreListener(new LogEventStoreListener() {
 
-      public void logEventStoreChanged(LogEventStoreChangeEvent event) {
+      public void logEventStoreChanged(LogEventStoreEvent event) {
         // since we work directly on the log event list from the log event store,
         // there is no need to set the logEvents here...
 
         // fire model changed
-        fireModelChangedEvent(LogEventTableModelReasonForChange.logEventsAdded);
+        fireModelChangedEvent(LogEventTableModelReasonForChange.logEventsChanged);
 
         // set status messageColumnTitle request
         sendSetStatusMessageRequest();
-      }
-
-      public void logEventStoreReset() {
-        // since we work directly on the log event list from the log event store,
-        // there is no need to reset the logEvents here...
-
-        // fire model changed
-        fireModelChangedEvent(LogEventTableModelReasonForChange.reset);
-
-        // set status messageColumnTitle request
-        sendSetStatusMessageRequest();
-
       }
     });
 

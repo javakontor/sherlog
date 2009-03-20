@@ -18,18 +18,13 @@ public interface LogEventStoreListener extends EventListener {
 
   /**
    * <p>
-   * Invoked when new log events are added to the {@link LogEventStore}.
+   * Invoked when new the LogEventStore has changed.
    * </p>
    * 
-   * @param event
-   *          the event containing the added events and categories
-   */
-  public void logEventStoreChanged(LogEventStoreChangeEvent event);
-
-  /**
-   * <p>
-   * Invoked when the {@link LogEventStore} is reset.
+   * <p>Examples for a change are: a LogEvent has been added, the LogEventStore has been reset or (re-)filtered
    * </p>
+   * @param event
+   *          a LogEventStoreEvent   
    */
-  public void logEventStoreReset();
+  public void logEventStoreChanged(LogEventStoreEvent event);
 }

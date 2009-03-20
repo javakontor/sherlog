@@ -1,7 +1,10 @@
 package org.javakontor.sherlog.domain.impl.internal.store;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.javakontor.sherlog.domain.DomainTestUtils.generateLogEvent;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,16 +12,13 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.javakontor.sherlog.domain.LogEvent;
-import org.javakontor.sherlog.domain.LogLevel;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
-import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 
 public class LogStoreComponentTest extends TestCase {
   LogStoreComponent _logStoreComponent;
-
-  private long      _eventIdentifier = 1L;
 
   public LogStoreComponentTest(String name) {
     super(name);
@@ -97,91 +97,25 @@ public class LogStoreComponentTest extends TestCase {
     newEvents.add(secondLogEvent);
     _logStoreComponent.addLogEvents(newEvents);
 
+    LogEventStoreEvent expectedEvent = new LogEventStoreEvent(_logStoreComponent);
+
     // after adding the events, the listener should have been invoked
     // exactly once: with the logEventStoreChanged method.
-    // the logEventStoreReset should not have been invoked.
-    verify(listener, never()).logEventStoreReset();
-
-    // LogEventStoreChangeEvent event = new LogEventStoreChangeEvent(_logStoreComponent, );
-    //    
-    // LogEventStoreChangeEvent event = null;
-    //
-    // Answer<LogEventStoreChangeEvent> answer = new Answer<LogEventStoreChangeEvent>() {
-    //
-    // public LogEventStoreChangeEvent answer(InvocationOnMock invocation) throws Throwable {
-    // // return null;
-    // event = (LogEventStoreChangeEvent) invocation.getArguments()[0];
-    // return null;
-    // }
-    // };
-    // doAnswer(answer).when(listener).logEventStoreChanged(any(LogEventStoreChangeEvent.class));
-
-    verify(listener).logEventStoreChanged(any(LogEventStoreChangeEvent.class));
-    // assertEquals(1, listener._addedInvocations);
-    // assertEquals(0, listener._storeResetInvocations);
-
-    // the logEventStoreChanged should have received a LogEventStoreChangeEvent that
-    // should contain the delta
-    // Assert.assertNotNull(listener._lastEvent);
-    // assertEquals(newEvents, listener._lastEvent.getLogEvents());
-    // assertEquals(newEvents, listener._lastEvent.getFilteredLogEvents());
-    // assertEquals(1, listener._lastEvent.getCategories().size());
-    // assertEquals("new.category", listener._lastEvent.getCategories().get(0));
-    //
-    // // add more events - with filter
-    // listener.reset();
-    // _logStoreComponent.addLogEventFilter(new CategoryLogEventFilter("org.javakontor.sherlog.test"));
-    // _logStoreComponent.addLogEvents(newEvents);
-    //
-    // assertEquals(1, listener._addedInvocations);
-    // // adding a filter leads to a store reset
-    // assertEquals(1, listener._storeResetInvocations);
-    // Assert.assertNotNull(listener._lastEvent);
-    // assertEquals(newEvents, listener._lastEvent.getLogEvents());
-    // // only the 'org.javakontor.sherlog.test' log event should have been filtered
-    // assertEquals(1, listener._lastEvent.getFilteredLogEvents().size());
-    // assertEquals(firstLogEvent, listener._lastEvent.getFilteredLogEvents().get(0));
-    //
-    // // no new categories should have been added
-    // assertEquals(0, listener._lastEvent.getCategories().size());
+    verify(listener).logEventStoreChanged(expectedEvent);
   }
 
-  class MyListener implements LogEventStoreListener {
+  public void test_LogStoreListener_AddFilter() {
+    // add a listener
+    LogEventStoreListener listener = mock(LogEventStoreListener.class);
+    _logStoreComponent.addLogEvent(generateLogEvent());
 
-    int                      _addedInvocations      = 0;
+    _logStoreComponent.addLogStoreListener(listener);
 
-    int                      _storeResetInvocations = 0;
+    _logStoreComponent.addLogEventFilter(mock(LogEventFilter.class));
+    LogEventStoreEvent expectedEvent = new LogEventStoreEvent(_logStoreComponent);
 
-    LogEventStoreChangeEvent _lastEvent             = null;
-
-    void reset() {
-      _addedInvocations = 0;
-      _storeResetInvocations = 0;
-      _lastEvent = null;
-    }
-
-    public void logEventStoreChanged(LogEventStoreChangeEvent event) {
-      _addedInvocations++;
-      _lastEvent = event;
-    }
-
-    public void logEventStoreReset() {
-      _storeResetInvocations++;
-      _lastEvent = null;
-    }
-  }
-
-  class CategoryLogEventFilter extends AbstractTestLogEventFilter {
-    private final String _category;
-
-    private CategoryLogEventFilter(String category) {
-      super();
-      _category = category;
-    }
-
-    public boolean matches(LogEvent event) {
-      return _category.equals(event.getCategory());
-    }
+    // adding a filter should lead to an add-event
+    verify(listener).logEventStoreChanged(expectedEvent);
   }
 
   class SimpleTestLogEventFilter extends AbstractTestLogEventFilter {
@@ -201,18 +135,4 @@ public class LogStoreComponentTest extends TestCase {
     }
   }
 
-  private LogEventMock generateLogEvent() {
-
-    String category = "org.javakontor.sherlog.test"; // this.LOG_CATEGORIES[this.random.nextInt(this.LOG_CATEGORIES.length)];
-    LogLevel logLevel = LogLevel.INFO; // this.ALL_LEVEL[this.random.nextInt(this.ALL_LEVEL.length)];
-
-    Throwable throwable = null;
-    if ((logLevel == LogLevel.WARN) || (logLevel == LogLevel.ERROR) || (logLevel == LogLevel.FATAL)) {
-      throwable = new Throwable();
-    }
-
-    LogEventMock mock = new LogEventMock(category, ++_eventIdentifier, logLevel, "my source", "Message-"
-        + _eventIdentifier, "Thread-1", throwable);
-    return mock;
-  }
 }

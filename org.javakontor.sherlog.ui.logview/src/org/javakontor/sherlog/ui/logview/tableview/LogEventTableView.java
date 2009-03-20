@@ -81,10 +81,7 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
   public void onModelChanged(ModelChangedEvent<LogEventTableModel, LogEventTableModelReasonForChange> event) {
 
     switch (event.getReasonForChange()) {
-    case logEventsAdded:
-      this._logEventListTableModel.fireTableDataChanged();
-      break;
-    case reset:
+    case logEventsChanged:
       this._logEventListTableModel.fireTableDataChanged();
       break;
     case decoratorAdded:

@@ -14,7 +14,7 @@ import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.filter.LogEventFilterChangeEvent;
 import org.javakontor.sherlog.domain.filter.LogEventFilterFactory;
 import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
-import org.javakontor.sherlog.domain.store.LogEventStoreChangeEvent;
+import org.javakontor.sherlog.domain.store.LogEventStoreEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
 import org.javakontor.sherlog.util.Assert;
@@ -103,7 +103,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
       }
     }
 
-    fireLogEventStoreReset();
+    fireLogEventStoreChange();
 
   }
 
@@ -121,10 +121,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     if (events.isEmpty()) {
       return;
     }
-
-    final List<String> newCategories = new LinkedList<String>();
-    final List<LogEvent> newFilteredEvents = new LinkedList<LogEvent>();
-
+    
     for (LogEvent event : events) {
       // add to logEvents list
       _logEvents.add(event);
@@ -133,22 +130,18 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
       String category = event.getCategory();
       if (!_categories.contains(category)) {
         _categories.add(category);
-        newCategories.add(category);
       }
 
       // check if it's a filtered event
       if (isFiltered(event)) {
         _filteredLogEvents.add(event);
-        newFilteredEvents.add(event);
       }
     }
 
     Collections.sort(_logEvents);
-    if (!newFilteredEvents.isEmpty()) {
-      Collections.sort(_filteredLogEvents);
-    }
-
-    fireLogEventsAdded(events, newFilteredEvents, newCategories);
+    Collections.sort(_filteredLogEvents);
+    
+    fireLogEventStoreChange();
   }
 
   public void reset() {
@@ -156,7 +149,7 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     _filteredLogEvents.clear();
     _categories.clear();
 
-    fireLogEventStoreReset();
+    fireLogEventStoreChange();
   }
 
   /** Filterable */
@@ -180,20 +173,10 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     }
   }
 
-  protected void fireLogEventsAdded(final List<LogEvent> loggingEvents, final List<LogEvent> filteredLogEvents,
-      final List<String> categoriesAdded) {
-
-    LogEventStoreChangeEvent event = new LogEventStoreChangeEvent(this, Collections.unmodifiableList(loggingEvents),
-        Collections.unmodifiableList(filteredLogEvents), Collections.unmodifiableList(categoriesAdded));
-
+  protected void fireLogEventStoreChange() {
+    final LogEventStoreEvent event = new LogEventStoreEvent(this);
     for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
       logEventStoreListener.logEventStoreChanged(event);
-    }
-  }
-
-  protected void fireLogEventStoreReset() {
-    for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
-      logEventStoreListener.logEventStoreReset();
     }
   }
 }
