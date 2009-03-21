@@ -72,7 +72,7 @@ public class HistogramPanel extends JPanel {
 
   /**
    * Creates a sample {@link HistogramDataset}.
-   * 
+   *
    * @return the dataset.
    */
   private IntervalXYDataset createDataset(double[] values) {
@@ -85,10 +85,10 @@ public class HistogramPanel extends JPanel {
 
   /**
    * Creates a chart.
-   * 
+   *
    * @param dataset
    *          a dataset.
-   * 
+   *
    * @return The chart.
    */
   private JFreeChart createChart(IntervalXYDataset dataset) {
