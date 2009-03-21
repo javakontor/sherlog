@@ -9,7 +9,7 @@ import org.javakontor.sherlog.test.ui.handler.ApplicationWindowHandler;
 import org.javakontor.sherlog.test.ui.handler.BundleListViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LoadLogFileWizardHandler;
 import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
-import org.netbeans.jemmy.operators.JPopupMenuOperator;
+import org.netbeans.jemmy.operators.JMenuItemOperator;
 
 public class LoadLogFileWizardGuiTest extends TestCase {
 
@@ -50,16 +50,21 @@ public class LoadLogFileWizardGuiTest extends TestCase {
 
     assertEquals(2, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
         .getRowCount());
-    logViewHandler.getLogEventTableViewHandler().selectRow(0);
-    JPopupMenuOperator contextMenu = logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
-    contextMenu.pushMenu("Mark|Mark with red");
-    logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
-    contextMenu.pushMenu("Filter|Filter by red");
+    logViewHandler.getLogEventTableViewHandler().pushContextMenu(0, "Mark|Mark with red");
+    JMenuItemOperator filterByRedMenuItem = logViewHandler.getLogEventTableViewHandler().pushContextMenu(0,
+        "Filter|Filter by red");
+    assertTrue(filterByRedMenuItem.isSelected());
     assertEquals(1, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
         .getRowCount());
-    logViewHandler.getLogEventTableViewHandler().selectRow(0);
-    contextMenu = logViewHandler.getLogEventTableViewHandler().openContextMenu(0);
-    contextMenu.pushMenu("Filter|Filter by red");
+
+    // logViewHandler.getLogEventTableViewHandler().pushContextMenu(0, "Mark|Mark with red");
+    // assertEquals(0, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
+    // .getRowCount());
+
+    // logViewHandler.getLogEventTableViewHandler().selectRow(0);
+    filterByRedMenuItem = logViewHandler.getLogEventTableViewHandler().pushContextMenu(0, "Filter|Filter by red");
+    assertFalse(filterByRedMenuItem.isSelected());
+
     assertEquals(2, logViewHandler.getLogEventTableViewHandler().getLogEventTableTableOperator().getModel()
         .getRowCount());
 

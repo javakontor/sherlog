@@ -1,9 +1,11 @@
 package org.javakontor.sherlog.test.ui.handler;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.javakontor.sherlog.test.ui.framework.AbstractViewHandler;
 import org.netbeans.jemmy.operators.ContainerOperator;
+import org.netbeans.jemmy.operators.JMenuItemOperator;
 import org.netbeans.jemmy.operators.JPopupMenuOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
@@ -41,6 +43,14 @@ public class LogEventTableViewHandler extends AbstractViewHandler {
     // getLogEventTableTableOperator().clickForPopup();
     // JPopupMenuOperator popupMenuOperator = new JPopupMenuOperator(_logEventTableViewContainerOperator);
     // return popupMenuOperator;
+  }
+
+  public JMenuItemOperator pushContextMenu(int row, String path) {
+    selectRow(row);
+    JPopupMenu popupMenu = _logEventTableTableOperator.callPopupOnCell(row, 0);
+    JPopupMenuOperator contextMenuOperator = new JPopupMenuOperator(popupMenu);
+    JMenuItem menuItem = contextMenuOperator.pushMenu(path);
+    return new JMenuItemOperator(menuItem);
   }
 
 }
