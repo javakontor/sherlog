@@ -1,49 +1,24 @@
 package org.javakontor.sherlog.test.ui;
 
 import java.io.File;
-import java.util.jar.Manifest;
 
-import org.javakontor.sherlog.test.ui.cases.LoadLogFileWizardGuiTest;
+import org.javakontor.sherlog.test.ui.cases.GuiIntegrationTest;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.springframework.osgi.test.internal.AbstractEclipseArtefactLocatorTest;
 
-public class LoadLogFileWizardGuiTestAdapter extends AbstractEclipseArtefactLocatorTest {
+public class GuiIntegrationTestAdapter extends AbstractEclipseArtefactLocatorTest {
 
   public void test_LoadFilterResetLogFile() throws Exception {
-    LoadLogFileWizardGuiTest test = new LoadLogFileWizardGuiTest(new GuiTestContext(bundleContext,
+    GuiIntegrationTest test = new GuiIntegrationTest(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
     test.test_LoadFilterResetLogFile();
 
   }
 
   public void test_BundleView() throws Exception {
-    LoadLogFileWizardGuiTest test = new LoadLogFileWizardGuiTest(new GuiTestContext(bundleContext,
+    GuiIntegrationTest test = new GuiIntegrationTest(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
     test.test_BundleView();
-
-  }
-
-  //  
-  // protected Manifest getManifest() {
-  // // let the testing framework create/load the manifest
-  // Manifest mf = super.getManifest();
-  // // add Bundle-Classpath:
-  // mf.getMainAttributes().putValue(Constants.BUNDLE_CLASSPATH, ".,libs/jemmy.jar");
-  // return mf;
-  // }
-  //  
-  // protected boolean createManifestOnlyFromTestClass() {
-  // return false;
-  // }
-
-  @Override
-  protected Manifest getManifest() {
-
-    Manifest manifest = super.getManifest();
-
-    System.err.println(" * * *  MANIFEST: " + manifest.getMainAttributes().getValue("Import-Package"));
-
-    return manifest;
 
   }
 

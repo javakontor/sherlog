@@ -14,14 +14,14 @@ import org.javakontor.sherlog.test.ui.handler.LogEventTableViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
 import org.netbeans.jemmy.operators.JMenuItemOperator;
 
-public class LoadLogFileWizardGuiTest extends TestCase {
-  private final Log            _logger = LogFactory.getLog(LoadLogFileWizardGuiTest.class);
+public class GuiIntegrationTest extends TestCase {
+  private final Log            _logger = LogFactory.getLog(GuiIntegrationTest.class);
 
   private final GuiTestContext _guiTestContext;
 
   ApplicationWindowHandler     _applicationWindowHandler;
 
-  public LoadLogFileWizardGuiTest(GuiTestContext guiTestContext) {
+  public GuiIntegrationTest(GuiTestContext guiTestContext) {
     super();
     _guiTestContext = guiTestContext;
     _applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);
