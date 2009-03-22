@@ -33,6 +33,15 @@ public class LogEventTableViewHandler extends AbstractViewHandler {
     return _logEventTableTableOperator;
   }
 
+  /**
+   * Returns the number of LogEvents that are currently displayed in the LogEventTableTable
+   * 
+   * @return
+   */
+  public int getLogEventCount() {
+    return getLogEventTableTableOperator().getModel().getRowCount();
+  }
+
   public void selectRow(int row) {
     getLogEventTableTableOperator().selectCell(row, 0);
   }

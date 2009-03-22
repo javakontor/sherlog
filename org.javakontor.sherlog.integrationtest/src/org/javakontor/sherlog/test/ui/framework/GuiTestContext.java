@@ -15,8 +15,10 @@ public class GuiTestContext {
   public GuiTestContext(BundleContext bundleContext, File workspaceLocation) {
     Assert.assertNotNull(bundleContext);
     Assert.assertNotNull(workspaceLocation);
+    // Assert.assertNotNull(artifactLocator);
     _bundleContext = bundleContext;
     _workspaceLocation = workspaceLocation;
+    // this._artifactLocator = artifactLocator;
   }
 
   public BundleContext getBundleContext() {

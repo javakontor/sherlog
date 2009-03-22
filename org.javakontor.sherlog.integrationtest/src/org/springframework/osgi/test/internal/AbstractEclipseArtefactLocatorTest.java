@@ -7,15 +7,12 @@ import org.springframework.osgi.test.platform.OsgiPlatform;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
 
 public abstract class AbstractEclipseArtefactLocatorTest extends AbstractConfigurableBundleCreatorTests {
-  
+
   /** - */
   private EclipseArtifactLocator _eclipseArtifactLocator;
 
-  protected OsgiPlatform createPlatform() {
-
+  protected File[] getTargetPlatformLocations() {
     File root = new File(getWorkspaceLocation(), "target.platform");
-    
-
     File[] targetPlatformLocations = new File[8];
 
     targetPlatformLocations[0] = new File(root, "equinox-3.5/plugins");
@@ -27,21 +24,31 @@ public abstract class AbstractEclipseArtefactLocatorTest extends AbstractConfigu
     targetPlatformLocations[6] = new File(root, "test/spring-2.5.5");
     targetPlatformLocations[7] = new File(root, "test/spring-dm-1.1.3");
 
-    File workspaceLocation =getWorkspaceLocation();
+    return targetPlatformLocations;
+  }
 
-    this._eclipseArtifactLocator = new EclipseArtifactLocator(workspaceLocation, targetPlatformLocations);
+  protected EclipseArtifactLocator createArtifactLocator() {
+    File[] targetPlatformLocations = getTargetPlatformLocations();
+    File workspaceLocation = getWorkspaceLocation();
+    return new EclipseArtifactLocator(workspaceLocation, targetPlatformLocations);
+  }
+
+  @Override
+  protected OsgiPlatform createPlatform() {
+    this._eclipseArtifactLocator = createArtifactLocator();
 
     System.setProperty("osgi.dev", "bin");
 
     return super.createPlatform();
   }
-  
+
   protected File getWorkspaceLocation() {
     File userDir = new File(System.getProperty("user.dir"));
     File workspaceDir = userDir.getParentFile();
     return workspaceDir;
   }
 
+  @Override
   protected String getManifestLocation() {
     // TODO Auto-generated method stub
 
@@ -63,13 +70,14 @@ public abstract class AbstractEclipseArtefactLocatorTest extends AbstractConfigu
     return super.getManifestLocation();
   }
 
+  @Override
   protected ArtifactLocator getLocator() {
     return this._eclipseArtifactLocator;
   }
 
+  @Override
   protected String getRootPath() {
     return "file:bin/";
   }
 
-  
 }

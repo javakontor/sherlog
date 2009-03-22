@@ -9,16 +9,18 @@ import org.springframework.osgi.test.internal.AbstractEclipseArtefactLocatorTest
 
 public class LoadLogFileWizardGuiTestAdapter extends AbstractEclipseArtefactLocatorTest {
 
-  public void test_A() throws Exception {
+  public void test_LoadFilterResetLogFile() throws Exception {
     LoadLogFileWizardGuiTest test = new LoadLogFileWizardGuiTest(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
-    test.test_LoadLogFile();
+    test.test_LoadFilterResetLogFile();
+
   }
 
   public void test_BundleView() throws Exception {
     LoadLogFileWizardGuiTest test = new LoadLogFileWizardGuiTest(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
     test.test_BundleView();
+
   }
 
   //  
