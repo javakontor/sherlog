@@ -2,7 +2,7 @@ package org.javakontor.sherlog.test.ui.cases;
 
 import java.io.File;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,14 +14,14 @@ import org.javakontor.sherlog.test.ui.handler.LogEventTableViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
 import org.netbeans.jemmy.operators.JMenuItemOperator;
 
-public class GuiIntegrationTest extends TestCase {
-  private final Log            _logger = LogFactory.getLog(GuiIntegrationTest.class);
+public class GuiIntegrationTestCases extends Assert {
+  private final Log            _logger = LogFactory.getLog(GuiIntegrationTestCases.class);
 
   private final GuiTestContext _guiTestContext;
 
   ApplicationWindowHandler     _applicationWindowHandler;
 
-  public GuiIntegrationTest(GuiTestContext guiTestContext) {
+  public GuiIntegrationTestCases(GuiTestContext guiTestContext) {
     super();
     _guiTestContext = guiTestContext;
     _applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);

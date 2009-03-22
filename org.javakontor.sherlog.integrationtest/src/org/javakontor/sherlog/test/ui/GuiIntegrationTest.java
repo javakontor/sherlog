@@ -2,21 +2,21 @@ package org.javakontor.sherlog.test.ui;
 
 import java.io.File;
 
-import org.javakontor.sherlog.test.ui.cases.GuiIntegrationTest;
+import org.javakontor.sherlog.test.ui.cases.GuiIntegrationTestCases;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.springframework.osgi.test.internal.AbstractEclipseArtefactLocatorTest;
 
-public class GuiIntegrationTestAdapter extends AbstractEclipseArtefactLocatorTest {
+public class GuiIntegrationTest extends AbstractEclipseArtefactLocatorTest {
 
   public void test_LoadFilterResetLogFile() throws Exception {
-    GuiIntegrationTest test = new GuiIntegrationTest(new GuiTestContext(bundleContext,
+    GuiIntegrationTestCases test = new GuiIntegrationTestCases(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
     test.test_LoadFilterResetLogFile();
 
   }
 
   public void test_BundleView() throws Exception {
-    GuiIntegrationTest test = new GuiIntegrationTest(new GuiTestContext(bundleContext,
+    GuiIntegrationTestCases test = new GuiIntegrationTestCases(new GuiTestContext(bundleContext,
         getWorkspaceLocation()));
     test.test_BundleView();
 
