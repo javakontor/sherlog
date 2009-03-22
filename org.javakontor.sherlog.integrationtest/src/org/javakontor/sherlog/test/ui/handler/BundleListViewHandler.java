@@ -8,6 +8,8 @@ import org.netbeans.jemmy.operators.WindowOperator;
 
 public class BundleListViewHandler extends AbstractViewContributionHandler {
 
+  public static final String           BUNDLE_LIST_VIEWCONTRIBUTION_NAME = "Bundle list";
+
   private final JTableOperator         _bundleListTableOperator;
 
   private final JInternalFrameOperator _bundleListWindowOperator;
@@ -15,9 +17,9 @@ public class BundleListViewHandler extends AbstractViewContributionHandler {
   public BundleListViewHandler(GuiTestContext guiTestContext, WindowOperator parentOperator) throws Exception {
     super(guiTestContext);
 
-    _bundleListWindowOperator = new JInternalFrameOperator(parentOperator, "Bundle list");
+    _bundleListWindowOperator = new JInternalFrameOperator(parentOperator, BUNDLE_LIST_VIEWCONTRIBUTION_NAME);
     _bundleListTableOperator = new JTableOperator(_bundleListWindowOperator);
-    getGuiTestSupport().assertViewContributionRegistered("Bundle list");
+    getGuiTestSupport().assertViewContributionRegistered(BUNDLE_LIST_VIEWCONTRIBUTION_NAME);
 
   }
 

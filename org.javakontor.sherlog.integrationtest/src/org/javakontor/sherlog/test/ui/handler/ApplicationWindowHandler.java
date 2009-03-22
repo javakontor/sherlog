@@ -1,5 +1,7 @@
 package org.javakontor.sherlog.test.ui.handler;
 
+import static org.javakontor.sherlog.test.ui.framework.GuiTestSupport.*;
+
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JMenuBarOperator;
@@ -14,12 +16,6 @@ public class ApplicationWindowHandler {
 
   private final JMenuBarOperator _menuBarOperator;
 
-  private final JMenuOperator    _fileMenuOperator;
-
-  private final JMenuOperator    _windowMenuOperator;
-
-  private final JMenuOperator    _toolsMenuOperator;
-
   public ApplicationWindowHandler(GuiTestContext guiTestContext) {
     this._guiTestContext = guiTestContext;
     _applicationFrameOperator = new JFrameOperator("Sherlog Log Event Viewer");
@@ -28,11 +24,8 @@ public class ApplicationWindowHandler {
     // ~ File- and Window-menu are registered together with the ApplicationWindow,
     // they should always be available
 
-    _fileMenuOperator = new JMenuOperator(_menuBarOperator, "File");
-    _windowMenuOperator = new JMenuOperator(_menuBarOperator, "Window");
-    _toolsMenuOperator = null;
-    // _toolsMenuOperator = new JMenuOperator(_windowMenuOperator, "Tools");
-    // _toolsMenuOperator = new JMenuItemOperator(_windowMenuOperator, "Tools");
+    assertSubMenuAvailable(_menuBarOperator, "File");
+    assertSubMenuAvailable(_menuBarOperator, "Window");
   }
 
   public GuiTestContext getGuiTestContext() {
@@ -47,12 +40,25 @@ public class ApplicationWindowHandler {
     return _menuBarOperator;
   }
 
+  /**
+   * Returns the FileMenu. Fails if the menu is not available
+   * <p>
+   * Note! Since Menus can be (re-)registered at anytime you sould not re-use the returned JMenuOperator reference.
+   * Instead grap each time you need to access the MenuOperator a new reference by calling this method
+   * 
+   * @return the JMenuOperator for File-Menu. Never null
+   * 
+   */
   public JMenuOperator getFileMenuOperator() {
-    return _fileMenuOperator;
+    // since Menus can be (re-)registered anytime we always need to
+    // get a new reference
+    return new JMenuOperator(_menuBarOperator, "File");
   }
 
   public JMenuOperator getWindowMenuOperator() {
-    return _windowMenuOperator;
+    // since Menus can be (re-)registered anytime we always need to
+    // get a new reference
+    return new JMenuOperator(_menuBarOperator, "Window");
   }
 
   public void pushMenu(String path, boolean block) {
@@ -64,7 +70,9 @@ public class ApplicationWindowHandler {
   }
 
   public JMenuItemOperator getToolsMenuOperator() {
-    return _toolsMenuOperator;
+    return getSubMenuOperator(_menuBarOperator, "Window|Tools");
+    // return getSubMenuItemOperator(getFileMenuOperator(), null)
+    // getSubMenu(getFileMenuOperator(), null)
   }
 
   public void pushWindowMenuItem(String path, boolean block) {

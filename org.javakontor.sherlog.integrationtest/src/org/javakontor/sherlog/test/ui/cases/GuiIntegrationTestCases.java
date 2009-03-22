@@ -1,42 +1,17 @@
 package org.javakontor.sherlog.test.ui.cases;
 
-import java.io.File;
-
-import junit.framework.Assert;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
-import org.javakontor.sherlog.test.ui.handler.ApplicationWindowHandler;
+import org.javakontor.sherlog.test.ui.framework.GuiTestSupport;
 import org.javakontor.sherlog.test.ui.handler.BundleListViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LoadLogFileWizardHandler;
 import org.javakontor.sherlog.test.ui.handler.LogEventTableViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
 import org.netbeans.jemmy.operators.JMenuItemOperator;
 
-public class GuiIntegrationTestCases extends Assert {
-  private final Log            _logger = LogFactory.getLog(GuiIntegrationTestCases.class);
-
-  private final GuiTestContext _guiTestContext;
-
-  ApplicationWindowHandler     _applicationWindowHandler;
+public class GuiIntegrationTestCases extends AbstractGuiIntegrationTestCases {
 
   public GuiIntegrationTestCases(GuiTestContext guiTestContext) {
-    super();
-    _guiTestContext = guiTestContext;
-    _applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);
-  }
-
-  protected String getTestLogFile() {
-    File binaryLogFile = new File(_guiTestContext.getWorkspaceLocation(),
-        "org.javakontor.sherlog.domain.impl.test/logs/log_small.bin");
-    assertTrue("The binary test-logfile '" + binaryLogFile.getAbsolutePath() + "' must be an existing file",
-        binaryLogFile.isFile());
-    String testLogFile = binaryLogFile.getAbsolutePath();
-    if (_logger.isDebugEnabled()) {
-      _logger.debug(String.format("Using test log file '%s", testLogFile));
-    }
-    return testLogFile;
+    super(guiTestContext);
   }
 
   /**
@@ -57,10 +32,19 @@ public class GuiIntegrationTestCases extends Assert {
     loadLogFileWizardHandler.openLogFile(getTestLogFile(), "log4j");
 
     // ~ Get the handler for the LogEventTableView
-    LogEventTableViewHandler logEventTableViewHandler = logViewHandler.getLogEventTableViewHandler();
+    final LogEventTableViewHandler logEventTableViewHandler = logViewHandler.getLogEventTableViewHandler();
 
     // ~ make sure, the two LogEvents are displayed
-    assertEquals(2, logEventTableViewHandler.getLogEventCount());
+    GuiTestSupport.assertTrue(new GuiTestSupport.Condition() {
+
+      public boolean isTrue() throws Throwable {
+        return logEventTableViewHandler.getLogEventCount() == 2;
+      }
+
+      public String getFailMessage() {
+        return "LogEventTable should contain exactly two LogEvents";
+      }
+    });
 
     // ~ mark first LogEvent with 'red'
     logEventTableViewHandler.pushContextMenu(0, "Mark|Mark with red");
