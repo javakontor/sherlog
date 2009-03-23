@@ -1,5 +1,6 @@
 package org.javakontor.sherlog.test.ui;
 
+import org.javakontor.sherlog.application.action.ActionGroupElement;
 import org.javakontor.sherlog.test.ui.cases.DynamicIntegrationTestCases;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
 
@@ -11,7 +12,8 @@ public class DynamicIntegrationTest extends AbstractGuiBasedIntegrationTest {
 
   @Override
   protected String getImportPackages() {
-    return "org.javakontor.sherlog.application.view";
+    return "org.javakontor.sherlog.application.view," // view
+        + ActionGroupElement.class.getPackage().getName();
   }
 
   @Override
@@ -30,8 +32,15 @@ public class DynamicIntegrationTest extends AbstractGuiBasedIntegrationTest {
   public void test_dynamicLogView() throws Exception {
     final DynamicIntegrationTestCases dynamicIntegrationTestCases = new DynamicIntegrationTestCases(new GuiTestContext(
         this.bundleContext, getWorkspaceLocation()));
-    dynamicIntegrationTestCases.test_B();
+    dynamicIntegrationTestCases.test_dynamicLogView();
   }
+
+  public void test_restartDynamicServices() throws Exception {
+    final DynamicIntegrationTestCases dynamicIntegrationTestCases = new DynamicIntegrationTestCases(new GuiTestContext(
+        this.bundleContext, getWorkspaceLocation()));
+    dynamicIntegrationTestCases.test_restartDynamicServices();
+  }
+
   //      
   //      
   // "null,org.javakontor.sherlog.util,1.0.0", "null,org.javakontor.sherlog.domain,1.0.0",

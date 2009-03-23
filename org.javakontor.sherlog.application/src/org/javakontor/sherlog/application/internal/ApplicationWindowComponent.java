@@ -35,7 +35,11 @@ public class ApplicationWindowComponent {
 
   // private MenuActionTracker _menuActionTracker;
 
+  private FileMenu                     _fileMenu;
+
   private WindowMenu                   _windowMenu;
+
+  private LookAndFeelMenu              _lafMenu;
 
   private final Object                 _lock       = new Object();
 
@@ -116,11 +120,9 @@ public class ApplicationWindowComponent {
 
   protected void createDefaultMenus(final ComponentContext context) throws Exception {
 
-    new FileMenu(this, context.getBundleContext());
+    this._fileMenu = new FileMenu(this, context.getBundleContext());
     this._windowMenu = new WindowMenu(context.getBundleContext(), this._mainFrame);
-    // this._windowMenu = new WindowMenu();
-    // this._windowMenu.start(this._mainFrame, context.getBundleContext());
-    new LookAndFeelMenu(this._mainFrame, context.getBundleContext());
+    this._lafMenu = new LookAndFeelMenu(this._mainFrame, context.getBundleContext());
   }
 
   /**
@@ -181,22 +183,20 @@ public class ApplicationWindowComponent {
       this._applicationWindowMenuBar = null;
     }
 
+    if (this._fileMenu != null) {
+      this._fileMenu.dispose();
+      this._fileMenu = null;
+    }
+
     if (this._windowMenu != null) {
+      this._windowMenu.dispose();
       this._windowMenu = null;
     }
-    // if (this._windowMenu != null) {
-    // try {
-    // this._windowMenu.stop(context.getBundleContext());
-    // } catch (Exception ex) {
-    // this._logger.error("Exception while disposing WindowMenu: " + ex, ex);
-    // ex.printStackTrace();
-    // }
-    // this._windowMenu = null;
-    // }
 
-    // if (_actionGroupServiceTracker != null) {
-    // _actionGroupServiceTracker.close();
-    // }
+    if (this._lafMenu != null) {
+      this._lafMenu.dispose();
+      this._lafMenu = null;
+    }
   }
 
   protected void setViewContribution(final ServiceReference dialogReference) {

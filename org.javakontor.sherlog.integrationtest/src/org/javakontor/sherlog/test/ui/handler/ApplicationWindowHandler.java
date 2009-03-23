@@ -16,28 +16,32 @@ public class ApplicationWindowHandler {
 
   private final JMenuBarOperator _menuBarOperator;
 
-  public ApplicationWindowHandler(GuiTestContext guiTestContext) {
+  public ApplicationWindowHandler(final GuiTestContext guiTestContext) {
     this._guiTestContext = guiTestContext;
-    _applicationFrameOperator = new JFrameOperator("Sherlog Log Event Viewer");
-    _menuBarOperator = new JMenuBarOperator(_applicationFrameOperator);
+    this._applicationFrameOperator = new JFrameOperator("Sherlog Log Event Viewer");
+    this._menuBarOperator = new JMenuBarOperator(this._applicationFrameOperator);
 
     // ~ File- and Window-menu are registered together with the ApplicationWindow,
     // they should always be available
 
-    assertSubMenuAvailable(_menuBarOperator, "File");
-    assertSubMenuAvailable(_menuBarOperator, "Window");
+    assertSubMenuAvailable(this._menuBarOperator, "File");
+    assertSubMenuAvailable(this._menuBarOperator, "Window");
+  }
+
+  public static boolean hasApplicationWindow() {
+    return (JFrameOperator.findJFrame("Sherlog Log Event Viewer", false, false) != null);
   }
 
   public GuiTestContext getGuiTestContext() {
-    return _guiTestContext;
+    return this._guiTestContext;
   }
 
   public JFrameOperator getApplicationFrameOperator() {
-    return _applicationFrameOperator;
+    return this._applicationFrameOperator;
   }
 
   public JMenuBarOperator getMenuBarOperator() {
-    return _menuBarOperator;
+    return this._menuBarOperator;
   }
 
   /**
@@ -52,34 +56,34 @@ public class ApplicationWindowHandler {
   public JMenuOperator getFileMenuOperator() {
     // since Menus can be (re-)registered anytime we always need to
     // get a new reference
-    return new JMenuOperator(_menuBarOperator, "File");
+    return new JMenuOperator(this._menuBarOperator, "File");
   }
 
   public JMenuOperator getWindowMenuOperator() {
     // since Menus can be (re-)registered anytime we always need to
     // get a new reference
-    return new JMenuOperator(_menuBarOperator, "Window");
+    return new JMenuOperator(this._menuBarOperator, "Window");
   }
 
-  public void pushMenu(String path, boolean block) {
+  public void pushMenu(final String path, final boolean block) {
     if (block) {
-      _menuBarOperator.pushMenu(path);
+      this._menuBarOperator.pushMenu(path);
     } else {
-      _menuBarOperator.pushMenuNoBlock(path);
+      this._menuBarOperator.pushMenuNoBlock(path);
     }
   }
 
   public JMenuItemOperator getToolsMenuOperator() {
-    return getSubMenuOperator(_menuBarOperator, "Window|Tools");
+    return getSubMenuOperator(this._menuBarOperator, "Window|Tools");
     // return getSubMenuItemOperator(getFileMenuOperator(), null)
     // getSubMenu(getFileMenuOperator(), null)
   }
 
-  public void pushWindowMenuItem(String path, boolean block) {
+  public void pushWindowMenuItem(final String path, final boolean block) {
     pushMenu("Window|" + path, block);
   }
 
-  public void pushFileMenuItem(String path, boolean block) {
+  public void pushFileMenuItem(final String path, final boolean block) {
     pushMenu("File|" + path, block);
   }
 

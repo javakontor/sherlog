@@ -11,29 +11,54 @@ import org.javakontor.sherlog.test.ui.framework.GuiTestSupport;
 import org.javakontor.sherlog.test.ui.handler.ApplicationWindowHandler;
 
 public class AbstractGuiIntegrationTestCases extends Assert {
-  protected final Log            _logger = LogFactory.getLog(getClass());
+  protected final Log              _logger = LogFactory.getLog(getClass());
 
-  protected final GuiTestContext _guiTestContext;
+  protected final GuiTestContext   _guiTestContext;
 
-  protected final GuiTestSupport _guiTestSupport;
+  protected final GuiTestSupport   _guiTestSupport;
 
-  ApplicationWindowHandler       _applicationWindowHandler;
+  private ApplicationWindowHandler _applicationWindowHandler;
 
-  public AbstractGuiIntegrationTestCases(GuiTestContext guiTestContext) {
+  public AbstractGuiIntegrationTestCases(final GuiTestContext guiTestContext) {
     super();
-    _guiTestContext = guiTestContext;
-    _applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);
-    _guiTestSupport = new GuiTestSupport(guiTestContext);
+    this._guiTestContext = guiTestContext;
+    this._applicationWindowHandler = new ApplicationWindowHandler(guiTestContext);
+    this._guiTestSupport = new GuiTestSupport(guiTestContext);
+  }
+
+  /**
+   * returns the applicationWindowHandler.
+   * 
+   * <p>
+   * Note: to gain performance, this method returns a cached reference to the application window handler. If for some
+   * reasons the application window had been closed an reopened, you'll need to refresh this reference by calling
+   * {@link #findApplicationWindow()}
+   * 
+   * @return the (cached) handler for the application window - never null
+   */
+  public ApplicationWindowHandler getApplicationWindowHandler() {
+    return this._applicationWindowHandler;
+  }
+
+  /**
+   * Searchs for the ApplicationWindow and (re-)sets applicationWindowHandler
+   * 
+   * <p>
+   * This method can be used to reset the applicationWindowHandler reference that is returned by
+   * {@link #getApplicationWindowHandler()} after the application-bundle or it's services have been restarted
+   */
+  public void findApplicationWindow() {
+    this._applicationWindowHandler = new ApplicationWindowHandler(this._guiTestContext);
   }
 
   protected String getTestLogFile() {
-    File binaryLogFile = new File(_guiTestContext.getWorkspaceLocation(),
+    final File binaryLogFile = new File(this._guiTestContext.getWorkspaceLocation(),
         "org.javakontor.sherlog.domain.impl.test/logs/log_small.bin");
     assertTrue("The binary test-logfile '" + binaryLogFile.getAbsolutePath() + "' must be an existing file",
         binaryLogFile.isFile());
-    String testLogFile = binaryLogFile.getAbsolutePath();
-    if (_logger.isDebugEnabled()) {
-      _logger.debug(String.format("Using test log file '%s", testLogFile));
+    final String testLogFile = binaryLogFile.getAbsolutePath();
+    if (this._logger.isDebugEnabled()) {
+      this._logger.debug(String.format("Using test log file '%s", testLogFile));
     }
     return testLogFile;
   }

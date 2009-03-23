@@ -1,12 +1,15 @@
 package org.javakontor.sherlog.application.internal;
 
+import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+
 import org.javakontor.sherlog.application.action.Action;
 import org.javakontor.sherlog.application.action.StaticActionProvider;
 import org.javakontor.sherlog.application.action.impl.AbstractAction;
 import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
 import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
 import org.osgi.framework.BundleContext;
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import org.osgi.framework.ServiceRegistration;
+
 /**
  * Represents the initial File menu.
  * 
@@ -17,17 +20,19 @@ import static org.javakontor.sherlog.application.menu.MenuConstants.*;
  */
 public class FileMenu {
 
-  public FileMenu(ApplicationWindowComponent applicationWindowComponent, BundleContext bundleContext) {
-    QuitAction quitAction = new QuitAction(applicationWindowComponent);
-    FileMenuActionGroup fileActionGroup = new FileMenuActionGroup(quitAction);
-    ActionGroupElementServiceHelper.registerActionGroup(bundleContext, fileActionGroup);
+  private final ServiceRegistration _registration;
+
+  public FileMenu(final ApplicationWindowComponent applicationWindowComponent, final BundleContext bundleContext) {
+    final QuitAction quitAction = new QuitAction(applicationWindowComponent);
+    final FileMenuActionGroup fileActionGroup = new FileMenuActionGroup(quitAction);
+    this._registration = ActionGroupElementServiceHelper.registerActionGroup(bundleContext, fileActionGroup);
   }
 
   class FileMenuActionGroup extends DefaultActionGroup implements StaticActionProvider {
 
     private final Action[] _defaultActions;
 
-    public FileMenuActionGroup(Action... defaultActions) {
+    public FileMenuActionGroup(final Action... defaultActions) {
       super(FILE_MENU_ID, MENUBAR_ID + "(first)", ApplicationMessages.fileMenuTitle);
       this._defaultActions = defaultActions;
 
@@ -47,7 +52,7 @@ public class FileMenu {
 
     private final ApplicationWindowComponent _applicationWindowComponent;
 
-    public QuitAction(ApplicationWindowComponent applicationWindowComponent) {
+    public QuitAction(final ApplicationWindowComponent applicationWindowComponent) {
       super(FILE_MENU_ID + ".quit", FILE_MENU_TARGET_ID + "(last)", ApplicationMessages.quitMenuTitle);
       this._applicationWindowComponent = applicationWindowComponent;
     }
@@ -66,5 +71,9 @@ public class FileMenu {
       return ApplicationMessages.quitMenuDefaultShortcut;
     }
 
+  }
+
+  public void dispose() {
+    this._registration.unregister();
   }
 }

@@ -1,5 +1,7 @@
 package org.javakontor.sherlog.application.internal;
 
+import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
@@ -14,20 +16,23 @@ import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
 import org.javakontor.sherlog.application.internal.util.Arranger;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.BundleContext;
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import org.osgi.framework.ServiceRegistration;
+
 public class WindowMenu {
-  public static final String WINDOW_ARRANGE_MENU_ID        = WINDOW_MENU_ID + ".arrange";
+  public static final String        WINDOW_ARRANGE_MENU_ID        = WINDOW_MENU_ID + ".arrange";
 
-  public static final String WINDOW_ARRANGE_MENU_TARGET_ID = MENUBAR_ID + "/" + WINDOW_ARRANGE_MENU_ID;
+  public static final String        WINDOW_ARRANGE_MENU_TARGET_ID = MENUBAR_ID + "/" + WINDOW_ARRANGE_MENU_ID;
 
-  ApplicationWindow          _applicationWindow;
+  private final ServiceRegistration _registration;
 
-  public WindowMenu(BundleContext context, ApplicationWindow applicationWindow) {
+  ApplicationWindow                 _applicationWindow;
+
+  public WindowMenu(final BundleContext context, final ApplicationWindow applicationWindow) {
     this._applicationWindow = applicationWindow;
 
     // Create 'Window' menu in menubar
-    WindowMenuActionGroup windowMenuActionGroup = new WindowMenuActionGroup();
-    ActionGroupElementServiceHelper.registerActionGroup(context, windowMenuActionGroup);
+    final WindowMenuActionGroup windowMenuActionGroup = new WindowMenuActionGroup();
+    this._registration = ActionGroupElementServiceHelper.registerActionGroup(context, windowMenuActionGroup);
   }
 
   /**
@@ -88,7 +93,7 @@ public class WindowMenu {
 
     private final int _arrangeMode;
 
-    public ArrangeAction(String label, int arrangeMode) {
+    public ArrangeAction(final String label, final int arrangeMode) {
       super(WINDOW_ARRANGE_MENU_ID + "." + arrangeMode, WINDOW_ARRANGE_MENU_TARGET_ID, label);
 
       this._arrangeMode = arrangeMode;
@@ -107,14 +112,15 @@ public class WindowMenu {
 
     private final ViewContribution _viewContribution;
 
-    public OpenWindowAction(String actionId, String targetActionGroupId, String label, ViewContribution viewContribution) {
+    public OpenWindowAction(final String actionId, final String targetActionGroupId, final String label,
+        final ViewContribution viewContribution) {
       super(actionId, targetActionGroupId, label);
       this._viewContribution = viewContribution;
     }
 
     public void execute() {
       // Find the JInternalFrame that holds the ViewContribution
-      JInternalFrame window = (JInternalFrame) SwingUtilities.getAncestorOfClass(JInternalFrame.class,
+      final JInternalFrame window = (JInternalFrame) SwingUtilities.getAncestorOfClass(JInternalFrame.class,
           this._viewContribution.getPanel());
 
       // bring it to front
@@ -123,6 +129,10 @@ public class WindowMenu {
         window.requestFocusInWindow();
       }
     }
+  }
+
+  public void dispose() {
+    this._registration.unregister();
   }
 
 }

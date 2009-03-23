@@ -13,6 +13,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.action.ActionGroupElement;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.netbeans.jemmy.operators.JMenuBarOperator;
 import org.netbeans.jemmy.operators.JMenuItemOperator;
@@ -135,6 +136,29 @@ public class GuiTestSupport extends Assert {
     assertTrue("Bundle " + info + " should be RESOLVED", bundle.getState() == Bundle.RESOLVED);
   }
 
+  /**
+   * Stops the bundle with the given symbolicName.
+   * 
+   * <p>
+   * If there is no such bundle installed, the method fails.
+   * 
+   * @param bundleSymbolicName
+   * @return the bundle has been stopped
+   * @throws Exception
+   */
+  public Bundle stopBundle(final String bundleSymbolicName) throws Exception {
+    final Bundle[] allBundles = this._testContext.getBundleContext().getBundles();
+
+    for (final Bundle bundle : allBundles) {
+      if (bundleSymbolicName.equals(bundle.getSymbolicName())) {
+        stopBundle(bundle);
+        return bundle;
+      }
+    }
+    fail("No bundle with symbolic-name '" + bundleSymbolicName + "' installed");
+    return null; // never reached
+  }
+
   public void uninstallBundle(final Bundle bundle) throws BundleException {
     assertNotNull(bundle);
     final boolean debug = this._logger.isDebugEnabled();
@@ -189,6 +213,26 @@ public class GuiTestSupport extends Assert {
   public void assertNoViewContributionRegistered(final String dialogName) throws Exception {
     assertFalse("There should be no ViewContribution with name '" + dialogName + "' registered",
         isViewContributionRegistered(dialogName));
+  }
+
+  public int getRegisteredActionGroupElementCount(final Class<? extends ActionGroupElement> type, final String actionId)
+      throws InvalidSyntaxException {
+    final ServiceReference[] serviceReferences = getBundleContext().getServiceReferences(type.getName(), null);
+
+    int count = 0;
+
+    if (serviceReferences != null) {
+
+      for (final ServiceReference serviceReference : serviceReferences) {
+        final ActionGroupElement actionGroupElement = (ActionGroupElement) getBundleContext().getService(
+            serviceReference);
+        if ((actionGroupElement != null) && actionId.equals(actionGroupElement.getId())) {
+          count++;
+        }
+      }
+    }
+    return count;
+
   }
 
   /**
@@ -256,9 +300,11 @@ public class GuiTestSupport extends Assert {
   public static boolean hasSubMenu(final JMenuOperator menuOperator, final String title) {
     assertNotNull(menuOperator);
     assertNotNull(title);
-    final Component[] menuComponents = menuOperator.getMenuComponents();
 
-    return containsSubMenuItem(menuComponents, title, true);
+    return (getSubMenuItem(menuOperator.getSource(), title) instanceof JMenu);
+    // final Component[] menuComponents = menuOperator.getMenuComponents();
+
+    // return containsSubMenuItem(menuComponents, title, true);
   }
 
   public static boolean hasSubMenuItem(final JMenuOperator menuOperator, final String title) {
@@ -272,9 +318,9 @@ public class GuiTestSupport extends Assert {
   public static boolean hasSubMenu(final JMenuBarOperator menuBarOperator, final String title) {
     assertNotNull(menuBarOperator);
     assertNotNull(title);
-    final Component[] menuComponents = menuBarOperator.getComponents();
 
-    return containsSubMenuItem(menuComponents, title, true);
+    return (getSubMenuItem(menuBarOperator.getSource(), title) instanceof JMenu);
+
   }
 
   public static JMenuOperator getSubMenuOperator(final JMenuBarOperator menuBarOperator, final String path) {

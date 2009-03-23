@@ -10,7 +10,7 @@ import org.netbeans.jemmy.operators.JMenuItemOperator;
 
 public class GuiIntegrationTestCases extends AbstractGuiIntegrationTestCases {
 
-  public GuiIntegrationTestCases(GuiTestContext guiTestContext) {
+  public GuiIntegrationTestCases(final GuiTestContext guiTestContext) {
     super(guiTestContext);
   }
 
@@ -21,12 +21,12 @@ public class GuiIntegrationTestCases extends AbstractGuiIntegrationTestCases {
 
     // ~ get handler to the Log View
     // (the Log View should always be open, even if we have no Log File loaded yet)
-    LogViewHandler logViewHandler = new LogViewHandler(_guiTestContext, _applicationWindowHandler
+    final LogViewHandler logViewHandler = new LogViewHandler(this._guiTestContext, getApplicationWindowHandler()
         .getApplicationFrameOperator());
 
     // Open LoadLogFile-Wizard
-    LoadLogFileWizardHandler loadLogFileWizardHandler = LoadLogFileWizardHandler
-        .openFromMenu(_applicationWindowHandler);
+    final LoadLogFileWizardHandler loadLogFileWizardHandler = LoadLogFileWizardHandler
+        .openFromMenu(getApplicationWindowHandler());
 
     // ~ open a Binary Log file with two LogEvents
     loadLogFileWizardHandler.openLogFile(getTestLogFile(), "log4j");
@@ -60,7 +60,7 @@ public class GuiIntegrationTestCases extends AbstractGuiIntegrationTestCases {
     assertEquals(2, logEventTableViewHandler.getLogEventCount());
 
     // ~ reset the log event store
-    _applicationWindowHandler.pushFileMenuItem("Reset logstore", true);
+    getApplicationWindowHandler().pushFileMenuItem("Reset logstore", true);
     assertEquals(0, logEventTableViewHandler.getLogEventCount());
 
   }
@@ -68,12 +68,13 @@ public class GuiIntegrationTestCases extends AbstractGuiIntegrationTestCases {
   public void test_BundleView() throws Exception {
 
     // open Bundle-List via menu
-    BundleListViewHandler bundleListViewHandler = BundleListViewHandler.openFromMenu(_applicationWindowHandler);
+    final BundleListViewHandler bundleListViewHandler = BundleListViewHandler
+        .openFromMenu(getApplicationWindowHandler());
     assertNotNull(bundleListViewHandler);
 
     // make sure, rows displayed in the table are equal to the number of installed bundles
-    int rows = bundleListViewHandler.getBundleListTableOperator().getModel().getRowCount();
-    assertEquals(_guiTestContext.getBundleContext().getBundles().length, rows);
+    final int rows = bundleListViewHandler.getBundleListTableOperator().getModel().getRowCount();
+    assertEquals(this._guiTestContext.getBundleContext().getBundles().length, rows);
   }
 
 }

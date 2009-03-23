@@ -1,5 +1,7 @@
 package org.javakontor.sherlog.application.internal;
 
+import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +19,7 @@ import org.javakontor.sherlog.application.action.impl.AbstractToggleAction;
 import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
 import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
 import org.osgi.framework.BundleContext;
-
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import org.osgi.framework.ServiceRegistration;
 
 public class LookAndFeelMenu {
 
@@ -34,15 +35,17 @@ public class LookAndFeelMenu {
    */
   public final static String             LAF_MENU_TARGET_ID = MENUBAR_ID + "/" + LAF_MENU_ID;
 
+  private final ServiceRegistration      _serviceRegistration;
+
   private final DefaultApplicationWindow _mainFrame;
 
-  public LookAndFeelMenu(DefaultApplicationWindow mainFrame, BundleContext bundleContext) {
+  public LookAndFeelMenu(final DefaultApplicationWindow mainFrame, final BundleContext bundleContext) {
     super();
     this._mainFrame = mainFrame;
 
-    LookAndFeelActionGroup lookAndFeelActionGroup = new LookAndFeelActionGroup();
-    ActionGroupElementServiceHelper.registerActionGroup(bundleContext, lookAndFeelActionGroup);
-
+    final LookAndFeelActionGroup lookAndFeelActionGroup = new LookAndFeelActionGroup();
+    this._serviceRegistration = ActionGroupElementServiceHelper.registerActionGroup(bundleContext,
+        lookAndFeelActionGroup);
   }
 
   /**
@@ -62,11 +65,11 @@ public class LookAndFeelMenu {
       super(ActionGroupType.radiogroup, LAF_MENU_ID, WINDOW_MENU_TARGET_ID, "&Look and feel");
 
       // determine available LaFs
-      LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
+      final LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
 
       // create an Action for each LAF
       final List<LookAndFeelAction> actions = new LinkedList<LookAndFeelAction>();
-      for (LookAndFeelInfo info : installedLookAndFeels) {
+      for (final LookAndFeelInfo info : installedLookAndFeels) {
         actions.add(new LookAndFeelAction(info));
       }
       this._initialActions = actions.toArray(new Action[0]);
@@ -85,14 +88,14 @@ public class LookAndFeelMenu {
 
     private final LookAndFeelInfo _lookAndFeelInfo;
 
-    public LookAndFeelAction(LookAndFeelInfo lookAndFeelInfo) {
+    public LookAndFeelAction(final LookAndFeelInfo lookAndFeelInfo) {
       super(LAF_MENU_ID + "." + lookAndFeelInfo.getName(), LAF_MENU_TARGET_ID, lookAndFeelInfo.getName());
       this._lookAndFeelInfo = lookAndFeelInfo;
     }
 
     @Override
     public boolean isActive() {
-      LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+      final LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
       return ((lookAndFeel != null) && lookAndFeel.getClass().getName().equals(this._lookAndFeelInfo.getClassName()));
     }
@@ -106,16 +109,20 @@ public class LookAndFeelMenu {
         e.printStackTrace();
         try {
           UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
           ex.printStackTrace();
         }
       }
       try {
         SwingUtilities.updateComponentTreeUI(LookAndFeelMenu.this._mainFrame);
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         ex.printStackTrace();
       }
     }
+  }
+
+  public void dispose() {
+    this._serviceRegistration.unregister();
   }
 
 }

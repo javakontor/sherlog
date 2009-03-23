@@ -2,7 +2,9 @@ package org.javakontor.sherlog.test.ui.cases;
 
 import static org.javakontor.sherlog.test.ui.framework.GuiTestSupport.*;
 
+import org.javakontor.sherlog.application.action.ActionGroup;
 import org.javakontor.sherlog.test.ui.framework.GuiTestContext;
+import org.javakontor.sherlog.test.ui.handler.ApplicationWindowHandler;
 import org.javakontor.sherlog.test.ui.handler.BundleListViewHandler;
 import org.javakontor.sherlog.test.ui.handler.LogViewHandler;
 import org.netbeans.jemmy.operators.JMenuOperator;
@@ -19,7 +21,7 @@ public class DynamicIntegrationTestCases extends AbstractGuiIntegrationTestCases
     this._guiTestSupport.assertNoViewContributionRegistered(BundleListViewHandler.BUNDLE_LIST_VIEWCONTRIBUTION_NAME);
 
     // make sure, "Tools" menu is there but disabled
-    JMenuOperator subMenu = getSubMenuOperator(this._applicationWindowHandler.getWindowMenuOperator(), "Tools");
+    JMenuOperator subMenu = getSubMenuOperator(this.getApplicationWindowHandler().getWindowMenuOperator(), "Tools");
     assertFalse(subMenu.isEnabled());
 
     // install bundle that provides content for tools menu
@@ -27,7 +29,7 @@ public class DynamicIntegrationTestCases extends AbstractGuiIntegrationTestCases
     this._guiTestSupport.startBundle(managementBundle);
 
     // make sure tools menu is visible now
-    subMenu = getSubMenuOperator(this._applicationWindowHandler.getWindowMenuOperator(), "Tools");
+    subMenu = getSubMenuOperator(this.getApplicationWindowHandler().getWindowMenuOperator(), "Tools");
     assertTrue(subMenu.isEnabled());
     // make sure, contributed menu is visible
     assertTrue("Bundle list-menu item should be visible", hasSubMenuItem(subMenu, "Bundle list"));
@@ -39,7 +41,7 @@ public class DynamicIntegrationTestCases extends AbstractGuiIntegrationTestCases
     this._guiTestSupport.uninstallBundle(managementBundle);
   }
 
-  public void test_B() throws Exception {
+  public void test_dynamicLogView() throws Exception {
     // Install prereqs
     final Bundle logViewBundle = this._guiTestSupport.installBundle("org.javakontor.sherlog.ui.logview");
     final Bundle filterBundle = this._guiTestSupport.installAndStartBundle("org.javakontor.sherlog.ui.filter");
@@ -61,5 +63,41 @@ public class DynamicIntegrationTestCases extends AbstractGuiIntegrationTestCases
     this._guiTestSupport.uninstallBundle(domainImplBundle);
     this._guiTestSupport.uninstallBundle(filterBundle);
     this._guiTestSupport.uninstallBundle(logViewBundle);
+  }
+
+  public void test_restartDynamicServices() throws Exception {
+
+    // make sure application window and default menus are visible
+    assertTrue(ApplicationWindowHandler.hasApplicationWindow());
+
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "File"));
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "Window"));
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "Window|Look and feel"));
+
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "fileMenu"));
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "windowMenu"));
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "lafMenu"));
+
+    // stop dynamic service bundle (TODO should not be coupled to equinox)
+    final Bundle dsBundle = this._guiTestSupport.stopBundle("org.eclipse.equinox.ds");
+    assertFalse(ApplicationWindowHandler.hasApplicationWindow());
+
+    // removing the ApplicationWindow should de-register the file- and windowmenu
+    assertEquals(0, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "fileMenu"));
+    assertEquals(0, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "windowMenu"));
+    assertEquals(0, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "lafMenu"));
+
+    // (re-)start ds-bundle
+    this._guiTestSupport.startBundle(dsBundle);
+
+    // make sure menus are registered again
+    assertTrue(ApplicationWindowHandler.hasApplicationWindow());
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "fileMenu"));
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "windowMenu"));
+    assertEquals(1, this._guiTestSupport.getRegisteredActionGroupElementCount(ActionGroup.class, "lafMenu"));
+    findApplicationWindow();
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "File"));
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "Window"));
+    assertTrue(hasSubMenu(this.getApplicationWindowHandler().getMenuBarOperator(), "Window|Look and feel"));
   }
 }
