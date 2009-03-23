@@ -23,6 +23,7 @@ import org.jfree.data.xy.IntervalXYDataset;
 
 /**
  * <p>
+ * Implements the histogram panel.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)

@@ -25,7 +25,7 @@ public class HistogramData {
 	private double[] _values;
 
 	/** the hour count */
-	private int _hourCount;
+	private int _secondCount;
 
 	/**
 	 * <p>
@@ -75,7 +75,7 @@ public class HistogramData {
 	 * @return
 	 */
 	public int getHourCount() {
-		return _hourCount;
+		return _secondCount;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class HistogramData {
 			_values = new double[] {};
 
 			//
-			_hourCount = 1;
+			_secondCount = 1;
 
 			// return
 			return;
@@ -133,8 +133,6 @@ public class HistogramData {
 		calendarMinimum.setTime(minimum);
 		calendarMaximum.setTime(maximum);
 
-		_hourCount = (int) Math.ceil((double) (calendarMaximum.getTime()
-				.getTime() - calendarMinimum.getTime().getTime()) / (1000.));
 
 		calendarMinimum.set(Calendar.MINUTE, 0);
 		calendarMinimum.set(Calendar.SECOND, 0);
@@ -145,6 +143,9 @@ public class HistogramData {
 		calendarMaximum.set(Calendar.MINUTE, 0);
 		calendarMaximum.set(Calendar.SECOND, 0);
 		calendarMaximum.set(Calendar.MILLISECOND, 0);
+
+		_secondCount = (int) Math.ceil((double) (calendarMaximum.getTime()
+				.getTime() - calendarMinimum.getTime().getTime()) / (1000.));
 
 		_minimumDate = calendarMinimum.getTime();
 		_maximumDate = calendarMaximum.getTime();
@@ -161,7 +162,7 @@ public class HistogramData {
 		buffer.append(" _maximumDate: ");
 		buffer.append(_maximumDate);
 		buffer.append(" _hourCount: ");
-		buffer.append(_hourCount);
+		buffer.append(_secondCount);
 		buffer.append("]");
 		return buffer.toString();
 	}
