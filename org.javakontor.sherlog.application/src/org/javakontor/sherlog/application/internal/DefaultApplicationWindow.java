@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
@@ -55,11 +54,13 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
   /**
    * Creates an instance of type MainWindow.
    * 
-   * @param title -
+   * @param title
+   *          -
    * 
-   * @throws HeadlessException -
+   * @throws HeadlessException
+   *           -
    */
-  public DefaultApplicationWindow(String title) throws HeadlessException {
+  public DefaultApplicationWindow(final String title) throws HeadlessException {
     super(title);
 
     setUp();
@@ -73,11 +74,11 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     super.dispose();
   }
 
-  public void handleRequest(Request request) {
+  public void handleRequest(final Request request) {
     this._requestHandler.handleRequest(request);
   }
 
-  public void setSuccessor(RequestHandler successor) {
+  public void setSuccessor(final RequestHandler successor) {
     this._requestHandler.setSuccessor(successor);
   }
 
@@ -87,7 +88,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    * @param viewContribution
    *          the dialog to add to the application window.
    */
-  public void add(ViewContribution viewContribution) {
+  public void add(final ViewContribution viewContribution) {
     Assert.notNull("Parameter viewContribution has to be set!", viewContribution);
 
     if (!this._dialogMap.containsKey(viewContribution)) {
@@ -108,16 +109,16 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    * @param viewContribution
    *          the dialog to remove from the application window.
    */
-  public void remove(ViewContribution viewContribution) {
+  public void remove(final ViewContribution viewContribution) {
     Assert.notNull("Parameter dialog has to be set!", viewContribution);
 
     if (this._dialogMap.containsKey(viewContribution)) {
-      Object view = this._dialogMap.get(viewContribution);
+      final Object view = this._dialogMap.get(viewContribution);
       if (viewContribution.getDescriptor().isModal()) {
-        ModalDialogFrame modalDialogFrame = (ModalDialogFrame) view;
+        final ModalDialogFrame modalDialogFrame = (ModalDialogFrame) view;
         modalDialogFrame.dispose();
       } else {
-        DialogFrame dialogFrame = (DialogFrame) view;
+        final DialogFrame dialogFrame = (DialogFrame) view;
         this._desktopPane.remove(dialogFrame);
         dialogFrame.dispose();
       }
@@ -135,7 +136,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    * @param wallpaper
    *          the image to set as the wallpaper.
    */
-  public void setWallpaper(Image wallpaper) {
+  public void setWallpaper(final Image wallpaper) {
     this._desktopPane.setWallpaper(wallpaper);
   }
 
@@ -145,7 +146,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    * @param wallpaperLayoutStyle
    *          the layout style.
    */
-  public void setWallpaperLayoutStyle(int wallpaperLayoutStyle) {
+  public void setWallpaperLayoutStyle(final int wallpaperLayoutStyle) {
     this._desktopPane.setWallpaperLayoutStyle(wallpaperLayoutStyle);
   }
 
@@ -154,7 +155,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    * 
    * @see org.javakontor.sherlog.application.internal.window.ApplicationWindow#arrange(int)
    */
-  public void arrange(int style) {
+  public void arrange(final int style) {
     Arranger.tileFrames(style, this._desktopPane);
   }
 
@@ -166,7 +167,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     this._requestHandler = new RequestHandlerImpl() {
 
       @Override
-      public boolean canHandleRequest(Request request) {
+      public boolean canHandleRequest(final Request request) {
         return request instanceof SetStatusMessageRequest;
       }
 
@@ -175,10 +176,10 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
         if (DefaultApplicationWindow.this._dialogMap.containsKey(request.sender())) {
           GuiExecutor.execute(new Runnable() {
             public void run() {
-              Object view = DefaultApplicationWindow.this._dialogMap.get(request.sender());
+              final Object view = DefaultApplicationWindow.this._dialogMap.get(request.sender());
               // SetStatusMessageRequest is only allowed for DialogFrames (i.e. non-modal dialogs)
               if (view instanceof DialogFrame) {
-                DialogFrame dialogFrame = (DialogFrame) view;
+                final DialogFrame dialogFrame = (DialogFrame) view;
                 dialogFrame.setStatusMessage(((SetStatusMessageRequest) request).getStatusMessage());
               }
             }
@@ -190,7 +191,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     this._dialogMap = new HashMap<ViewContribution, Object>();
 
     this._desktopPane = new WallpaperDesktopPane();
-//    this._desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+    // this._desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(this._desktopPane, BorderLayout.CENTER);
@@ -198,7 +199,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     getContentPane().add(this.statusPanel, java.awt.BorderLayout.SOUTH);
 
     this.getGlassPane().setVisible(true);
-    Image image = new ImageIcon(getClass().getResource("background.jpg")).getImage();
+    final Image image = new ImageIcon(getClass().getResource("background.jpg")).getImage();
 
     setWallpaperLayoutStyle(WallpaperDesktopPane.STRETCH);
     setWallpaper(image);
@@ -217,7 +218,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    *          the view contribution
    * @return the {@link ModalDialogFrame} that has been opened for the specified ViewContribution
    */
-  protected ModalDialogFrame openModalFrame(ViewContribution viewContribution) {
+  protected ModalDialogFrame openModalFrame(final ViewContribution viewContribution) {
 
     // Create a new ModalDialogFrame instance for the ViewContribution
     final ModalDialogFrame modalDialogFrame = new ModalDialogFrame(this, viewContribution);
@@ -241,7 +242,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
    *          the view contribution
    * @return the DialogFrame that has been opened for the specified ViewContribution
    */
-  protected DialogFrame openNonModalFrame(ViewContribution viewContribution) {
+  protected DialogFrame openNonModalFrame(final ViewContribution viewContribution) {
     // Create new DialogFrame instance
     final DialogFrame dialogFrame = new DialogFrame(this, viewContribution);
 
@@ -252,7 +253,7 @@ public class DefaultApplicationWindow extends JFrame implements ApplicationWindo
     if (viewContribution.getDescriptor().openMaximized()) {
       try {
         dialogFrame.setMaximum(true);
-      } catch (PropertyVetoException e) {
+      } catch (final PropertyVetoException e) {
         //
       }
     }

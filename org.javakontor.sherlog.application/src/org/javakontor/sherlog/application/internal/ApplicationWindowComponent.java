@@ -23,7 +23,7 @@ import org.osgi.service.component.ComponentContext;
 
 public class ApplicationWindowComponent {
 
-  private final Log                 _logger     = LogFactory.getLog(getClass());
+  private final Log                    _logger     = LogFactory.getLog(getClass());
 
   private ComponentContext             _componentContext;
 
@@ -62,7 +62,7 @@ public class ApplicationWindowComponent {
 
             setMenuBarActionSet();
 
-            for (ServiceReference dialogReference : ApplicationWindowComponent.this._dialogList) {
+            for (final ServiceReference dialogReference : ApplicationWindowComponent.this._dialogList) {
               addDialog(dialogReference);
             }
             // for (ServiceReference actionReference : _actionList) {
@@ -76,7 +76,7 @@ public class ApplicationWindowComponent {
 
             ApplicationWindowComponent.this._mainFrame.setVisible(true);
           }
-        } catch (Exception e) {
+        } catch (final Exception e) {
           e.printStackTrace();
         }
       }
@@ -114,7 +114,7 @@ public class ApplicationWindowComponent {
     this._applicationWindowMenuBar.setMenuActionSet(actionSet);
   }
 
-  protected void createDefaultMenus(ComponentContext context) throws Exception {
+  protected void createDefaultMenus(final ComponentContext context) throws Exception {
 
     new FileMenu(this, context.getBundleContext());
     this._windowMenu = new WindowMenu(context.getBundleContext(), this._mainFrame);
@@ -137,10 +137,10 @@ public class ApplicationWindowComponent {
       return;
     }
 
-    Bundle systemBundle = this._bundleContext.getBundle(0);
+    final Bundle systemBundle = this._bundleContext.getBundle(0);
     try {
       systemBundle.stop();
-    } catch (BundleException e) {
+    } catch (final BundleException e) {
       e.printStackTrace();
     }
     System.exit(0);
@@ -164,7 +164,7 @@ public class ApplicationWindowComponent {
     if (this._mainFrame != null) {
       try {
         this._mainFrame.dispose();
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         this._logger.error("Could not dispose mainFrame: " + ex, ex);
         ex.printStackTrace();
       }
@@ -174,7 +174,7 @@ public class ApplicationWindowComponent {
     if (this._applicationWindowMenuBar != null) {
       try {
         this._applicationWindowMenuBar.dispose();
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         this._logger.error("Exception while disposing WindowMenu: " + ex, ex);
         ex.printStackTrace();
       }
@@ -223,29 +223,33 @@ public class ApplicationWindowComponent {
     }
   }
 
-  public void bindActionSetManager(ActionSetManager actionSetManager) {
+  public void bindActionSetManager(final ActionSetManager actionSetManager) {
     this._actionSetManager = actionSetManager;
     setMenuBarActionSet();
   }
 
-  public void unbindActionSetManager(ActionSetManager actionSetManager) {
+  public void unbindActionSetManager(final ActionSetManager actionSetManager) {
     this._actionSetManager = null;
     setMenuBarActionSet();
   }
 
   private void addDialog(final ServiceReference dialogReference) {
-    ViewContribution dialog = (ViewContribution) this._componentContext.locateService("dialogs", dialogReference);
+    final ViewContribution dialog = (ViewContribution) this._componentContext.locateService("dialogs", dialogReference);
     this._mainFrame.add(dialog);
   }
 
   private void removeDialog(final ServiceReference dialogReference) {
     final ViewContribution dialog = (ViewContribution) this._componentContext.locateService("dialogs", dialogReference);
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        ApplicationWindowComponent.this._mainFrame.remove(dialog);
+    if (dialog != null) {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          if (ApplicationWindowComponent.this._mainFrame != null) {
+            ApplicationWindowComponent.this._mainFrame.remove(dialog);
+          }
 
-      };
-    });
+        };
+      });
+    }
 
   }
 
@@ -254,7 +258,7 @@ public class ApplicationWindowComponent {
    */
   class ApplicationWindowListener extends WindowAdapter {
     @Override
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(final WindowEvent e) {
       shutdownApplication();
     }
   }

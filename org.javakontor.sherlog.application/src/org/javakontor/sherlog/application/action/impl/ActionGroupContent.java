@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.action;
+package org.javakontor.sherlog.application.action.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.action.ActionGroup;
+import org.javakontor.sherlog.application.action.ActionGroupElement;
 import org.javakontor.sherlog.application.internal.action.LocatableActionGroupElement;
 
 
@@ -40,7 +42,7 @@ public class ActionGroupContent {
   /**
    * The ActionGroupElements that are registered for the ActionGroup
    */
-  private final List<LocatableActionGroupElement> _actionGroupElements;
+  private final List<ActionGroupElement> _actionGroupElements;
 
   /**
    * Determines whether it is allowed to add more content to this ActionGroupContent.
@@ -49,7 +51,7 @@ public class ActionGroupContent {
   private boolean                                 _open;
 
   public ActionGroupContent() {
-    this._actionGroupElements = new LinkedList<LocatableActionGroupElement>();
+    this._actionGroupElements = new LinkedList<ActionGroupElement>();
     this._open = true;
   }
 
@@ -57,29 +59,29 @@ public class ActionGroupContent {
    * Adds the given locatableActionGroupElement to this content. If this ActionGroupContent is closed, the request will
    * be ignored
    * 
-   * @param locatableActionGroupElement
+   * @param actionGroupElement
    *          The element to add
    * @return true if the element has been added. False if this content is closed and the request has been ignored
    */
-  public boolean add(LocatableActionGroupElement locatableActionGroupElement) {
+  public boolean add(ActionGroupElement actionGroupElement) {
     if (!isOpen()) {
       this._logger.warn("WARN ignoring add request to closed ActionGroup");
       return false;
     }
 
-    this._actionGroupElements.add(locatableActionGroupElement);
+    this._actionGroupElements.add(actionGroupElement);
     return true;
   }
 
-  /**
-   * Removes the given locatableActionGroupElement from this content
-   * 
-   * @param menuItem
-   * @return true if this content contained the specified locatableActionGroupElement
-   */
-  public boolean remove(LocatableActionGroupElement locatableActionGroupElement) {
-    return this._actionGroupElements.remove(locatableActionGroupElement);
-  }
+//  /**
+//   * Removes the given actionGroupElement from this content
+//   * 
+//   * @param menuItem
+//   * @return true if this content contained the specified locatableActionGroupElement
+//   */
+//  public boolean remove(ActionGroupElement actionGroupElement) {
+//    return this._actionGroupElements.remove(actionGroupElement);
+//  }
 
   /**
    * Returns true if this ActionGroupContent is "open", that is, it allows adding of more ActionGroupElements
@@ -147,10 +149,10 @@ public class ActionGroupContent {
   }
 
   public void remove(ActionGroupElement element) {
-    Iterator<LocatableActionGroupElement> it = this._actionGroupElements.iterator();
+    Iterator<ActionGroupElement> it = this._actionGroupElements.iterator();
     while (it.hasNext()) {
-      LocatableActionGroupElement menuItem = it.next();
-      if (menuItem.getElement().equals(element)) {
+      ActionGroupElement menuItem = it.next();
+      if (menuItem.equals(element)) {
         it.remove();
         break;
       }
@@ -158,7 +160,7 @@ public class ActionGroupContent {
 
   }
 
-  public Collection<LocatableActionGroupElement> getAll() {
+  public Collection<ActionGroupElement> getAll() {
     return this._actionGroupElements;
   }
 

@@ -14,6 +14,9 @@ import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.filter.LogEventFilterChangeEvent;
 import org.javakontor.sherlog.domain.filter.LogEventFilterFactory;
 import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
+import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
+import org.javakontor.sherlog.domain.impl.reader.LogEventChangeEvent;
+import org.javakontor.sherlog.domain.impl.reader.LogEventChangeListener;
 import org.javakontor.sherlog.domain.store.LogEventStoreEvent;
 import org.javakontor.sherlog.domain.store.LogEventStoreListener;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
@@ -27,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class LogStoreComponent extends AbstractFilterable implements ModifiableLogEventStore {
+public class LogStoreComponent extends AbstractFilterable implements ModifiableLogEventStore, LogEventChangeListener {
 
   private final Logger                                     _logger = LoggerFactory.getLogger(getClass());
 
@@ -55,11 +58,11 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     _registeredLogEventFilters = new Hashtable<LogEventFilterFactory, LogEventFilter>();
   }
 
-  public void addLogStoreListener(LogEventStoreListener listener) {
+  public void addLogStoreListener(final LogEventStoreListener listener) {
     _eventListenerList.add(LogEventStoreListener.class, listener);
   }
 
-  public void removeLogStoreListener(LogEventStoreListener listener) {
+  public void removeLogStoreListener(final LogEventStoreListener listener) {
     _eventListenerList.remove(LogEventStoreListener.class, listener);
   }
 
@@ -80,24 +83,24 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
   }
 
   @Override
-  protected void logEventFilterAdded(LogEventFilter logEventFilter) {
+  protected void logEventFilterAdded(final LogEventFilter logEventFilter) {
     refilter();
   }
 
   @Override
-  protected void logEventFilterRemoved(LogEventFilter logEventFilter) {
+  protected void logEventFilterRemoved(final LogEventFilter logEventFilter) {
     refilter();
   }
 
   @Override
-  public void filterChanged(LogEventFilterChangeEvent event) {
+  public void filterChanged(final LogEventFilterChangeEvent event) {
     refilter();
   }
 
   protected void refilter() {
     _filteredLogEvents.clear();
 
-    for (LogEvent logEvent : _logEvents) {
+    for (final LogEvent logEvent : _logEvents) {
       if (isFiltered(logEvent)) {
         _filteredLogEvents.add(logEvent);
       }
@@ -109,25 +112,29 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
 
   /** ModifiableLoggingEventStore */
 
-  public void addLogEvent(LogEvent event) {
-    List<LogEvent> list = new LinkedList<LogEvent>();
+  public void addLogEvent(final LogEvent event) {
+    final List<LogEvent> list = new LinkedList<LogEvent>();
     list.add(event);
     addLogEvents(list);
   }
 
-  public void addLogEvents(List<LogEvent> events) {
+  public void addLogEvents(final List<LogEvent> events) {
     Assert.notNull("Parameter 'events' must not be null", events);
 
     if (events.isEmpty()) {
       return;
     }
-    
-    for (LogEvent event : events) {
+
+    for (final LogEvent event : events) {
       // add to logEvents list
       _logEvents.add(event);
+      if (event instanceof AbstractLogEvent) {
+        final AbstractLogEvent abstractLogEvent = (AbstractLogEvent) event;
+        abstractLogEvent.addLogEventChangeListener(this);
+      }
 
       // add new categories and save for event handling later on
-      String category = event.getCategory();
+      final String category = event.getCategory();
       if (!_categories.contains(category)) {
         _categories.add(category);
       }
@@ -140,11 +147,18 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
 
     Collections.sort(_logEvents);
     Collections.sort(_filteredLogEvents);
-    
+
     fireLogEventStoreChange();
   }
 
   public void reset() {
+    for (final LogEvent logEvent : _logEvents) {
+      if (logEvent instanceof AbstractLogEvent) {
+        final AbstractLogEvent abstractLogEvent = (AbstractLogEvent) logEvent;
+        abstractLogEvent.removeLogEventChangeListener(this);
+      }
+    }
+
     _logEvents.clear();
     _filteredLogEvents.clear();
     _categories.clear();
@@ -158,16 +172,16 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
     return _filteredLogEvents;
   }
 
-  public void addLogEventFilterFactory(LogEventFilterFactory logEventFilterFactory) {
+  public void addLogEventFilterFactory(final LogEventFilterFactory logEventFilterFactory) {
     _logger.debug("LogEventFilterFactory added: " + logEventFilterFactory);
-    LogEventFilter logEventFilter = logEventFilterFactory.createLogEventFilter();
+    final LogEventFilter logEventFilter = logEventFilterFactory.createLogEventFilter();
     addLogEventFilter(logEventFilter);
     _registeredLogEventFilters.put(logEventFilterFactory, logEventFilter);
   }
 
-  public void removeLogEventFilterFactory(LogEventFilterFactory logEventFilterFactory) {
+  public void removeLogEventFilterFactory(final LogEventFilterFactory logEventFilterFactory) {
     _logger.debug("LogEventFilterFactory removed: " + logEventFilterFactory);
-    LogEventFilter logEventFilter = _registeredLogEventFilters.remove(logEventFilterFactory);
+    final LogEventFilter logEventFilter = _registeredLogEventFilters.remove(logEventFilterFactory);
     if (logEventFilter != null) {
       removeLogEventFilter(logEventFilter);
     }
@@ -175,8 +189,13 @@ public class LogStoreComponent extends AbstractFilterable implements ModifiableL
 
   protected void fireLogEventStoreChange() {
     final LogEventStoreEvent event = new LogEventStoreEvent(this);
-    for (LogEventStoreListener logEventStoreListener : _eventListenerList.getListeners(LogEventStoreListener.class)) {
+    for (final LogEventStoreListener logEventStoreListener : _eventListenerList
+        .getListeners(LogEventStoreListener.class)) {
       logEventStoreListener.logEventStoreChanged(event);
     }
+  }
+
+  public void logEventChange(final LogEventChangeEvent event) {
+    refilter();
   }
 }

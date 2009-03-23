@@ -1,7 +1,6 @@
 package org.javakontor.sherlog.domain;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * <p>
@@ -126,30 +125,26 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
    * <p>
    * To <b>remove</b> a user defined field, pass <tt>null</tt> as value to this method
    * 
-   * @param key
+   * @param fieldName
    *          the key of the user defined field. Must not be <tt>null</tt>
    * @param value
    *          the value of the user defined field or <tt>null</tt> to remove the value
    */
-  public void setUserDefinedField(Object key, Object value);
+  public void setUserDefinedField(String fieldName, Object value);
 
   /**
    * <p>
    * Returns the value of the user defined field with the given key.
    * </p>
    * 
-   * @param key
+   * @param fieldName
    *          the key of the user defined field.
    * @return the value of the user defined field with the given key.
    */
-  public Object getUserDefinedField(Object key);
+  public Object getUserDefinedField(String fieldName);
 
   /**
-   * <p>
-   * Returns a map with all user defined fields.
-   * </p>
-   * 
-   * @return a map with all user defined fields.
+   * Returns an array with all user-defined field names that are currently set on this Log Event
    */
-  public Map<Object, Object> getUserDefinedFields();
+  public String[] getUserDefinedFieldNames();
 }

@@ -96,7 +96,7 @@ public class LoadLogFileWizardComponent {
     }
 
     if (this._resetLogEventStoreActionRegistration != null) {
-      this._resetLogEventStoreActionRegistration = null;
+      this._resetLogEventStoreActionRegistration.unregister();
     }
 
     this._loadLogFileAction = null;

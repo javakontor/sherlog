@@ -27,10 +27,10 @@ public interface ViewContributionDescriptor {
 
   /**
    * <p>
-   * Returns whether or not the {@link ViewContribution} is resizable.
+   * Returns whether or not the {@link ViewContribution} is closeable.
    * </p>
    * 
-   * @return whether or not the {@link ViewContribution} is resizable.
+   * @return whether or not the {@link ViewContribution} is closeable.
    */
   public boolean isClosable();
 
