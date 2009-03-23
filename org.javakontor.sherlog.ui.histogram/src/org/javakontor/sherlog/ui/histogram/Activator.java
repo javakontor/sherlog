@@ -57,7 +57,7 @@ public class Activator implements BundleActivator {
 
     @Override
     public void removedService(ServiceReference reference, Object service) {
-      Activator.this._viewContribution.bindLogEventStore(null);
+      Activator.this._viewContribution.unbindLogEventStore(null);
       super.removedService(reference, service);
     }
   }
