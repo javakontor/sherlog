@@ -9,6 +9,7 @@ import org.javakontor.sherlog.domain.LogEvent;
 
 /**
  * <p>
+ * Computes
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
