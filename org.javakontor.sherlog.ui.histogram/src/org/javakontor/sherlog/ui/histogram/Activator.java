@@ -7,58 +7,95 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
+/**
+ * <p>
+ * The activator for the histogram bundle.
+ * </p>
+ *
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+ */
 public class Activator implements BundleActivator {
 
-  private ServiceTracker           _serviceTracker;
+	/** the histogram view contribution */
+	private HistogramViewContribution _viewContribution;
 
-  private LoggraphViewContribution _viewContribution;
+	/** the service tracker */
+	private ServiceTracker _serviceTracker;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-   */
-  public void start(BundleContext context) throws Exception {
+	/**
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext context) throws Exception {
 
-    _viewContribution = new LoggraphViewContribution();
+		// create new HistogramViewContribution
+		_viewContribution = new HistogramViewContribution();
 
-    context.registerService(ViewContribution.class.getName(), _viewContribution, null);
+		// register HistogramViewContribution as an OSGi service
+		context.registerService(ViewContribution.class.getName(),
+				_viewContribution, null);
 
-    _serviceTracker = new LogEventStoreServiceTracker(context);
-    _serviceTracker.open();
-  }
+		// create and open LogEventStoreServiceTracker
+		_serviceTracker = new LogEventStoreServiceTracker(context);
+		_serviceTracker.open();
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-   */
-  public void stop(BundleContext context) throws Exception {
-    _serviceTracker.close();
-  }
+	/**
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext context) throws Exception {
+		// close service tracker
+		_serviceTracker.close();
+	}
 
-  /**
-   * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
-   */
-  private class LogEventStoreServiceTracker extends ServiceTracker {
+	/**
+	 * <p>
+	 * The {@link LogEventStoreServiceTracker} is responsible for tracking the
+	 * log event store service.
+	 * </p>
+	 *
+	 * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+	 */
+	private class LogEventStoreServiceTracker extends ServiceTracker {
 
-    public LogEventStoreServiceTracker(BundleContext context) {
-      super(context, LogEventStore.class.getName(), null);
-    }
+		/**
+		 * <p>
+		 * Creates a new instance of type {@link LogEventStoreServiceTracker}.
+		 * </p>
+		 *
+		 * @param context
+		 *            the bundle context
+		 */
+		public LogEventStoreServiceTracker(BundleContext context) {
+			super(context, LogEventStore.class.getName(), null);
+		}
 
-    @Override
-    public Object addingService(ServiceReference reference) {
-      LogEventStore logEventStore = (LogEventStore) super.addingService(reference);
+		/**
+		 * @see org.osgi.util.tracker.ServiceTracker#addingService(org.osgi.framework.ServiceReference)
+		 */
+		@Override
+		public Object addingService(ServiceReference reference) {
+			// get the log event store
+			LogEventStore logEventStore = (LogEventStore) super
+					.addingService(reference);
 
-      Activator.this._viewContribution.bindLogEventStore(logEventStore);
+			// bind log event store to the histogram view contribution
+			Activator.this._viewContribution.bindLogEventStore(logEventStore);
 
-      return logEventStore;
-    }
+			// return log event store
+			return logEventStore;
+		}
 
-    @Override
-    public void removedService(ServiceReference reference, Object service) {
-      Activator.this._viewContribution.unbindLogEventStore(null);
-      super.removedService(reference, service);
-    }
-  }
+		/**
+		 * @see org.osgi.util.tracker.ServiceTracker#removedService(org.osgi.framework.ServiceReference,
+		 *      java.lang.Object)
+		 */
+		@Override
+		public void removedService(ServiceReference reference, Object service) {
+			// unbind log event store from the histogram view contribution
+			Activator.this._viewContribution.unbindLogEventStore(null);
+
+			// call super method
+			super.removedService(reference, service);
+		}
+	}
 }

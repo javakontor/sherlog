@@ -1,5 +1,6 @@
 package org.javakontor.sherlog.ui.histogram;
 
+import java.awt.BorderLayout;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -20,90 +21,122 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 
+/**
+ * <p>
+ * </p>
+ *
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+ */
 public class HistogramPanel extends JPanel {
 
-  /** serialVersionUID */
-  private static final long serialVersionUID = 1L;
+	/** serialVersionUID */
+	private static final long serialVersionUID = 1L;
 
-  private ChartPanel        _chartPanel;
+	/** the jfree chart panel */
+	private ChartPanel _chartPanel;
 
-  private HistogramDataset  _dataset;
+	/** the jfree chart histogram dataset */
+	private HistogramDataset _dataset;
 
-  /**
-   * 
-   */
-  public HistogramPanel() {
-    super();
+	/**
+	 * <p>
+	 * Creates a new instance of type {@link HistogramPanel}.
+	 * </p>
+	 */
+	public HistogramPanel() {
 
-    // 
-    JFreeChart _chart = createChart(createDataset(new double[] { 0.0 }, 0.0, 0.0, 1));
+		// sets the BorderLayout
+		this.setLayout(new BorderLayout());
 
-    //
-    _chartPanel = new ChartPanel(_chart);
+		// create the jfree chart
+		JFreeChart _chart = createChart(createDefaultDataset());
 
-    //
-    add(_chartPanel);
-  }
+		// create the chart panel
+		_chartPanel = new ChartPanel(_chart);
 
-  /**
-   * @param logEvents
-   */
-  public void setLogEvents(List<LogEvent> logEvents) {
+		// add chart panel to histogram panel
+		add(_chartPanel, BorderLayout.CENTER);
+	}
 
-    HistogramData data = new HistogramData();
-    data.compute(logEvents);
+	/**
+	 * <p>
+	 * Sets the log events.
+	 * </p>
+	 *
+	 * @param logEvents
+	 *            the log events.
+	 */
+	public void setLogEvents(List<LogEvent> logEvents) {
 
-    IntervalXYDataset intervalXYDataset = createDataset(data.getValues(), data.getMinimumDate(), data.getMaximumDate(),
-        data.getHourCount());
+		HistogramData data = new HistogramData(logEvents);
 
-    _chartPanel.setChart(createChart(intervalXYDataset));
-  }
+		IntervalXYDataset intervalXYDataset = createDataset(data.getValues(),
+				data.getMinimumDate(), data.getMaximumDate(), data
+						.getHourCount());
 
-  /**
-   * Creates a sample {@link HistogramDataset}.
-   * 
-   * @return the dataset.
-   */
-  private IntervalXYDataset createDataset(double[] values, double minimum, double maximum, int count) {
-    _dataset = new HistogramDataset();
-    if (values.length > 0) {
-      _dataset.addSeries("Log Events", values, count, minimum, maximum);
-    }
-    return _dataset;
-  }
+		_chartPanel.setChart(createChart(intervalXYDataset));
+	}
 
-  /**
-   * Creates a chart.
-   * 
-   * @param dataset
-   *          a dataset.
-   * 
-   * @return The chart.
-   */
-  private JFreeChart createChart(IntervalXYDataset dataset) {
-    JFreeChart chart = ChartFactory.createHistogram("Log Event Histogram", null, null, dataset,
-        PlotOrientation.VERTICAL, true, true, false);
-    XYPlot plot = (XYPlot) chart.getPlot();
-    plot.setForegroundAlpha(0.85f);
+	/**
+	 * @return
+	 */
+	private IntervalXYDataset createDefaultDataset() {
+		return createDataset(new double[] { 0.0 }, 0.0, 0.0, 1);
 
-    NumberAxis numberAxis = new NumberAxis("Log event count");
-    TickUnitSource units = NumberAxis.createIntegerTickUnits();
-    numberAxis.setStandardTickUnits(units);
-    plot.setRangeAxis(numberAxis);
+	}
 
-    // set the tick size to one week, with formatting...
-    DateAxis dateAxis = new DateAxis("time");
-    DateFormat formatter = new SimpleDateFormat("HH:mm:ss Z");
-    DateTickUnit unit = new DateTickUnit(DateTickUnit.MINUTE, 60, formatter);
-    dateAxis.setTickUnit(unit);
-    plot.setDomainAxis(dateAxis);
+	/**
+	 * Creates a sample {@link HistogramDataset}.
+	 *
+	 * @return the dataset.
+	 */
+	private IntervalXYDataset createDataset(double[] values, double minimum,
+			double maximum, int count) {
+		//
+		_dataset = new HistogramDataset();
 
-    XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
-    renderer.setDrawBarOutline(false);
-    renderer.setBaseSeriesVisibleInLegend(false);
-    // flat bars look best...
-    // renderer.setBarPainter(new StandardXYBarPainter());
-    // renderer.setShadowVisible(false);
-    return chart;
-  }
+		//
+		if (values.length > 0) {
+			_dataset.addSeries("Log Events", values, count, minimum, maximum);
+		}
+
+		//
+		return _dataset;
+	}
+
+	/**
+	 * Creates a chart.
+	 *
+	 * @param dataset
+	 *            a dataset.
+	 *
+	 * @return The chart.
+	 */
+	private JFreeChart createChart(IntervalXYDataset dataset) {
+		JFreeChart chart = ChartFactory.createHistogram("Log Event Histogram",
+				null, null, dataset, PlotOrientation.VERTICAL, true, true,
+				false);
+		XYPlot plot = (XYPlot) chart.getPlot();
+		plot.setForegroundAlpha(0.85f);
+
+		NumberAxis numberAxis = new NumberAxis("Log event count");
+		TickUnitSource units = NumberAxis.createIntegerTickUnits();
+		numberAxis.setStandardTickUnits(units);
+		plot.setRangeAxis(numberAxis);
+
+		// set the tick size to one week, with formatting...
+		DateAxis dateAxis = new DateAxis("time");
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		DateTickUnit unit = new DateTickUnit(DateTickUnit.MINUTE, 60, formatter);
+		dateAxis.setTickUnit(unit);
+		plot.setDomainAxis(dateAxis);
+
+		XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+		renderer.setDrawBarOutline(false);
+		renderer.setBaseSeriesVisibleInLegend(false);
+		// flat bars look best...
+		// renderer.setBarPainter(new StandardXYBarPainter());
+		// renderer.setShadowVisible(false);
+		return chart;
+	}
 }
