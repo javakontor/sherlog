@@ -1,11 +1,10 @@
 package org.javakontor.sherlog.domain.impl.internal.store;
 
-import java.util.Map;
-
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 
-public class LogEventMock implements LogEvent {
+public class LogEventMock extends AbstractLogEvent {
 
   /**
    * 
@@ -98,21 +97,6 @@ public class LogEventMock implements LogEvent {
     return this._timestamp;
   }
 
-  public Object getUserDefinedField(String fieldName) {
-    return null;
-  }
-
-  public String[] getUserDefinedFieldNames() {
-    return null;
-  }
-
-  public void setUserDefinedField(String fieldName, Object value) {
-  }
-
-  public Map<Object, Object> getUserDefinedFields() {
-    return null;
-  }
-
   public boolean hasNestedDiagnosticContext() {
     // TODO Auto-generated method stub
     return false;
@@ -120,6 +104,90 @@ public class LogEventMock implements LogEvent {
 
   public void setCategory(String category) {
     _category = category;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((_category == null) ? 0 : _category.hashCode());
+    result = prime * result + (int) (_identifier ^ (_identifier >>> 32));
+    result = prime * result + ((_logLevel == null) ? 0 : _logLevel.hashCode());
+    result = prime * result + ((_logSource == null) ? 0 : _logSource.hashCode());
+    result = prime * result + ((_message == null) ? 0 : _message.hashCode());
+    result = prime * result + ((_threadName == null) ? 0 : _threadName.hashCode());
+    result = prime * result + ((_throwable == null) ? 0 : _throwable.hashCode());
+    result = prime * result + (int) (_timestamp ^ (_timestamp >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    LogEventMock other = (LogEventMock) obj;
+    if (_category == null) {
+      if (other._category != null)
+        return false;
+    } else if (!_category.equals(other._category))
+      return false;
+    if (_identifier != other._identifier)
+      return false;
+    if (_logLevel == null) {
+      if (other._logLevel != null)
+        return false;
+    } else if (!_logLevel.equals(other._logLevel))
+      return false;
+    if (_logSource == null) {
+      if (other._logSource != null)
+        return false;
+    } else if (!_logSource.equals(other._logSource))
+      return false;
+    if (_message == null) {
+      if (other._message != null)
+        return false;
+    } else if (!_message.equals(other._message))
+      return false;
+    if (_threadName == null) {
+      if (other._threadName != null)
+        return false;
+    } else if (!_threadName.equals(other._threadName))
+      return false;
+    if (_throwable == null) {
+      if (other._throwable != null)
+        return false;
+    } else if (!_throwable.equals(other._throwable))
+      return false;
+    if (_timestamp != other._timestamp)
+      return false;
+    return true;
+  }
+
+  /**
+   * Constructs a <code>String</code> with all attributes in name = value format.
+   * 
+   * @return a <code>String</code> representation of this object.
+   */
+  @Override
+  public String toString() {
+
+    final String retValue = "LogEventMock ( " // prefix
+        + super.toString() // add super attributes
+        + ", _category = '" + this._category + "'" // _category
+        + ", _identifier = '" + this._identifier + "'" // _identifier
+        + ", _logLevel = '" + this._logLevel + "'" // _logLevel
+        + ", _logSource = '" + this._logSource + "'" // _logSource
+        + ", _message = '" + this._message + "'" // _message
+        + ", _threadName = '" + this._threadName + "'" // _threadName
+        + ", _timestamp = '" + this._timestamp + "'" // _timestamp
+        + ", _throwable = '" + this._throwable + "'" // _throwable
+        + " )";
+
+    return retValue;
   }
 
 }
