@@ -220,8 +220,11 @@ public class ActionSetImpl implements ActionSet {
    * @return
    */
   protected ActionGroupContent getTarget(final ActionGroupElement element) {
-    // TODO make sure the specified AGE really belongs to this ActionSet
     final TargetGroupIdParser parser = new TargetGroupIdParser(element.getTargetActionGroupId());
+    if (!this._rootId.equals(parser.getActionRoot())) {
+      throw new IllegalStateException("Invalid ActionGroupElement. Action-Root '" + parser.getActionRoot()
+          + "' doesn't belong to this ActionSet with root-id '" + this._rootId + "'");
+    }
     if (!this._actionGroups.containsKey(parser.getTargetGroupId())) {
       // No content yet -> register a new
       final ActionGroupContent list = new ActionGroupContent();
