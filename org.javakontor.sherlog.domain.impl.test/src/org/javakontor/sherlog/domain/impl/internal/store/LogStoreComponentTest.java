@@ -2,10 +2,7 @@ package org.javakontor.sherlog.domain.impl.internal.store;
 
 import static org.javakontor.sherlog.domain.DomainTestUtils.generateLogEvent;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -118,7 +115,6 @@ public class LogStoreComponentTest extends TestCase {
     _logStoreComponent.addLogEvent(generateLogEvent());
     // listener should not be called again since it's de-registered
     verify(listener, times(2)).logEventStoreChanged(expectedEvent);
-
   }
 
   public void test_LogStoreListener_AddFilter() {
@@ -146,6 +142,31 @@ public class LogStoreComponentTest extends TestCase {
 
     // reset should lead to an event
     verify(listener).logEventStoreChanged(new LogEventStoreEvent(_logStoreComponent));
+  }
+
+  public void test_LogEventChangeListener() {
+    // add an event to store
+    LogEventMock logEvent = generateLogEvent();
+    _logStoreComponent.addLogEvent(logEvent);
+
+    // add a listener
+    LogEventStoreListener listener = mock(LogEventStoreListener.class);
+    _logStoreComponent.addLogStoreListener(listener);
+
+    // change the log event (should lead to refilter -> logStoreChangeEvent)
+    logEvent.setUserDefinedField("test", "test");
+
+    // verify that LogEventStoreEvent was sent
+    LogEventStoreEvent expectedEvent = new LogEventStoreEvent(_logStoreComponent);
+    verify(listener).logEventStoreChanged(expectedEvent);
+
+    // reset LogEventStore -> lead to another LogEventStoreChange-event
+    _logStoreComponent.reset();
+    verify(listener, times(2)).logEventStoreChanged(expectedEvent);
+
+    // modify the LogEvent again. Since it's removed from the store, no event should be sent
+    logEvent.setUserDefinedField("pink", "floyd");
+    verify(listener, times(2)).logEventStoreChanged(expectedEvent);
 
   }
 
