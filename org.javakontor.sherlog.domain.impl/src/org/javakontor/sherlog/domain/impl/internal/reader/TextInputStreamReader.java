@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.concurrent.CancellationException;
 
+import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider;
 import org.slf4j.Logger;
@@ -38,19 +39,19 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
   public TextInputStreamReader(final URL[] urls, final TextLogEventProvider logEventProvider) {
     super(urls);
 
-    this._logEventProvider = logEventProvider;
+    _logEventProvider = logEventProvider;
 
-    this._textLogEventBuilder = new StringBuilder();
+    _textLogEventBuilder = new StringBuilder();
   }
 
   @Override
-  public void readLogFileStream(final InputStream in, final String logEventSource) {
+  public void readLogFileStream(final InputStream in, final LogEventSource logEventSource) {
 
     // Scanner scanner = new Scanner(new BufferedInputStream(in));
 
-    long start = System.currentTimeMillis();
+    final long start = System.currentTimeMillis();
 
-    BufferedReader scanner = new BufferedReader(new InputStreamReader(new BufferedInputStream(in)));
+    final BufferedReader scanner = new BufferedReader(new InputStreamReader(new BufferedInputStream(in)));
     String line = null;
     try {
       // first use a Scanner to get each line
@@ -65,7 +66,7 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
         }
 
       }
-    } catch (IOException ioe) {
+    } catch (final IOException ioe) {
       ioe.printStackTrace();
     } finally {
       // ensure the underlying stream is always closed
@@ -80,12 +81,12 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
 
   }
 
-  private void processLine(final String aLine, final String logEventSource) {
+  private void processLine(final String aLine, final LogEventSource logEventSource) {
 
-    if (aLine.startsWith(this.startTag)) {
-      String string = this._textLogEventBuilder.toString();
+    if (aLine.startsWith(startTag)) {
+      final String string = _textLogEventBuilder.toString();
       if (string.length() < 1) {
-        this._textLogEventBuilder.append(aLine);
+        _textLogEventBuilder.append(aLine);
         return;
       }
       createLogEvent(string, logEventSource);
@@ -93,15 +94,15 @@ public class TextInputStreamReader extends AbstractURLLogEventReader {
       // logEvent.setLogEventSource(logEventSource);
       // fireLogEventHandler(logEvent);
 
-      this._textLogEventBuilder = new StringBuilder();
+      _textLogEventBuilder = new StringBuilder();
     } else {
-      this._textLogEventBuilder.append(System.getProperty("line.separator"));
+      _textLogEventBuilder.append(System.getProperty("line.separator"));
     }
-    this._textLogEventBuilder.append(aLine);
+    _textLogEventBuilder.append(aLine);
   }
 
-  private void createLogEvent(String line, String logEventSource) {
-    AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(line);
+  private void createLogEvent(final String line, final LogEventSource logEventSource) {
+    final AbstractLogEvent logEvent = _logEventProvider.wrapLogEvent(line);
     logEvent.setLogEventSource(logEventSource);
     fireLogEventHandler(logEvent);
   }

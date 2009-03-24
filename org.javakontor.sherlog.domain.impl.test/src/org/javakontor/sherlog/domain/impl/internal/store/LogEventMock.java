@@ -2,6 +2,7 @@ package org.javakontor.sherlog.domain.impl.internal.store;
 
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.domain.LogLevel;
+import org.javakontor.sherlog.domain.impl.internal.reader.LogEventSourceImpl;
 import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 
 public class LogEventMock extends AbstractLogEvent {
@@ -17,8 +18,6 @@ public class LogEventMock extends AbstractLogEvent {
 
   private final LogLevel    _logLevel;
 
-  private final String      _logSource;
-
   private final String      _message;
 
   private final String      _threadName;
@@ -33,7 +32,7 @@ public class LogEventMock extends AbstractLogEvent {
     this._category = category;
     this._identifier = identifier;
     this._logLevel = logLevel;
-    this._logSource = logSource;
+    setLogEventSource(new LogEventSourceImpl(logSource));
     this._message = message;
     this._threadName = threadName;
     this._throwable = throwable;
@@ -50,10 +49,6 @@ public class LogEventMock extends AbstractLogEvent {
 
   public LogLevel getLogLevel() {
     return this._logLevel;
-  }
-
-  public String getLogEventSource() {
-    return this._logSource;
   }
 
   public String getMessage() {
@@ -113,7 +108,6 @@ public class LogEventMock extends AbstractLogEvent {
     result = prime * result + ((_category == null) ? 0 : _category.hashCode());
     result = prime * result + (int) (_identifier ^ (_identifier >>> 32));
     result = prime * result + ((_logLevel == null) ? 0 : _logLevel.hashCode());
-    result = prime * result + ((_logSource == null) ? 0 : _logSource.hashCode());
     result = prime * result + ((_message == null) ? 0 : _message.hashCode());
     result = prime * result + ((_threadName == null) ? 0 : _threadName.hashCode());
     result = prime * result + ((_throwable == null) ? 0 : _throwable.hashCode());
@@ -141,11 +135,6 @@ public class LogEventMock extends AbstractLogEvent {
       if (other._logLevel != null)
         return false;
     } else if (!_logLevel.equals(other._logLevel))
-      return false;
-    if (_logSource == null) {
-      if (other._logSource != null)
-        return false;
-    } else if (!_logSource.equals(other._logSource))
       return false;
     if (_message == null) {
       if (other._message != null)
@@ -180,7 +169,6 @@ public class LogEventMock extends AbstractLogEvent {
         + ", _category = '" + this._category + "'" // _category
         + ", _identifier = '" + this._identifier + "'" // _identifier
         + ", _logLevel = '" + this._logLevel + "'" // _logLevel
-        + ", _logSource = '" + this._logSource + "'" // _logSource
         + ", _message = '" + this._message + "'" // _message
         + ", _threadName = '" + this._threadName + "'" // _threadName
         + ", _timestamp = '" + this._timestamp + "'" // _timestamp

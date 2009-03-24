@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.concurrent.CancellationException;
 
+import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider;
 import org.osgi.framework.Bundle;
@@ -36,24 +37,24 @@ public class ObjectInputStreamReader extends AbstractURLLogEventReader {
   public ObjectInputStreamReader(final URL[] urls, final Bundle bundle, final ObjectLogEventProvider logEventProvider) {
     super(urls);
 
-    this._bundle = bundle;
+    _bundle = bundle;
 
-    this._logEventProvider = logEventProvider;
+    _logEventProvider = logEventProvider;
   }
 
   @Override
-  public void readLogFileStream(final InputStream in, final String logEventSource) {
+  public void readLogFileStream(final InputStream in, final LogEventSource logEventSource) {
 
     ObjectInputStream ois = null;
 
     try {
-      ois = new BundleClassLoaderObjectInputStream(this._bundle, in);
+      ois = new BundleClassLoaderObjectInputStream(_bundle, in);
       while (true) {
         if (isStopRequested()) {
           throw new CancellationException();
         } else {
           final Object event = ois.readObject();
-          AbstractLogEvent logEvent = this._logEventProvider.wrapLogEvent(event);
+          final AbstractLogEvent logEvent = _logEventProvider.wrapLogEvent(event);
           logEvent.setLogEventSource(logEventSource);
           fireLogEventHandler(logEvent);
         }

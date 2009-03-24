@@ -7,3 +7,4 @@ Export-Package: org.javakontor.sherlog.domain,
  org.javakontor.sherlog.domain.filter,
  org.javakontor.sherlog.domain.reader,
  org.javakontor.sherlog.domain.store
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

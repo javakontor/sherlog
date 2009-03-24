@@ -15,12 +15,12 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
 
   /**
    * <p>
-   * Returns the LogSource for this {@link LogEvent}.
+   * Returns the {@link LogEventSource} for this {@link LogEvent}.
    * </p>
    * 
-   * @return the LogSource for this {@link LogEvent}.
+   * @return the LogEventSource for this {@link LogEvent}.
    */
-  public String getLogEventSource();
+  public LogEventSource getLogEventSource();
 
   /**
    * <p>

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.util.Assert;
 
 public abstract class AbstractLogEvent implements LogEvent {
@@ -31,7 +32,7 @@ public abstract class AbstractLogEvent implements LogEvent {
   /**
    * The source of this Log Event (e.g. the file it was read from)
    */
-  private String                                            _logEventSource;
+  private LogEventSource                                    _logEventSource;
 
   /**
    * A map of defined fields that can be set by clients of Log Events.
@@ -46,11 +47,11 @@ public abstract class AbstractLogEvent implements LogEvent {
     _logEventChangeListeners = new CopyOnWriteArraySet<LogEventChangeListener>();
   }
 
-  public String getLogEventSource() {
+  public LogEventSource getLogEventSource() {
     return _logEventSource;
   }
 
-  public void setLogEventSource(final String logEventSource) {
+  public void setLogEventSource(final LogEventSource logEventSource) {
     _logEventSource = logEventSource;
   }
 

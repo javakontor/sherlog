@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import org.javakontor.sherlog.domain.LogEvent;
+import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.domain.reader.LogEventHandler;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
@@ -28,43 +29,43 @@ public abstract class AbstractURLLogEventReader extends AbstractFilterable imple
    * @param urls
    */
   public AbstractURLLogEventReader(final URL[] urls) {
-    this._urls = urls;
-    this._isActive = false;
+    _urls = urls;
+    _isActive = false;
   }
 
   public void start() {
-    this._isActive = true;
-    Thread thread = new Thread(new Runnable() {
+    _isActive = true;
+    final Thread thread = new Thread(new Runnable() {
       public void run() {
         try {
           readLogFiles();
-        } catch (CancellationException e) {
+        } catch (final CancellationException e) {
           e.printStackTrace();
         }
-        AbstractURLLogEventReader.this._isActive = false;
+        _isActive = false;
       }
     });
     thread.start();
   }
 
   public void stop() {
-    this._stopRequested = true;
+    _stopRequested = true;
   }
 
   public boolean isActive() {
-    return this._isActive;
+    return _isActive;
   }
 
   public boolean isStopRequested() {
-    return this._stopRequested;
+    return _stopRequested;
   }
 
   public final void addLogEventHandler(final LogEventHandler handler) {
-    this._listener.add(handler);
+    _listener.add(handler);
   }
 
   public final void removeLogEventHandler(final LogEventHandler handler) {
-    this._listener.remove(handler);
+    _listener.remove(handler);
   }
 
   // public boolean corruptedLogfileInfo() {
@@ -76,19 +77,19 @@ public abstract class AbstractURLLogEventReader extends AbstractFilterable imple
       return;
     }
 
-    for (LogEventHandler handler : this._listener) {
+    for (final LogEventHandler handler : _listener) {
       handler.handle(event);
     }
   }
 
   protected final void fireSetup() {
-    for (LogEventHandler handler : this._listener) {
+    for (final LogEventHandler handler : _listener) {
       handler.initialize();
     }
   }
 
   protected final void fireTearDown() {
-    for (LogEventHandler handler : this._listener) {
+    for (final LogEventHandler handler : _listener) {
       handler.dispose();
     }
   }
@@ -97,12 +98,12 @@ public abstract class AbstractURLLogEventReader extends AbstractFilterable imple
     // notify LogEventHandler
     fireSetup();
 
-    for (URL url : this._urls) {
+    for (final URL url : _urls) {
 
-      String logEventSource = url.toExternalForm();
+      final LogEventSource logEventSource = new LogEventSourceImpl(url.toExternalForm());
       try {
         readLogFileStream(url.openStream(), logEventSource);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
@@ -112,6 +113,6 @@ public abstract class AbstractURLLogEventReader extends AbstractFilterable imple
     fireTearDown();
   }
 
-  protected abstract void readLogFileStream(InputStream stream, String logEventSource);
+  protected abstract void readLogFileStream(InputStream stream, LogEventSource logEventSource);
 
 }

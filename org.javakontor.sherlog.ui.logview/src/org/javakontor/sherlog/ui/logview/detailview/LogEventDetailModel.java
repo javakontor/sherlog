@@ -1,7 +1,5 @@
 package org.javakontor.sherlog.ui.logview.detailview;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.domain.LogEvent;
@@ -16,10 +14,8 @@ import org.javakontor.sherlog.util.Assert;
  */
 public class LogEventDetailModel extends AbstractModel<LogEventDetailModel, DefaultReasonForChange> {
 
-  private final Log _logger = LogFactory.getLog(getClass());
-
   /** the log event */
-  private LogEvent  _logEvent;
+  private LogEvent _logEvent;
 
   /**
    * <p>
