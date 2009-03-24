@@ -1,10 +1,7 @@
 package org.javakontor.sherlog.application.internal.window;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Window;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.JInternalFrame;
 import javax.swing.WindowConstants;
@@ -24,12 +21,6 @@ public class DialogFrame extends JInternalFrame {
   /** serialVersionUID */
   private static final long      serialVersionUID = 1L;
 
-  // /** - * */
-  // private static final Insets STATUSBAR_INSETS = new Insets(3, 5, 3, 5);
-  //
-  // /** - * */
-  // private static final int STATUSBAR_HEIGHT = 20;
-
   /** - * */
   private StatusMessagePanel     _statusBarPanel;
 
@@ -38,9 +29,9 @@ public class DialogFrame extends JInternalFrame {
   /**
    * Creates an instance of type DialogFrame.
    */
-  public DialogFrame(Window parent, ViewContribution viewContribution) {
-    super(viewContribution.getDescriptor().getName(), viewContribution.getDescriptor().isResizable(),
-        viewContribution.getDescriptor().isClosable(), viewContribution.getDescriptor().isMaximizable());
+  public DialogFrame(final Window parent, final ViewContribution viewContribution) {
+    super(viewContribution.getDescriptor().getName(), viewContribution.getDescriptor().isResizable(), viewContribution
+        .getDescriptor().isClosable(), viewContribution.getDescriptor().isMaximizable());
     this._viewContribution = viewContribution;
 
     setUp(parent);
@@ -49,7 +40,7 @@ public class DialogFrame extends JInternalFrame {
   /**
    *
    */
-  public void setUp(Window parent) {
+  public void setUp(final Window parent) {
     Assert.notNull("Parameter parent has to be set!", parent);
 
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -63,64 +54,9 @@ public class DialogFrame extends JInternalFrame {
 
     pack();
 
-    this.addComponentListener(new InternalComponentListener());
     addInternalFrameListener(new DelegatingWindowListener());
 
   }
-
-  /**
-   * A {@link ComponentAdapter} that makes sure that the window never gets smaller than it's preferred size
-   * 
-   */
-  private class InternalComponentListener extends ComponentAdapter {
-    @Override
-    public void componentResized(ComponentEvent e) {
-      if ((getSize().width < getPreferredSize().width) || (getSize().height < getPreferredSize().height)) {
-        int newWidth = Math.max(getSize().width, getPreferredSize().width);
-        int newHeight = Math.max(getSize().height, getPreferredSize().height);
-        setSize(new Dimension(newWidth, newHeight));
-        revalidate();
-      }
-    }
-  }
-
-  // /**
-  // *
-  // */
-  // @Override
-  // public void doLayout() {
-  // super.doLayout();
-  //
-  // JPanel view = this._viewContribution.getPanel();
-  //
-  // if ((view != null) /** && (_statusBarPanel != null)* */
-  // ) {
-  // if (view != null) {
-  // (view).setBounds(new Rectangle(0, 0, getContentPane().getSize().width, (getContentPane().getSize().height)));
-  // (view).validate();
-  // }
-  //
-  // this._statusBarPanel.setBounds(STATUSBAR_INSETS.left, getContentPane().getSize().height
-  // - (STATUSBAR_INSETS.top + STATUSBAR_HEIGHT), getContentPane().getSize().width
-  // - (STATUSBAR_INSETS.left + STATUSBAR_INSETS.right), STATUSBAR_HEIGHT);
-  // }
-  // }
-
-  // /**
-  // *
-  // *
-  // * @return -
-  // */
-  // @Override
-  // public Dimension getPreferredSize() {
-  // JPanel view = this._viewContribution.getPanel();
-  // if (view != null) {
-  // return new Dimension((view).getPreferredSize().width + 10, (view).getPreferredSize().height + 33
-  // + STATUSBAR_HEIGHT + STATUSBAR_INSETS.top + STATUSBAR_INSETS.bottom);
-  // } else {
-  // return new Dimension(100, 20);
-  // }
-  // }
 
   /**
    * 
@@ -137,20 +73,11 @@ public class DialogFrame extends JInternalFrame {
    * @param message
    *          -
    */
-  public void setStatusMessage(StatusMessage message) {
+  public void setStatusMessage(final StatusMessage message) {
     Assert.notNull("Parameter message has to be set!", message);
 
     this._statusBarPanel.setStatusMessage(message);
   }
-
-  // /**
-  // *
-  // */
-  // @Override
-  // public void repaint() {
-  // super.repaint();
-  // invalidate();
-  // }
 
   class DelegatingWindowListener extends InternalFrameAdapter {
 
@@ -158,30 +85,28 @@ public class DialogFrame extends JInternalFrame {
     }
 
     @Override
-    public void internalFrameActivated(InternalFrameEvent e) {
+    public void internalFrameActivated(final InternalFrameEvent e) {
       DialogFrame.this._viewContribution.viewEventOccured(ViewEvent.windowActivated);
     }
 
     @Override
-    public void internalFrameClosing(InternalFrameEvent e) {
+    public void internalFrameClosing(final InternalFrameEvent e) {
       DialogFrame.this._viewContribution.viewEventOccured(ViewEvent.windowClosing);
     }
 
     @Override
-    public void internalFrameClosed(InternalFrameEvent e) {
+    public void internalFrameClosed(final InternalFrameEvent e) {
 
     }
 
     @Override
-    public void internalFrameDeactivated(InternalFrameEvent e) {
+    public void internalFrameDeactivated(final InternalFrameEvent e) {
       DialogFrame.this._viewContribution.viewEventOccured(ViewEvent.windowDeactivated);
     }
 
     @Override
-    public void internalFrameOpened(InternalFrameEvent e) {
+    public void internalFrameOpened(final InternalFrameEvent e) {
       DialogFrame.this._viewContribution.viewEventOccured(ViewEvent.windowOpened);
     }
-
   }
-
 }

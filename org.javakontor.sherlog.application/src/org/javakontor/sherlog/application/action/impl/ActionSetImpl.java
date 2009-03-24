@@ -59,7 +59,6 @@ public class ActionSetImpl implements ActionSet {
       return actionGroupContent.getAll();
     }
 
-    // no ActionGroup has been registered for this id, don't render it
     return null;
   }
 
