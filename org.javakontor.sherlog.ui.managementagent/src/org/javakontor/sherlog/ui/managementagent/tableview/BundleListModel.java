@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.managementagent;
+package org.javakontor.sherlog.ui.managementagent.tableview;
 
 import java.io.File;
 import java.net.URI;
@@ -12,6 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
 import org.javakontor.sherlog.application.request.StatusMessage;
+import org.javakontor.sherlog.ui.managementagent.BundleListMessages;
+import org.javakontor.sherlog.util.ui.GuiExecutor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -103,6 +105,8 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     } else {
       sendInfoStatusMessage("No bundle selected");
     }
+    
+    sendSetSelectedBundleRequest(selectedBundle);
   }
 
   public boolean hasSelectedBundle() {
@@ -220,5 +224,10 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     // handle the request
     handleRequest(new SetStatusMessageRequest(this, statusMessage));
 
+  }
+  
+  public void sendSetSelectedBundleRequest(Bundle bundle) {
+    // handle the request
+    handleRequest(new SetSelectedBundleRequest(this, bundle));
   }
 }

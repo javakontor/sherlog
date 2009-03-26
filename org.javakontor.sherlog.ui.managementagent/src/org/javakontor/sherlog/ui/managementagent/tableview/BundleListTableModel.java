@@ -1,9 +1,10 @@
-package org.javakontor.sherlog.ui.managementagent;
+package org.javakontor.sherlog.ui.managementagent.tableview;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.javakontor.sherlog.ui.managementagent.BundleListMessages;
 import org.javakontor.sherlog.util.ui.SortableTableModel;
 import org.osgi.framework.Bundle;
 

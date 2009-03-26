@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.managementagent;
+package org.javakontor.sherlog.ui.managementagent.tableview;
 
 public enum BundleListModelReasonForChange {
 

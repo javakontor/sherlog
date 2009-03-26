@@ -99,19 +99,18 @@ public class Activator implements BundleActivator {
   }
 
   class BundleListViewContribution extends
-      AbstractMvcViewContribution<BundleListModel, BundleListView, BundleListController> {
+      AbstractMvcViewContribution<ManagementAgentModel, ManagementAgentView, ManagementAgentController> {
 
     /**
      * @param bundleContext
      */
     public BundleListViewContribution(BundleContext bundleContext) {
       super(new DefaultViewContributionDescriptor(BundleListMessages.bundleListWindowTitle, false, true, true, true,
-          false), new BundleListModel(bundleContext), BundleListView.class, BundleListController.class);
+          false), new ManagementAgentModel(bundleContext), ManagementAgentView.class, ManagementAgentController.class);
     }
 
     @Override
     public void viewEventOccured(ViewEvent viewEvent) {
-      System.err.println(viewEvent);
 
       if (viewEvent == ViewEvent.windowClosing) {
         unregisterBundleListView();

@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.javakontor.sherlog.ui.managementagent.tableview.BundleListModel;
+
 public class BundleInstallDropTargetListener implements DropTargetListener {
 
   private final BundleListModel _model;
@@ -55,10 +57,7 @@ public class BundleInstallDropTargetListener implements DropTargetListener {
         if (file.isDirectory() && "meta-inf".equalsIgnoreCase(file.getName())) {
           file = file.getParentFile();
         }
-        System.err.println("file: " + file);
         _model.installNewBundle(file);
-        System.out.println("Install bundle: " + file);
-
       }
     } catch (Exception ex) {
       ex.printStackTrace();

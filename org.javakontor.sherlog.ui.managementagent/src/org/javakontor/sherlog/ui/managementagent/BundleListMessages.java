@@ -6,13 +6,13 @@ import org.javakontor.sherlog.util.nls.NLSMessage;
 public class BundleListMessages {
 
   // ~~~ Menu items
-  @NLSMessage("Bundle lis&t")
+  @NLSMessage("&Management Agent")
   public static String bundleListMenuTitle;
 
-  @NLSMessage("Bundle list")
+  @NLSMessage("Management Agent")
   public static String bundleListWindowTitle;
 
-  @NLSMessage("control shift B")
+  @NLSMessage("control shift M")
   public static String bundleListMenuDefaultShortcut;
 
   // ~~ BundleListTable column names

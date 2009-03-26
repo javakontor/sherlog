@@ -1,6 +1,7 @@
-package org.javakontor.sherlog.ui.managementagent;
+package org.javakontor.sherlog.ui.managementagent.tableview;
 
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,8 +29,11 @@ public class BundleListController extends AbstractController<BundleListModel, Bu
     initializeListener();
   }
 
+  public void addDropTargetListener(DropTargetListener dropTargetListener) {
+    new DropTarget(getView().getBundleTable(), dropTargetListener);
+  }
+
   private void initializeListener() {
-    new DropTarget(getView().getBundleTable(), new BundleInstallDropTargetListener(getModel()));
 
     getView().getBundleTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 

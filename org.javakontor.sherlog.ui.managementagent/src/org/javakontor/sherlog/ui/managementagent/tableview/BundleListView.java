@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.managementagent;
+package org.javakontor.sherlog.ui.managementagent.tableview;
 
 import java.awt.BorderLayout;
 
@@ -9,6 +9,7 @@ import javax.swing.ListSelectionModel;
 
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
+import org.javakontor.sherlog.ui.managementagent.BundleListMessages;
 import org.javakontor.sherlog.util.ui.SherlogTable;
 
 public class BundleListView extends AbstractView<BundleListModel, BundleListModelReasonForChange> {
