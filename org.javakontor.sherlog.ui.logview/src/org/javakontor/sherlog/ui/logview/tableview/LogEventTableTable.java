@@ -16,9 +16,9 @@ import org.javakontor.sherlog.util.ui.SherlogTable;
 
 /**
  * <p>
- * The LogEventTable adds support for {@link LogEventTableCellDecorator LogEventDecorators} to a JTable. Using LogEventDecorators
- * clients can customize ("decorate") the table cells, to get a context-specific rendering (e.g. highlight rows
- * according to client specific criteria).
+ * The LogEventTable adds support for {@link LogEventTableCellDecorator LogEventDecorators} to a JTable. Using
+ * LogEventDecorators clients can customize ("decorate") the table cells, to get a context-specific rendering (e.g.
+ * highlight rows according to client specific criteria).
  * </p>
  * <p>
  * This implementation also ensures, that the table is at least as large as it's containing {@link JViewport} to allow
@@ -30,13 +30,13 @@ import org.javakontor.sherlog.util.ui.SherlogTable;
 public class LogEventTableTable extends SherlogTable {
 
   /** serialVersionUID */
-  private static final long            serialVersionUID = 1L;
+  private static final long                     serialVersionUID = 1L;
 
   /** list of registered {@link LogEventTableCellDecorator LogEventDecorators} that will be applied to a cell component */
   private final Set<LogEventTableCellDecorator> _logEventDecorators;
 
   /** {@link DelegatingCellRenderer} that applies the registered LogEventDecorators to a rendered cell component */
-  private final DelegatingCellRenderer _delegatingCellRenderer;
+  private final DelegatingCellRenderer          _delegatingCellRenderer;
 
   /**
    * <p>
@@ -94,8 +94,8 @@ public class LogEventTableTable extends SherlogTable {
 
   /**
    * <p>
-   * A {@link TableCellRenderer} implementation that asks a list of {@link LogEventTableCellDecorator LogEventDecorators} to
-   * decorate a component that was returned by a wrapped TableCellRenderer.
+   * A {@link TableCellRenderer} implementation that asks a list of {@link LogEventTableCellDecorator
+   * LogEventDecorators} to decorate a component that was returned by a wrapped TableCellRenderer.
    * </p>
    */
   class DelegatingCellRenderer implements TableCellRenderer {
@@ -158,8 +158,9 @@ public class LogEventTableTable extends SherlogTable {
 
       // Apply decorators on the rendered cell component
       LogEventTableCellDecoratorContext.Attribute attribute = LogEventTableCellDecoratorContext.Attribute.values()[column];
-      LogEventTableCellDecoratorContext context = new LogEventTableCellDecoratorContext(component, logEvent, attribute, value, hasFocus,
-          isSelected);
+      LogEventTableCellDecoratorContext context = new LogEventTableCellDecoratorContext(component, logEvent, attribute,
+          value, hasFocus, isSelected);
+
       for (LogEventTableCellDecorator decorator : LogEventTableTable.this._logEventDecorators) {
         decorator.decorateLogEventTableCell(context);
       }
@@ -171,7 +172,8 @@ public class LogEventTableTable extends SherlogTable {
 
   /**
    * <p>
-   * Add the specified {@link LogEventTableCellDecorator} to the list of decorators, that are used to decorate a table cell
+   * Add the specified {@link LogEventTableCellDecorator} to the list of decorators, that are used to decorate a table
+   * cell
    * </p>
    * 
    * @param eventDecorator

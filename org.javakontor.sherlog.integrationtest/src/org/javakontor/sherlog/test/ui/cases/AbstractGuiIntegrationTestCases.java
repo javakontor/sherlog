@@ -26,6 +26,10 @@ public class AbstractGuiIntegrationTestCases extends Assert {
     this._guiTestSupport = new GuiTestSupport(guiTestContext);
   }
 
+  public void dispose() throws Exception {
+    this._guiTestSupport.dispose();
+  }
+
   /**
    * returns the applicationWindowHandler.
    * 

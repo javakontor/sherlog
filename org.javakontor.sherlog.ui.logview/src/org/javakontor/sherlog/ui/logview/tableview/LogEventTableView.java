@@ -89,9 +89,11 @@ public class LogEventTableView extends AbstractView<LogEventTableModel, LogEvent
       break;
     case decoratorAdded:
       this._logEventTableTable.addLogEventDecorator((LogEventTableCellDecorator) event.getObjects()[0]);
+
       break;
     case decoratorRemoved:
       this._logEventTableTable.removeLogEventDecorator((LogEventTableCellDecorator) event.getObjects()[0]);
+      this._logEventTableTable.repaint();
       break;
     default:
       // ignore;

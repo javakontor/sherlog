@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLDecoder;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,15 +32,28 @@ public class GuiTestSupport extends Assert {
 
   Log                          _logger = LogFactory.getLog(GuiTestSupport.class);
 
+  private final List<Bundle>   _installedBundles;
+
   private final GuiTestContext _testContext;
 
   public GuiTestSupport(final GuiTestContext testContext) {
     assertNotNull(testContext);
     this._testContext = testContext;
+    this._installedBundles = new LinkedList<Bundle>();
   }
 
   protected BundleContext getBundleContext() {
     return this._testContext.getBundleContext();
+  }
+
+  public void dispose() throws Exception {
+    for (final Bundle bundle : this._installedBundles) {
+      if (bundle.getState() != Bundle.UNINSTALLED) {
+        this._logger.debug("Uninstall " + bundle.getSymbolicName());
+        bundle.uninstall();
+      }
+    }
+    this._installedBundles.clear();
   }
 
   /**
@@ -174,6 +189,7 @@ public class GuiTestSupport extends Assert {
       throw ex;
     }
     assertTrue("Bundle " + info + " should be UNINSTALLED", bundle.getState() == Bundle.UNINSTALLED);
+    this._installedBundles.remove(bundle);
 
   }
 
@@ -203,11 +219,18 @@ public class GuiTestSupport extends Assert {
       bundleLocation = location.getAbsolutePath();
     }
 
+    Bundle installedBundle;
+
     if (location.isFile()) {
-      return this._testContext.getBundleContext().installBundle(bundleLocation, new FileInputStream(location));
+      installedBundle = this._testContext.getBundleContext().installBundle(bundleLocation,
+          new FileInputStream(location));
     } else {
-      return this._testContext.getBundleContext().installBundle(bundleLocation);
+      installedBundle = this._testContext.getBundleContext().installBundle(bundleLocation);
     }
+
+    this._installedBundles.add(installedBundle);
+    return installedBundle;
+
   }
 
   public void assertNoViewContributionRegistered(final String dialogName) throws Exception {
@@ -263,6 +286,49 @@ public class GuiTestSupport extends Assert {
     }
     assertNotNull("There should be a ViewContribution registered with dialogName '" + dialogName + "'",
         matchingContribution);
+  }
+
+  /**
+   * Returns a service from the service registry, that is of the given type
+   * 
+   * <p>
+   * If no such service is registered, this method fails
+   * 
+   * @param className
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T getRegisteredService(final Class<T> serviceType) {
+    final ServiceReference serviceReference = this._testContext.getBundleContext().getServiceReference(
+        serviceType.getName());
+    assertNotNull("No service with interface '" + serviceType.getName() + "' registered", serviceReference);
+    final T service = (T) this._testContext.getBundleContext().getService(serviceReference);
+    assertNotNull("Service with reference '" + serviceReference + "' not available");
+    return service;
+  }
+
+  public void assertNoServiceRegistered(final Class<?> serviceType) {
+    final ServiceReference serviceReference = this._testContext.getBundleContext().getServiceReference(
+        serviceType.getName());
+    assertNull("There should be no service '" + serviceType + "' registered, but reference '" + serviceReference
+        + "' has been found");
+  }
+
+  public boolean isServiceRegistered(final Class<?> serviceType) {
+    final ServiceReference serviceReference = this._testContext.getBundleContext().getServiceReference(
+        serviceType.getName());
+    if (serviceReference == null) {
+      return false;
+    }
+    return this._testContext.getBundleContext().getService(serviceReference) != null;
+  }
+
+  public boolean isServiceRegistered(final String serviceName) throws InvalidSyntaxException {
+    final ServiceReference[] serviceReferences = this._testContext.getBundleContext().getAllServiceReferences(
+        serviceName, null);
+
+    return ((serviceReferences != null) && (serviceReferences.length > 0));
+
   }
 
   public boolean isViewContributionRegistered(final String dialogName) throws Exception {
@@ -506,5 +572,4 @@ public class GuiTestSupport extends Assert {
       e.printStackTrace();
     }
   }
-
 }

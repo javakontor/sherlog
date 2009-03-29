@@ -13,6 +13,10 @@ public class DynamicIntegrationTest extends AbstractGuiBasedIntegrationTest {
   @Override
   protected String getImportPackages() {
     return "org.javakontor.sherlog.application.view," // view
+        + "org.javakontor.sherlog.domain,"
+        + "org.javakontor.sherlog.domain.impl.reader,"
+        + "org.javakontor.sherlog.domain.reader,"
+        + "org.javakontor.sherlog.domain.store,"
         + ActionGroupElement.class.getPackage().getName();
   }
 
@@ -20,27 +24,40 @@ public class DynamicIntegrationTest extends AbstractGuiBasedIntegrationTest {
   protected String[] getTestBundlesNames() {
     return concat(getBaseBundleNames(), new String[] { "null,org.javakontor.sherlog.util,1.0.0",
         "null,org.javakontor.sherlog.util.ui,1.0.0", "null,org.javakontor.sherlog.application,1.0.0",
-        "null,org.javakontor.sherlog.application.mvc,1.0.0", "null,org.javakontor.sherlog.domain,1.0.0" });
+        "null,org.javakontor.sherlog.application.mvc,1.0.0", "null,org.javakontor.sherlog.domain,1.0.0",
+        "null,org.javakontor.sherlog.domain.impl,1.0.0" });
+  }
+
+  private DynamicIntegrationTestCases _testCases;
+
+  @Override
+  protected void onSetUp() throws Exception {
+    super.onSetUp();
+    this._testCases = new DynamicIntegrationTestCases(new GuiTestContext(this.bundleContext, getWorkspaceLocation()));
+  }
+
+  @Override
+  protected void onTearDown() throws Exception {
+    this._testCases.dispose();
+    this._testCases = null;
+    super.onTearDown();
   }
 
   public void test_dynamicManagementBundle() throws Exception {
-    final DynamicIntegrationTestCases dynamicIntegrationTestCases = new DynamicIntegrationTestCases(new GuiTestContext(
-        this.bundleContext, getWorkspaceLocation()));
-    dynamicIntegrationTestCases.test_dynamicManagementBundle();
+    this._testCases.test_dynamicManagementBundle();
   }
 
   public void test_dynamicLogView() throws Exception {
-    final DynamicIntegrationTestCases dynamicIntegrationTestCases = new DynamicIntegrationTestCases(new GuiTestContext(
-        this.bundleContext, getWorkspaceLocation()));
-    dynamicIntegrationTestCases.test_dynamicLogView();
+    this._testCases.test_dynamicLogView();
   }
 
   public void test_restartDynamicServices() throws Exception {
-    final DynamicIntegrationTestCases dynamicIntegrationTestCases = new DynamicIntegrationTestCases(new GuiTestContext(
-        this.bundleContext, getWorkspaceLocation()));
-    dynamicIntegrationTestCases.test_restartDynamicServices();
+    this._testCases.test_restartDynamicServices();
   }
 
+  public void test_dynamicColorFilter() throws Exception {
+    this._testCases.test_dynamicColorFilter();
+  }
   //      
   //      
   // "null,org.javakontor.sherlog.util,1.0.0", "null,org.javakontor.sherlog.domain,1.0.0",

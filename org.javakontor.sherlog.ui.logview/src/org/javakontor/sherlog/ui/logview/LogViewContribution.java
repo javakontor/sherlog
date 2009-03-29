@@ -88,7 +88,7 @@ public class LogViewContribution extends AbstractMvcViewContribution<LogModel, L
     _decoratorManager.bindService(decorator);
   }
 
-  public void unbindLogEventDecoratorManager(LogEventTableCellDecorator decorator) {
+  public void unbindLogEventDecorator(LogEventTableCellDecorator decorator) {
     _decoratorManager.unbindService(decorator);
   }
 
