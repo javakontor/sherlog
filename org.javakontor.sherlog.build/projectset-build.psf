@@ -18,5 +18,6 @@
 <project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.util.ui,org.javakontor.sherlog.util.ui"/>
 <project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.util.ui.java6,org.javakontor.sherlog.util.ui.java6"/>
 <project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.log4j,org.javakontor.sherlog.log4j"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.ui.colorfilter,org.javakontor.sherlog.ui.colorfilter"/>
 </provider>
 </psf>
