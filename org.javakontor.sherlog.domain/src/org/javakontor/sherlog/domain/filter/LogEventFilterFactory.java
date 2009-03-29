@@ -9,7 +9,7 @@ package org.javakontor.sherlog.domain.filter;
 public interface LogEventFilterFactory {
 
   /**
-   * Returns a human readable description of this factory (to be displa
+   * Returns a human readable description of this factory (to be displayed in UIs)
    * 
    * @return
    */
