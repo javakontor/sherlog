@@ -12,16 +12,15 @@ public class ColorFilter extends AbstractLogEventFilter {
 
   private final List<Color> _colors;
 
-  public ColorFilter(Color initialColor) {
+  public ColorFilter() {
     this._colors = new LinkedList<Color>();
-    this._colors.add(initialColor);
   }
 
-  public boolean matches(LogEvent event) {
+  public boolean matches(final LogEvent event) {
     if (!hasColors()) {
       return true;
     }
-    Color color = (Color) event.getUserDefinedField("COLOR");
+    final Color color = (Color) event.getUserDefinedField("COLOR");
 
     if ((color != null) && this._colors.contains(color)) {
       return true;
@@ -34,23 +33,23 @@ public class ColorFilter extends AbstractLogEventFilter {
   }
 
   @Override
-  protected void onRestoreFromMemento(LogEventFilterMemento memento) {
+  protected void onRestoreFromMemento(final LogEventFilterMemento memento) {
     // TODO Auto-generated method stub
   }
 
-  public void addColor(Color color) {
+  public void addColor(final Color color) {
     if (!this._colors.contains(color)) {
       this._colors.add(color);
       fireFilterChange();
     }
   }
 
-  public void removeColor(Color color) {
+  public void removeColor(final Color color) {
     this._colors.remove(color);
     fireFilterChange();
   }
 
-  public boolean hasColor(Color color) {
+  public boolean hasColor(final Color color) {
     return this._colors.contains(color);
   }
 

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.lumberjack.ui.logview.colorfilter
 Bundle-SymbolicName: org.javakontor.sherlog.ui.colorfilter
 Bundle-Version: 1.0.0
-Bundle-Activator: org.lumberjack.ui.logview.colorfilter.Activator
+Bundle-Activator: org.javakontor.sherlog.ui.colorfilter.Activator
 Import-Package: org.javakontor.sherlog.domain,
  org.javakontor.sherlog.domain.filter,
  org.javakontor.sherlog.domain.impl.filter,

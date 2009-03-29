@@ -18,9 +18,9 @@ class ColorFilterAction extends AbstractToggleAction implements ActionContextAwa
 
   LogEventStore       _logEventStore;
 
-  ColorFilterAction(String colorName, Color color) {
-    super("filter" + colorName + "Action", ColorFilterMenus.FILTER_BY_COLOR_TARGET_ACTIONGROUP_ID,
-        String.format(ColorFilterMessages.filterByCtxMenuTitle, colorName));
+  ColorFilterAction(final String colorName, final Color color) {
+    super("filter" + colorName + "Action", ColorFilterMenus.FILTER_BY_COLOR_TARGET_ACTIONGROUP_ID, String.format(
+        ColorFilterMessages.filterByCtxMenuTitle, colorName));
     this._color = color;
   }
 
@@ -29,21 +29,16 @@ class ColorFilterAction extends AbstractToggleAction implements ActionContextAwa
     if (!isActive()) {
       this._colorFilter.removeColor(this._color);
     } else {
-      if (this._colorFilter == null) {
-        this._colorFilter = new ColorFilter(this._color);
-        this._logEventStore.addLogEventFilter(this._colorFilter);
-      } else {
-        this._colorFilter.addColor(this._color);
-      }
+      this._colorFilter.addColor(this._color);
     }
   }
 
-  public void setActionContext(LogEventTableModel actionContext) {
-    LogEventTableModel logModel = (LogEventTableModel) actionContext;
+  public void setActionContext(final LogEventTableModel actionContext) {
+    final LogEventTableModel logModel = actionContext;
     this._logEventStore = logModel.getLogEventStore();
-    List<LogEventFilter> filters = this._logEventStore.getLogEventFilters();
+    final List<LogEventFilter> filters = this._logEventStore.getLogEventFilters();
     this._colorFilter = null;
-    for (LogEventFilter filter : filters) {
+    for (final LogEventFilter filter : filters) {
       if (filter instanceof ColorFilter) {
         this._colorFilter = (ColorFilter) filter;
         break;
