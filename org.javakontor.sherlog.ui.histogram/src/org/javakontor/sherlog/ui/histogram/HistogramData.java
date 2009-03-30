@@ -9,163 +9,180 @@ import org.javakontor.sherlog.domain.LogEvent;
 
 /**
  * <p>
- * Computes
+ * Helper class that computes all necessary values for the histogram panel.
  * </p>
- *
+ * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class HistogramData {
 
-	/** the minimum date */
-	private Date _minimumDate;
+  /** the minimum date */
+  private Date     _minimumDate;
 
-	/** the maximum date */
-	private Date _maximumDate;
+  /** the maximum date */
+  private Date     _maximumDate;
 
-	/** all values */
-	private double[] _values;
+  /** all values */
+  private double[] _values;
 
-	/** the hour count */
-	private int _secondCount;
+  /** the number of milliseconds */
+  private long     _numberOfMilliseconds;
 
-	/**
-	 * <p>
-	 * Creates a new instance of type {@link HistogramData}.
-	 * </p>
-	 *
-	 * @param logEvents
-	 */
-	public HistogramData(List<LogEvent> logEvents) {
-		compute(logEvents);
-	}
+  /**
+   * <p>
+   * Creates a new instance of type {@link HistogramData}.
+   * </p>
+   * 
+   * @param logEvents
+   */
+  public HistogramData(List<LogEvent> logEvents) {
+    compute(logEvents);
+  }
 
-	/**
-	 * <p>
-	 * </p>
-	 *
-	 * @return
-	 */
-	public double getMinimumDate() {
-		return _minimumDate.getTime();
-	}
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public double getMinimumTime() {
+    return _minimumDate.getTime();
+  }
 
-	/**
-	 * <p>
-	 * </p>
-	 *
-	 * @return
-	 */
-	public double getMaximumDate() {
-		return _maximumDate.getTime();
-	}
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public double getMaximumTime() {
+    return _maximumDate.getTime();
+  }
 
-	/**
-	 * <p>
-	 * </p>
-	 *
-	 * @return
-	 */
-	public double[] getValues() {
-		return _values;
-	}
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public double[] getValues() {
+    return _values;
+  }
 
-	/**
-	 * <p>
-	 * </p>
-	 *
-	 * @return
-	 */
-	public int getHourCount() {
-		return _secondCount;
-	}
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public int getNumberOfSeconds() {
+    return (int) Math.ceil((double) _numberOfMilliseconds / 1000.);
+  }
 
-	/**
-	 * <p>
-	 * </p>
-	 *
-	 * @param logEvents
-	 */
-	private void compute(List<LogEvent> logEvents) {
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public int getNumberOfMinutes() {
+    return (int) Math.ceil((double) _numberOfMilliseconds / (60. * 1000.));
+  }
 
-		// set default values if necessary
-		if (logEvents == null || logEvents.isEmpty()) {
+  /**
+   * <p>
+   * </p>
+   * 
+   * @return
+   */
+  public int getNumberOfHours() {
+    return (int) Math.ceil((double) _numberOfMilliseconds / (60. * 60. * 1000.));
+  }
 
-			//
-			_minimumDate = _maximumDate = new Date();
+  /**
+   * <p>
+   * </p>
+   * 
+   * @param logEvents
+   */
+  private void compute(List<LogEvent> logEvents) {
 
-			//
-			_values = new double[] {};
+    // set default values if necessary
+    if (logEvents == null || logEvents.isEmpty()) {
 
-			//
-			_secondCount = 1;
+      //
+      _minimumDate = _maximumDate = new Date();
 
-			// return
-			return;
-		}
+      //
+      _values = new double[] {};
 
-		_values = new double[logEvents.size()];
-		Date minimum = null;
-		Date maximum = null;
+      //
+      _numberOfMilliseconds = 1;
 
-		for (int j = 0; j < _values.length; j++) {
+      // return
+      return;
+    }
 
-			//
-			Date date = new Date(logEvents.get(j).getTimeStamp());
+    _values = new double[logEvents.size()];
+    Date minimum = null;
+    Date maximum = null;
 
-			//
-			if (minimum == null) {
-				minimum = date;
-			} else if (minimum.after(date)) {
-				minimum = date;
-			}
+    for (int j = 0; j < _values.length; j++) {
 
-			//
-			if (maximum == null) {
-				maximum = date;
-			} else if (date.after(maximum)) {
-				maximum = date;
-			}
+      //
+      Date date = new Date(logEvents.get(j).getTimeStamp());
 
-			_values[j] = logEvents.get(j).getTimeStamp();
-		}
+      //
+      if (minimum == null) {
+        minimum = date;
+      } else if (minimum.after(date)) {
+        minimum = date;
+      }
 
-		Calendar calendarMinimum = new GregorianCalendar();
-		Calendar calendarMaximum = new GregorianCalendar();
-		calendarMinimum.setTime(minimum);
-		calendarMaximum.setTime(maximum);
+      //
+      if (maximum == null) {
+        maximum = date;
+      } else if (date.after(maximum)) {
+        maximum = date;
+      }
 
+      _values[j] = logEvents.get(j).getTimeStamp();
+    }
 
-		calendarMinimum.set(Calendar.MINUTE, 0);
-		calendarMinimum.set(Calendar.SECOND, 0);
-		calendarMinimum.set(Calendar.MILLISECOND, 0);
+    Calendar calendarMinimum = new GregorianCalendar();
+    Calendar calendarMaximum = new GregorianCalendar();
+    calendarMinimum.setTime(minimum);
+    calendarMaximum.setTime(maximum);
 
-		calendarMaximum.set(Calendar.HOUR,
-				calendarMaximum.get(Calendar.HOUR) + 1);
-		calendarMaximum.set(Calendar.MINUTE, 0);
-		calendarMaximum.set(Calendar.SECOND, 0);
-		calendarMaximum.set(Calendar.MILLISECOND, 0);
+    calendarMinimum.set(Calendar.MINUTE, 0);
+    calendarMinimum.set(Calendar.SECOND, 0);
+    calendarMinimum.set(Calendar.MILLISECOND, 0);
 
-		_secondCount = (int) Math.ceil((double) (calendarMaximum.getTime()
-				.getTime() - calendarMinimum.getTime().getTime()) / (1000.));
+    calendarMaximum.set(Calendar.HOUR, calendarMaximum.get(Calendar.HOUR) + 1);
+    calendarMaximum.set(Calendar.MINUTE, 0);
+    calendarMaximum.set(Calendar.SECOND, 0);
+    calendarMaximum.set(Calendar.MILLISECOND, 0);
 
-		_minimumDate = calendarMinimum.getTime();
-		_maximumDate = calendarMaximum.getTime();
-	}
+    _numberOfMilliseconds = calendarMaximum.getTime().getTime() - calendarMinimum.getTime().getTime();
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("[HistogramComputer:");
-		buffer.append(" _minimumDate: ");
-		buffer.append(_minimumDate);
-		buffer.append(" _maximumDate: ");
-		buffer.append(_maximumDate);
-		buffer.append(" _hourCount: ");
-		buffer.append(_secondCount);
-		buffer.append("]");
-		return buffer.toString();
-	}
+    _minimumDate = calendarMinimum.getTime();
+    _maximumDate = calendarMaximum.getTime();
+  }
+
+  /**
+   * @see java.lang.Object#toString()
+   */
+  public String toString() {
+    StringBuffer buffer = new StringBuffer();
+    buffer.append("[HistogramComputer:");
+    buffer.append(" _minimumDate: ");
+    buffer.append(_minimumDate);
+    buffer.append(" _maximumDate: ");
+    buffer.append(_maximumDate);
+    buffer.append(" _hourCount: ");
+    buffer.append(_numberOfMilliseconds);
+    buffer.append("]");
+    return buffer.toString();
+  }
 
 }

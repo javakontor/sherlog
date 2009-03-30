@@ -51,7 +51,7 @@ public class HistogramViewContribution extends AbstractViewContribution {
 	 * @see org.javakontor.sherlog.application.view.ViewContribution#getDescriptor()
 	 */
 	public DefaultViewContributionDescriptor getDescriptor() {
-		return new DefaultViewContributionDescriptor("Log Event Histogram",
+		return new DefaultViewContributionDescriptor(HistogramPanel.HISTOGRAM_TITLE,
 				false, true, false, true, false);
 	}
 

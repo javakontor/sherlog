@@ -25,119 +25,125 @@ import org.jfree.data.xy.IntervalXYDataset;
  * <p>
  * Implements the histogram panel.
  * </p>
- *
+ * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class HistogramPanel extends JPanel {
 
-	/** serialVersionUID */
-	private static final long serialVersionUID = 1L;
+  /** X_AXIS_TITLE */
+  private static final String X_AXIS_TITLE     = "log event count";
 
-	/** the jfree chart panel */
-	private ChartPanel _chartPanel;
+  /** Y_AXIS_TITLE */
+  private static final String Y_AXIS_TITLE     = "time";
 
-	/** the jfree chart histogram dataset */
-	private HistogramDataset _dataset;
+  /** HISTOGRAM_TITLE */
+  public static final String  HISTOGRAM_TITLE  = "Log Event Histogram";
 
-	/**
-	 * <p>
-	 * Creates a new instance of type {@link HistogramPanel}.
-	 * </p>
-	 */
-	public HistogramPanel() {
+  /** serialVersionUID */
+  private static final long   serialVersionUID = 1L;
 
-		// sets the BorderLayout
-		this.setLayout(new BorderLayout());
+  /** the jfree chart panel */
+  private ChartPanel          _chartPanel;
 
-		// create the jfree chart
-		JFreeChart _chart = createChart(createDefaultDataset());
+  /** the jfree chart histogram dataset */
+  private HistogramDataset    _dataset;
 
-		// create the chart panel
-		_chartPanel = new ChartPanel(_chart);
+  /**
+   * <p>
+   * Creates a new instance of type {@link HistogramPanel}.
+   * </p>
+   */
+  public HistogramPanel() {
 
-		// add chart panel to histogram panel
-		add(_chartPanel, BorderLayout.CENTER);
-	}
+    // sets the BorderLayout
+    this.setLayout(new BorderLayout());
 
-	/**
-	 * <p>
-	 * Sets the log events.
-	 * </p>
-	 *
-	 * @param logEvents
-	 *            the log events.
-	 */
-	public void setLogEvents(List<LogEvent> logEvents) {
+    // create the jfree chart
+    JFreeChart _chart = createChart(createDefaultDataset());
 
-		HistogramData data = new HistogramData(logEvents);
+    // create the chart panel
+    _chartPanel = new ChartPanel(_chart);
 
-		IntervalXYDataset intervalXYDataset = createDataset(data.getValues(),
-				data.getMinimumDate(), data.getMaximumDate(), data
-						.getHourCount());
+    // add chart panel to histogram panel
+    add(_chartPanel, BorderLayout.CENTER);
+  }
 
-		_chartPanel.setChart(createChart(intervalXYDataset));
-	}
+  /**
+   * <p>
+   * Sets the log events.
+   * </p>
+   * 
+   * @param logEvents
+   *          the log events.
+   */
+  public void setLogEvents(List<LogEvent> logEvents) {
 
-	/**
-	 * @return
-	 */
-	private IntervalXYDataset createDefaultDataset() {
-		return createDataset(new double[] { 0.0 }, 0.0, 0.0, 1);
+    HistogramData data = new HistogramData(logEvents);
 
-	}
+    IntervalXYDataset intervalXYDataset = createDataset(data.getValues(), data.getMinimumTime(), data.getMaximumTime(),
+        data.getNumberOfMinutes());
 
-	/**
-	 * Creates a sample {@link HistogramDataset}.
-	 *
-	 * @return the dataset.
-	 */
-	private IntervalXYDataset createDataset(double[] values, double minimum,
-			double maximum, int count) {
-		//
-		_dataset = new HistogramDataset();
+    _chartPanel.setChart(createChart(intervalXYDataset));
+  }
 
-		//
-		if (values.length > 0) {
-			_dataset.addSeries("Log Events", values, count, minimum, maximum);
-		}
+  /**
+   * @return
+   */
+  private IntervalXYDataset createDefaultDataset() {
+    return createDataset(new double[] { 0.0 }, 0.0, 0.0, 1);
 
-		//
-		return _dataset;
-	}
+  }
 
-	/**
-	 * Creates a chart.
-	 *
-	 * @param dataset
-	 *            a dataset.
-	 *
-	 * @return The chart.
-	 */
-	private JFreeChart createChart(IntervalXYDataset dataset) {
-		JFreeChart chart = ChartFactory.createHistogram("Log Event Histogram",
-				null, null, dataset, PlotOrientation.VERTICAL, true, true,
-				false);
-		XYPlot plot = (XYPlot) chart.getPlot();
-		plot.setForegroundAlpha(0.85f);
+  /**
+   * Creates a sample {@link HistogramDataset}.
+   * 
+   * @return the dataset.
+   */
+  private IntervalXYDataset createDataset(double[] values, double minimum, double maximum, int count) {
+    //
+    _dataset = new HistogramDataset();
 
-		NumberAxis numberAxis = new NumberAxis("Log event count");
-		TickUnitSource units = NumberAxis.createIntegerTickUnits();
-		numberAxis.setStandardTickUnits(units);
-		plot.setRangeAxis(numberAxis);
+    //
+    if (values.length > 0) {
+      _dataset.addSeries(HISTOGRAM_TITLE, values, count, minimum, maximum);
+    }
 
-		// set the tick size to one week, with formatting...
-		DateAxis dateAxis = new DateAxis("time");
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		DateTickUnit unit = new DateTickUnit(DateTickUnit.MINUTE, 60, formatter);
-		dateAxis.setTickUnit(unit);
-		plot.setDomainAxis(dateAxis);
+    //
+    return _dataset;
+  }
 
-		XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
-		renderer.setDrawBarOutline(false);
-		renderer.setBaseSeriesVisibleInLegend(false);
-		// flat bars look best...
-		// renderer.setBarPainter(new StandardXYBarPainter());
-		// renderer.setShadowVisible(false);
-		return chart;
-	}
+  /**
+   * Creates a chart.
+   * 
+   * @param dataset
+   *          a dataset.
+   * 
+   * @return The chart.
+   */
+  private JFreeChart createChart(IntervalXYDataset dataset) {
+    JFreeChart chart = ChartFactory.createHistogram(HISTOGRAM_TITLE, null, null, dataset, PlotOrientation.VERTICAL,
+        true, true, false);
+    XYPlot plot = (XYPlot) chart.getPlot();
+    plot.setForegroundAlpha(0.85f);
+
+    NumberAxis numberAxis = new NumberAxis(X_AXIS_TITLE);
+    TickUnitSource units = NumberAxis.createIntegerTickUnits();
+    numberAxis.setStandardTickUnits(units);
+    plot.setRangeAxis(numberAxis);
+
+    // set the tick size to one week, with formatting...
+    DateAxis dateAxis = new DateAxis(Y_AXIS_TITLE);
+    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+    DateTickUnit unit = new DateTickUnit(DateTickUnit.MINUTE, 60, formatter);
+    dateAxis.setTickUnit(unit);
+    plot.setDomainAxis(dateAxis);
+
+    XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+    renderer.setDrawBarOutline(false);
+    renderer.setBaseSeriesVisibleInLegend(false);
+    // flat bars look best...
+    // renderer.setBarPainter(new StandardXYBarPainter());
+    // renderer.setShadowVisible(false);
+    return chart;
+  }
 }
