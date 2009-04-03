@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.javakontor.sherlog.application bundle
+Bundle-SymbolicName: org.javakontor.sherlog.application
+Bundle-Version: 1.0.0
+Import-Package: org.apache.commons.logging;version="1.1.1",
+ org.javakontor.sherlog.util.ui;version="1.0.0",
+ org.javakontor.sherlog.util,
+ org.javakontor.sherlog.util.nls,
+ org.javakontor.sherlog.util.servicemanager,
+ org.osgi.framework;version="1.4.0",
+ org.osgi.service.component;version="1.0.0"
+Export-Package: org.javakontor.sherlog.application.action,
+ org.javakontor.sherlog.application.action.impl,
+ org.javakontor.sherlog.application.menu,
+ org.javakontor.sherlog.application.request,
+ org.javakontor.sherlog.application.view
+Service-Component: OSGI-INF/actionset-component-description.xml,OSGI-INF/windowmenu-component-description.xml,OSGI-INF/component-description.xml
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

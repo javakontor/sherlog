@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project name="build.sherlog"
+         basedir="."
+         default="build"
+         xmlns:ant4eclipse="antlib:org.ant4eclipse">
+
+	<import file="pde-macros.xml" />
+
+	<!-- define environment properties -->
+	<property file="${basedir}/environment.properties" />
+
+	<!-- define your jdk location here -->
+	<ant4eclipse:jreContainer>
+		<jre id="jdk15" location="${jdk15.location}" />
+		<jre id="jdk16" location="${jdk16.location}" />
+	</ant4eclipse:jreContainer>
+
+	<ant4eclipse:targetPlatform id="target.platform">
+		<location dir="${basedir}/../target.platform/equinox-3.4/plugins" />
+		<location dir="${basedir}/../target.platform/ebr" />
+		<location dir="${basedir}/../target.platform/codehaus" />
+		<location dir="${basedir}/../target.platform/javakontor" />
+	</ant4eclipse:targetPlatform>
+
+	<!-- =================================
+          target: build
+         ================================= -->
+	<target name="build">
+
+		<delete dir="${destination}" quiet="true" />
+		<mkdir dir="${destination}" />
+
+		<ant4eclipse:executeProjectSet workspace="${basedir}/.."
+		                               teamprojectset="${teamprojectset}"
+		                               projectReferenceTypes="jdt">
+
+			<ant4eclipse:jdtClasspathContainerArgument key="target.platform"
+			                                           value="target.platform" />
+
+			<ant4eclipse:forEachProject>
+
+				<buildPlugin workspace="${basedir}/.."
+				             projectname="${executeProjectSet.project.name}"
+				             targetPlatformId="target.platform"
+				             destination="${destination}" />
+
+			</ant4eclipse:forEachProject>
+
+		</ant4eclipse:executeProjectSet>
+
+	</target>
+
+</project>

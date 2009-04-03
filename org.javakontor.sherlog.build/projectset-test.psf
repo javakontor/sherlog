@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.test,org.javakontor.sherlog.test"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.springframework.bundle.osgi.test,org.springframework.bundle.osgi.test"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.test.libs,org.javakontor.sherlog.test.libs"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.integrationtest,org.javakontor.sherlog.integrationtest"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.ui.loadwizard.test,org.javakontor.sherlog.ui.loadwizard.test"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.domain.impl.test,org.javakontor.sherlog.domain.impl.test"/>
+<project reference="0.9.3,http://svn.ant4eclipse.net/sherlog/trunk/org.javakontor.sherlog.application.test,org.javakontor.sherlog.application.test"/>
+</provider>
+</psf>

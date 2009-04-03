@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<component name="applicationWindowComponent" immediate="true">
+  <implementation class="org.javakontor.sherlog.application.internal.ApplicationWindowComponent"/>
+  <reference name="dialogs"
+    interface="org.javakontor.sherlog.application.view.ViewContribution"
+    bind="setViewContribution"
+    unbind="unsetViewContribution"
+    cardinality="0..n"
+    policy="dynamic"
+  />
+ 
+  <reference name="actionSetMananger"
+    interface="org.javakontor.sherlog.application.action.ActionSetManager"
+    bind="bindActionSetManager"
+    unbind="unbindActionSetManager"
+    cardinality="0..1"
+    policy="dynamic"
+  />
+ 
+  
+  <!-- reference name="actions"
+    interface="org.javakontor.sherlog.application.action.Action"
+    bind="addAction"
+    unbind="removeAction"
+    cardinality="0..n"
+    policy="dynamic"
+  />
+  
+  <reference name="actions"
+    interface="org.javakontor.sherlog.application.action.ActionGroup"
+    bind="addActionGroup"
+    unbind="removeActionGroup"
+    cardinality="0..n"
+    policy="dynamic"
+  / -->
+  
+  
+</component>
