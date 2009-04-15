@@ -15,7 +15,7 @@ import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.RequestHandler;
 import org.osgi.framework.Bundle;
 
-public class BundleListController extends AbstractController<BundleListModel, BundleListView> {
+public class BundleListController extends AbstractController<BundleListModel, BundleListView, BundleListModelReasonForChange> {
 
   public BundleListController(BundleListModel model, BundleListView view, RequestHandler successor) {
     super(model, view, successor);

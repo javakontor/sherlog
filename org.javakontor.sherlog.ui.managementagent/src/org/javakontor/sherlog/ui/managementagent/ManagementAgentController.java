@@ -4,6 +4,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetListener;
 
 import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.request.Request;
 import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.ui.managementagent.detailview.BundleDetailController;
@@ -13,10 +14,10 @@ import org.javakontor.sherlog.ui.managementagent.tableview.SetSelectedBundleRequ
 /**
  * <p>
  * </p>
- * 
+ *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class ManagementAgentController extends AbstractController<ManagementAgentModel, ManagementAgentView> {
+public class ManagementAgentController extends AbstractController<ManagementAgentModel, ManagementAgentView, DefaultReasonForChange> {
 
   private final BundleListController   _bundleListController;
 
@@ -25,7 +26,7 @@ public class ManagementAgentController extends AbstractController<ManagementAgen
   /**
    * <p>
    * </p>
-   * 
+   *
    * @param model
    * @param view
    * @param successor
@@ -34,13 +35,13 @@ public class ManagementAgentController extends AbstractController<ManagementAgen
     super(model, view, successor);
 
     DropTargetListener dropTargetListener = new BundleInstallDropTargetListener(getModel().getBundleListModel());
-    
+
     _bundleListController = new BundleListController(model.getBundleListModel(), view.getBundleListView(), this);
     _bundleListController.addDropTargetListener(dropTargetListener);
-    
+
     _bundleDetailController = new BundleDetailController(model.getBundleDetailModel(), view.getBundleDetailView(), this);
     _bundleDetailController.addDropTargetListener(dropTargetListener);
-    
+
     new DropTarget(getView(), dropTargetListener);
   }
 

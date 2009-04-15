@@ -12,7 +12,7 @@ import org.osgi.framework.BundleContext;
  * <p>
  * The model for the bundle detail view.
  * </p>
- * 
+ *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class BundleDetailModel extends AbstractModel<BundleDetailModel, DefaultReasonForChange> {
@@ -28,7 +28,7 @@ public class BundleDetailModel extends AbstractModel<BundleDetailModel, DefaultR
   /**
    * <p>
    * </p>
-   * 
+   *
    * @param bundleContext
    */
   public BundleDetailModel(BundleContext bundleContext) {
@@ -41,7 +41,7 @@ public class BundleDetailModel extends AbstractModel<BundleDetailModel, DefaultR
    * <p>
    * Returns the bundle.
    * </p>
-   * 
+   *
    * @return the bundle.
    */
   public Bundle getBundle() {
@@ -52,7 +52,7 @@ public class BundleDetailModel extends AbstractModel<BundleDetailModel, DefaultR
    * <p>
    * Sets the bundle.
    * </p>
-   * 
+   *
    * @param bundle
    */
   public void setBundle(Bundle bundle) {

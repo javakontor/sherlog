@@ -3,7 +3,6 @@ package org.javakontor.sherlog.ui.managementagent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JButton;
 import javax.swing.JSplitPane;
 import javax.swing.text.View;
 
@@ -16,7 +15,7 @@ import org.javakontor.sherlog.ui.managementagent.tableview.BundleListView;
  * <p>
  * The {@link View} for the {@link LogViewContribution}.
  * </p>
- * 
+ *
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
@@ -39,7 +38,7 @@ public class ManagementAgentView extends AbstractView<ManagementAgentModel, Defa
    * <p>
    * Creates a new instance of type {@link ManagementAgentView}.
    * </p>
-   * 
+   *
    * @param model
    *          the {@link ManagementAgentModel}
    */
@@ -87,7 +86,7 @@ public class ManagementAgentView extends AbstractView<ManagementAgentModel, Defa
 
   /**
    * Resets the horizontal Splitpane to it's preferred size.
-   * 
+   *
    * @see JSplitPane#resetToPreferredSizes()
    */
   public void resetHorizontalSplitPane() {

@@ -4,23 +4,22 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetListener;
 
 import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.request.RequestHandler;
-import org.javakontor.sherlog.ui.managementagent.BundleInstallDropTargetListener;
 
 /**
  * <p>
- * The controller for the bundle detail view.
- * </p>
- * 
+ * The controller for the bundle detail view. * </p>
+ *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class BundleDetailController extends AbstractController<BundleDetailModel, BundleDetailView> {
+public class BundleDetailController extends AbstractController<BundleDetailModel, BundleDetailView, DefaultReasonForChange> {
 
   /**
    * <p>
    * Creates a new instance of type {@link BundleDetailController}.
    * </p>
-   * 
+   *
    * @param model
    *          the model
    * @param view
