@@ -9,16 +9,16 @@ import org.javakontor.sherlog.util.Assert;
  * <p>
  * Abstract implementation of the interface {@link Controller}.
  * </p>
- * 
+ *
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
- * 
+ *
  * @param <M>
  *          the type of the model
  * @param <V>
  *          the type of the view
  */
-public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, V extends View<M, ? extends Enum<?>>>
+public abstract class AbstractController<M extends Model<M, E>, V extends View<M, E>, E extends Enum<E>>
     implements Controller<M, V> {
 
   /** the successor in the chain of responsibilities */
@@ -34,7 +34,7 @@ public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, 
    * <p>
    * Creates a new instance of type {@link AbstractController}.
    * </p>
-   * 
+   *
    * @param model
    *          the model
    * @param view
@@ -58,7 +58,7 @@ public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, 
    * <p>
    * Creates a new instance of type {@link AbstractController}.
    * </p>
-   * 
+   *
    * @param model
    *          the model
    * @param view
@@ -100,12 +100,12 @@ public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, 
    * <p>
    * Implements the method <code>handleRequest</code> of type {@link RequestHandler}.
    * </p>
-   * 
+   *
    * @param request
    *          der Request der behandelt werden soll.
-   * 
+   *
    * @precondition request != null
-   * 
+   *
    * @see org.javakontor.sherlog.application.request.RequestHandler#handleRequest(org.javakontor.sherlog.application.request.Request)
    */
   public final void handleRequest(Request request) {
@@ -122,7 +122,7 @@ public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, 
    * <p>
    * Default implementation of the <code>canHandleRequest</code> method that always returns <code>false</code>.
    * </p>
-   * 
+   *
    * @param request
    *          the request to handle
    * @return
@@ -139,7 +139,7 @@ public abstract class AbstractController<M extends Model<M, ? extends Enum<?>>, 
    * <p>
    * The default implementation does nothing.
    * </p>
-   * 
+   *
    * @param request
    *          the request to handle.
    */
