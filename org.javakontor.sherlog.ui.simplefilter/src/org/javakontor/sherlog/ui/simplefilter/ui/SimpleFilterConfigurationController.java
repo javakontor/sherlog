@@ -4,11 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.domain.LogLevel;
 
 public class SimpleFilterConfigurationController extends
-    AbstractController<SimpleFilterConfigurationModel, SimpleFilterConfigurationView> {
+    AbstractController<SimpleFilterConfigurationModel, SimpleFilterConfigurationView, DefaultReasonForChange> {
 
   public SimpleFilterConfigurationController(final SimpleFilterConfigurationModel model,
       final SimpleFilterConfigurationView view, final RequestHandler successor) {
