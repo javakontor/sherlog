@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.ui.logview.detailview;
 
 import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.request.RequestHandler;
 
 /**
@@ -10,7 +11,8 @@ import org.javakontor.sherlog.application.request.RequestHandler;
  * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class LogEventDetailController extends AbstractController<LogEventDetailModel, LogEventDetailView> {
+public class LogEventDetailController extends
+    AbstractController<LogEventDetailModel, LogEventDetailView, DefaultReasonForChange> {
 
   /**
    * <p>

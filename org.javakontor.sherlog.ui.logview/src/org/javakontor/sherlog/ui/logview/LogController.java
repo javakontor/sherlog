@@ -7,6 +7,7 @@ import java.awt.event.ContainerListener;
 import javax.swing.JSplitPane;
 
 import org.javakontor.sherlog.application.mvc.AbstractController;
+import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.application.request.Request;
 import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.ui.logview.detailview.LogEventDetailController;
@@ -20,7 +21,7 @@ import org.javakontor.sherlog.ui.logview.tableview.SetSelectedLogEventsRequest;
  * 
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class LogController extends AbstractController<LogModel, LogView> {
+public class LogController extends AbstractController<LogModel, LogView, DefaultReasonForChange> {
 
   private final LogEventTableController  _logEventTableController;
 

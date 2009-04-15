@@ -15,7 +15,8 @@ import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.util.ui.SherlogTable;
 
-public class LogEventTableController extends AbstractController<LogEventTableModel, LogEventTableView> {
+public class LogEventTableController extends
+    AbstractController<LogEventTableModel, LogEventTableView, LogEventTableModelReasonForChange> {
 
   private ContextMenu<LogEventTableModel> _contextMenu;
 
