@@ -1,0 +1,8 @@
+|2009-03-01 20:24:53,364 [Thread-0] <ERROR> org.sherlog.core.internal Quisque semper velit at turpis auctor lobortis. Nunc vel ipsum in odio posuere tincidunt. Suspendisse blandit hendrerit diam. In sit amet dolor a diam. 
+java.lang.RuntimeException: An Error occured: java.lang.Throwable: A cause
+	at loggenerator.BinaryLogGenerator.generateEvents(BinaryLogGenerator.java:85)
+	at loggenerator.BinaryLogGenerator.main(BinaryLogGenerator.java:118)
+Caused by: java.lang.Throwable: A cause
+	at loggenerator.BinaryLogGenerator.generateEvents(BinaryLogGenerator.java:84)
+	... 1 more
+|2009-03-01 20:24:53,858 [Thread-1] <DEBUG> org.apache.logging Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In pharetra felis ut enim. Pellentesque in ipsum. Vestibulum eu sapien. Sed aliquam nisi quis tortor. Suspendisse sem. Maecenas fermentum erat. Fusce est lorem, euismod tincidunt, faucibus a, pretium eu, odio. In eros pede, pellentesque quis, viverra eget, eleifend ut, nibh. Ut nisl. 

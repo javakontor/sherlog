@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<component name="logEventReaderFactoryComponent" immediate="true">
+	<implementation
+		class="org.javakontor.sherlog.domain.impl.internal.reader.LogEventReaderFactoryComponent" />
+	<service>
+		<provide
+			interface="org.javakontor.sherlog.domain.reader.LogEventReaderFactory" />
+	</service>
+	<reference name="textLogEventProvider"
+		interface="org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider"
+		bind="setTextLogEventProvider" unbind="unsetTextLogEventProvider"
+		cardinality="0..1" policy="dynamic" />
+	<reference name="objectLogEventProvider"
+		interface="org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider"
+		bind="setObjectLogEventProvider" unbind="unsetObjectLogEventProvider"
+		cardinality="0..1" policy="dynamic" />
+</component>
