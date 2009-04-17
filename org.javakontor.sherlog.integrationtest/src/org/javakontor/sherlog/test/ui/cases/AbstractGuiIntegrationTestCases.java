@@ -56,8 +56,7 @@ public class AbstractGuiIntegrationTestCases extends Assert {
   }
 
   protected String getTestLogFile() {
-    final File binaryLogFile = new File(this._guiTestContext.getWorkspaceLocation(),
-        "org.javakontor.sherlog.domain.impl.test/logs/log_small.bin");
+    final File binaryLogFile = new File(this._guiTestContext.getWorkspaceLocation(), "test-logfiles/log_small.bin");
     assertTrue("The binary test-logfile '" + binaryLogFile.getAbsolutePath() + "' must be an existing file",
         binaryLogFile.isFile());
     final String testLogFile = binaryLogFile.getAbsolutePath();

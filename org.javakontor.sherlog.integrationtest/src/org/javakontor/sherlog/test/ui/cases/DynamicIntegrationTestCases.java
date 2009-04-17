@@ -54,7 +54,7 @@ public class DynamicIntegrationTestCases extends AbstractGuiIntegrationTestCases
   public void test_dynamicLogView() throws Exception {
     // Install prereqs
     final Bundle logViewBundle = this._guiTestSupport.installBundle("org.javakontor.sherlog.ui.logview");
-    final Bundle filterBundle = this._guiTestSupport.installAndStartBundle("org.javakontor.sherlog.ui.filter");
+    this._guiTestSupport.installAndStartBundle("org.javakontor.sherlog.ui.filter");
     // stop domain.impl-bundle (to remove LogEventStore from Service registry)
     final Bundle domainImplBundle = this._guiTestSupport.stopBundle("org.javakontor.sherlog.domain.impl");
 
