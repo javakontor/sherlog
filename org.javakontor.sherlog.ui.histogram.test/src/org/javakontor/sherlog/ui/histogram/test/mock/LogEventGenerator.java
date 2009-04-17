@@ -9,8 +9,8 @@ import org.javakontor.sherlog.domain.LogLevel;
 
 public class LogEventGenerator {
 
-  private static final String[] LOG_CATEGORIES = { "org.lumberjack", "org.lumberjack.core",
-      "org.lumberjack.core.internal", "org.lumberjack.util", "org.apache.logging", "org.apache.core" };
+  private static final String[] LOG_CATEGORIES = { "org.sherlog", "org.sherlog.core",
+      "org.sherlog.core.internal", "org.sherlog.util", "org.apache.logging", "org.apache.core" };
 
   private static int            count          = 0;
 

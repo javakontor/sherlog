@@ -21,8 +21,6 @@ public class LogEventMock implements LogEvent {
 
 	private final LogLevel _logLevel;
 
-	private final String _logSource;
-
 	private final String _message;
 
 	private final String _threadName;
@@ -40,7 +38,6 @@ public class LogEventMock implements LogEvent {
 		this._category = category;
 		this._identifier = identifier;
 		this._logLevel = logLevel;
-		this._logSource = logSource;
 		this._message = message;
 		this._threadName = threadName;
 		this._throwable = throwable;
