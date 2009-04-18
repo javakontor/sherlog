@@ -31,7 +31,7 @@ public class GuiIntegrationTest extends AbstractGuiBasedIntegrationTest {
         "null,org.javakontor.sherlog.application,1.0.0", "null,org.javakontor.sherlog.application.mvc,1.0.0",
         "null,org.javakontor.sherlog.ui.loadwizard,1.0.0", "null,org.javakontor.sherlog.ui.logview,1.0.0",
         "null,org.javakontor.sherlog.ui.filter,1.0.0", "null,org.javakontor.sherlog.util.ui,1.0.0",
-        "null,org.lumberjack.ui.logview.colorfilter,1.0.0",
+        "null,org.javakontor.sherlog.ui.colorfilter,1.0.0",
         "null,org.javakontor.sherlog.domain.logeventflavour.l4jbinary,1.0.0",
         "null,org.javakontor.sherlog.ui.managementagent,1.0.0", });
   }
