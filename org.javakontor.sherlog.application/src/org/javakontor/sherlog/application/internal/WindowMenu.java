@@ -1,18 +1,21 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_TARGET_ID;
 
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupType;
-import org.javakontor.sherlog.application.action.StaticActionGroupProvider;
-import org.javakontor.sherlog.application.action.StaticActionProvider;
-import org.javakontor.sherlog.application.action.impl.AbstractAction;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
-import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.AbstractAction;
+import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.contrib.StaticActionGroupProvider;
+import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 import org.javakontor.sherlog.application.internal.util.Arranger;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.BundleContext;
@@ -32,7 +35,7 @@ public class WindowMenu {
 
     // Create 'Window' menu in menubar
     final WindowMenuActionGroup windowMenuActionGroup = new WindowMenuActionGroup();
-    this._registration = ActionGroupElementServiceHelper.registerActionGroup(context, windowMenuActionGroup);
+    this._registration = context.registerService(ActionGroupContribution.class.getName(), windowMenuActionGroup, null);
   }
 
   /**
@@ -47,16 +50,16 @@ public class WindowMenu {
    */
   class WindowMenuActionGroup extends DefaultActionGroup implements StaticActionGroupProvider {
 
-    private final ActionGroup[] _staticActionGroups;
+    private final ActionGroupContribution[] _staticActionGroups;
 
     public WindowMenuActionGroup() {
       super(ActionGroupType.simple, WINDOW_MENU_ID, MENUBAR_ID + "(last)", ApplicationMessages.windowMenuTitle);
 
-      this._staticActionGroups = new ActionGroup[] { new ArrangeActionGroup(),
+      this._staticActionGroups = new ActionGroupContribution[] { new ArrangeActionGroup(),
           new DefaultActionGroup(TOOLS_MENU_ID, WINDOW_MENU_TARGET_ID, ApplicationMessages.toolsMenuTitle) };
     }
 
-    public ActionGroup[] getActionGroups() {
+    public ActionGroupContribution[] getActionGroups() {
       return this._staticActionGroups;
     }
 
@@ -65,21 +68,27 @@ public class WindowMenu {
     }
   }
 
+  public ActionContribution getArrangeActionGroupContirbution(final String label, final int arrangeMode) {
+    return new DefaultActionContribution(WINDOW_ARRANGE_MENU_ID + "." + arrangeMode, WINDOW_ARRANGE_MENU_TARGET_ID,
+        label, null, new ArrangeAction(arrangeMode));
+  }
+
   class ArrangeActionGroup extends DefaultActionGroup implements StaticActionProvider {
 
-    private final Action[] _actions;
+    private final ActionContribution[] _actions;
 
     public ArrangeActionGroup() {
       super(ActionGroupType.simple, WINDOW_ARRANGE_MENU_ID, WINDOW_MENU_TARGET_ID + "(first)",
           ApplicationMessages.arrangeMenuTitle);
 
-      this._actions = new Action[] { new ArrangeAction(ApplicationMessages.horizontalMenuTitle, Arranger.HORIZONTAL),
-          new ArrangeAction(ApplicationMessages.verticalMenuTitle, Arranger.VERTICAL),
-          new ArrangeAction(ApplicationMessages.arrangeWindowsMenuTitle, Arranger.ARRANGE),
-          new ArrangeAction(ApplicationMessages.cascadeMenuTitle, Arranger.CASCADE) };
+      this._actions = new ActionContribution[] {
+          getArrangeActionGroupContirbution(ApplicationMessages.horizontalMenuTitle, Arranger.HORIZONTAL),
+          getArrangeActionGroupContirbution(ApplicationMessages.verticalMenuTitle, Arranger.VERTICAL),
+          getArrangeActionGroupContirbution(ApplicationMessages.arrangeWindowsMenuTitle, Arranger.ARRANGE),
+          getArrangeActionGroupContirbution(ApplicationMessages.cascadeMenuTitle, Arranger.CASCADE) };
     }
 
-    public Action[] getActions() {
+    public ActionContribution[] getActionContributions() {
       return this._actions;
     }
 
@@ -93,8 +102,7 @@ public class WindowMenu {
 
     private final int _arrangeMode;
 
-    public ArrangeAction(final String label, final int arrangeMode) {
-      super(WINDOW_ARRANGE_MENU_ID + "." + arrangeMode, WINDOW_ARRANGE_MENU_TARGET_ID, label);
+    public ArrangeAction(final int arrangeMode) {
 
       this._arrangeMode = arrangeMode;
     }
@@ -105,16 +113,14 @@ public class WindowMenu {
   }
 
   /**
-   * An {@link Action}, that brings the window of a {@link ViewContribution} to front
+   * An {@link ActionContribution}, that brings the window of a {@link ViewContribution} to front
    * 
    */
   class OpenWindowAction extends AbstractAction {
 
     private final ViewContribution _viewContribution;
 
-    public OpenWindowAction(final String actionId, final String targetActionGroupId, final String label,
-        final ViewContribution viewContribution) {
-      super(actionId, targetActionGroupId, label);
+    public OpenWindowAction(final ViewContribution viewContribution) {
       this._viewContribution = viewContribution;
     }
 

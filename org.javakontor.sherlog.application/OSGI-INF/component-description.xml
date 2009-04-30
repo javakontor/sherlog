@@ -12,7 +12,7 @@
   />
 
   <reference name="actionSetMananger"
-    interface="org.javakontor.sherlog.application.action.ActionSetManager"
+    interface="org.javakontor.sherlog.application.action.contrib.ActionSetManager"
     bind="bindActionSetManager"
     unbind="unbindActionSetManager"
     cardinality="0..1"

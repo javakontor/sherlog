@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.action.impl;
+package org.javakontor.sherlog.application.internal.action;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,14 +7,13 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupElement;
-import org.javakontor.sherlog.application.internal.action.LocatableActionGroupElement;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 import org.javakontor.sherlog.util.Assert;
 
 /**
- * Holds the content of one {@link ActionGroup}, that is all Actions and ActionGroups with the same
- * {@link ActionGroupElement#getTargetActionGroupId() targetActionGroupId}.
+ * Holds the content of one {@link ActionGroupContribution}, that is all Actions and ActionGroups with the same
+ * {@link ActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}.
  * 
  * <p>
  * Note: The ActionGroupContent can be filled with Actions and ActionGroups <b>before</b> the ActionGroup itself is
@@ -37,12 +36,12 @@ public class ActionGroupContent {
    * Maybe <tt>null</tt> if there has been a registration for the ActionGroup but the ActionGroup itself has not been
    * registered yet (i.e. a child has been registered before its parent)
    */
-  private ActionGroup                    _actionGroup;
+  private ActionGroupContribution                    _actionGroup;
 
   /**
    * The ActionGroupElements that are registered for the ActionGroup
    */
-  private final List<ActionGroupElement> _actionGroupElements;
+  private final List<ActionGroupElementContribution> _actionGroupElements;
 
   /**
    * Determines whether it is allowed to add more content to this ActionGroupContent.
@@ -51,7 +50,7 @@ public class ActionGroupContent {
   private boolean                        _open;
 
   public ActionGroupContent() {
-    this._actionGroupElements = new LinkedList<ActionGroupElement>();
+    this._actionGroupElements = new LinkedList<ActionGroupElementContribution>();
     this._open = true;
   }
 
@@ -67,7 +66,7 @@ public class ActionGroupContent {
    *          The element to add
    * @return true if the element has been added. False if this content is closed and the request has been ignored
    */
-  public synchronized boolean add(final ActionGroupElement actionGroupElement) {
+  public synchronized boolean add(final ActionGroupElementContribution actionGroupElement) {
     Assert.notNull(actionGroupElement);
 
     if (containsActionGroupElementId(actionGroupElement.getId())) {
@@ -128,7 +127,7 @@ public class ActionGroupContent {
    * 
    * @return
    */
-  public ActionGroup getActionGroup() {
+  public ActionGroupContribution getActionGroup() {
     return this._actionGroup;
   }
 
@@ -140,7 +139,7 @@ public class ActionGroupContent {
    * 
    * @param actionGroup
    */
-  public void setActionGroup(final ActionGroup actionGroup) {
+  public void setActionGroup(final ActionGroupContribution actionGroup) {
     this._actionGroup = actionGroup;
   }
 
@@ -160,10 +159,10 @@ public class ActionGroupContent {
     this._actionGroupElements.clear();
   }
 
-  public synchronized void remove(final ActionGroupElement element) {
-    final Iterator<ActionGroupElement> it = this._actionGroupElements.iterator();
+  public synchronized void remove(final ActionGroupElementContribution element) {
+    final Iterator<ActionGroupElementContribution> it = this._actionGroupElements.iterator();
     while (it.hasNext()) {
-      final ActionGroupElement menuItem = it.next();
+      final ActionGroupElementContribution menuItem = it.next();
       if (menuItem.equals(element)) {
         it.remove();
         break;
@@ -179,7 +178,7 @@ public class ActionGroupContent {
    * @return true if there is already a child with the specified id
    */
   private boolean containsActionGroupElementId(final String id) {
-    for (final ActionGroupElement actionGroupElement : this._actionGroupElements) {
+    for (final ActionGroupElementContribution actionGroupElement : this._actionGroupElements) {
       if (id.equals(actionGroupElement.getId())) {
         return true;
       }
@@ -188,7 +187,7 @@ public class ActionGroupContent {
     return false;
   }
 
-  public Collection<ActionGroupElement> getAll() {
+  public Collection<ActionGroupElementContribution> getAll() {
     return this._actionGroupElements;
   }
 

@@ -1,14 +1,13 @@
-package org.javakontor.sherlog.application.action.impl;
+package org.javakontor.sherlog.application.internal.action;
 
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupElement;
-import org.javakontor.sherlog.application.action.ActionSet;
-import org.javakontor.sherlog.application.action.ActionSetManager;
-import org.javakontor.sherlog.application.internal.action.TargetGroupIdParser;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
+import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 
 public class ActionSetComponent implements ActionSetManager {
 
@@ -18,12 +17,12 @@ public class ActionSetComponent implements ActionSetManager {
     this._actionSets = new Hashtable<String, ActionSet>();
   }
 
-  public void addAction(final Action action) {
+  public void addAction(final ActionContribution action) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(action));
     registry.addAction(action);
   }
 
-  public void addActionGroup(final ActionGroup actionGroup) {
+  public void addActionGroup(final ActionGroupContribution actionGroup) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(actionGroup));
     registry.addActionGroup(actionGroup);
   }
@@ -54,20 +53,20 @@ public class ActionSetComponent implements ActionSetManager {
     return actionSet;
   }
 
-  protected String getActionSetId(final ActionGroupElement actionGroupElement) {
+  protected String getActionSetId(final ActionGroupElementContribution actionGroupElement) {
     final String targetId = actionGroupElement.getTargetActionGroupId();
     final TargetGroupIdParser parser = new TargetGroupIdParser(targetId);
     return parser.getActionRoot();
   }
 
-  public void removeAction(final Action action) {
+  public void removeAction(final ActionContribution action) {
     final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(action), false);
     if (actionSet != null) {
       actionSet.removeAction(action);
     }
   }
 
-  public void removeActionGroup(final ActionGroup actionGroup) {
+  public void removeActionGroup(final ActionGroupContribution actionGroup) {
     final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(actionGroup), false);
     if (actionSet != null) {
       actionSet.removeActionGroup(actionGroup);

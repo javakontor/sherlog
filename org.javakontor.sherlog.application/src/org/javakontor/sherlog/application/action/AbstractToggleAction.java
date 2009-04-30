@@ -1,6 +1,5 @@
-package org.javakontor.sherlog.application.action.impl;
+package org.javakontor.sherlog.application.action;
 
-import org.javakontor.sherlog.application.action.ToggleAction;
 
 /**
  * <p>
@@ -9,21 +8,7 @@ import org.javakontor.sherlog.application.action.ToggleAction;
 public abstract class AbstractToggleAction extends AbstractAction implements ToggleAction {
 
   /** - */
-  public final static String ACTIVE_PROPERTY = "active";
-
-  /** - */
-  private boolean            _active         = false;
-
-  /**
-   * Creates a new AbstractToggleAction with the specified parameters
-   * 
-   * @param actionId
-   * @param targetActionGroupId
-   * @param label
-   */
-  public AbstractToggleAction(final String actionId, final String targetActionGroupId, final String label) {
-    super(actionId, targetActionGroupId, label);
-  }
+  private boolean _active = false;
 
   /**
    * @see org.javakontor.sherlog.application.action.ToggleAction#isActive()

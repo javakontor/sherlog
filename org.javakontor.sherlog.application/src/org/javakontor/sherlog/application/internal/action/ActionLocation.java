@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.ActionGroupElement;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 import org.javakontor.sherlog.util.Assert;
 
 /**
@@ -53,11 +53,11 @@ public class ActionLocation {
   }
 
   /**
-   * Constructs a new ActionLocation for the given {@link ActionGroupElement}
+   * Constructs a new ActionLocation for the given {@link ActionGroupElementContribution}
    * 
    * @param actionGroupElement
    */
-  public ActionLocation(ActionGroupElement actionGroupElement) {
+  public ActionLocation(ActionGroupElementContribution actionGroupElement) {
     this(actionGroupElement.getId(), actionGroupElement.getTargetActionGroupId());
   }
 

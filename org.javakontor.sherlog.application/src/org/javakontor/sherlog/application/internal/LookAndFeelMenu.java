@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_TARGET_ID;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +13,13 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroupType;
-import org.javakontor.sherlog.application.action.StaticActionProvider;
-import org.javakontor.sherlog.application.action.impl.AbstractToggleAction;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
-import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.AbstractToggleAction;
+import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -44,8 +46,8 @@ public class LookAndFeelMenu {
     this._mainFrame = mainFrame;
 
     final LookAndFeelActionGroup lookAndFeelActionGroup = new LookAndFeelActionGroup();
-    this._serviceRegistration = ActionGroupElementServiceHelper.registerActionGroup(bundleContext,
-        lookAndFeelActionGroup);
+    this._serviceRegistration = bundleContext.registerService(ActionGroupContribution.class.getName(),
+        lookAndFeelActionGroup, null);
   }
 
   /**
@@ -59,7 +61,7 @@ public class LookAndFeelMenu {
    */
   class LookAndFeelActionGroup extends DefaultActionGroup implements StaticActionProvider {
 
-    private final Action[] _initialActions;
+    private final ActionContribution[] _initialActions;
 
     public LookAndFeelActionGroup() {
       super(ActionGroupType.radiogroup, LAF_MENU_ID, WINDOW_MENU_TARGET_ID, "&Look and feel");
@@ -68,14 +70,21 @@ public class LookAndFeelMenu {
       final LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
 
       // create an Action for each LAF
-      final List<LookAndFeelAction> actions = new LinkedList<LookAndFeelAction>();
+      final List<ActionContribution> actions = new LinkedList<ActionContribution>();
       for (final LookAndFeelInfo info : installedLookAndFeels) {
-        actions.add(new LookAndFeelAction(info));
+
+        final ActionContribution contribution = new DefaultActionContribution(LAF_MENU_ID + "." + info.getName(),
+            LAF_MENU_TARGET_ID, info.getName(), null, new LookAndFeelAction(info));
+
+        actions.add(contribution);
       }
-      this._initialActions = actions.toArray(new Action[0]);
+
+      //
+
+      this._initialActions = actions.toArray(new ActionContribution[0]);
     }
 
-    public Action[] getActions() {
+    public ActionContribution[] getActionContributions() {
       return this._initialActions;
     }
 
@@ -89,7 +98,6 @@ public class LookAndFeelMenu {
     private final LookAndFeelInfo _lookAndFeelInfo;
 
     public LookAndFeelAction(final LookAndFeelInfo lookAndFeelInfo) {
-      super(LAF_MENU_ID + "." + lookAndFeelInfo.getName(), LAF_MENU_TARGET_ID, lookAndFeelInfo.getName());
       this._lookAndFeelInfo = lookAndFeelInfo;
     }
 

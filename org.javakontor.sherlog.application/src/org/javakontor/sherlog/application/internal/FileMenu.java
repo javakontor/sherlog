@@ -1,12 +1,15 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.*;
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.StaticActionProvider;
-import org.javakontor.sherlog.application.action.impl.AbstractAction;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
-import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.AbstractAction;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -23,22 +26,30 @@ public class FileMenu {
   private final ServiceRegistration _registration;
 
   public FileMenu(final ApplicationWindowComponent applicationWindowComponent, final BundleContext bundleContext) {
-    final QuitAction quitAction = new QuitAction(applicationWindowComponent);
-    final FileMenuActionGroup fileActionGroup = new FileMenuActionGroup(quitAction);
-    this._registration = ActionGroupElementServiceHelper.registerActionGroup(bundleContext, fileActionGroup);
+
+    final DefaultActionContribution contribution = new DefaultActionContribution();
+    contribution.setAction(new QuitAction(applicationWindowComponent));
+    contribution.setId(FILE_MENU_ID + ".quit");
+    contribution.setTargetActionGroupId(FILE_MENU_TARGET_ID + "(last)");
+    contribution.setLabel(ApplicationMessages.quitMenuTitle);
+    contribution.setDefaultShortcut(ApplicationMessages.quitMenuDefaultShortcut);
+
+    final FileMenuActionGroup fileActionGroup = new FileMenuActionGroup(contribution);
+
+    this._registration = bundleContext.registerService(ActionGroupContribution.class.getName(), fileActionGroup, null);
   }
 
   class FileMenuActionGroup extends DefaultActionGroup implements StaticActionProvider {
 
-    private final Action[] _defaultActions;
+    private final ActionContribution[] _defaultActions;
 
-    public FileMenuActionGroup(final Action... defaultActions) {
+    public FileMenuActionGroup(final ActionContribution... defaultActions) {
       super(FILE_MENU_ID, MENUBAR_ID + "(first)", ApplicationMessages.fileMenuTitle);
       this._defaultActions = defaultActions;
 
     }
 
-    public Action[] getActions() {
+    public ActionContribution[] getActionContributions() {
       return this._defaultActions;
     }
 
@@ -53,24 +64,13 @@ public class FileMenu {
     private final ApplicationWindowComponent _applicationWindowComponent;
 
     public QuitAction(final ApplicationWindowComponent applicationWindowComponent) {
-      super(FILE_MENU_ID + ".quit", FILE_MENU_TARGET_ID + "(last)", ApplicationMessages.quitMenuTitle);
+      super();
       this._applicationWindowComponent = applicationWindowComponent;
     }
 
     public void execute() {
       this._applicationWindowComponent.shutdownApplication();
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.javakontor.sherlog.application.action.AbstractAction#getDefaultShortcut()
-     */
-    @Override
-    public String getDefaultShortcut() {
-      return ApplicationMessages.quitMenuDefaultShortcut;
-    }
-
   }
 
   public void dispose() {

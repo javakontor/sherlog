@@ -1,7 +1,6 @@
-package org.javakontor.sherlog.application.action.impl;
+package org.javakontor.sherlog.application.action.contrib;
 
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupType;
+import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
 
 /**
  * <p>
@@ -10,7 +9,7 @@ import org.javakontor.sherlog.application.action.ActionGroupType;
  * @author Wuetherich-extern
  * 
  */
-public class DefaultActionGroup extends AbstractActionGroupElement implements ActionGroup {
+public class DefaultActionGroup extends AbstractActionGroupElement implements ActionGroupContribution {
 
   /** - */
   private final ActionGroupType _type;

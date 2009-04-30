@@ -11,7 +11,7 @@ public interface MenuConstants {
    * The id of the menubar.
    * 
    * <p>
-   * Must be used to place an {@link org.javakontor.sherlog.application.action.ActionGroup} on the ApplicationWindow's menubar
+   * Must be used to place an {@link org.javakontor.sherlog.application.action.contrib.ActionGroupContribution} on the ApplicationWindow's menubar
    */
   public static final String MENUBAR_ID            = "menubar";
 
@@ -26,7 +26,7 @@ public interface MenuConstants {
    * The targetActionGroupId of the "Window" menu.
    * 
    * <p>
-   * Must be used to place an {@link org.javakontor.sherlog.application.action.ActionGroupElement} into the "Window" menu
+   * Must be used to place an {@link org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution} into the "Window" menu
    */
   public static final String WINDOW_MENU_TARGET_ID = MENUBAR_ID + "/" + WINDOW_MENU_ID;
 
@@ -43,7 +43,7 @@ public interface MenuConstants {
    * The targetActionGroupId of the "Tools" submenu inside the "Window" menu.
    * 
    * <p>
-   * Must be used to place an {@link org.javakontor.sherlog.application.action.ActionGroupElement} into the Tools submenu
+   * Must be used to place an {@link org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution} into the Tools submenu
    */
   public static final String TOOLS_MENU_TARGET_ID  = MENUBAR_ID + "/" + TOOLS_MENU_ID;
 
@@ -58,7 +58,7 @@ public interface MenuConstants {
    * The id of the "File" menu.
    * 
    * <p>
-   * Must be used to place an {@link org.javakontor.sherlog.application.action.ActionGroupElement} inton the "File" menu
+   * Must be used to place an {@link org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution} inton the "File" menu
    */
   public static final String FILE_MENU_TARGET_ID   = MENUBAR_ID + "/" + FILE_MENU_ID;
 

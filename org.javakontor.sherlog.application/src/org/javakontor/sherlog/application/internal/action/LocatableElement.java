@@ -1,9 +1,9 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.ActionGroupElement;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 
 /**
- * Wraps an {@link ActionGroupElement} together with an {@link ActionLocation} describing the target position of the
+ * Wraps an {@link ActionGroupElementContribution} together with an {@link ActionLocation} describing the target position of the
  * ActionGroupElement.
  * 
  * <p>
@@ -14,11 +14,11 @@ import org.javakontor.sherlog.application.action.ActionGroupElement;
 public interface LocatableElement {
 
   /**
-   * Return the wrapped {@link ActionGroupElement}
+   * Return the wrapped {@link ActionGroupElementContribution}
    * 
-   * @return the wrapped {@link ActionGroupElement}
+   * @return the wrapped {@link ActionGroupElementContribution}
    */
-  public ActionGroupElement getElement();
+  public ActionGroupElementContribution getElement();
 
   /**
    * Returns the location of the wrapped ActionGroupElement

@@ -3,9 +3,9 @@ package org.javakontor.sherlog.application.menu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.javakontor.sherlog.application.action.Action;
 import org.javakontor.sherlog.application.action.ActionContextAware;
-import org.javakontor.sherlog.application.action.ActionSet;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
 import org.javakontor.sherlog.application.internal.menu.MenuBuilder;
 import org.javakontor.sherlog.application.internal.menu.PopupMenu;
 
@@ -60,7 +60,7 @@ public class ContextMenu<C> {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected JMenuItem createMenuItem(Action action, boolean radioButton) {
+    protected JMenuItem createMenuItem(ActionContribution action, boolean radioButton) {
       if (action instanceof ActionContextAware) {
         ActionContextAware<C> contextAware = (ActionContextAware<C>) action;
         contextAware.setActionContext(getCurrentActionContext());

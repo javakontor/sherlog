@@ -1,11 +1,16 @@
 package org.javakontor.sherlog.application.action;
 
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+
 /**
  * <p>
- * A {@link ToggleAction} is a stateful {@link Action} that can be activated and deactivated.
+ * A {@link ToggleAction} is a stateful {@link ActionContribution} that can be activated and deactivated.
  * </p>
  */
 public interface ToggleAction extends Action {
+
+  /** - */
+  public final static String ACTIVE_PROPERTY = "active";
 
   /**
    * <p>

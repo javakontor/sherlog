@@ -10,10 +10,11 @@ import java.util.Map;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.impl.AbstractAction;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
-import org.javakontor.sherlog.application.action.impl.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.AbstractAction;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
@@ -49,19 +50,19 @@ public class WindowMenuComponent {
     this._viewContributionServiceManager = new DefaultServiceManager<ViewContribution>();
   }
 
-  public void activate(ComponentContext componentContext) {
+  public void activate(final ComponentContext componentContext) {
     this._bundleContext = componentContext.getBundleContext();
 
-    DefaultActionGroup windowListActionGroup = new DefaultActionGroup(WINDOW_WINDOWLIST_MENU_ID, WINDOW_MENU_TARGET_ID
-        + "(last)", null);
-    this._windowListActionGroupRegistration = ActionGroupElementServiceHelper.registerActionGroup(this._bundleContext,
-        windowListActionGroup);
+    final DefaultActionGroup windowListActionGroup = new DefaultActionGroup(WINDOW_WINDOWLIST_MENU_ID,
+        WINDOW_MENU_TARGET_ID + "(last)", null);
+    this._windowListActionGroupRegistration = this._bundleContext.registerService(ActionGroupContribution.class
+        .getName(), windowListActionGroup, null);
 
     this._viewContributionServiceManager.addServiceManagerListener(this._viewContributionServiceListener);
 
   }
 
-  public void deactivate(ComponentContext componentContext) {
+  public void deactivate(final ComponentContext componentContext) {
     this._viewContributionServiceManager.removeServiceManagerListener(this._viewContributionServiceListener);
     this._windowListActionGroupRegistration.unregister();
     this._bundleContext = null;
@@ -84,30 +85,29 @@ public class WindowMenuComponent {
   // }
   // }
 
-  public void bindViewContribution(ViewContribution viewContribution) {
+  public void bindViewContribution(final ViewContribution viewContribution) {
     this._viewContributionServiceManager.bindService(viewContribution);
   }
 
-  public void unbindViewContribution(ViewContribution viewContribution) {
+  public void unbindViewContribution(final ViewContribution viewContribution) {
     this._viewContributionServiceManager.unbindService(viewContribution);
   }
 
   /**
-   * An {@link Action}, that brings the window of a {@link ViewContribution} to front
+   * An {@link ActionContribution}, that brings the window of a {@link ViewContribution} to front
    * 
    */
   class OpenWindowAction extends AbstractAction {
 
     private final ViewContribution _viewContribution;
 
-    public OpenWindowAction(String actionId, String targetActionGroupId, String label, ViewContribution viewContribution) {
-      super(actionId, targetActionGroupId, label);
+    public OpenWindowAction(final ViewContribution viewContribution) {
       this._viewContribution = viewContribution;
     }
 
     public void execute() {
       // Find the JInternalFrame that holds the ViewContribution
-      JInternalFrame window = (JInternalFrame) SwingUtilities.getAncestorOfClass(JInternalFrame.class,
+      final JInternalFrame window = (JInternalFrame) SwingUtilities.getAncestorOfClass(JInternalFrame.class,
           this._viewContribution.getPanel());
 
       // bring it to front
@@ -119,23 +119,25 @@ public class WindowMenuComponent {
   }
 
   class ViewContributionServiceListener implements ServiceManagerListener<ViewContribution> {
-    public void serviceAdded(ServiceManagerEvent<ViewContribution> event) {
-      ViewContribution viewContribution = event.getService();
+    public void serviceAdded(final ServiceManagerEvent<ViewContribution> event) {
+      final ViewContribution viewContribution = event.getService();
       final String serviceId = "vc-" + (WindowMenuComponent.this._counter++);
       // Properties serviceProperties =
       // ActionGroupElementServiceHelper.createServiceProperties(WINDOW_WINDOWLIST_MENU_ID
       // + "." + serviceId, WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution.getDescriptor().getDialogName());
-      OpenWindowAction action = new OpenWindowAction(WINDOW_WINDOWLIST_MENU_ID + "." + serviceId,
-          WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution.getDescriptor().getName(), viewContribution);
 
-      ServiceRegistration registration = ActionGroupElementServiceHelper.registerAction(
-          WindowMenuComponent.this._bundleContext, action);
+      final DefaultActionContribution contribution = new DefaultActionContribution(WINDOW_WINDOWLIST_MENU_ID + "."
+          + serviceId, WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution.getDescriptor().getName(), null,
+          new OpenWindowAction(viewContribution));
+
+      final ServiceRegistration registration = WindowMenuComponent.this._bundleContext.registerService(
+          ActionContribution.class.getName(), contribution, null);
       WindowMenuComponent.this._registrations.put(viewContribution, registration);
     }
 
-    public void serviceRemoved(ServiceManagerEvent<ViewContribution> event) {
-      ViewContribution viewContribution = event.getService();
-      ServiceRegistration serviceRegistration = WindowMenuComponent.this._registrations.remove(viewContribution);
+    public void serviceRemoved(final ServiceManagerEvent<ViewContribution> event) {
+      final ViewContribution viewContribution = event.getService();
+      final ServiceRegistration serviceRegistration = WindowMenuComponent.this._registrations.remove(viewContribution);
       if (serviceRegistration != null) {
         serviceRegistration.unregister();
       }

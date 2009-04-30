@@ -1,22 +1,20 @@
-package org.javakontor.sherlog.application.action.impl;
-
-import org.javakontor.sherlog.application.action.ActionGroupElement;
+package org.javakontor.sherlog.application.action.contrib;
 
 /**
  * <p>
- * Abstract implementation of interface {@link ActionGroupElement}.
+ * Abstract implementation of interface {@link ActionGroupElementContribution}.
  * </p>
  */
-public abstract class AbstractActionGroupElement extends AbstractPropertyChangeSupport implements ActionGroupElement {
+public abstract class AbstractActionGroupElement implements ActionGroupElementContribution {
 
   /** - */
-  private final String _id;
+  private String _id;
 
   /** - */
-  private final String _label;
+  private String _label;
 
   /** - */
-  private final String _targetActionGroupId;
+  private String _targetActionGroupId;
 
   /**
    * @param id
@@ -28,6 +26,10 @@ public abstract class AbstractActionGroupElement extends AbstractPropertyChangeS
     this._id = id;
     this._label = label;
     this._targetActionGroupId = targetActionGroupId;
+  }
+
+  public AbstractActionGroupElement() {
+    super();
   }
 
   /*
@@ -55,5 +57,17 @@ public abstract class AbstractActionGroupElement extends AbstractPropertyChangeS
    */
   public String getTargetActionGroupId() {
     return this._targetActionGroupId;
+  }
+
+  public void setId(final String id) {
+    this._id = id;
+  }
+
+  public void setLabel(final String label) {
+    this._label = label;
+  }
+
+  public void setTargetActionGroupId(final String targetActionGroupId) {
+    this._targetActionGroupId = targetActionGroupId;
   }
 }

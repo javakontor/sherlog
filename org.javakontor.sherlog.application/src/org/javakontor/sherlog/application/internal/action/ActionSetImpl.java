@@ -1,19 +1,17 @@
-package org.javakontor.sherlog.application.action.impl;
+package org.javakontor.sherlog.application.internal.action;
 
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupElement;
-import org.javakontor.sherlog.application.action.ActionSet;
-import org.javakontor.sherlog.application.action.ActionSetChangeListener;
-import org.javakontor.sherlog.application.action.StaticActionGroupProvider;
-import org.javakontor.sherlog.application.action.StaticActionProvider;
-import org.javakontor.sherlog.application.internal.action.ActionLocation;
-import org.javakontor.sherlog.application.internal.action.TargetGroupIdParser;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
+import org.javakontor.sherlog.application.action.contrib.ActionSetChangeListener;
+import org.javakontor.sherlog.application.action.contrib.StaticActionGroupProvider;
+import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 
 public class ActionSetImpl implements ActionSet {
 
@@ -48,11 +46,11 @@ public class ActionSetImpl implements ActionSet {
     this._actionGroups.put(rootId, new ActionGroupContent());
   }
 
-  public Collection<ActionGroupElement> getRootActionGroupContent() {
+  public Collection<ActionGroupElementContribution> getRootActionGroupContent() {
     return this._actionGroups.get(this._rootId).getAll();
   }
 
-  public Collection<ActionGroupElement> getActionGroupContent(final String actionGroupId) {
+  public Collection<ActionGroupElementContribution> getActionGroupContent(final String actionGroupId) {
 
     final ActionGroupContent actionGroupContent = this._actionGroups.get(actionGroupId);
     if ((actionGroupContent != null) && actionGroupContent.hasActionGroup()) {
@@ -70,12 +68,12 @@ public class ActionSetImpl implements ActionSet {
    * 
    * @param action
    */
-  public void addAction(final Action action) {
+  public void addAction(final ActionContribution action) {
     addActionInternal(action);
     fireActionSetChangeEvent();
   }
 
-  protected void addActionInternal(final Action action) {
+  protected void addActionInternal(final ActionContribution action) {
     final ActionGroupContent target = getTarget(action);
     target.add(action);
   }
@@ -94,12 +92,12 @@ public class ActionSetImpl implements ActionSet {
    * @param actionGroup
    *          the ActionGroup to add
    */
-  public void addActionGroup(final ActionGroup actionGroup) {
+  public void addActionGroup(final ActionGroupContribution actionGroup) {
     addActionGroupInternal(actionGroup);
     fireActionSetChangeEvent();
   }
 
-  protected void addActionGroupInternal(final ActionGroup actionGroup) {
+  protected void addActionGroupInternal(final ActionGroupContribution actionGroup) {
     final ActionGroupContent target = getTarget(actionGroup);
 
     target.add(actionGroup);
@@ -123,14 +121,14 @@ public class ActionSetImpl implements ActionSet {
 
     if (actionGroup instanceof StaticActionGroupProvider) {
       final StaticActionGroupProvider staticActionGroupProvider = (StaticActionGroupProvider) actionGroup;
-      for (final ActionGroup staticGroup : staticActionGroupProvider.getActionGroups()) {
+      for (final ActionGroupContribution staticGroup : staticActionGroupProvider.getActionGroups()) {
         addActionGroupInternal(staticGroup);
       }
     }
 
     if (actionGroup instanceof StaticActionProvider) {
       final StaticActionProvider staticActionProvider = (StaticActionProvider) actionGroup;
-      for (final Action staticAction : staticActionProvider.getActions()) {
+      for (final ActionContribution staticAction : staticActionProvider.getActionContributions()) {
         addActionInternal(staticAction);
       }
     }
@@ -143,21 +141,21 @@ public class ActionSetImpl implements ActionSet {
 
   }
 
-  public void removeAction(final Action action) {
+  public void removeAction(final ActionContribution action) {
     removeActionInternal(action);
     fireActionSetChangeEvent();
   }
 
-  protected void removeActionInternal(final Action action) {
+  protected void removeActionInternal(final ActionContribution action) {
     removeActionGroupElement(action);
   }
 
-  public void removeActionGroup(final ActionGroup actionGroup) {
+  public void removeActionGroup(final ActionGroupContribution actionGroup) {
     removeActionGroupInternal(actionGroup);
     fireActionSetChangeEvent();
   }
 
-  protected void removeActionGroupInternal(final ActionGroup actionGroup) {
+  protected void removeActionGroupInternal(final ActionGroupContribution actionGroup) {
     // remove ActionGroup from ActionSet
     removeActionGroupElement(actionGroup);
 
@@ -166,13 +164,13 @@ public class ActionSetImpl implements ActionSet {
     menuItems.unsetActionGroup();
     if (actionGroup instanceof StaticActionGroupProvider) {
       final StaticActionGroupProvider staticActionGroupProvider = (StaticActionGroupProvider) actionGroup;
-      for (final ActionGroup staticActionGroup : staticActionGroupProvider.getActionGroups()) {
+      for (final ActionGroupContribution staticActionGroup : staticActionGroupProvider.getActionGroups()) {
         removeActionGroupInternal(staticActionGroup);
       }
     }
     if (actionGroup instanceof StaticActionProvider) {
       final StaticActionProvider staticActionProvider = (StaticActionProvider) actionGroup;
-      for (final Action staticAction : staticActionProvider.getActions()) {
+      for (final ActionContribution staticAction : staticActionProvider.getActionContributions()) {
         removeActionInternal(staticAction);
       }
     }
@@ -201,7 +199,7 @@ public class ActionSetImpl implements ActionSet {
    * 
    * @param element
    */
-  public void removeActionGroupElement(final ActionGroupElement element) {
+  public void removeActionGroupElement(final ActionGroupElementContribution element) {
     final ActionLocation location = new ActionLocation(element);
     // Get the ActionGroupConent that contains the specified ActionGroupElement
     final ActionGroupContent list = this._actionGroups.get(location.getTargetActionGroupId());
@@ -219,7 +217,7 @@ public class ActionSetImpl implements ActionSet {
    * @param element
    * @return
    */
-  protected ActionGroupContent getTarget(final ActionGroupElement element) {
+  protected ActionGroupContent getTarget(final ActionGroupElementContribution element) {
     final TargetGroupIdParser parser = new TargetGroupIdParser(element.getTargetActionGroupId());
     if (!this._rootId.equals(parser.getActionRoot())) {
       throw new IllegalStateException("Invalid ActionGroupElement. Action-Root '" + parser.getActionRoot()
@@ -243,7 +241,7 @@ public class ActionSetImpl implements ActionSet {
    * @param actionGroup
    * @return
    */
-  protected boolean isFinal(final ActionGroup actionGroup) {
+  protected boolean isFinal(final ActionGroupContribution actionGroup) {
     if ((actionGroup instanceof StaticActionGroupProvider) && ((StaticActionGroupProvider) actionGroup).isFinal()) {
       return true;
     }

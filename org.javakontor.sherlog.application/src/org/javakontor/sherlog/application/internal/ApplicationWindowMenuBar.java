@@ -2,8 +2,8 @@ package org.javakontor.sherlog.application.internal;
 
 import javax.swing.JMenuBar;
 
-import org.javakontor.sherlog.application.action.ActionSet;
-import org.javakontor.sherlog.application.action.ActionSetChangeListener;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
+import org.javakontor.sherlog.application.action.contrib.ActionSetChangeListener;
 import org.javakontor.sherlog.application.internal.menu.MenuBar;
 import org.javakontor.sherlog.application.internal.menu.MenuBuilder;
 

@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupElement;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 
 /**
  * A {@link LocatableActionGroupElement} implements a {@link LocatableElement} for an ActionGroupElement
@@ -11,19 +11,19 @@ import org.javakontor.sherlog.application.action.ActionGroupElement;
  */
 public class LocatableActionGroupElement implements LocatableElement {
 
-  private final ActionGroupElement _element;
+  private final ActionGroupElementContribution _element;
 
   private final ActionLocation     _location;
 
   /**
    * Contstructs a new LocatableActionGroupElement instance for the given ActionGroupElement. The target location for
    * the ActionGroupElement will be determined from the ActionGroupElements
-   * {@link ActionGroupElement#getTargetActionGroupId() targetActionGroupId}
+   * {@link ActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}
    * 
    * @param element
    *          The ActionGroupElement
    */
-  public LocatableActionGroupElement(ActionGroupElement element) {
+  public LocatableActionGroupElement(ActionGroupElementContribution element) {
     super();
     _element = element;
     _location = new ActionLocation(element);
@@ -34,7 +34,7 @@ public class LocatableActionGroupElement implements LocatableElement {
    * 
    * @see org.javakontor.sherlog.application.internal.menu.LocatableElement#getElement()
    */
-  public ActionGroupElement getElement() {
+  public ActionGroupElementContribution getElement() {
     return _element;
   }
 
@@ -49,26 +49,26 @@ public class LocatableActionGroupElement implements LocatableElement {
 
   /**
    * Returns true if the ActionGroupElement wrapped by this {@link LocatableActionGroupElement} is an instance of
-   * {@link Action}
+   * {@link ActionContribution}
    * 
    * @return
    */
   public boolean isAction() {
-    return (this._element instanceof Action);
+    return (this._element instanceof ActionContribution);
   }
 
   /**
    * Returns true if the ActionGroupElement wrapped by this {@link LocatableActionGroupElement} is an instance of
-   * {@link ActionGroup}
+   * {@link ActionGroupContribution}
    * 
    * @return
    */
   public boolean isActionGroup() {
-    return (this._element instanceof ActionGroup);
+    return (this._element instanceof ActionGroupContribution);
   }
 
   /**
-   * Convenience method: Returns the wrapped ActionGroupElement casted to an {@link Action}
+   * Convenience method: Returns the wrapped ActionGroupElement casted to an {@link ActionContribution}
    * 
    * @throws ClassCastException
    *           if the wrapped ActionGroupElement is not an Action
@@ -76,12 +76,12 @@ public class LocatableActionGroupElement implements LocatableElement {
    * @see #isAction()
    * @return the ActionGroupElement casted to an Action
    */
-  public Action getAction() {
-    return (Action) this._element;
+  public ActionContribution getAction() {
+    return (ActionContribution) this._element;
   }
 
   /**
-   * Convenience method: Returns the wrapped ActionGroupElement casted to an {@link ActionGroup}
+   * Convenience method: Returns the wrapped ActionGroupElement casted to an {@link ActionGroupContribution}
    * 
    * @throws ClassCastException
    *           if the wrapped ActionGroupElement is not an ActionGroup
@@ -89,8 +89,8 @@ public class LocatableActionGroupElement implements LocatableElement {
    * @see #isActionGroup()
    * @return the ActionGroupElement casted to an Action
    */
-  public ActionGroup getActionGroup() {
-    return (ActionGroup) this._element;
+  public ActionGroupContribution getActionGroup() {
+    return (ActionGroupContribution) this._element;
   }
 
 }

@@ -8,7 +8,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import org.javakontor.sherlog.application.action.ActionContextAware;
-import org.javakontor.sherlog.application.action.ActionSet;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
 
 /**
  * A {@link MouseAdapter} that opens a (dynamic) {@link ContextMenu}

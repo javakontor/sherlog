@@ -20,14 +20,14 @@ import javax.swing.KeyStroke;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.action.AbstractToggleAction;
 import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionGroupElement;
-import org.javakontor.sherlog.application.action.ActionGroupType;
-import org.javakontor.sherlog.application.action.ActionSet;
 import org.javakontor.sherlog.application.action.ToggleAction;
-import org.javakontor.sherlog.application.action.impl.AbstractAction;
-import org.javakontor.sherlog.application.action.impl.AbstractToggleAction;
+import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSet;
 import org.javakontor.sherlog.application.internal.action.LocatableActionGroupElement;
 import org.javakontor.sherlog.application.internal.action.LocatableElement;
 import org.javakontor.sherlog.application.internal.action.LocatableElementSorter;
@@ -57,7 +57,7 @@ public class MenuBuilder {
     }
 
     // get items for the menubar
-    final Collection<ActionGroupElement> rootActionGroupContent = actionSet.getRootActionGroupContent();
+    final Collection<ActionGroupElementContribution> rootActionGroupContent = actionSet.getRootActionGroupContent();
     if (this._logger.isDebugEnabled()) {
       this._logger.debug("Items for menubar: " + rootActionGroupContent);
     }
@@ -93,10 +93,11 @@ public class MenuBuilder {
     this._menuRoot.add(menuRootItems);
   }
 
-  private List<LocatableElement> createLocatableWrapper(final Collection<ActionGroupElement> actionGroupElements) {
+  private List<LocatableElement> createLocatableWrapper(
+      final Collection<ActionGroupElementContribution> actionGroupElements) {
     final List<LocatableElement> result = new LinkedList<LocatableElement>();
 
-    for (final ActionGroupElement actionGroupElement : actionGroupElements) {
+    for (final ActionGroupElementContribution actionGroupElement : actionGroupElements) {
       result.add(new LocatableActionGroupElement(actionGroupElement));
     }
 
@@ -110,7 +111,7 @@ public class MenuBuilder {
    * @param subMenuItems
    * @return the menu that has been created
    */
-  private JMenu createMenu(final ActionGroup actionGroup, final Collection<JComponent> subMenuItems) {
+  private JMenu createMenu(final ActionGroupContribution actionGroup, final Collection<JComponent> subMenuItems) {
     final JMenu subMenu = new JMenu();
     setTextAndMnemonic(subMenu, actionGroup.getLabel());
 
@@ -141,9 +142,10 @@ public class MenuBuilder {
     Assert.assertTrue((parentActionGroupElement != null) && parentActionGroupElement.isActionGroup(),
         "parentMenu must be an ActionGroup");
     final Collection<JComponent> result = new LinkedList<JComponent>();
-    final ActionGroup actionGroup = parentActionGroupElement.getActionGroup();
+    final ActionGroupContribution actionGroup = parentActionGroupElement.getActionGroup();
 
-    final Collection<ActionGroupElement> actionGroupContent = actionSet.getActionGroupContent(actionGroup.getId());
+    final Collection<ActionGroupElementContribution> actionGroupContent = actionSet.getActionGroupContent(actionGroup
+        .getId());
     if (actionGroupContent == null) {
       return result;
     }
@@ -171,7 +173,7 @@ public class MenuBuilder {
         if (afterGroup) {
           result.add(new JPopupMenu.Separator());
         }
-        final Action action = subMenuItem.getAction();
+        final ActionContribution action = subMenuItem.getAction();
         // Create the menuitem according to the type of the Action and its ActionGroup
         final JMenuItem jSubMenuItem = createMenuItem(action, (buttonGroup != null));
         if (buttonGroup != null) {
@@ -180,7 +182,7 @@ public class MenuBuilder {
         result.add(jSubMenuItem);
         afterGroup = false;
       } else {
-        final ActionGroup newActionGroup = subMenuItem.getActionGroup();
+        final ActionGroupContribution newActionGroup = subMenuItem.getActionGroup();
         final Collection<JComponent> buildSubMenuItems = buildSubMenuItems(actionSet, subMenuItem);
         if (isFlatGroup(newActionGroup)) {
           // add all items to this menu
@@ -204,7 +206,7 @@ public class MenuBuilder {
 
   }
 
-  protected JMenuItem createMenuItem(final Action action, final boolean radioButton) {
+  protected JMenuItem createMenuItem(final ActionContribution action, final boolean radioButton) {
     // Create a Swing-Action that delegates to "our" action
     final MenuItemAdapter menuItemAdapter = new MenuItemAdapter(action);
     // Create the menuitem according to the type of the Action and its ActionGroup
@@ -227,39 +229,39 @@ public class MenuBuilder {
     return jSubMenuItem;
   }
 
-  public boolean isFlatGroup(final ActionGroup actionGroup) {
+  public boolean isFlatGroup(final ActionGroupContribution actionGroup) {
     return ((actionGroup.getLabel() == null) || (actionGroup.getLabel().trim().length() == 0));
   }
 
   /**
    * A {@link javax.swing.AbstractAction} that is used in {@link JMenuItem JMenuItems} to connect the JMenuItems with
-   * their {@link Action}
+   * their {@link ActionContribution}
    */
   class MenuItemAdapter extends javax.swing.AbstractAction implements PropertyChangeListener {
     /**
      * the serialVersionUID
      */
-    private static final long serialVersionUID = 1L;
+    private static final long        serialVersionUID = 1L;
 
     /**
      * The action of the menu item
      */
-    private final Action      _action;
+    private final ActionContribution _action;
 
-    public MenuItemAdapter(final Action action) {
+    public MenuItemAdapter(final ActionContribution action) {
       super();
       this._action = action;
 
-      setEnabled(action.isEnabled());
+      setEnabled(action.getAction().isEnabled());
       // add an PropertyChangeListener to track changes of the Action's "enabled"-property
-      action.addPropertyChangeListener(AbstractAction.ENABLED_PROPERTY, this);
+      action.getAction().addPropertyChangeListener(Action.ENABLED_PROPERTY, this);
     }
 
     /**
-     * [Menu-&gt;Action] Runs {@link Action#execute()} when the menu item is invoked
+     * [Menu-&gt;Action] Runs {@link ActionContribution#execute()} when the menu item is invoked
      */
     public void actionPerformed(final ActionEvent e) {
-      this._action.execute();
+      this._action.getAction().execute();
     }
 
     /**
@@ -274,7 +276,7 @@ public class MenuBuilder {
   class ToggleMenuItemListener implements ItemListener, PropertyChangeListener {
 
     /**
-     * 
+     *
      */
     private static final long  serialVersionUID = 1L;
 
@@ -308,7 +310,7 @@ public class MenuBuilder {
    * @param item
    * @param action
    */
-  protected void setShortcut(final JMenuItem item, final Action action) {
+  protected void setShortcut(final JMenuItem item, final ActionContribution action) {
     final String defaultShortcut = action.getDefaultShortcut();
 
     if (defaultShortcut != null) {
