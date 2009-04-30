@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.javakontor.sherlog.application.whiteboard
+Bundle-SymbolicName: org.javakontor.sherlog.application.whiteboard
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Service-Component: OSGi-INF/component.xml
+Import-Package: org.javakontor.sherlog.application.action,
+ org.javakontor.sherlog.util.servicemanager
