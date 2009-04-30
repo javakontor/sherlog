@@ -4,7 +4,7 @@ package org.javakontor.sherlog.application.action;
  * <p>
  * </p>
  */
-public interface StaticActionProvider {
+public interface StaticActionProvider extends ActionGroup {
 
   /**
    * <p>

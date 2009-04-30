@@ -18,13 +18,13 @@ public class ActionSetComponent implements ActionSetManager {
     this._actionSets = new Hashtable<String, ActionSet>();
   }
 
-  public void addAction(Action action) {
-    ActionSet registry = getActionSet(getActionSetId(action));
+  public void addAction(final Action action) {
+    final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(action));
     registry.addAction(action);
   }
 
-  public void addActionGroup(ActionGroup actionGroup) {
-    ActionSet registry = getActionSet(getActionSetId(actionGroup));
+  public void addActionGroup(final ActionGroup actionGroup) {
+    final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(actionGroup));
     registry.addActionGroup(actionGroup);
   }
 
@@ -33,7 +33,7 @@ public class ActionSetComponent implements ActionSetManager {
    * 
    * @see org.javakontor.sherlog.application.action.ActionSetManager#getActionSet(java.lang.String)
    */
-  public ActionSet getActionSet(String actionSetId) {
+  public ActionSet getActionSet(final String actionSetId) {
     return getActionSet(actionSetId, true);
   }
 
@@ -42,7 +42,7 @@ public class ActionSetComponent implements ActionSetManager {
    * @param createNew
    * @return
    */
-  protected ActionSet getActionSet(String rootId, boolean createNew) {
+  protected ActionSet getActionSet(final String rootId, final boolean createNew) {
     ActionSet actionSet;
     if (!this._actionSets.containsKey(rootId)) {
       actionSet = new ActionSetImpl(rootId);
@@ -54,21 +54,21 @@ public class ActionSetComponent implements ActionSetManager {
     return actionSet;
   }
 
-  protected String getActionSetId(ActionGroupElement actionGroupElement) {
-    String targetId = actionGroupElement.getTargetActionGroupId();
-    TargetGroupIdParser parser = new TargetGroupIdParser(targetId);
+  protected String getActionSetId(final ActionGroupElement actionGroupElement) {
+    final String targetId = actionGroupElement.getTargetActionGroupId();
+    final TargetGroupIdParser parser = new TargetGroupIdParser(targetId);
     return parser.getActionRoot();
   }
 
-  public void removeAction(Action action) {
-    ActionSet actionSet = getActionSet(getActionSetId(action), false);
+  public void removeAction(final Action action) {
+    final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(action), false);
     if (actionSet != null) {
       actionSet.removeAction(action);
     }
   }
 
-  public void removeActionGroup(ActionGroup actionGroup) {
-    ActionSet actionSet = getActionSet(getActionSetId(actionGroup), false);
+  public void removeActionGroup(final ActionGroup actionGroup) {
+    final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(actionGroup), false);
     if (actionSet != null) {
       actionSet.removeActionGroup(actionGroup);
     }

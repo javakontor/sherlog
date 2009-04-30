@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <component name="windowMenuComponent" immediate="true">
+
   <implementation class="org.javakontor.sherlog.application.internal.WindowMenuComponent"/>
+
   <reference name="viewContributions"
     interface="org.javakontor.sherlog.application.view.ViewContribution"
     bind="bindViewContribution"
@@ -8,5 +10,5 @@
     cardinality="0..n"
     policy="dynamic"
   />
-  
+
 </component>

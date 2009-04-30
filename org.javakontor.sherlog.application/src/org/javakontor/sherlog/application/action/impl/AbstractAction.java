@@ -1,7 +1,5 @@
 package org.javakontor.sherlog.application.action.impl;
 
-import java.util.Properties;
-
 import org.javakontor.sherlog.application.action.Action;
 
 /**
@@ -29,26 +27,15 @@ public abstract class AbstractAction extends AbstractActionGroupElement implemen
    * @param label
    *          the label of the action
    */
-  public AbstractAction(String actionId, String targetActionGroupId, String label) {
-    this(ActionGroupElementServiceHelper.createServiceProperties(actionId, targetActionGroupId, label));
-  }
-
-  /**
-   * <p>
-   * Creates a new instance of type {@link AbstractAction}.
-   * </p>
-   * 
-   * @param serviceProperties
-   */
-  public AbstractAction(Properties serviceProperties) {
-    super(serviceProperties);
+  public AbstractAction(final String actionId, final String targetActionGroupId, final String label) {
+    super(actionId, targetActionGroupId, label);
   }
 
   /**
    * @see org.javakontor.sherlog.application.action.Action#isEnabled()
    */
   public boolean isEnabled() {
-    return _enabled;
+    return this._enabled;
   }
 
   /**
@@ -69,9 +56,9 @@ public abstract class AbstractAction extends AbstractActionGroupElement implemen
    * 
    * @param enabled
    */
-  public void setEnabled(boolean enabled) {
-    Boolean oldValue = isEnabled();
-    _enabled = enabled;
-    firePropertyChangeEvent(ENABLED_PROPERTY, oldValue, _enabled);
+  public void setEnabled(final boolean enabled) {
+    final Boolean oldValue = isEnabled();
+    this._enabled = enabled;
+    firePropertyChangeEvent(ENABLED_PROPERTY, oldValue, this._enabled);
   }
 }

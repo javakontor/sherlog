@@ -2,7 +2,7 @@ package org.javakontor.sherlog.application.action;
 
 /**
  * <p>
- * An {@link ActionGroup} contains one or more {@link ActionGroupElement ActionGroupElements}.
+ * {@link ActionGroup ActionGroups} contain {@link Action Actions} and/or nested {@link ActionGroup ActionGroups}.
  * </p>
  */
 public interface ActionGroup extends ActionGroupElement {
@@ -14,6 +14,6 @@ public interface ActionGroup extends ActionGroupElement {
    * 
    * @return the {@link ActionGroupType}.
    */
-  public ActionGroupType getType();;
+  public ActionGroupType getType();
 
 }

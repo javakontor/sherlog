@@ -1,6 +1,5 @@
 package org.javakontor.sherlog.application.action;
 
-
 /**
  * <p>
  * An {@link ActionGroupElement} is an element that can be inserted into an {@link ActionGroup}. Currently there exist
@@ -15,12 +14,6 @@ package org.javakontor.sherlog.application.action;
  * @see org.javakontor.sherlog.application.action.ActionGroup
  */
 public interface ActionGroupElement extends IPropertyChangeSupport {
-
-  public static final String LABEL                  = "actionGroupElement.Label";
-
-  public static final String ID                     = "actionGroupElement.Id";
-
-  public static final String TARGET_ACTION_GROUP_ID = "actionGroupElement.targetActionGroupId";
 
   /**
    * <p>

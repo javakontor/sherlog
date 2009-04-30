@@ -1,7 +1,5 @@
 package org.javakontor.sherlog.application.action.impl;
 
-import java.util.Properties;
-
 import org.javakontor.sherlog.application.action.ToggleAction;
 
 /**
@@ -17,25 +15,14 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
   private boolean            _active         = false;
 
   /**
-   * <p>
-   * </p>
-   * 
-   * @param serviceProperties
-   */
-  public AbstractToggleAction(Properties serviceProperties) {
-    super(serviceProperties);
-  }
-
-  /**
    * Creates a new AbstractToggleAction with the specified parameters
    * 
    * @param actionId
    * @param targetActionGroupId
    * @param label
    */
-  public AbstractToggleAction(String actionId, String targetActionGroupId, String label) {
+  public AbstractToggleAction(final String actionId, final String targetActionGroupId, final String label) {
     super(actionId, targetActionGroupId, label);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -48,8 +35,8 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
   /**
    * @see org.javakontor.sherlog.application.action.ToggleAction#setActive(boolean)
    */
-  public void setActive(boolean active) {
-    boolean oldValue = this._active;
+  public void setActive(final boolean active) {
+    final boolean oldValue = this._active;
     this._active = active;
     firePropertyChangeEvent(ACTIVE_PROPERTY, oldValue, this._active);
   }

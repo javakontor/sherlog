@@ -2,23 +2,19 @@ package org.javakontor.sherlog.application.action;
 
 /**
  * <p>
- * Defines an {@link Action} that should be contributed to the UI.
+ * Defines an {@link Action} that can be contributed to the UI.
  * </p>
  * <p>
  * To contribute an action, you have to register an instance of type {@link Action} as an OSGi service:
  * 
- * <pre><code>
+ * <pre>
+ * &lt;code&gt;
  * // create instance of type action
  * MyAction action = ...
- * 
- * // initialize service properties
- * Properties actionServiceProperties = new Properties();
- * properties.setProperty(ActionGroupElement.ID, &quot;my.action.id&quot;);
- * properties.setProperty(ActionGroupElement.TARGET_ACTION_GROUP_ID, &quot;my.target.actiongroup.id&quot;);
- * 
  * // register the service
- * bundleContext.registerService(new String[] { Action.class.getName(), ActionGroupElement.class.getName() }, action, actionServiceProperties);
- * </code></pre>
+ * bundleContext.registerService(new String[] { Action.class.getName(), ActionGroupElement.class.getName() }, action, null);
+ * &lt;/code&gt;
+ * </pre>
  * 
  * </p>
  */
