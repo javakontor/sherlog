@@ -3,8 +3,8 @@ package org.javakontor.sherlog.application.extender;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 
 /**
  * <p>
@@ -34,10 +34,10 @@ public class ActionDescription {
   private List<String> _actionGroupNames;
 
   /** list of all defined actions */
-  private List<Action> _actions;
+  private List<ActionContribution> _actions;
 
   /** list of all defined action groups */
-  private List<ActionGroup> _actionGroups;
+  private List<ActionGroupContribution> _actionGroups;
 
   /**
    * <p>
@@ -81,7 +81,7 @@ public class ActionDescription {
    *
    * @return the list of all actions.
    */
-  public List<Action> getActions() {
+  public List<ActionContribution> getActions() {
     return _actions;
   }
 
@@ -92,7 +92,7 @@ public class ActionDescription {
    *
    * @return the list of all action groups.
    */
-  public List<ActionGroup> getActionGroups() {
+  public List<ActionGroupContribution> getActionGroups() {
     return _actionGroups;
   }
 

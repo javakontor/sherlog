@@ -3,8 +3,8 @@ package org.javakontor.sherlog.ui.colorfilter;
 import java.awt.Color;
 import java.util.List;
 
+import org.javakontor.sherlog.application.action.AbstractToggleAction;
 import org.javakontor.sherlog.application.action.ActionContextAware;
-import org.javakontor.sherlog.application.action.impl.AbstractToggleAction;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableModel;

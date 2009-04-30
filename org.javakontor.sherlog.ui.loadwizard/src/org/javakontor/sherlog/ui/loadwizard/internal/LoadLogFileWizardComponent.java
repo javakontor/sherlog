@@ -1,11 +1,16 @@
 package org.javakontor.sherlog.ui.loadwizard.internal;
 
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_ID;
+import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
+import org.javakontor.sherlog.ui.loadwizard.LoadLogFileWizardMessages;
 import org.javakontor.sherlog.util.Assert;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
@@ -74,12 +79,19 @@ public class LoadLogFileWizardComponent {
     this._loadLogFileAction = new LoadLogFileAction(this._context.getBundleContext(), this._logEventStore);
     this._loadLogFileAction.setLogEventReaderFactory(this._logEventReaderFactory);
 
-    this._loadLogFileActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
-        .getBundleContext(), this._loadLogFileAction);
+    ActionContribution actionContribution = new DefaultActionContribution(FILE_MENU_ID + ".loadLogFile",
+        FILE_MENU_TARGET_ID + "(first)", "&Load log file...", LoadLogFileWizardMessages.openLogFileWizardShortcut,
+        this._loadLogFileAction);
+
+    this._loadLogFileActionRegistration = this._context.getBundleContext().registerService(
+        ActionContribution.class.getName(), actionContribution, null);
 
     ResetLogEventStoreAction resetLogEventStoreAction = new ResetLogEventStoreAction(this._logEventStore);
-    this._resetLogEventStoreActionRegistration = ActionGroupElementServiceHelper.registerAction(this._context
-        .getBundleContext(), resetLogEventStoreAction);
+    DefaultActionContribution resetLogEventStoreActionContribution = new DefaultActionContribution(FILE_MENU_ID
+        + ".resetLogStore", FILE_MENU_TARGET_ID + "(first)", "&Reset logstore", null, resetLogEventStoreAction);
+
+    this._resetLogEventStoreActionRegistration = this._context.getBundleContext().registerService(
+        ActionContribution.class.getName(), resetLogEventStoreActionContribution, null);
   }
 
   public synchronized void updateLoadMenu() {

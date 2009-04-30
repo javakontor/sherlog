@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.ui.logview;
 
-import org.javakontor.sherlog.application.action.ActionSetManager;
+import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;

@@ -1,18 +1,13 @@
 package org.javakontor.sherlog.ui.colorfilter;
 
+import org.javakontor.sherlog.application.action.AbstractAction;
 import org.javakontor.sherlog.application.action.ActionContextAware;
-import org.javakontor.sherlog.application.action.impl.AbstractAction;
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableModel;
 
 class UnmarkAction extends AbstractAction implements ActionContextAware<LogEventTableModel> {
 
   private LogEvent[] _selectedEvents;
-
-  public UnmarkAction() {
-    super("unmark", ColorFilterMenus.MARK_WITH_COLOR_TARGET_ACTIONGROUP_ID + "(last)",
-        ColorFilterMessages.removeColorMarker);
-  }
 
   public void execute() {
     for (final LogEvent event : this._selectedEvents) {

@@ -1,6 +1,6 @@
 package org.javakontor.sherlog.application.extender;
 
-import org.javakontor.sherlog.application.action.ActionSetManager;
+import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.util.tracker.BundleTracker;
 

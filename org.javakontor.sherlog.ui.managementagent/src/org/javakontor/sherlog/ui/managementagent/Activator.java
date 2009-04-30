@@ -3,8 +3,10 @@ package org.javakontor.sherlog.ui.managementagent;
 import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_ID;
 import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_TARGET_ID;
 
-import org.javakontor.sherlog.application.action.impl.AbstractToggleAction;
-import org.javakontor.sherlog.application.action.impl.ActionGroupElementServiceHelper;
+import org.javakontor.sherlog.application.action.AbstractToggleAction;
+import org.javakontor.sherlog.application.action.ToggleAction;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
 import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.javakontor.sherlog.application.view.ViewContribution;
@@ -14,11 +16,11 @@ import org.osgi.framework.ServiceRegistration;
 
 public class Activator implements BundleActivator {
 
-  private BundleContext            _bundleContext;
+  private BundleContext             _bundleContext;
 
-  private ShowBundleListViewAction _showBundleListAction;
+  private DefaultActionContribution _showBundleListActionContribution;
 
-  private ServiceRegistration      _registration;
+  private ServiceRegistration       _registration;
 
   public ServiceRegistration getRegistration() {
     return _registration;
@@ -30,20 +32,23 @@ public class Activator implements BundleActivator {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
    */
   public void start(BundleContext context) throws Exception {
 
     this._bundleContext = context;
-    _showBundleListAction = new ShowBundleListViewAction(TOOLS_MENU_ID + ".bundlelist", TOOLS_MENU_TARGET_ID,
-        BundleListMessages.bundleListMenuTitle);
-    ActionGroupElementServiceHelper.registerAction(context, _showBundleListAction);
+
+    _showBundleListActionContribution = new DefaultActionContribution(TOOLS_MENU_ID + ".bundlelist",
+        TOOLS_MENU_TARGET_ID, BundleListMessages.bundleListMenuTitle, BundleListMessages.bundleListMenuDefaultShortcut,
+        new ShowBundleListViewAction());
+
+    context.registerService(ActionContribution.class.getName(), _showBundleListActionContribution, null);
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
    */
   public void stop(BundleContext context) throws Exception {
@@ -72,16 +77,12 @@ public class Activator implements BundleActivator {
 
   protected void updateMenuState() {
     // update menu "active" state
-    if (_showBundleListAction != null) {
-      _showBundleListAction.setActive(hasRegistration());
+    if (_showBundleListActionContribution != null) {
+      ((ToggleAction) _showBundleListActionContribution.getAction()).setActive(hasRegistration());
     }
   }
 
   class ShowBundleListViewAction extends AbstractToggleAction {
-
-    public ShowBundleListViewAction(String actionId, String targetActionGroupId, String label) {
-      super(actionId, targetActionGroupId, label);
-    }
 
     public void execute() {
       if (isActive() || _registration == null) {
@@ -90,12 +91,6 @@ public class Activator implements BundleActivator {
         unregisterBundleListView();
       }
     }
-
-    @Override
-    public String getDefaultShortcut() {
-      return BundleListMessages.bundleListMenuDefaultShortcut;
-    }
-
   }
 
   class BundleListViewContribution extends

@@ -7,9 +7,9 @@ import java.util.Enumeration;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionSetManager;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 import org.javakontor.sherlog.util.Assert;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -18,8 +18,8 @@ import org.osgi.util.tracker.BundleTracker;
 
 /**
  * <p>
- * Implements a custom bundle tracker that instantiates and registers {@link Action Actions} and action groups
- * {@link ActionGroup ActionGroups} based on a JSON description.
+ * Implements a custom bundle tracker that instantiates and registers {@link ActionContribution Actions} and action groups
+ * {@link ActionGroupContribution ActionGroups} based on a JSON description.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)

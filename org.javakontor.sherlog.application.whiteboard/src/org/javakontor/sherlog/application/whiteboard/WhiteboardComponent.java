@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.application.whiteboard;
 
-import org.javakontor.sherlog.application.action.Action;
-import org.javakontor.sherlog.application.action.ActionGroup;
-import org.javakontor.sherlog.application.action.ActionSetManager;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
@@ -10,7 +10,7 @@ import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
 /**
  * <p>
  * Implements a 'whiteboard component'. The whiteboard component is responsible for tracking and registering all
- * {@link Action Actions} and {@link ActionGroup ActionGroups} that are registered with the OSGi service registry.
+ * {@link ActionContribution Actions} and {@link ActionGroupContribution ActionGroups} that are registered with the OSGi service registry.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
@@ -18,16 +18,16 @@ import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
 public class WhiteboardComponent {
 
   /** the service manager for actions */
-  private DefaultServiceManager<Action>       _actionServiceManager              = null;
+  private DefaultServiceManager<ActionContribution>       _actionServiceManager              = null;
 
   /** the service manager listener for actions */
-  private ServiceManagerListener<Action>      _actionServiceManagerListener      = null;
+  private ServiceManagerListener<ActionContribution>      _actionServiceManagerListener      = null;
 
   /** the service manager for action groups */
-  private DefaultServiceManager<ActionGroup>  _actionGroupServiceManager         = null;
+  private DefaultServiceManager<ActionGroupContribution>  _actionGroupServiceManager         = null;
 
   /** the service manager listener for action groups */
-  private ServiceManagerListener<ActionGroup> _actionGroupServiceManagerListener = null;
+  private ServiceManagerListener<ActionGroupContribution> _actionGroupServiceManagerListener = null;
 
   /** the action set manager */
   private ActionSetManager                    _actionSetManager                  = null;
@@ -40,27 +40,27 @@ public class WhiteboardComponent {
   public WhiteboardComponent() {
 
     // create the ServiceManager
-    _actionServiceManager = new DefaultServiceManager<Action>();
-    _actionGroupServiceManager = new DefaultServiceManager<ActionGroup>();
+    _actionServiceManager = new DefaultServiceManager<ActionContribution>();
+    _actionGroupServiceManager = new DefaultServiceManager<ActionGroupContribution>();
 
     // create the ServiceManagerListener
-    _actionServiceManagerListener = new ServiceManagerListener<Action>() {
-      public void serviceRemoved(ServiceManagerEvent<Action> event) {
+    _actionServiceManagerListener = new ServiceManagerListener<ActionContribution>() {
+      public void serviceRemoved(ServiceManagerEvent<ActionContribution> event) {
         _actionSetManager.removeAction(event.getService());
       }
 
-      public void serviceAdded(ServiceManagerEvent<Action> event) {
+      public void serviceAdded(ServiceManagerEvent<ActionContribution> event) {
         _actionSetManager.addAction(event.getService());
       }
     };
 
     // remove the ServiceManagerListener
-    _actionGroupServiceManagerListener = new ServiceManagerListener<ActionGroup>() {
-      public void serviceRemoved(ServiceManagerEvent<ActionGroup> event) {
+    _actionGroupServiceManagerListener = new ServiceManagerListener<ActionGroupContribution>() {
+      public void serviceRemoved(ServiceManagerEvent<ActionGroupContribution> event) {
         _actionSetManager.removeActionGroup(event.getService());
       }
 
-      public void serviceAdded(ServiceManagerEvent<ActionGroup> event) {
+      public void serviceAdded(ServiceManagerEvent<ActionGroupContribution> event) {
         _actionSetManager.addActionGroup(event.getService());
       }
     };
@@ -100,49 +100,49 @@ public class WhiteboardComponent {
 
   /**
    * <p>
-   * Called if an {@link Action} is added.
+   * Called if an {@link ActionContribution} is added.
    * </p>
    *
    * @param action
-   *          the added {@link Action}
+   *          the added {@link ActionContribution}
    */
-  public void addAction(Action action) {
+  public void addActionContribution(ActionContribution action) {
     _actionServiceManager.bindService(action);
   }
 
   /**
    * <p>
-   * Called if an {@link Action} is removed.
+   * Called if an {@link ActionContribution} is removed.
    * </p>
    *
    * @param action
-   *          the removed {@link Action}
+   *          the removed {@link ActionContribution}
    */
-  public void removeAction(Action action) {
+  public void removeActionContribution(ActionContribution action) {
     _actionServiceManager.unbindService(action);
   }
 
   /**
    * <p>
-   * Called if an {@link ActionGroup} is added.
+   * Called if an {@link ActionGroupContribution} is added.
    * </p>
    *
    * @param actionGroup
-   *          the added {@link ActionGroup}
+   *          the added {@link ActionGroupContribution}
    */
-  public void addActionGroup(ActionGroup actionGroup) {
+  public void addActionGroupContribution(ActionGroupContribution actionGroup) {
     _actionGroupServiceManager.bindService(actionGroup);
   }
 
   /**
    * <p>
-   * Called if an {@link ActionGroup} is removed.
+   * Called if an {@link ActionGroupContribution} is removed.
    * </p>
    *
    * @param actionGroup
-   *          the removed {@link ActionGroup}
+   *          the removed {@link ActionGroupContribution}
    */
-  public void removeActionGroup(ActionGroup actionGroup) {
+  public void removeActionGroupContribution(ActionGroupContribution actionGroup) {
     _actionGroupServiceManager.unbindService(actionGroup);
   }
 }

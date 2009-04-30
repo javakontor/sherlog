@@ -3,24 +3,24 @@
    <implementation class="org.javakontor.sherlog.application.whiteboard.WhiteboardComponent"/>
 
   <reference name="ActionSetManager"
-    interface="org.javakontor.sherlog.application.action.ActionSetManager"
+    interface="org.javakontor.sherlog.application.action.contrib.ActionSetManager"
     policy="static"
     cardinality="1..1"
     bind="addActionSetManager"
     unbind="removeActionSetManager" />
 
-  <reference name="actions"
-    interface="org.javakontor.sherlog.application.action.Action"
-    bind="addAction"
-    unbind="removeAction"
+  <reference name="actionContributions"
+    interface="org.javakontor.sherlog.application.action.contrib.ActionContribution"
+    bind="addActionContribution"
+    unbind="removeActionContribution"
     cardinality="0..n"
     policy="dynamic"
   />
 
   <reference name="actionGroups"
-    interface="org.javakontor.sherlog.application.action.ActionGroup"
-    bind="addActionGroup"
-    unbind="removeActionGroup"
+    interface="org.javakontor.sherlog.application.action.contrib.ActionGroupContribution"
+    bind="addActionGroupContribution"
+    unbind="removeActionGroupContribution"
     cardinality="0..n"
     policy="dynamic"
   />
