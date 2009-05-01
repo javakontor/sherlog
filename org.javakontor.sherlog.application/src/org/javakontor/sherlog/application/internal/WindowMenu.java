@@ -9,11 +9,11 @@ import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
 import org.javakontor.sherlog.application.action.ActionGroupType;
-import org.javakontor.sherlog.application.action.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroupContribution;
 import org.javakontor.sherlog.application.internal.util.Arranger;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.BundleContext;

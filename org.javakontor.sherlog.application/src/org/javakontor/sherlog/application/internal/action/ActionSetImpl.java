@@ -5,11 +5,11 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionSet;
-import org.javakontor.sherlog.application.action.contrib.ActionSetChangeListener;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.set.ActionSet;
+import org.javakontor.sherlog.application.action.set.ActionSetChangeListener;
 
 public class ActionSetImpl implements ActionSet {
 

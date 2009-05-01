@@ -4,9 +4,9 @@ import static org.javakontor.sherlog.application.action.MenuConstants.TOOLS_MENU
 import static org.javakontor.sherlog.application.action.MenuConstants.TOOLS_MENU_TARGET_ID;
 
 import org.javakontor.sherlog.application.action.AbstractToggleAction;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.DefaultActionContribution;
 import org.javakontor.sherlog.application.action.ToggleAction;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
 import org.javakontor.sherlog.application.mvc.AbstractMvcViewContribution;
 import org.javakontor.sherlog.application.view.DefaultViewContributionDescriptor;
 import org.javakontor.sherlog.application.view.ViewContribution;

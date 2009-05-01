@@ -1,9 +1,9 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 
 /**
  * A {@link LocatableActionGroupElement} implements a {@link LocatableElement} for an ActionGroupElement

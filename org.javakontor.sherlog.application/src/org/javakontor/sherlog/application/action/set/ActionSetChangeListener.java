@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.action.contrib;
+package org.javakontor.sherlog.application.action.set;
 
 public interface ActionSetChangeListener {
 

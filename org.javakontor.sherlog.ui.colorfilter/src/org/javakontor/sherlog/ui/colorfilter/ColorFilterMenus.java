@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 import org.javakontor.sherlog.ui.logview.LogViewConstants;
 import org.osgi.framework.BundleContext;
 

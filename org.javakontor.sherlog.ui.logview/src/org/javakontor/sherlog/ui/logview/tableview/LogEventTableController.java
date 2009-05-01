@@ -7,7 +7,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.javakontor.sherlog.application.action.contrib.ActionSet;
+import org.javakontor.sherlog.application.action.set.ActionSet;
 import org.javakontor.sherlog.application.menu.AbstractContextMenuListener;
 import org.javakontor.sherlog.application.menu.ContextMenu;
 import org.javakontor.sherlog.application.mvc.AbstractController;

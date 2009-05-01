@@ -1,8 +1,14 @@
-package org.javakontor.sherlog.application.action;
+package org.javakontor.sherlog.application.action.contrib;
+
+import org.javakontor.sherlog.application.action.ActionGroupType;
 
 /**
  * <p>
  * An {@link ActionGroupContribution} represents an action group that is registered with the action registry.
+ * </p>
+ * <p>
+ * This class <b>is not intended</b> to be subclassed by clients. To contribute an action or an action group, you can
+ * use an instance of type {@link DefaultActionContribution} or {@link DefaultActionGroupContribution}.
  * </p>
  */
 public interface ActionGroupContribution extends ActionGroupElementContribution {

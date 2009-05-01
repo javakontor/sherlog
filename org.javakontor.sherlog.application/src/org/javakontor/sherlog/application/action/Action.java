@@ -5,6 +5,9 @@ import org.javakontor.sherlog.util.IPropertyChangeSupport;
 /**
  * <p>
  * </p>
+ * <p>
+ * This class <b>is intended<b> to be subclassed by clients.
+ * </p>
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)

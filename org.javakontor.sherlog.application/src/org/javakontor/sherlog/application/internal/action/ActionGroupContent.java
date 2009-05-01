@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 import org.javakontor.sherlog.util.Assert;
 
 /**

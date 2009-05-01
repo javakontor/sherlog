@@ -1,8 +1,8 @@
-package org.javakontor.sherlog.application.action.contrib;
+package org.javakontor.sherlog.application.action.set;
 
-import org.javakontor.sherlog.application.action.ActionAdmin;
+import org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin;
 
-public interface ActionSetManager extends ActionAdmin {
+public interface ActionSetManager extends ActionContributionAdmin {
 
   /**
    * Returns the {@link ActionSet} for the specified actionSetId.

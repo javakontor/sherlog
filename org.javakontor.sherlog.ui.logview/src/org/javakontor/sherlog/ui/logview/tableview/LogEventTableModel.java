@@ -2,7 +2,7 @@ package org.javakontor.sherlog.ui.logview.tableview;
 
 import java.util.Arrays;
 
-import org.javakontor.sherlog.application.action.contrib.ActionSet;
+import org.javakontor.sherlog.application.action.set.ActionSet;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.request.SetStatusMessageRequest;
 import org.javakontor.sherlog.application.request.StatusMessage;

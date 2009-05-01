@@ -5,10 +5,10 @@ import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_
 import static org.javakontor.sherlog.application.action.MenuConstants.MENUBAR_ID;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroupContribution;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 

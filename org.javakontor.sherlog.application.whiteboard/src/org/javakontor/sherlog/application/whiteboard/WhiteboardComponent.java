@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.application.whiteboard;
 
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.set.ActionSetManager;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
@@ -47,10 +47,7 @@ public class WhiteboardComponent {
     // create the ServiceManagerListener
     _actionServiceManagerListener = new ServiceManagerListener<ActionContribution>() {
       public void serviceAdded(ServiceManagerEvent<ActionContribution> event) {
-        ActionContribution con = event.getService();
-
-        _actionSetManager.addAction(con.getId(), con.getTargetActionGroupId(), con.getLabel(),
-            con.getDefaultShortcut(), con.getAction());
+        _actionSetManager.addAction(event.getService());
       }
 
       public void serviceRemoved(ServiceManagerEvent<ActionContribution> event) {

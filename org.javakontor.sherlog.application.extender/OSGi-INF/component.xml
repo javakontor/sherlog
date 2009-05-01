@@ -3,7 +3,7 @@
    <implementation class="org.javakontor.sherlog.application.extender.ExtenderComponent"/>
 
   <reference name="ActionSetManager"
-    interface="org.javakontor.sherlog.application.action.contrib.ActionSetManager"
+    interface="org.javakontor.sherlog.application.action.set.ActionSetManager"
     policy="static"
     cardinality="1..1"
     bind="addActionSetManager"

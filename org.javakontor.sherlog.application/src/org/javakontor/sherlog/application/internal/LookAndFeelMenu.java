@@ -14,11 +14,11 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.action.AbstractToggleAction;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
 import org.javakontor.sherlog.application.action.ActionGroupType;
-import org.javakontor.sherlog.application.action.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroupContribution;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 

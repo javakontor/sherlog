@@ -7,4 +7,5 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Service-Component: OSGi-INF/component.xml
 Import-Package: org.javakontor.sherlog.application.action,
  org.javakontor.sherlog.application.action.contrib,
+ org.javakontor.sherlog.application.action.set,
  org.javakontor.sherlog.util.servicemanager

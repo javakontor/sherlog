@@ -4,6 +4,10 @@ import org.javakontor.sherlog.util.AbstractPropertyChangeSupport;
 
 /**
  * <p>
+ * Abstract implementation of the {@link Action} interface.
+ * </p>
+ * <p>
+ * This class <b>is intended<b> to be subclassed by clients.
  * </p>
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
@@ -16,6 +20,7 @@ public abstract class AbstractAction extends AbstractPropertyChangeSupport imple
 
   /**
    * <p>
+   * Creates a new instance of type {@link AbstractAction}.
    * </p>
    */
   public AbstractAction() {
@@ -23,7 +28,7 @@ public abstract class AbstractAction extends AbstractPropertyChangeSupport imple
   }
 
   /**
-   * @see org.javakontor.sherlog.application.action.ActionContribution#isEnabled()
+   * @see org.javakontor.sherlog.application.action.contrib.ActionContribution#isEnabled()
    */
   public boolean isEnabled() {
     return this._enabled;
@@ -37,8 +42,11 @@ public abstract class AbstractAction extends AbstractPropertyChangeSupport imple
    * @param enabled
    */
   public void setEnabled(final boolean enabled) {
+    // save old value
     final Boolean oldValue = isEnabled();
+    // set new value
     this._enabled = enabled;
+    // fire property change
     firePropertyChangeEvent(ENABLED_PROPERTY, oldValue, this._enabled);
   }
 }

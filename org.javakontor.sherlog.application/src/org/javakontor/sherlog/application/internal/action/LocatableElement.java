@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
-import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 
 /**
  * Wraps an {@link AbstractActionGroupElementContribution} together with an {@link ActionLocation} describing the target

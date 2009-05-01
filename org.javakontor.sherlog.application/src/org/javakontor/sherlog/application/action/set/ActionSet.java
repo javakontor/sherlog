@@ -1,8 +1,8 @@
-package org.javakontor.sherlog.application.action.contrib;
+package org.javakontor.sherlog.application.action.set;
 
 import java.util.Collection;
 
-import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
 
 /**
  * Holds all ActionGroupElements that have been registered (either via the ServiceRegistry or from

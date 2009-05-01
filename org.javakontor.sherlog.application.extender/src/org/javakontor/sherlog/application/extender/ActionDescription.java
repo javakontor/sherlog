@@ -3,8 +3,8 @@ package org.javakontor.sherlog.application.extender;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 
 /**
  * <p>

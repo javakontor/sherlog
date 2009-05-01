@@ -5,8 +5,8 @@ import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.ActionContribution;
-import org.javakontor.sherlog.application.action.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;

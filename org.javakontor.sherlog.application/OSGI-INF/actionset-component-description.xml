@@ -4,7 +4,7 @@
   <implementation class="org.javakontor.sherlog.application.internal.action.ActionSetComponent"/>
 
   <service>
-    <provide interface="org.javakontor.sherlog.application.action.contrib.ActionSetManager" />
+    <provide interface="org.javakontor.sherlog.application.action.set.ActionSetManager" />
     <provide interface="org.javakontor.sherlog.application.action.ActionAdmin"/>
   </service>
 
