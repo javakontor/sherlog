@@ -11,9 +11,9 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.javakontor.sherlog.application.action.MenuConstants;
 import org.javakontor.sherlog.application.action.contrib.ActionSet;
 import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
-import org.javakontor.sherlog.application.menu.MenuConstants;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

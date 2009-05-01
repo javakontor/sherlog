@@ -18,18 +18,6 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
     super();
   }
 
-  public void setStaticActionContributions(final ActionContribution[] staticActionContributions) {
-    this._staticActionContributions = staticActionContributions;
-  }
-
-  public void setStaticActionGroupContributions(final DefaultActionGroupContribution[] staticActionGroupContributions) {
-    this._staticActionGroupContributions = staticActionGroupContributions;
-  }
-
-  public void setType(final ActionGroupType type) {
-    this._type = type;
-  }
-
   /**
    * Creates a {@link ActionGroupType#simple} ActionGroup with the specified parametes
    * 
@@ -41,11 +29,11 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
    *          The label or null to create a "flat" ActionGroup
    */
   public DefaultActionGroupContribution(final String id, final String targetActionGroupId, final String label) {
-    this(ActionGroupType.simple, id, targetActionGroupId, label);
+    this(id, targetActionGroupId, label, ActionGroupType.simple);
   }
 
-  public DefaultActionGroupContribution(final ActionGroupType type, final String id, final String targetActionGroupId,
-      final String label) {
+  public DefaultActionGroupContribution(final String id, final String targetActionGroupId, final String label,
+      final ActionGroupType type) {
 
     super(id, targetActionGroupId, label);
 
@@ -59,16 +47,6 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
    */
   public ActionGroupType getType() {
     return this._type;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "[DefaultActionGroup, id: " + getId() + ", type: " + getType() + "]";
   }
 
   /**
@@ -109,4 +87,25 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
     return (getStaticActionContributions() != null) && (getStaticActionContributions().length > 0);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "[DefaultActionGroup, id: " + getId() + ", type: " + getType() + "]";
+  }
+
+  public void setStaticActionContributions(final ActionContribution[] staticActionContributions) {
+    this._staticActionContributions = staticActionContributions;
+  }
+
+  public void setStaticActionGroupContributions(final DefaultActionGroupContribution[] staticActionGroupContributions) {
+    this._staticActionGroupContributions = staticActionGroupContributions;
+  }
+
+  public void setType(final ActionGroupType type) {
+    this._type = type;
+  }
 }

@@ -27,4 +27,22 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
     this._active = active;
     firePropertyChangeEvent(ACTIVE_PROPERTY, oldValue, this._active);
   }
+
+  public void execute() {
+    if (!isActive()) {
+      activate();
+      setActive(true);
+    } else {
+      deactivate();
+      setActive(false);
+    }
+  }
+
+  protected void activate() {
+    //
+  }
+
+  protected void deactivate() {
+    //
+  }
 }

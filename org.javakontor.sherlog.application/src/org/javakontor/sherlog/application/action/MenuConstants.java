@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.menu;
+package org.javakontor.sherlog.application.action;
 
 /**
  * Defines several constants that can be used from clients to avoid using hardcoded Strings

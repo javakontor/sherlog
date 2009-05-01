@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.ui.managementagent;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.TOOLS_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.TOOLS_MENU_TARGET_ID;
 
 import org.javakontor.sherlog.application.action.AbstractToggleAction;
 import org.javakontor.sherlog.application.action.ActionContribution;

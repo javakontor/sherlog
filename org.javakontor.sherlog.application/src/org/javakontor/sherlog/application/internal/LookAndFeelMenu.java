@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.WINDOW_MENU_TARGET_ID;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class LookAndFeelMenu {
     private final ActionContribution[] _initialActions;
 
     public LookAndFeelActionGroup() {
-      super(ActionGroupType.radiogroup, LAF_MENU_ID, WINDOW_MENU_TARGET_ID, "&Look and feel");
+      super(LAF_MENU_ID, WINDOW_MENU_TARGET_ID, "&Look and feel", ActionGroupType.radiogroup);
 
       // determine available LaFs
       final LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();

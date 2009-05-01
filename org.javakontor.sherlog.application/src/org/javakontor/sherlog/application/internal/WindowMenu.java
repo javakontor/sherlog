@@ -1,9 +1,9 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.TOOLS_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.TOOLS_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.WINDOW_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.WINDOW_MENU_TARGET_ID;
 
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
@@ -51,7 +51,7 @@ public class WindowMenu {
     private final ActionGroupContribution[] _staticActionGroups;
 
     public WindowMenuActionGroup() {
-      super(ActionGroupType.simple, WINDOW_MENU_ID, MENUBAR_ID + "(last)", ApplicationMessages.windowMenuTitle);
+      super(WINDOW_MENU_ID, MENUBAR_ID + "(last)", ApplicationMessages.windowMenuTitle, ActionGroupType.simple);
 
       this._staticActionGroups = new ActionGroupContribution[] { new ArrangeActionGroup(),
           new DefaultActionGroupContribution(TOOLS_MENU_ID, WINDOW_MENU_TARGET_ID, ApplicationMessages.toolsMenuTitle) };
@@ -78,8 +78,8 @@ public class WindowMenu {
     private final ActionContribution[] _actions;
 
     public ArrangeActionGroup() {
-      super(ActionGroupType.simple, WINDOW_ARRANGE_MENU_ID, WINDOW_MENU_TARGET_ID + "(first)",
-          ApplicationMessages.arrangeMenuTitle);
+      super(WINDOW_ARRANGE_MENU_ID, WINDOW_MENU_TARGET_ID + "(first)", ApplicationMessages.arrangeMenuTitle,
+          ActionGroupType.simple);
 
       this._actions = new ActionContribution[] {
           getArrangeActionGroupContirbution(ApplicationMessages.horizontalMenuTitle, Arranger.HORIZONTAL),

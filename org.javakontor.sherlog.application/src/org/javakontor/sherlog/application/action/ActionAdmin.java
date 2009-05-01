@@ -1,6 +1,5 @@
 package org.javakontor.sherlog.application.action;
 
-
 /**
  * <p>
  * The {@link ActionAdmin} service allows you to dynamically register and unregister actions and action groups at
@@ -32,6 +31,16 @@ public interface ActionAdmin {
 
   /**
    * <p>
+   * Registers the specified {@link ActionContribution} with the action registry.
+   * </p>
+   * 
+   * @param actionContribution
+   *          the action contribution
+   */
+  public void addAction(ActionContribution actionContribution);
+
+  /**
+   * <p>
    * Removes the {@link Action} with the specified (unique) id
    * </p>
    * 
@@ -39,6 +48,15 @@ public interface ActionAdmin {
    *          the (unique) id of the {@link Action}
    */
   public void removeAction(String id);
+
+  /**
+   * <p>
+   * Removes the action contribution
+   * </p>
+   * 
+   * @param action
+   */
+  public void removeAction(ActionContribution action);
 
   /**
    * <p>
@@ -76,7 +94,7 @@ public interface ActionAdmin {
    * 
    */
   public void addActionGroup(String id, String actionGroupId, String label, ActionGroupType type,
-      String[] staticActionGroupIds, Action[] staticActions);
+      ActionGroupContribution[] staticActionGroupIds, ActionContribution[] staticActions);
 
   /**
    * <p>
@@ -87,10 +105,6 @@ public interface ActionAdmin {
    *          the (unique) id of the action group
    */
   public void removeActionGroup(String id);
-
-  public void addAction(ActionContribution action);
-
-  public void removeAction(ActionContribution action);
 
   public void addActionGroup(ActionGroupContribution actionGroup);
 

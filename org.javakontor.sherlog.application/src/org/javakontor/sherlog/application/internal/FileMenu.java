@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.MENUBAR_ID;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
 import org.javakontor.sherlog.application.action.ActionContribution;

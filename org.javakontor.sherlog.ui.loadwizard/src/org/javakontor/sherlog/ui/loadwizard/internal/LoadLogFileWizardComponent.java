@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.ui.loadwizard.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.FILE_MENU_TARGET_ID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

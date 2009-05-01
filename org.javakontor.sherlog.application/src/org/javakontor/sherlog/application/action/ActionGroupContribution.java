@@ -2,25 +2,29 @@ package org.javakontor.sherlog.application.action;
 
 /**
  * <p>
+ * An {@link ActionGroupContribution} represents an action group that is registered with the action registry.
  * </p>
  */
 public interface ActionGroupContribution extends ActionGroupElementContribution {
 
   /**
    * <p>
+   * Returns the type of the action group.
    * </p>
    * 
-   * @return
+   * @return the type of the action group.
    */
   public ActionGroupType getType();
 
   /**
    * <p>
+   * Returns if the action group contribution has static {@link ActionGroupContribution ActionGroupContributions}.
    * </p>
    * 
-   * @return
+   * @return <code>true</code>, if this {@link ActionGroupContribution} contains static static
+   *         {@link ActionGroupContribution ActionGroupContributions}.
    */
-  public boolean isFinal();
+  public boolean hasStaticActionGroupContributions();
 
   /**
    * <p>
@@ -30,8 +34,6 @@ public interface ActionGroupContribution extends ActionGroupElementContribution 
    */
   public ActionGroupContribution[] getStaticActionGroupContributions();
 
-  public boolean hasStaticActionGroupContributions();
-
   /**
    * <p>
    * </p>
@@ -40,5 +42,23 @@ public interface ActionGroupContribution extends ActionGroupElementContribution 
    */
   public ActionContribution[] getStaticActionContributions();
 
+  /**
+   * <p>
+   * Returns if the action group contribution contains static {@link ActionContribution ActionContributions}.
+   * </p>
+   * 
+   * @return <code>true</code>, if this {@link ActionGroupContribution} contains static static
+   *         {@link ActionContribution ActionContributions}.
+   */
   public boolean hasStaticActionContributions();
+
+  /**
+   * <p>
+   * Returns <code>true</code> if this {@link ActionGroupContribution} is final (that means, <b>no</b>
+   * {@link ActionGroupElementContribution ActionGroupElementContributions} can be added to the action group.
+   * </p>
+   * 
+   * @return code>true</code> if this {@link ActionGroupContribution} is final.
+   */
+  public boolean isFinal();
 }

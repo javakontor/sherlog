@@ -1,8 +1,8 @@
 package org.javakontor.sherlog.application.internal;
 
-import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_ID;
-import static org.javakontor.sherlog.application.menu.MenuConstants.WINDOW_MENU_TARGET_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.MENUBAR_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.WINDOW_MENU_ID;
+import static org.javakontor.sherlog.application.action.MenuConstants.WINDOW_MENU_TARGET_ID;
 
 import java.util.Hashtable;
 import java.util.Map;

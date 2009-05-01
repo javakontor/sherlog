@@ -36,7 +36,8 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
   }
 
   public void addActionGroup(final String id, final String actionGroupId, final String label,
-      final ActionGroupType type, final String[] staticActionGroupIds, final Action[] staticActions) {
+      final ActionGroupType type, final ActionGroupContribution[] staticActionGroupIds,
+      final ActionContribution[] staticActions) {
 
     final DefaultActionGroupContribution contribution = new DefaultActionGroupContribution();
     contribution.setId(id);

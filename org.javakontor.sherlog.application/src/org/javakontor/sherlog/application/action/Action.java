@@ -22,6 +22,8 @@ public interface Action extends IPropertyChangeSupport {
    */
   public boolean isEnabled();
 
+  public void setEnabled(boolean enabled);
+
   /**
    * <p>
    * </p>
