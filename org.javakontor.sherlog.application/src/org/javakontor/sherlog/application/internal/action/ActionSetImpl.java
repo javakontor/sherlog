@@ -5,13 +5,11 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
 import org.javakontor.sherlog.application.action.contrib.ActionSet;
 import org.javakontor.sherlog.application.action.contrib.ActionSetChangeListener;
-import org.javakontor.sherlog.application.action.contrib.StaticActionGroupProvider;
-import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 
 public class ActionSetImpl implements ActionSet {
 
@@ -97,43 +95,41 @@ public class ActionSetImpl implements ActionSet {
     fireActionSetChangeEvent();
   }
 
-  protected void addActionGroupInternal(final ActionGroupContribution actionGroup) {
-    final ActionGroupContent target = getTarget(actionGroup);
+  protected void addActionGroupInternal(final ActionGroupContribution actionGroupContribution) {
+    final ActionGroupContent target = getTarget(actionGroupContribution);
 
-    target.add(actionGroup);
+    target.add(actionGroupContribution);
     ActionGroupContent list;
-    if (this._actionGroups.containsKey(actionGroup.getId())) {
-      list = this._actionGroups.get(actionGroup.getId());
+    if (this._actionGroups.containsKey(actionGroupContribution.getId())) {
+      list = this._actionGroups.get(actionGroupContribution.getId());
       if (list.hasActionGroup()) {
-        throw new RuntimeException("ActionGroup with id '" + actionGroup.getId() + "' already registered");
+        throw new RuntimeException("ActionGroup with id '" + actionGroupContribution.getId() + "' already registered");
       }
     } else {
       list = new ActionGroupContent();
-      this._actionGroups.put(actionGroup.getId(), list);
+      this._actionGroups.put(actionGroupContribution.getId(), list);
     }
 
-    final boolean isFinal = isFinal(actionGroup);
+    final boolean isFinal = isFinal(actionGroupContribution);
     if (isFinal) {
       // make sure only contribution from either StaticActionGroupProvider or StaticActionProvider (see below)
       // are added to the list
       list.removeAll();
     }
 
-    if (actionGroup instanceof StaticActionGroupProvider) {
-      final StaticActionGroupProvider staticActionGroupProvider = (StaticActionGroupProvider) actionGroup;
-      for (final ActionGroupContribution staticGroup : staticActionGroupProvider.getActionGroups()) {
+    if (actionGroupContribution.hasStaticActionGroupContributions()) {
+      for (final ActionGroupContribution staticGroup : actionGroupContribution.getStaticActionGroupContributions()) {
         addActionGroupInternal(staticGroup);
       }
     }
 
-    if (actionGroup instanceof StaticActionProvider) {
-      final StaticActionProvider staticActionProvider = (StaticActionProvider) actionGroup;
-      for (final ActionContribution staticAction : staticActionProvider.getActionContributions()) {
+    if (actionGroupContribution.hasStaticActionContributions()) {
+      for (final ActionContribution staticAction : actionGroupContribution.getStaticActionContributions()) {
         addActionInternal(staticAction);
       }
     }
 
-    list.setActionGroup(actionGroup);
+    list.setActionGroup(actionGroupContribution);
     if (isFinal) {
       // make sure no additional contributions are accepted for this ActionGroup anymore
       list.close();
@@ -162,15 +158,13 @@ public class ActionSetImpl implements ActionSet {
     // remove static Actions and ActionGroups as well
     final ActionGroupContent menuItems = this._actionGroups.get(actionGroup.getId());
     menuItems.unsetActionGroup();
-    if (actionGroup instanceof StaticActionGroupProvider) {
-      final StaticActionGroupProvider staticActionGroupProvider = (StaticActionGroupProvider) actionGroup;
-      for (final ActionGroupContribution staticActionGroup : staticActionGroupProvider.getActionGroups()) {
+    if (actionGroup.hasStaticActionGroupContributions()) {
+      for (final ActionGroupContribution staticActionGroup : actionGroup.getStaticActionGroupContributions()) {
         removeActionGroupInternal(staticActionGroup);
       }
     }
-    if (actionGroup instanceof StaticActionProvider) {
-      final StaticActionProvider staticActionProvider = (StaticActionProvider) actionGroup;
-      for (final ActionContribution staticAction : staticActionProvider.getActionContributions()) {
+    if (actionGroup.hasStaticActionContributions()) {
+      for (final ActionContribution staticAction : actionGroup.getStaticActionContributions()) {
         removeActionInternal(staticAction);
       }
     }
@@ -242,14 +236,7 @@ public class ActionSetImpl implements ActionSet {
    * @return
    */
   protected boolean isFinal(final ActionGroupContribution actionGroup) {
-    if ((actionGroup instanceof StaticActionGroupProvider) && ((StaticActionGroupProvider) actionGroup).isFinal()) {
-      return true;
-    }
-
-    if ((actionGroup instanceof StaticActionProvider) && ((StaticActionProvider) actionGroup).isFinal()) {
-      return true;
-    }
-    return false;
+    return actionGroup.isFinal();
   }
 
 }

@@ -7,13 +7,14 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
 import org.javakontor.sherlog.util.Assert;
 
 /**
  * Holds the content of one {@link ActionGroupContribution}, that is all Actions and ActionGroups with the same
- * {@link ActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}.
+ * {@link AbstractActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}.
  * 
  * <p>
  * Note: The ActionGroupContent can be filled with Actions and ActionGroups <b>before</b> the ActionGroup itself is
@@ -26,9 +27,9 @@ import org.javakontor.sherlog.util.Assert;
  */
 public class ActionGroupContent {
 
-  private static final long              serialVersionUID = 1L;
+  private static final long                          serialVersionUID = 1L;
 
-  protected Log                          _logger          = LogFactory.getLog(getClass());
+  protected Log                                      _logger          = LogFactory.getLog(getClass());
 
   /**
    * The ActionGroup for that this ActionGroupContent contains the content
@@ -47,7 +48,7 @@ public class ActionGroupContent {
    * Determines whether it is allowed to add more content to this ActionGroupContent.
    * 
    */
-  private boolean                        _open;
+  private boolean                                    _open;
 
   public ActionGroupContent() {
     this._actionGroupElements = new LinkedList<ActionGroupElementContribution>();

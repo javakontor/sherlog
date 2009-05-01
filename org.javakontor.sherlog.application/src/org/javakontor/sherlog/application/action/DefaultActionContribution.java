@@ -1,13 +1,11 @@
-package org.javakontor.sherlog.application.action.contrib;
-
-import org.javakontor.sherlog.application.action.Action;
+package org.javakontor.sherlog.application.action;
 
 /**
  * <p>
- * Abstract implementation of interface {@link ActionContribution}.
+ * Abstract implementation of interface {@link DefaultActionContribution}.
  * </p>
  */
-public class DefaultActionContribution extends AbstractActionGroupElement implements ActionContribution {
+public class DefaultActionContribution extends AbstractActionGroupElementContribution implements ActionContribution {
 
   private Action _action;
 
@@ -52,7 +50,7 @@ public class DefaultActionContribution extends AbstractActionGroupElement implem
    * Overwrite to add default shortcut
    * </p>
    * 
-   * @see org.javakontor.sherlog.application.action.contrib.ActionContribution#getDefaultShortcut()
+   * @see org.javakontor.sherlog.application.action.DefaultActionContribution#getDefaultShortcut()
    */
   public String getDefaultShortcut() {
     return this._defaultShortcut;

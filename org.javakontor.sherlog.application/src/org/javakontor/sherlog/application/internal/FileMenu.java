@@ -5,11 +5,10 @@ import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TA
 import static org.javakontor.sherlog.application.menu.MenuConstants.MENUBAR_ID;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
-import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -39,7 +38,7 @@ public class FileMenu {
     this._registration = bundleContext.registerService(ActionGroupContribution.class.getName(), fileActionGroup, null);
   }
 
-  class FileMenuActionGroup extends DefaultActionGroup implements StaticActionProvider {
+  class FileMenuActionGroup extends DefaultActionGroupContribution {
 
     private final ActionContribution[] _defaultActions;
 
@@ -49,14 +48,10 @@ public class FileMenu {
 
     }
 
-    public ActionContribution[] getActionContributions() {
+    @Override
+    public ActionContribution[] getStaticActionContributions() {
       return this._defaultActions;
     }
-
-    public boolean isFinal() {
-      return false;
-    }
-
   }
 
   class QuitAction extends AbstractAction {

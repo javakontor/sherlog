@@ -1,15 +1,8 @@
 package org.javakontor.sherlog.application.action.contrib;
 
+import org.javakontor.sherlog.application.action.ActionAdmin;
 
-public interface ActionSetManager {
-
-  public void addAction(ActionContribution action);
-
-  public void removeAction(ActionContribution action);
-
-  public void addActionGroup(ActionGroupContribution actionGroup);
-
-  public void removeActionGroup(ActionGroupContribution actionGroup);
+public interface ActionSetManager extends ActionAdmin {
 
   /**
    * Returns the {@link ActionSet} for the specified actionSetId.

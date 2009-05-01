@@ -10,7 +10,7 @@
     unbind="removeActionSetManager" />
 
   <reference name="actionContributions"
-    interface="org.javakontor.sherlog.application.action.contrib.ActionContribution"
+    interface="org.javakontor.sherlog.application.action.ActionContribution"
     bind="addActionContribution"
     unbind="removeActionContribution"
     cardinality="0..n"
@@ -18,7 +18,7 @@
   />
 
   <reference name="actionGroups"
-    interface="org.javakontor.sherlog.application.action.contrib.ActionGroupContribution"
+    interface="org.javakontor.sherlog.application.action.ActionGroupContribution"
     bind="addActionGroupContribution"
     unbind="removeActionGroupContribution"
     cardinality="0..n"

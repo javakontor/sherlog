@@ -1,8 +1,9 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
 
 /**
  * A {@link LocatableActionGroupElement} implements a {@link LocatableElement} for an ActionGroupElement
@@ -13,20 +14,20 @@ public class LocatableActionGroupElement implements LocatableElement {
 
   private final ActionGroupElementContribution _element;
 
-  private final ActionLocation     _location;
+  private final ActionLocation                 _location;
 
   /**
    * Contstructs a new LocatableActionGroupElement instance for the given ActionGroupElement. The target location for
    * the ActionGroupElement will be determined from the ActionGroupElements
-   * {@link ActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}
+   * {@link AbstractActionGroupElementContribution#getTargetActionGroupId() targetActionGroupId}
    * 
    * @param element
    *          The ActionGroupElement
    */
-  public LocatableActionGroupElement(ActionGroupElementContribution element) {
+  public LocatableActionGroupElement(final ActionGroupElementContribution element) {
     super();
-    _element = element;
-    _location = new ActionLocation(element);
+    this._element = element;
+    this._location = new ActionLocation(element);
   }
 
   /*
@@ -35,7 +36,7 @@ public class LocatableActionGroupElement implements LocatableElement {
    * @see org.javakontor.sherlog.application.internal.menu.LocatableElement#getElement()
    */
   public ActionGroupElementContribution getElement() {
-    return _element;
+    return this._element;
   }
 
   /*
@@ -44,7 +45,7 @@ public class LocatableActionGroupElement implements LocatableElement {
    * @see org.javakontor.sherlog.application.internal.menu.LocatableElement#getLocation()
    */
   public ActionLocation getLocation() {
-    return _location;
+    return this._location;
   }
 
   /**

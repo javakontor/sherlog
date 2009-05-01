@@ -1,11 +1,14 @@
-package org.javakontor.sherlog.application.action.contrib;
+package org.javakontor.sherlog.application.action;
 
 /**
  * <p>
- * Abstract implementation of interface {@link ActionGroupElementContribution}.
+ * Abstract implementation of interface {@link AbstractActionGroupElementContribution}.
  * </p>
+ * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public abstract class AbstractActionGroupElement implements ActionGroupElementContribution {
+public abstract class AbstractActionGroupElementContribution {
 
   /** - */
   private String _id;
@@ -21,14 +24,14 @@ public abstract class AbstractActionGroupElement implements ActionGroupElementCo
    * @param targetActionGroupId
    * @param label
    */
-  public AbstractActionGroupElement(final String id, final String targetActionGroupId, final String label) {
+  public AbstractActionGroupElementContribution(final String id, final String targetActionGroupId, final String label) {
     super();
     this._id = id;
     this._label = label;
     this._targetActionGroupId = targetActionGroupId;
   }
 
-  public AbstractActionGroupElement() {
+  public AbstractActionGroupElementContribution() {
     super();
   }
 

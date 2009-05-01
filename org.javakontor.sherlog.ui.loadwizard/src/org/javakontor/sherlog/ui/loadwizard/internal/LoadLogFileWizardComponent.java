@@ -5,8 +5,8 @@ import static org.javakontor.sherlog.application.menu.MenuConstants.FILE_MENU_TA
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.DefaultActionContribution;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.domain.store.ModifiableLogEventStore;
@@ -87,7 +87,7 @@ public class LoadLogFileWizardComponent {
         ActionContribution.class.getName(), actionContribution, null);
 
     ResetLogEventStoreAction resetLogEventStoreAction = new ResetLogEventStoreAction(this._logEventStore);
-    DefaultActionContribution resetLogEventStoreActionContribution = new DefaultActionContribution(FILE_MENU_ID
+    ActionContribution resetLogEventStoreActionContribution = new DefaultActionContribution(FILE_MENU_ID
         + ".resetLogStore", FILE_MENU_TARGET_ID + "(first)", "&Reset logstore", null, resetLogEventStoreAction);
 
     this._resetLogEventStoreActionRegistration = this._context.getBundleContext().registerService(

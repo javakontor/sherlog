@@ -9,13 +9,11 @@ import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
-import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
-import org.javakontor.sherlog.application.action.contrib.StaticActionGroupProvider;
-import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionGroupType;
+import org.javakontor.sherlog.application.action.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
 import org.javakontor.sherlog.application.internal.util.Arranger;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.BundleContext;
@@ -48,7 +46,7 @@ public class WindowMenu {
    * 
    * @author Nils Hartmann (nils@nilshartmann.net)
    */
-  class WindowMenuActionGroup extends DefaultActionGroup implements StaticActionGroupProvider {
+  class WindowMenuActionGroup extends DefaultActionGroupContribution {
 
     private final ActionGroupContribution[] _staticActionGroups;
 
@@ -56,13 +54,15 @@ public class WindowMenu {
       super(ActionGroupType.simple, WINDOW_MENU_ID, MENUBAR_ID + "(last)", ApplicationMessages.windowMenuTitle);
 
       this._staticActionGroups = new ActionGroupContribution[] { new ArrangeActionGroup(),
-          new DefaultActionGroup(TOOLS_MENU_ID, WINDOW_MENU_TARGET_ID, ApplicationMessages.toolsMenuTitle) };
+          new DefaultActionGroupContribution(TOOLS_MENU_ID, WINDOW_MENU_TARGET_ID, ApplicationMessages.toolsMenuTitle) };
     }
 
-    public ActionGroupContribution[] getActionGroups() {
+    @Override
+    public ActionGroupContribution[] getStaticActionGroupContributions() {
       return this._staticActionGroups;
     }
 
+    @Override
     public boolean isFinal() {
       return false;
     }
@@ -73,7 +73,7 @@ public class WindowMenu {
         label, null, new ArrangeAction(arrangeMode));
   }
 
-  class ArrangeActionGroup extends DefaultActionGroup implements StaticActionProvider {
+  class ArrangeActionGroup extends DefaultActionGroupContribution {
 
     private final ActionContribution[] _actions;
 
@@ -88,10 +88,12 @@ public class WindowMenu {
           getArrangeActionGroupContirbution(ApplicationMessages.cascadeMenuTitle, Arranger.CASCADE) };
     }
 
-    public ActionContribution[] getActionContributions() {
+    @Override
+    public ActionContribution[] getStaticActionContributions() {
       return this._actions;
     }
 
+    @Override
     public boolean isFinal() {
       return false;
     }

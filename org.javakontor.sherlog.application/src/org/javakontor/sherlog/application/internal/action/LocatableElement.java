@@ -1,10 +1,11 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
 
 /**
- * Wraps an {@link ActionGroupElementContribution} together with an {@link ActionLocation} describing the target position of the
- * ActionGroupElement.
+ * Wraps an {@link AbstractActionGroupElementContribution} together with an {@link ActionLocation} describing the target
+ * position of the ActionGroupElement.
  * 
  * <p>
  * A set of LocatableElements can be ordered according to their target positions using a {@link LocatableElementSorter}
@@ -14,9 +15,9 @@ import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContr
 public interface LocatableElement {
 
   /**
-   * Return the wrapped {@link ActionGroupElementContribution}
+   * Return the wrapped {@link AbstractActionGroupElementContribution}
    * 
-   * @return the wrapped {@link ActionGroupElementContribution}
+   * @return the wrapped {@link AbstractActionGroupElementContribution}
    */
   public ActionGroupElementContribution getElement();
 

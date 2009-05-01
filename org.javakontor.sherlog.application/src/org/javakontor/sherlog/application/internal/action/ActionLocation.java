@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.application.internal.action;
 
-import org.javakontor.sherlog.application.action.contrib.ActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.AbstractActionGroupElementContribution;
+import org.javakontor.sherlog.application.action.ActionGroupElementContribution;
 import org.javakontor.sherlog.util.Assert;
 
 /**
@@ -37,12 +38,12 @@ public class ActionLocation {
    */
   private final String _position;
 
-  public ActionLocation(String id, String targetGroupId) {
+  public ActionLocation(final String id, final String targetGroupId) {
     Assert.notNull(id);
     Assert.notNull(targetGroupId);
     this._rawString = targetGroupId;
     this._id = id;
-    TargetGroupIdParser parser = new TargetGroupIdParser(targetGroupId);
+    final TargetGroupIdParser parser = new TargetGroupIdParser(targetGroupId);
     this._actionRoot = parser.getActionRoot();
     this._targetGroupId = parser.getTargetGroupId();
     this._position = parser.getPosition();
@@ -53,11 +54,11 @@ public class ActionLocation {
   }
 
   /**
-   * Constructs a new ActionLocation for the given {@link ActionGroupElementContribution}
+   * Constructs a new ActionLocation for the given {@link AbstractActionGroupElementContribution}
    * 
    * @param actionGroupElement
    */
-  public ActionLocation(ActionGroupElementContribution actionGroupElement) {
+  public ActionLocation(final ActionGroupElementContribution actionGroupElement) {
     this(actionGroupElement.getId(), actionGroupElement.getTargetActionGroupId());
   }
 

@@ -1,7 +1,7 @@
 package org.javakontor.sherlog.application.whiteboard;
 
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
 import org.javakontor.sherlog.application.action.contrib.ActionSetManager;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
@@ -10,7 +10,8 @@ import org.javakontor.sherlog.util.servicemanager.ServiceManagerListener;
 /**
  * <p>
  * Implements a 'whiteboard component'. The whiteboard component is responsible for tracking and registering all
- * {@link ActionContribution Actions} and {@link ActionGroupContribution ActionGroups} that are registered with the OSGi service registry.
+ * {@link ActionContribution Actions} and {@link ActionGroupContribution ActionGroups} that are registered with the OSGi
+ * service registry.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
@@ -30,7 +31,7 @@ public class WhiteboardComponent {
   private ServiceManagerListener<ActionGroupContribution> _actionGroupServiceManagerListener = null;
 
   /** the action set manager */
-  private ActionSetManager                    _actionSetManager                  = null;
+  private ActionSetManager                                _actionSetManager                  = null;
 
   /**
    * <p>
@@ -45,12 +46,15 @@ public class WhiteboardComponent {
 
     // create the ServiceManagerListener
     _actionServiceManagerListener = new ServiceManagerListener<ActionContribution>() {
-      public void serviceRemoved(ServiceManagerEvent<ActionContribution> event) {
-        _actionSetManager.removeAction(event.getService());
+      public void serviceAdded(ServiceManagerEvent<ActionContribution> event) {
+        ActionContribution con = event.getService();
+
+        _actionSetManager.addAction(con.getId(), con.getTargetActionGroupId(), con.getLabel(),
+            con.getDefaultShortcut(), con.getAction());
       }
 
-      public void serviceAdded(ServiceManagerEvent<ActionContribution> event) {
-        _actionSetManager.addAction(event.getService());
+      public void serviceRemoved(ServiceManagerEvent<ActionContribution> event) {
+        _actionSetManager.removeAction(event.getService());
       }
     };
 

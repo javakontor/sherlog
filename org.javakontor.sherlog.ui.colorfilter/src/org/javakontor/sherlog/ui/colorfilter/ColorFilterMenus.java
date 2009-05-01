@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
 import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
 import org.javakontor.sherlog.ui.logview.LogViewConstants;
 import org.osgi.framework.BundleContext;
@@ -54,7 +53,7 @@ public class ColorFilterMenus {
     bundleContext.registerService(ActionGroupContribution.class.getName(), filterByColorActionGroup, null);
   }
 
-  class StaticActionGroup extends DefaultActionGroup implements StaticActionProvider {
+  class StaticActionGroup extends ActionGroupContribution implements StaticActionProvider {
 
     private final ActionContribution[] _actions;
 

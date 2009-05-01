@@ -1,9 +1,11 @@
 package org.javakontor.sherlog.application.action;
 
-
 /**
  * <p>
  * </p>
+ * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public abstract class AbstractToggleAction extends AbstractAction implements ToggleAction {
 

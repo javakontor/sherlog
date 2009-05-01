@@ -5,6 +5,7 @@
 
   <service>
     <provide interface="org.javakontor.sherlog.application.action.contrib.ActionSetManager" />
+    <provide interface="org.javakontor.sherlog.application.action.ActionAdmin"/>
   </service>
 
 </component>

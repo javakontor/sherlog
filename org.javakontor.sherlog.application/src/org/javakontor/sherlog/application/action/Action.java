@@ -6,6 +6,7 @@ import org.javakontor.sherlog.util.IPropertyChangeSupport;
  * <p>
  * </p>
  * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public interface Action extends IPropertyChangeSupport {

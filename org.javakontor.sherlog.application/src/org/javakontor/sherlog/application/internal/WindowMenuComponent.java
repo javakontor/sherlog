@@ -11,10 +11,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
 import org.javakontor.sherlog.util.servicemanager.ServiceManagerEvent;
@@ -53,7 +53,7 @@ public class WindowMenuComponent {
   public void activate(final ComponentContext componentContext) {
     this._bundleContext = componentContext.getBundleContext();
 
-    final DefaultActionGroup windowListActionGroup = new DefaultActionGroup(WINDOW_WINDOWLIST_MENU_ID,
+    final ActionGroupContribution windowListActionGroup = new DefaultActionGroupContribution(WINDOW_WINDOWLIST_MENU_ID,
         WINDOW_MENU_TARGET_ID + "(last)", null);
     this._windowListActionGroupRegistration = this._bundleContext.registerService(ActionGroupContribution.class
         .getName(), windowListActionGroup, null);
@@ -126,9 +126,9 @@ public class WindowMenuComponent {
       // ActionGroupElementServiceHelper.createServiceProperties(WINDOW_WINDOWLIST_MENU_ID
       // + "." + serviceId, WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution.getDescriptor().getDialogName());
 
-      final DefaultActionContribution contribution = new DefaultActionContribution(WINDOW_WINDOWLIST_MENU_ID + "."
-          + serviceId, WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution.getDescriptor().getName(), null,
-          new OpenWindowAction(viewContribution));
+      final ActionContribution contribution = new DefaultActionContribution(
+          WINDOW_WINDOWLIST_MENU_ID + "." + serviceId, WINDOW_WINDOWLIST_MENU_TARGET_ID, viewContribution
+              .getDescriptor().getName(), null, new OpenWindowAction(viewContribution));
 
       final ServiceRegistration registration = WindowMenuComponent.this._bundleContext.registerService(
           ActionContribution.class.getName(), contribution, null);

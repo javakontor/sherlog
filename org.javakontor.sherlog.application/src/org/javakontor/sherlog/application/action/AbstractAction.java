@@ -2,7 +2,13 @@ package org.javakontor.sherlog.application.action;
 
 import org.javakontor.sherlog.util.AbstractPropertyChangeSupport;
 
-
+/**
+ * <p>
+ * </p>
+ * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
+ * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
+ */
 public abstract class AbstractAction extends AbstractPropertyChangeSupport implements Action {
 
   /** the 'enabled' property */
@@ -17,7 +23,7 @@ public abstract class AbstractAction extends AbstractPropertyChangeSupport imple
   }
 
   /**
-   * @see org.javakontor.sherlog.application.action.contrib.ActionContribution#isEnabled()
+   * @see org.javakontor.sherlog.application.action.ActionContribution#isEnabled()
    */
   public boolean isEnabled() {
     return this._enabled;

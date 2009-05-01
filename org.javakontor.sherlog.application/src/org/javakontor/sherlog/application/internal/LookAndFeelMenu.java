@@ -14,12 +14,11 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.action.AbstractToggleAction;
-import org.javakontor.sherlog.application.action.ActionAdmin.ActionGroupType;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
-import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
-import org.javakontor.sherlog.application.action.contrib.DefaultActionGroup;
-import org.javakontor.sherlog.application.action.contrib.StaticActionProvider;
+import org.javakontor.sherlog.application.action.ActionContribution;
+import org.javakontor.sherlog.application.action.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.ActionGroupType;
+import org.javakontor.sherlog.application.action.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.DefaultActionGroupContribution;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -59,7 +58,7 @@ public class LookAndFeelMenu {
    * At runtime other bundles can contribute new look and feels to this group
    * 
    */
-  class LookAndFeelActionGroup extends DefaultActionGroup implements StaticActionProvider {
+  class LookAndFeelActionGroup extends DefaultActionGroupContribution {
 
     private final ActionContribution[] _initialActions;
 
@@ -73,8 +72,8 @@ public class LookAndFeelMenu {
       final List<ActionContribution> actions = new LinkedList<ActionContribution>();
       for (final LookAndFeelInfo info : installedLookAndFeels) {
 
-        final ActionContribution contribution = new DefaultActionContribution(LAF_MENU_ID + "." + info.getName(),
-            LAF_MENU_TARGET_ID, info.getName(), null, new LookAndFeelAction(info));
+        final DefaultActionContribution contribution = new DefaultActionContribution(
+            LAF_MENU_ID + "." + info.getName(), LAF_MENU_TARGET_ID, info.getName(), null, new LookAndFeelAction(info));
 
         actions.add(contribution);
       }
@@ -84,12 +83,9 @@ public class LookAndFeelMenu {
       this._initialActions = actions.toArray(new ActionContribution[0]);
     }
 
-    public ActionContribution[] getActionContributions() {
+    @Override
+    public ActionContribution[] getStaticActionContributions() {
       return this._initialActions;
-    }
-
-    public boolean isFinal() {
-      return false;
     }
   }
 
