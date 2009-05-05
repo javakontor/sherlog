@@ -20,11 +20,11 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
     ActionGroupContribution {
 
   /** - */
-  private ActionGroupType                  _type;
+  private ActionGroupType           _type;
 
-  private ActionContribution[]             _staticActionContributions;
+  private ActionContribution[]      _staticActionContributions;
 
-  private DefaultActionGroupContribution[] _staticActionGroupContributions;
+  private ActionGroupContribution[] _staticActionGroupContributions;
 
   public DefaultActionGroupContribution() {
     super();

@@ -12,7 +12,7 @@ package org.javakontor.sherlog.application.action;
  */
 public abstract class AbstractToggleAction extends AbstractAction implements ToggleAction {
 
-  /** - */
+  /** the 'active' property */
   private boolean _active = false;
 
   /**
@@ -31,6 +31,9 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
     firePropertyChangeEvent(ACTIVE_PROPERTY, oldValue, this._active);
   }
 
+  /**
+   * @see org.javakontor.sherlog.application.action.Action#execute()
+   */
   public void execute() {
     if (!isActive()) {
       activate();
@@ -41,11 +44,15 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
     }
   }
 
+  /**
+   * <p>
+   * </p>
+   */
   protected void activate() {
-    //
+    // empty implementation
   }
 
   protected void deactivate() {
-    //
+    // empty implementation
   }
 }
