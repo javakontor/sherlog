@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.javakontor.sherlog.application.extender">
-   <implementation class="org.javakontor.sherlog.application.extender.ExtenderComponent"/>
-
-  <reference name="ActionSetManager"
-    interface="org.javakontor.sherlog.application.action.set.ActionSetManager"
-    policy="static"
-    cardinality="1..1"
-    bind="addActionSetManager"
-    unbind="removeActionSetManager" />
-
+   <implementation class="org.javakontor.sherlog.application.extender.internal.ExtenderComponent"/>
+   <reference
+     cardinality="1..1"
+     interface="org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin"
+     name="ActionContributionAdmin"
+     policy="static"
+     bind="bindActionContributionAdmin"
+     unbind="unbindActionContributionAdmin"/>
 </scr:component>

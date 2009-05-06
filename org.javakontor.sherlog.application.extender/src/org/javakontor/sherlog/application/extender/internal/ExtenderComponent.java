@@ -1,5 +1,6 @@
-package org.javakontor.sherlog.application.extender;
+package org.javakontor.sherlog.application.extender.internal;
 
+import org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin;
 import org.javakontor.sherlog.application.action.set.ActionSetManager;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.util.tracker.BundleTracker;
@@ -17,7 +18,7 @@ public class ExtenderComponent {
   private BundleTracker    _bundleTracker;
 
   /** the action set manager */
-  private ActionSetManager _actionSetManager;
+  private ActionContributionAdmin _actionContributionAdmin;
 
   /**
    * <p>
@@ -29,7 +30,7 @@ public class ExtenderComponent {
    */
   public void activate(ComponentContext componentContext) {
     // create and open the bundle tracker
-    _bundleTracker = new SherlogBundleTracker(componentContext.getBundleContext(), _actionSetManager);
+    _bundleTracker = new SherlogBundleTracker(componentContext.getBundleContext(), _actionContributionAdmin);
     _bundleTracker.open();
   }
 
@@ -48,23 +49,23 @@ public class ExtenderComponent {
 
   /**
    * <p>
-   * Adds the action set manager.
+   * Binds the action contribution admin.
    * </p>
    *
-   * @param actionSetManager
+   * @param actionContributionAdmin
    */
-  public void addActionSetManager(ActionSetManager actionSetManager) {
-    _actionSetManager = actionSetManager;
+  public void bindActionContributionAdmin(ActionContributionAdmin actionContributionAdmin) {
+    _actionContributionAdmin = actionContributionAdmin;
   }
 
   /**
    * <p>
-   * Removes the action set manager.
+   * Unbinds the action contribution admin.
    * </p>
    *
-   * @param actionSetManager
+   * @param actionContributionAdmin
    */
-  public void removeActionSetManager(ActionSetManager actionSetManager) {
-    _actionSetManager = null;
+  public void unbindActionContributionAdmin(ActionContributionAdmin actionContributionAdmin) {
+    _actionContributionAdmin = null;
   }
 }
