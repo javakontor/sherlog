@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.extender.internal;
+package org.javakontor.sherlog.application.extender.internal.spec;
 
 import java.util.LinkedList;
 import java.util.List;

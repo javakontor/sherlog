@@ -8,8 +8,8 @@ import java.util.Set;
 
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.domain.filter.Filterable;
-import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.filter.LogEventFilter;
+import org.javakontor.sherlog.domain.filter.RegisteredFilterChangeListener;
 import org.javakontor.sherlog.domain.store.LogEventStore;
 import org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory;
 import org.javakontor.sherlog.util.Assert;
@@ -138,7 +138,6 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
      */
     public void filterAdded(final LogEventFilter logEventFilter) {
       if (_logEventFilter.add(logEventFilter)) {
-        System.err.println("filterAdded(" + logEventFilter + ")");
         fireModelChangedEvent(LogEventFilterModelReasonForChange.filterAdded, logEventFilter);
       }
     }
@@ -148,7 +147,6 @@ public class LogEventFilterModel extends AbstractModel<LogEventFilterModel, LogE
      */
     public void filterRemoved(final LogEventFilter logEventFilter) {
       if (_logEventFilter.remove(logEventFilter)) {
-        System.err.println("filterRemoved(" + logEventFilter + ")");
         fireModelChangedEvent(LogEventFilterModelReasonForChange.filterRemoved, logEventFilter);
       }
     }

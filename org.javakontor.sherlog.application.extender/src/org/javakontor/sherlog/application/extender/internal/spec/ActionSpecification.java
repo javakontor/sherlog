@@ -1,4 +1,7 @@
-package org.javakontor.sherlog.application.extender.internal;
+package org.javakontor.sherlog.application.extender.internal.spec;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.javakontor.sherlog.application.action.Action;
 
 public class ActionSpecification {
 
@@ -11,6 +14,17 @@ public class ActionSpecification {
   private String _shortcut;
 
   private String _actionClass;
+
+  private Action _action;
+
+  public Action getAction() {
+    return _action;
+  }
+
+  @JsonIgnore
+  public void setAction(Action action) {
+    _action = action;
+  }
 
   public String getId() {
     return _id;

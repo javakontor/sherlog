@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.application.extender.internal;
+package org.javakontor.sherlog.application.extender.internal.spec;
 
 import org.javakontor.sherlog.application.action.ActionGroupType;
 

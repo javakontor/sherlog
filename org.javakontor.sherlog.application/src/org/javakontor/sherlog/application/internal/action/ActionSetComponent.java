@@ -16,10 +16,14 @@ import org.javakontor.sherlog.application.action.set.ActionSetManager;
 
 public class ActionSetComponent implements ActionSetManager, ActionAdmin {
 
-  private final Map<String, ActionSet> _actionSets;
+  private final Map<String, ActionSet>                      _actionSets;
+
+  private final Map<String, ActionGroupElementContribution> _actionGroupElementContributions;
 
   public ActionSetComponent() {
     this._actionSets = new Hashtable<String, ActionSet>();
+
+    this._actionGroupElementContributions = new Hashtable<String, ActionGroupElementContribution>();
   }
 
   public void addAction(final String id, final String actionGroupId, final String label, final String shortcut,
@@ -52,22 +56,38 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     addActionGroup(id, actionGroupId, label, type, null, null);
   }
 
+  /**
+   * @see org.javakontor.sherlog.application.action.ActionAdmin#removeAction(java.lang.String)
+   */
   public void removeAction(final String id) {
+    final ActionGroupElementContribution contribution = this._actionGroupElementContributions.get(id);
 
+    if ((contribution != null) && (contribution instanceof ActionContribution)) {
+      removeAction((ActionContribution) contribution);
+    }
   }
 
+  /**
+   * @see org.javakontor.sherlog.application.action.ActionAdmin#removeActionGroup(java.lang.String)
+   */
   public void removeActionGroup(final String id) {
+    final ActionGroupElementContribution contribution = this._actionGroupElementContributions.get(id);
 
+    if ((contribution != null) && (contribution instanceof ActionGroupContribution)) {
+      removeActionGroup((ActionGroupContribution) contribution);
+    }
   }
 
   public void addAction(final ActionContribution action) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(action));
     registry.addAction(action);
+    this._actionGroupElementContributions.put(action.getId(), action);
   }
 
   public void addActionGroup(final ActionGroupContribution actionGroup) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(actionGroup));
     registry.addActionGroup(actionGroup);
+    this._actionGroupElementContributions.put(actionGroup.getId(), actionGroup);
   }
 
   /*

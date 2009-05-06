@@ -35,7 +35,6 @@ public class LoadLogFileAction extends AbstractAction {
     // ~~ register a handler that closes the dialog (by unregistering it from the service registry)
     contribution.setSuccessor(new CloseDialogRequestHandler(serviceRegistration));
 
-    System.err.println("_logEventStore:" + this._logEventStore);
     // LogEventReader logEventReader = LoadLogFileWizard.openLoadLogFileWizard(null, getLogEventReaderFactory());
     // if (logEventReader != null) {
     // logEventReader.addLogEventHandler(new BatchLogEventHandler(this._logEventStore));

@@ -118,12 +118,8 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   private boolean createEditor(final LogEventFilter logEventFilter, final FilterConfigurationEditorFactory factory) {
 
     if (factory.isSuitableFor(logEventFilter)) {
-      // throw new RuntimeException("Bratz");
-      System.err.println("createEditor " + logEventFilter);
-      System.err.println("createEditor " + factory);
       FilterConfigurationEditor configurationEditor = factory.createFilterConfigurationEditor(logEventFilter);
       _filterConfigurationEditors.put(logEventFilter, configurationEditor);
-      System.err.println("createEditor " + configurationEditor.getPanel());
       add(configurationEditor.getPanel());
       repaintComponent();
 
@@ -133,8 +129,6 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   }
 
   private void disposeEditor(LogEventFilter logEventFilter) {
-    System.err.println("disposeEditor");
-    System.err.println(logEventFilter);
 
     FilterConfigurationEditor editor = _filterConfigurationEditors.remove(logEventFilter);
     if (editor != null) {

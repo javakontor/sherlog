@@ -4,6 +4,7 @@ Bundle-Name: org.javakontor.sherlog.application.extender
 Bundle-SymbolicName: org.javakontor.sherlog.application.extender
 Bundle-Version: 1.0.0
 Import-Package: org.codehaus.jackson;version="0.9.9.6",
+ org.codehaus.jackson.annotate;version="0.9.9.6",
  org.codehaus.jackson.map;version="0.9.8",
  org.javakontor.sherlog.application.action,
  org.javakontor.sherlog.application.action.contrib,

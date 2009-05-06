@@ -47,7 +47,6 @@ public class LoadLogFileWizardController extends
       public void actionPerformed(ActionEvent e) {
         // commit all values from view to model
         commit();
-        System.err.println(" * OK BUTTON PRESSED !");
 
         ValidationResult result = getModel().validateForm();
 

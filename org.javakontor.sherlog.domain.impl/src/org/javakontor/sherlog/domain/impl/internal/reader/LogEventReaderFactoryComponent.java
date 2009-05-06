@@ -15,7 +15,7 @@ import org.osgi.service.component.ComponentContext;
 /**
  * <p>
  * </p>
- *
+ * 
  * @author Gerd Wuetherich (gerd@gerd-wuetherich.de)
  */
 public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
@@ -40,8 +40,8 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    */
   public LogEventReaderFactoryComponent() {
     // initialize the lists of LogEventProvider references
-    this._objectLogEventProviderReferences = new LinkedList<ServiceReference>();
-    this._textLogEventProviderReferences = new LinkedList<ServiceReference>();
+    _objectLogEventProviderReferences = new LinkedList<ServiceReference>();
+    _textLogEventProviderReferences = new LinkedList<ServiceReference>();
   }
 
   /**
@@ -50,17 +50,17 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
   public LogEventFlavour[] getSupportedLogEventFlavours() {
 
     // create result list
-    List<LogEventFlavour> result = new LinkedList<LogEventFlavour>();
+    final List<LogEventFlavour> result = new LinkedList<LogEventFlavour>();
 
     // add flavours
-    for (ServiceReference reference : this._textLogEventProviderReferences) {
-      LogEventFlavourImpl flavour = new LogEventFlavourImpl();
+    for (final ServiceReference reference : _textLogEventProviderReferences) {
+      final LogEventFlavourImpl flavour = new LogEventFlavourImpl();
       flavour.setType(LogEventFlavour.TEXT);
       flavour.setDescription((String) reference.getProperty("logevent.flavour"));
       result.add(flavour);
     }
-    for (ServiceReference reference : this._objectLogEventProviderReferences) {
-      LogEventFlavourImpl flavour = new LogEventFlavourImpl();
+    for (final ServiceReference reference : _objectLogEventProviderReferences) {
+      final LogEventFlavourImpl flavour = new LogEventFlavourImpl();
       flavour.setType(LogEventFlavour.BINARY);
       flavour.setDescription((String) reference.getProperty("logevent.flavour"));
       result.add(flavour);
@@ -82,12 +82,12 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
 
     //
     if (logEventFlavour.getType() == LogEventFlavour.BINARY) {
-      ServiceReference serviceReference = getObjectLogEventProviderReference(logEventFlavour);
+      final ServiceReference serviceReference = getObjectLogEventProviderReference(logEventFlavour);
       return getObjectLogEventReader(url, serviceReference);
     }
 
     if (logEventFlavour.getType() == LogEventFlavour.TEXT) {
-      ServiceReference serviceReference = getTextLogEventProviderReference(logEventFlavour);
+      final ServiceReference serviceReference = getTextLogEventProviderReference(logEventFlavour);
       return getTextLogEventReader(url, serviceReference);
     }
 
@@ -105,44 +105,42 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * @param context
    */
   protected void activate(final ComponentContext context) {
-    this._componentContext = context;
+    _componentContext = context;
   }
 
   /**
    * @param context
    */
   protected void deactivate(final ComponentContext context) {
-    this._componentContext = null;
+    _componentContext = null;
   }
 
   /**
    * @param logEventProvider
    */
   protected void setTextLogEventProvider(final ServiceReference logEventProvider) {
-    this._textLogEventProviderReferences.add(logEventProvider);
-    // System.err.println(logEventProvider);
+    _textLogEventProviderReferences.add(logEventProvider);
   }
 
   /**
    * @param logEventProvider
    */
   protected void unsetTextLogEventProvider(final ServiceReference logEventProvider) {
-    this._textLogEventProviderReferences.remove(logEventProvider);
+    _textLogEventProviderReferences.remove(logEventProvider);
   }
 
   /**
    * @param logEventProvider
    */
   protected void setObjectLogEventProvider(final ServiceReference logEventProvider) {
-    this._objectLogEventProviderReferences.add(logEventProvider);
-    System.err.println(logEventProvider);
+    _objectLogEventProviderReferences.add(logEventProvider);
   }
 
   /**
    * @param logEventProvider
    */
   protected void unsetObjectLogEventProvider(final ServiceReference logEventProvider) {
-    this._objectLogEventProviderReferences.remove(logEventProvider);
+    _objectLogEventProviderReferences.remove(logEventProvider);
   }
 
   /**
@@ -152,14 +150,14 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    */
   private LogEventReader getTextLogEventReader(final URL[] url, final ServiceReference serviceReference) {
 
-    TextLogEventProvider logEventProvider = (TextLogEventProvider) this._componentContext.locateService(
+    final TextLogEventProvider logEventProvider = (TextLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_TEXT_LOG_EVENT_PROVIDER, serviceReference);
 
     LogEventReader logEventReader = null;
 
     try {
       logEventReader = new TextInputStreamReader(url, logEventProvider);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       e.printStackTrace();
     }
 
@@ -174,14 +172,14 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    */
   private LogEventReader getObjectLogEventReader(final URL[] url, final ServiceReference serviceReference) {
 
-    ObjectLogEventProvider logEventProvider = (ObjectLogEventProvider) this._componentContext.locateService(
+    final ObjectLogEventProvider logEventProvider = (ObjectLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_OBJECT_LOG_EVENT_PROVIDER, serviceReference);
 
     LogEventReader logEventReader = null;
 
     try {
       logEventReader = new ObjectInputStreamReader(url, serviceReference.getBundle(), logEventProvider);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       e.printStackTrace();
     }
 
@@ -194,7 +192,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * Returns the {@link ServiceReference} to the {@link ObjectLogEventProvider} with the given flavour. If no such
    * {@link ObjectLogEventProvider} exists, <code>null</code> will be returned instead.
    * </p>
-   *
+   * 
    * @param logEventFlavour
    *          the flavour
    * @return the {@link ServiceReference} to the {@link ObjectLogEventProvider} with the given flavour. If no such
@@ -202,9 +200,9 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    */
   private ServiceReference getObjectLogEventProviderReference(final LogEventFlavour logEventFlavour) {
 
-    for (ServiceReference reference : this._objectLogEventProviderReferences) {
-      String flavour = (String) reference.getProperty("logevent.flavour");
-      if (flavour != null && flavour.equals(logEventFlavour.getDescription())) {
+    for (final ServiceReference reference : _objectLogEventProviderReferences) {
+      final String flavour = (String) reference.getProperty("logevent.flavour");
+      if ((flavour != null) && flavour.equals(logEventFlavour.getDescription())) {
         return reference;
       }
     }
@@ -216,7 +214,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * Returns the {@link ServiceReference} to the {@link TextLogEventProvider} with the given flavour. If no such
    * {@link TextLogEventProvider} exists, <code>null</code> will be returned instead.
    * </p>
-   *
+   * 
    * @param logEventFlavour
    *          the flavour
    * @return the {@link ServiceReference} to the {@link TextLogEventProvider} with the given flavour. If no such
@@ -224,9 +222,9 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    */
   private ServiceReference getTextLogEventProviderReference(final LogEventFlavour logEventFlavour) {
 
-    for (ServiceReference reference : this._textLogEventProviderReferences) {
-      String flavour = (String) reference.getProperty("logevent.flavour");
-      if (flavour != null && flavour.equals(logEventFlavour.getDescription())) {
+    for (final ServiceReference reference : _textLogEventProviderReferences) {
+      final String flavour = (String) reference.getProperty("logevent.flavour");
+      if ((flavour != null) && flavour.equals(logEventFlavour.getDescription())) {
         return reference;
       }
     }

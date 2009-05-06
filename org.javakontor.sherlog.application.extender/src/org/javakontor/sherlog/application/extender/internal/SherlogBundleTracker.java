@@ -2,7 +2,6 @@ package org.javakontor.sherlog.application.extender.internal;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Dictionary;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ import org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin
 import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 import org.javakontor.sherlog.application.extender.BundleContextAware;
 import org.javakontor.sherlog.application.extender.Lifecycle;
+import org.javakontor.sherlog.application.extender.internal.spec.ActionGroupElementSpecificationContainer;
+import org.javakontor.sherlog.application.extender.internal.spec.ActionSpecification;
 import org.javakontor.sherlog.util.Assert;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -31,10 +32,13 @@ import org.osgi.util.tracker.BundleTracker;
  */
 public class SherlogBundleTracker extends BundleTracker {
 
-  private static final String     SHERLOG_ACTION = "Sherlog-Action";
+  /** the constant SHERLOG_ACTION */
+  private static final String     SHERLOG_ACTION_BUNDLE_MANIFEST_HEADER = "Sherlog-Action";
 
   /** the action set manager */
   private ActionContributionAdmin _actionContributionAdmin;
+
+  private ObjectMapper            _mapper;
 
   /**
    * <p>
@@ -51,7 +55,11 @@ public class SherlogBundleTracker extends BundleTracker {
 
     Assert.notNull("Parameter actionContributionAdmin has to be set!", actionContributionAdmin);
 
+    // the action contribution admin
     _actionContributionAdmin = actionContributionAdmin;
+
+    // create
+    _mapper = new ObjectMapper();
   }
 
   /**
@@ -60,17 +68,22 @@ public class SherlogBundleTracker extends BundleTracker {
   @Override
   public Object addingBundle(Bundle bundle, BundleEvent event) {
 
+    // calls super.addingBundle(bundle, event)
+    Object result = super.addingBundle(bundle, event);
+
+    // get the action definitions
     List<URL> actionDefintions = getActionDefinitions(bundle);
 
+    // handle action definitions
     if (!getActionDefinitions(bundle).isEmpty()) {
 
       for (URL url : actionDefintions) {
-        ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+
         try {
-          ActionGroupElementSpecificationContainer actionDescription = mapper.readValue(url.openStream(),
+          ActionGroupElementSpecificationContainer actionDescription = _mapper.readValue(url.openStream(),
               ActionGroupElementSpecificationContainer.class);
 
-          instantiateActions(bundle, actionDescription);
+          return instantiateActions(bundle, actionDescription);
 
         } catch (JsonParseException e) {
           e.printStackTrace();
@@ -81,49 +94,9 @@ public class SherlogBundleTracker extends BundleTracker {
         }
       }
     }
-    return super.addingBundle(bundle, event);
-  }
 
-  private void instantiateActions(Bundle bundle, ActionGroupElementSpecificationContainer container) {
-
-    System.err.println("instantiateActions");
-
-    List<ActionSpecification> actionSpecifications = container.getActionSpecifications();
-
-    for (ActionSpecification spec : actionSpecifications) {
-      String className = spec.getActionClass();
-      try {
-        Class<?> actionClass = bundle.loadClass(className);
-
-        if (!Action.class.isAssignableFrom(actionClass)) {
-          // TODO
-        }
-
-        Action action = (Action) actionClass.newInstance();
-
-        if (action instanceof BundleContextAware) {
-          ((BundleContextAware) action).setBundleContext(bundle.getBundleContext());
-        }
-
-        if (action instanceof Lifecycle) {
-          ((Lifecycle) action).initialise();
-        }
-
-        _actionContributionAdmin.addAction(spec.getId(), spec.getActionGroupId(), spec.getLabel(), spec.getLabel(),
-            action);
-
-      } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-
+    // return the result
+    return result;
   }
 
   /**
@@ -133,29 +106,133 @@ public class SherlogBundleTracker extends BundleTracker {
   @Override
   public void removedBundle(Bundle bundle, BundleEvent event, Object object) {
     super.removedBundle(bundle, event, object);
+
+    if (object instanceof ActionGroupElementSpecificationContainer) {
+      ActionGroupElementSpecificationContainer container = (ActionGroupElementSpecificationContainer) object;
+
+      List<ActionSpecification> specifications = container.getActionSpecifications();
+
+      for (ActionSpecification spec : specifications) {
+        // remove from action registry
+        _actionContributionAdmin.removeAction(spec.getId());
+
+        // set bundle context
+        if (spec.getAction() instanceof BundleContextAware) {
+          ((BundleContextAware) spec.getAction()).setBundleContext(bundle.getBundleContext());
+        }
+
+        // initialize
+        if (spec.getAction() instanceof Lifecycle) {
+          ((Lifecycle) spec.getAction()).initialise();
+        }
+      }
+    }
   }
 
+  /**
+   * <p>
+   * Returns a list with the URLs of all defined action definitions.
+   * </p>
+   *
+   * @param bundle
+   *          the bundle
+   * @return a list with the URLs of all defined action definitions.
+   */
   private List<URL> getActionDefinitions(Bundle bundle) {
 
+    // create the result list
     List<URL> result = new LinkedList<URL>();
 
-    @SuppressWarnings("unchecked")
-    Dictionary<String, String> headers = bundle.getHeaders();
+    // get the content of the SHERLOG_ACTION header
+    String actionDefinitionList = (String) bundle.getHeaders().get(SHERLOG_ACTION_BUNDLE_MANIFEST_HEADER);
 
-    String actionDefinitionList = headers.get(SHERLOG_ACTION);
-
+    // handle action definition
     if (actionDefinitionList != null) {
+
+      // split the entries
       String[] actionDefinitions = actionDefinitionList.split(",");
 
+      // load the action definitions
       for (String actionDefinition : actionDefinitions) {
-        URL actionDefinitionUrl = bundle.getEntry(actionDefinition);
+        // the action definition URL
+        URL actionDefinitionUrl = bundle.getEntry(actionDefinition.trim());
+
+        // throw exception
         if (actionDefinitionUrl == null) {
-          throw new RuntimeException("TODO");
+          throw new RuntimeException("The specified entry " + actionDefinitionUrl + " does not exist in bundle '"
+              + bundle.getLocation() + "'!");
         }
+
+        // add the result
         result.add(actionDefinitionUrl);
       }
     }
 
+    // return result
     return result;
+  }
+
+  /**
+   * <p>
+   * Instantiate all defined actions.
+   * </p>
+   *
+   * @param bundle
+   *          the bundle
+   * @param container
+   *          the specification container
+   */
+  private ActionGroupElementSpecificationContainer instantiateActions(Bundle bundle,
+      ActionGroupElementSpecificationContainer container) {
+
+    // the action specifications
+    List<ActionSpecification> actionSpecifications = container.getActionSpecifications();
+
+    // iterate over all action specifications
+    for (ActionSpecification spec : actionSpecifications) {
+
+      // get the class name
+      String className = spec.getActionClass();
+
+      // try to instantiate the class name
+      try {
+        // load the class
+        Class<?> actionClass = bundle.loadClass(className);
+
+        // check is class is assignable from class Action
+        if (!Action.class.isAssignableFrom(actionClass)) {
+          throw new RuntimeException("The specified class '" + className + "' does not implement the interface '"
+              + Action.class.getName() + "'!");
+        }
+
+        // create a new instance
+        Action action = (Action) actionClass.newInstance();
+
+        // set bundle context
+        if (action instanceof BundleContextAware) {
+          ((BundleContextAware) action).setBundleContext(bundle.getBundleContext());
+        }
+
+        // initialize
+        if (action instanceof Lifecycle) {
+          ((Lifecycle) action).initialise();
+        }
+
+        // add the action
+        _actionContributionAdmin.addAction(spec.getId(), spec.getActionGroupId(), spec.getLabel(), spec.getLabel(),
+            action);
+
+        spec.setAction(action);
+
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException("The specified class '" + className + "' could not be found!", e);
+      } catch (InstantiationException e) {
+        throw new RuntimeException("The specified class '" + className + "' could not be instantiated!", e);
+      } catch (IllegalAccessException e) {
+        throw new RuntimeException("The specified class '" + className + "' could not be instantiated!", e);
+      }
+    }
+    // return the action specification
+    return container;
   }
 }
