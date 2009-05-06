@@ -6,6 +6,7 @@ import org.javakontor.sherlog.application.request.RequestHandler;
 
 /**
  * <p>
+ * Instances of type {@link ViewContribution} are used to register views with the application framework.
  * </p>
  */
 public interface ViewContribution extends RequestHandler {

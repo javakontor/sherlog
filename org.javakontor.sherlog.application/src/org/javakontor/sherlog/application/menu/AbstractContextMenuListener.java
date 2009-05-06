@@ -17,6 +17,7 @@ import org.javakontor.sherlog.application.action.set.ActionSet;
  */
 public abstract class AbstractContextMenuListener<C> extends MouseAdapter {
 
+  /** the context menu */
   private final ContextMenu<C> _contextMenu;
 
   /**
@@ -25,7 +26,7 @@ public abstract class AbstractContextMenuListener<C> extends MouseAdapter {
    * 
    * @param contextMenu
    */
-  public AbstractContextMenuListener(ContextMenu<C> contextMenu) {
+  public AbstractContextMenuListener(final ContextMenu<C> contextMenu) {
     this._contextMenu = contextMenu;
     this._contextMenu.getPopupMenu().addPopupMenuListener(new AfterMenuListener());
   }
@@ -51,7 +52,7 @@ public abstract class AbstractContextMenuListener<C> extends MouseAdapter {
    */
   private void showPopup(final MouseEvent e) {
     if (e.isPopupTrigger() && showPopupMenu()) {
-      JPopupMenu menu = this._contextMenu.getPreparedPopupMenu(getActionGroupRegistry(), getActionContext());
+      final JPopupMenu menu = this._contextMenu.getPreparedPopupMenu(getActionGroupRegistry(), getActionContext());
       menu.show(e.getComponent(), e.getX(), e.getY());
     }
   }
@@ -84,14 +85,14 @@ public abstract class AbstractContextMenuListener<C> extends MouseAdapter {
    */
   private class AfterMenuListener implements PopupMenuListener {
 
-    public void popupMenuCanceled(PopupMenuEvent e) {
+    public void popupMenuCanceled(final PopupMenuEvent e) {
     }
 
-    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+    public void popupMenuWillBecomeInvisible(final PopupMenuEvent e) {
       afterMenu();
     }
 
-    public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+    public void popupMenuWillBecomeVisible(final PopupMenuEvent e) {
     }
 
   };
