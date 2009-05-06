@@ -4,28 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.javakontor.sherlog.application.action.AbstractToggleAction;
+import org.javakontor.sherlog.application.action.ToggleAction;
+import org.javakontor.sherlog.application.extender.internal.ServiceTrackerHolder;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Filter;
-import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * <p>
+ * {@link ToggleAction} that implements support for service handling.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class AbstractServiceAwareToggleAction extends AbstractToggleAction implements BundleContextAware, Lifecycle {
 
-  /** service trackers */
-  private Map<String, ServiceTracker> _serviceTrackers;
-
-  /** the bundle context */
-  private BundleContext               _bundleContext;
-
-  /** array of filters */
-  private String[]                    _filters;
+  /** the service tracker holder */
+  private ServiceTrackerHolder _serviceTrackerHolder;
 
   /**
    * <p>
@@ -35,76 +30,77 @@ public class AbstractServiceAwareToggleAction extends AbstractToggleAction imple
   public AbstractServiceAwareToggleAction(String... filters) {
     super();
 
-    _filters = filters;
-  }
+    // create customized ServiceTrackerHolder
+    _serviceTrackerHolder = new ServiceTrackerHolder(filters) {
 
-  /**
-   * @see org.javakontor.sherlog.application.extender.BundleContextAware#setBundleContext(org.osgi.framework.BundleContext)
-   */
-  public void setBundleContext(BundleContext bundleContext) {
-    _bundleContext = bundleContext;
+      private Map<ServiceTracker, Integer> _count = new HashMap<ServiceTracker, Integer>();
+
+      @Override
+      public void addingService(ServiceTracker serviceTracker, ServiceReference reference) {
+        int count = _count.containsKey(serviceTracker) ? _count.get(serviceTracker) : 0;
+        _count.put(serviceTracker, count + 1);
+        setEnabled(servicesSatisfied());
+      }
+
+      @Override
+      public void removedService(ServiceTracker serviceTracker, ServiceReference reference, Object service) {
+        int count = _count.containsKey(serviceTracker) ? _count.get(serviceTracker) : 0;
+        _count.put(serviceTracker, count - 1);
+        setEnabled(servicesSatisfied());
+      }
+
+      /**
+       * <p>
+       * </p>
+       *
+       * @return
+       */
+      private boolean servicesSatisfied() {
+        // get service trackers
+        Map<String, ServiceTracker> map = getServiceTrackers();
+
+        // check if satisfied
+        for (ServiceTracker tracker : map.values()) {
+          if (!_count.containsKey(tracker) || _count.get(tracker) < 1) {
+            return false;
+          }
+        }
+
+        // return true
+        return true;
+      }
+    };
   }
 
   /**
    * @see org.javakontor.sherlog.application.extender.Lifecycle#initialise()
    */
   public void initialise() {
-    // create service tracker map
-    _serviceTrackers = new HashMap<String, ServiceTracker>();
-
-    for (String filterString : _filters) {
-      try {
-        Filter filter = _bundleContext.createFilter(filterString);
-
-        ServiceTracker serviceTracker = new ServiceTracker(_bundleContext, filter, null) {
-
-          private int _count;
-
-          @Override
-          public Object addingService(ServiceReference reference) {
-            _count++;
-            setEnabled(_count > 0);
-            return super.addingService(reference);
-          }
-
-          @Override
-          public void removedService(ServiceReference reference, Object service) {
-            _count--;
-            setEnabled(_count > 0);
-            super.removedService(reference, service);
-          }
-        };
-
-        _serviceTrackers.put(filterString, serviceTracker);
-      } catch (InvalidSyntaxException e) {
-        // TODO
-        e.printStackTrace();
-      }
-    }
-
-    for (ServiceTracker serviceTracker : _serviceTrackers.values()) {
-      serviceTracker.open();
-    }
+    _serviceTrackerHolder.initialise();
   }
 
   /**
    * @see org.javakontor.sherlog.application.extender.Lifecycle#dispose()
    */
   public void dispose() {
-
-    for (ServiceTracker serviceTracker : _serviceTrackers.values()) {
-      serviceTracker.close();
-    }
-
-    _serviceTrackers = null;
+    _serviceTrackerHolder.dispose();
   }
 
+  /**
+   * @see org.javakontor.sherlog.application.extender.BundleContextAware#setBundleContext(org.osgi.framework.BundleContext)
+   */
+  public void setBundleContext(BundleContext bundleContext) {
+    _serviceTrackerHolder.setBundleContext(bundleContext);
+  }
+
+  /**
+   * <p>
+   * </p>
+   *
+   * @param filter
+   * @return
+   */
   public Object getService(String filter) {
-
-    if (!_serviceTrackers.containsKey(filter)) {
-      throw new RuntimeException("asdasd");
-    }
-
-    return _serviceTrackers.get(filter).getService();
+    return _serviceTrackerHolder.getService(filter);
   }
 }
