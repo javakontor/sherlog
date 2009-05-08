@@ -1,25 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.2"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.5"?>
 
 <target name="sherlog.target">
-
-   <location path="${workspace_loc}/target.platform/equinox-3.5/plugins"/>
-
-   <content useAllPlugins="true">
-      <plugins>
-      </plugins>
-      <features>
-      </features>
-      <extraLocations>
-         <location path="${workspace_loc}/target.platform/ebr"/>
-         <location path="${workspace_loc}/target.platform/test/spring-dm-1.1.3"/>
-         <location path="${workspace_loc}/target.platform/test/ebr"/>
-         <location path="${workspace_loc}/target.platform/test/spring-2.5.5"/>
-         <location path="${workspace_loc}/target.platform/test/jemmy"/>
-         <location path="${workspace_loc}/target.platform/javakontor"/>
-         <location path="${workspace_loc}/target.platform/test/jemmy"/>
-         <location path="${workspace_loc}/target.platform/codehaus"/>
-      </extraLocations>
-   </content>
-
+<locations>
+<location path="${workspace_loc}/target.platform/equinox-3.5/plugins" type="Directory"/>
+<location path="${workspace_loc}/target.platform/ebr" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/spring-dm-1.1.3" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/ebr" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/spring-2.5.5" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/jemmy" type="Directory"/>
+<location path="${workspace_loc}/target.platform/javakontor" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/jemmy" type="Directory"/>
+<location path="${workspace_loc}/target.platform/codehaus" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/junit4osgi" type="Directory"/>
+</locations>
 </target>
