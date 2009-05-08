@@ -2,12 +2,12 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.javakontor.sherlog.application.whiteboard">
    <implementation class="org.javakontor.sherlog.application.whiteboard.WhiteboardComponent"/>
 
-  <reference name="ActionSetManager"
-    interface="org.javakontor.sherlog.application.action.set.ActionSetManager"
+  <reference name="ActionContributionAdmin"
+    interface="org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin"
     policy="static"
     cardinality="1..1"
-    bind="addActionSetManager"
-    unbind="removeActionSetManager" />
+    bind="addActionContributionAdmin"
+    unbind="removeActionContributionAdmin" />
 
   <reference name="actionContributions"
     interface="org.javakontor.sherlog.application.action.contrib.ActionContribution"

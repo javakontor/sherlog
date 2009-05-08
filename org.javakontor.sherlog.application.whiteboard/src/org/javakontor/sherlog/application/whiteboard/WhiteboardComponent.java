@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.application.whiteboard;
 
 import org.javakontor.sherlog.application.action.contrib.ActionContribution;
+import org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin;
 import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 import org.javakontor.sherlog.application.action.set.ActionSetManager;
 import org.javakontor.sherlog.util.servicemanager.DefaultServiceManager;
@@ -31,7 +32,7 @@ public class WhiteboardComponent {
   private ServiceManagerListener<ActionGroupContribution> _actionGroupServiceManagerListener = null;
 
   /** the action set manager */
-  private ActionSetManager                                _actionSetManager                  = null;
+  private ActionContributionAdmin                         _actionContributionAdmin           = null;
 
   /**
    * <p>
@@ -47,22 +48,22 @@ public class WhiteboardComponent {
     // create the ServiceManagerListener
     _actionServiceManagerListener = new ServiceManagerListener<ActionContribution>() {
       public void serviceAdded(ServiceManagerEvent<ActionContribution> event) {
-        _actionSetManager.addAction(event.getService());
+        _actionContributionAdmin.addActionContribution(event.getService());
       }
 
       public void serviceRemoved(ServiceManagerEvent<ActionContribution> event) {
-        _actionSetManager.removeAction(event.getService());
+        _actionContributionAdmin.removeActionContribution(event.getService());
       }
     };
 
     // remove the ServiceManagerListener
     _actionGroupServiceManagerListener = new ServiceManagerListener<ActionGroupContribution>() {
       public void serviceRemoved(ServiceManagerEvent<ActionGroupContribution> event) {
-        _actionSetManager.removeActionGroup(event.getService());
+        _actionContributionAdmin.removeActionGroupContribution(event.getService());
       }
 
       public void serviceAdded(ServiceManagerEvent<ActionGroupContribution> event) {
-        _actionSetManager.addActionGroup(event.getService());
+        _actionContributionAdmin.addActionGroupContribution(event.getService());
       }
     };
   }
@@ -72,12 +73,12 @@ public class WhiteboardComponent {
    * Called if an {@link ActionSetManager} is added.
    * </p>
    *
-   * @param actionSetManager
+   * @param actionContributionAdmin
    *          the added {@link ActionSetManager}
    */
-  public void addActionSetManager(ActionSetManager actionSetManager) {
-    // set the manager
-    _actionSetManager = actionSetManager;
+  public void addActionContributionAdmin(ActionContributionAdmin actionContributionAdmin) {
+    // set the admin
+    _actionContributionAdmin = actionContributionAdmin;
 
     // add the ServiceManagerListeners
     _actionServiceManager.addServiceManagerListener(_actionServiceManagerListener);
@@ -90,13 +91,13 @@ public class WhiteboardComponent {
    *
    * @param actionSetManager
    */
-  public void removeActionSetManager(ActionSetManager actionSetManager) {
+  public void removeActionContributionAdmin(ActionContributionAdmin actionContributionAdmin) {
     // remove the ServiceManagerListener
     _actionServiceManager.removeServiceManagerListener(_actionServiceManagerListener);
     _actionGroupServiceManager.removeServiceManagerListener(_actionGroupServiceManagerListener);
 
     // unset the manager
-    _actionSetManager = null;
+    _actionContributionAdmin = null;
   }
 
   /**

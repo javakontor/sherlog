@@ -36,7 +36,7 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     contribution.setDefaultShortcut(shortcut);
     contribution.setAction(action);
 
-    addAction(contribution);
+    addActionContribution(contribution);
   }
 
   public void addActionGroup(final String id, final String actionGroupId, final String label,
@@ -49,7 +49,7 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     contribution.setLabel(label);
     contribution.setType(type);
 
-    addActionGroup(contribution);
+    addActionGroupContribution(contribution);
   }
 
   public void addActionGroup(final String id, final String actionGroupId, final String label, final ActionGroupType type) {
@@ -63,7 +63,7 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     final ActionGroupElementContribution contribution = this._actionGroupElementContributions.get(id);
 
     if ((contribution != null) && (contribution instanceof ActionContribution)) {
-      removeAction((ActionContribution) contribution);
+      removeActionContribution((ActionContribution) contribution);
     }
   }
 
@@ -74,17 +74,17 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     final ActionGroupElementContribution contribution = this._actionGroupElementContributions.get(id);
 
     if ((contribution != null) && (contribution instanceof ActionGroupContribution)) {
-      removeActionGroup((ActionGroupContribution) contribution);
+      removeActionGroupContribution((ActionGroupContribution) contribution);
     }
   }
 
-  public void addAction(final ActionContribution action) {
+  public void addActionContribution(final ActionContribution action) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(action));
     registry.addAction(action);
     this._actionGroupElementContributions.put(action.getId(), action);
   }
 
-  public void addActionGroup(final ActionGroupContribution actionGroup) {
+  public void addActionGroupContribution(final ActionGroupContribution actionGroup) {
     final ActionSetImpl registry = (ActionSetImpl) getActionSet(getActionSetId(actionGroup));
     registry.addActionGroup(actionGroup);
     this._actionGroupElementContributions.put(actionGroup.getId(), actionGroup);
@@ -122,14 +122,14 @@ public class ActionSetComponent implements ActionSetManager, ActionAdmin {
     return parser.getActionRoot();
   }
 
-  public void removeAction(final ActionContribution action) {
+  public void removeActionContribution(final ActionContribution action) {
     final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(action), false);
     if (actionSet != null) {
       actionSet.removeAction(action);
     }
   }
 
-  public void removeActionGroup(final ActionGroupContribution actionGroup) {
+  public void removeActionGroupContribution(final ActionGroupContribution actionGroup) {
     final ActionSetImpl actionSet = (ActionSetImpl) getActionSet(getActionSetId(actionGroup), false);
     if (actionSet != null) {
       actionSet.removeActionGroup(actionGroup);

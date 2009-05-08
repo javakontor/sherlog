@@ -26,7 +26,7 @@ public interface ActionContributionAdmin extends ActionAdmin {
    * @param actionContribution
    *          the action contribution
    */
-  public void addAction(ActionContribution actionContribution);
+  public void addActionContribution(ActionContribution actionContribution);
 
   /**
    * <p>
@@ -35,7 +35,7 @@ public interface ActionContributionAdmin extends ActionAdmin {
    * 
    * @param action
    */
-  public void removeAction(ActionContribution action);
+  public void removeActionContribution(ActionContribution action);
 
   /**
    * <p>
@@ -43,7 +43,7 @@ public interface ActionContributionAdmin extends ActionAdmin {
    * 
    * @param actionGroup
    */
-  public void addActionGroup(ActionGroupContribution actionGroup);
+  public void addActionGroupContribution(ActionGroupContribution actionGroup);
 
   /**
    * <p>
@@ -73,5 +73,5 @@ public interface ActionContributionAdmin extends ActionAdmin {
    * 
    * @param actionGroup
    */
-  public void removeActionGroup(ActionGroupContribution actionGroup);
+  public void removeActionGroupContribution(ActionGroupContribution actionGroup);
 }
