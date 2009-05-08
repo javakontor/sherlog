@@ -144,7 +144,11 @@ public interface LogEvent extends Serializable, Comparable<LogEvent> {
   public Object getUserDefinedField(String fieldName);
 
   /**
-   * Returns an array with all user-defined field names that are currently set on this Log Event
+   * <p>
+   * Returns an array with all user-defined field names that are currently set on this {@link LogEvent}.
+   * </p>
+   * 
+   * @return an array with all user-defined field names that are currently set on this {@link LogEvent}.
    */
   public String[] getUserDefinedFieldNames();
 }
