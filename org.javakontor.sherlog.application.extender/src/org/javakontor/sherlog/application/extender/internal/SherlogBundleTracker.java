@@ -14,8 +14,8 @@ import org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin
 import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
 import org.javakontor.sherlog.application.extender.BundleContextAware;
 import org.javakontor.sherlog.application.extender.Lifecycle;
-import org.javakontor.sherlog.application.extender.internal.spec.ActionGroupElementSpecificationContainer;
-import org.javakontor.sherlog.application.extender.internal.spec.ActionSpecification;
+import org.javakontor.sherlog.application.extender.internal.model.ActionGroupElementSpecificationContainer;
+import org.javakontor.sherlog.application.extender.internal.model.ActionSpecification;
 import org.javakontor.sherlog.util.Assert;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

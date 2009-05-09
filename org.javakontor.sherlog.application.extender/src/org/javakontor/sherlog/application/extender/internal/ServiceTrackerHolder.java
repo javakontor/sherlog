@@ -14,6 +14,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * <p>
+ * Helper class that creates and manages a ServiceTracker for each filter string specified in the contructor.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
@@ -33,10 +34,13 @@ public class ServiceTrackerHolder implements BundleContextAware, Lifecycle {
    * <p>
    * Creates a new instance of type {@link ServiceTrackerHolder}.
    * </p>
+   *
+   * @param filters an array of filters
    */
   public ServiceTrackerHolder(String... filters) {
     super();
 
+    // set the filter
     _filters = filters;
   }
 

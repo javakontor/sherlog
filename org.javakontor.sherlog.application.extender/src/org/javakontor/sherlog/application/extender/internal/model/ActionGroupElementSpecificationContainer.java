@@ -1,27 +1,11 @@
-package org.javakontor.sherlog.application.extender.internal.spec;
+package org.javakontor.sherlog.application.extender.internal.model;
 
 import java.util.LinkedList;
 import java.util.List;
 
 
 /**
- * <p>
- * Represents a action description.
- * </p>
- * <p>
- *
- * <code><pre>
- * {
- *   &quot;actions&quot; : [ &quot;&lt;full-qualified-action-class-name&gt;&quot;, &quot;&lt;full-qualified-action-class-name&gt;&quot; ],
- *
- *   &quot;actionGroups&quot; : [ &quot;&lt;full-qualified-action-group-class-name&gt;&quot;, &quot;&lt;full-qualified-action-group-class-name&gt;&quot; ]
- * }
- * </pre></code>
- *
- * </p>
- *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
- *
  */
 public class ActionGroupElementSpecificationContainer {
 
