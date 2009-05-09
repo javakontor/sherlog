@@ -1,8 +1,5 @@
 package org.javakontor.sherlog.application.extender.internal.model;
 
-import java.lang.reflect.Method;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Reference {
 

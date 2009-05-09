@@ -102,7 +102,7 @@ public class InternalServiceTracker extends ServiceTracker {
   private void initBindMethods(Reference reference) {
 
     try {
-      Class parameterType = _actionEntry.getBundle().loadClass(reference.getInterface());
+      Class<?> parameterType = _actionEntry.getBundle().loadClass(reference.getInterface());
       try {
         _bindMethod = _actionEntry.getAction().getClass().getMethod(reference.getBind(), new Class[] { parameterType });
       } catch (Exception e) {

@@ -58,30 +58,79 @@ public class ActionEntry extends AbstractBundleAwareEntry {
     _id = id;
   }
 
+  /**
+   * <p>
+   * Returns the action group id.
+   * </p>
+   *
+   * @return
+   */
   public String getActionGroupId() {
     return _actionGroupId;
   }
 
+  /**
+   * <p>
+   * Sets the action group id.
+   * </p>
+   *
+   * @param actionGroupId
+   */
   public void setActionGroupId(String actionGroupId) {
     _actionGroupId = actionGroupId;
   }
 
+  /**
+   * <p>
+   * Sets the label.
+   * </p>
+   *
+   * @return the label.
+   */
   public String getLabel() {
     return _label;
   }
 
+  /**
+   * <p>
+   * Sets the label.
+   * </p>
+   *
+   * @param label
+   */
   public void setLabel(String label) {
     _label = label;
   }
 
+  /**
+   * <p>
+   * Returns the shortcut.
+   * </p>
+   *
+   * @return the shortcut.
+   */
   public String getShortcut() {
     return _shortcut;
   }
 
+  /**
+   * <p>
+   * Sets the shortcut.
+   * </p>
+   *
+   * @param shortcut
+   */
   public void setShortcut(String shortcut) {
     _shortcut = shortcut;
   }
 
+  /**
+   * <p>
+   * Returns the action class.
+   * </p>
+   *
+   * @return the action class.
+   */
   public String getActionClass() {
     return _actionClass;
   }

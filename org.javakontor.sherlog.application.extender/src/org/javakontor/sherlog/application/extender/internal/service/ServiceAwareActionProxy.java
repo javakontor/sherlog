@@ -1,15 +1,12 @@
 package org.javakontor.sherlog.application.extender.internal.service;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.javakontor.sherlog.application.action.AbstractAction;
 import org.javakontor.sherlog.application.action.Action;
 import org.javakontor.sherlog.application.extender.internal.model.ActionEntry;
 import org.javakontor.sherlog.application.extender.internal.model.Reference;
-import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.util.tracker.ServiceTracker;
 

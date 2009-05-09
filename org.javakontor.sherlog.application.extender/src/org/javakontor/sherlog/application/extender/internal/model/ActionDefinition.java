@@ -6,15 +6,19 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 
 /**
+ * <p>
+ * Encapsulates the action definitions defined in a JSON file.
+ * </p>
+ *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
 public class ActionDefinition extends AbstractBundleAwareEntry {
 
   /** list of all defined actions */
-  private List<ActionEntry>      _actionSpecifications;
+  private List<ActionEntry>      _actionEntries;
 
   /** list of all defined action groups */
-  private List<ActionGroupEntry> _actionGroupSpecifications;
+  private List<ActionGroupEntry> _actionGroupEntries;
 
   /**
    * <p>
@@ -23,48 +27,65 @@ public class ActionDefinition extends AbstractBundleAwareEntry {
    */
   public ActionDefinition() {
     // the action list
-    _actionSpecifications = new LinkedList<ActionEntry>();
+    _actionEntries = new LinkedList<ActionEntry>();
 
     // the action group list
-    _actionGroupSpecifications = new LinkedList<ActionGroupEntry>();
+    _actionGroupEntries = new LinkedList<ActionGroupEntry>();
   }
 
-  public void setActions(List<ActionEntry> actionSpecifications) {
-    setActionSpecifications(actionSpecifications);
+  /**
+   * <p>
+   * Sets the list with all {@link ActionEntry ActionEntries}.
+   * </p>
+   *
+   * @param actions
+   */
+  public void setActions(List<ActionEntry> actions) {
+    _actionEntries = actions;
   }
 
-  public void setActionGroups(List<ActionGroupEntry> actionGroupSpecifications) {
-    setActionGroupSpecifications(actionGroupSpecifications);
+  /**
+   * <p>
+   * Returns the list with all {@link ActionEntry ActionEntries}.
+   * </p>
+   *
+   * @return the list with all {@link ActionEntry ActionEntries}.
+   */
+  public List<ActionEntry> getActionEntry() {
+    return _actionEntries;
   }
 
-  public void setActionSpecifications(List<ActionEntry> actionSpecifications) {
-    _actionSpecifications = actionSpecifications;
+  /**
+   * <p>
+   * Sets the list with all {@link ActionGroupEntry ActionGroupEntries}.
+   * </p>
+   *
+   * @param actionGroupEntries the list with all {@link ActionGroupEntry ActionGroupEntries}.
+   */
+  public void setActionGroups(List<ActionGroupEntry> actionGroupEntries) {
+    _actionGroupEntries = actionGroupEntries;
   }
 
-  public void setActionGroupSpecifications(List<ActionGroupEntry> actionGroupSpecifications) {
-    _actionGroupSpecifications = actionGroupSpecifications;
-  }
-
+  /**
+   * @see org.javakontor.sherlog.application.extender.internal.model.AbstractBundleAwareEntry#setBundle(org.osgi.framework.Bundle)
+   */
   @Override
   public void setBundle(Bundle bundle) {
+    // call super
     super.setBundle(bundle);
 
-    for (ActionEntry actionEntry : _actionSpecifications) {
+    // set bundle for action entries
+    for (ActionEntry actionEntry : _actionEntries) {
       actionEntry.setBundle(bundle);
     }
 
-    for (ActionGroupEntry actionGroupEntry : _actionGroupSpecifications) {
+    // set bundle for action group entries
+    for (ActionGroupEntry actionGroupEntry : _actionGroupEntries) {
       actionGroupEntry.setBundle(bundle);
     }
   }
 
-  public List<ActionEntry> getActionEntry() {
-    return _actionSpecifications;
-  }
 
-  public List<ActionGroupEntry> getActionGroupSpecifications() {
-    return _actionGroupSpecifications;
-  }
 
   /**
    * @see java.lang.Object#toString()
@@ -73,9 +94,9 @@ public class ActionDefinition extends AbstractBundleAwareEntry {
     StringBuffer buffer = new StringBuffer();
     buffer.append("[ActionDescription:");
     buffer.append(" _actions: ");
-    buffer.append(_actionSpecifications);
+    buffer.append(_actionEntries);
     buffer.append(" _actionGroups: ");
-    buffer.append(_actionGroupSpecifications);
+    buffer.append(_actionGroupEntries);
     buffer.append("]");
     return buffer.toString();
   }
