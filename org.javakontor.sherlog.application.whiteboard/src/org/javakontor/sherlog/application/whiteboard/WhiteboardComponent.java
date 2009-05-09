@@ -7,8 +7,8 @@ import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution
 /**
  * <p>
  * Implements a 'whiteboard component'. The whiteboard component is responsible for tracking and registering all
- * {@link ActionContribution Actions} and {@link ActionGroupContribution ActionGroups} that are registered with the OSGi
- * service registry.
+ * {@link ActionContribution ActionContributions} and {@link ActionGroupContribution ActionGroupContributions} that are
+ * registered with the OSGi service registry.
  * </p>
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
@@ -16,7 +16,7 @@ import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution
 public class WhiteboardComponent {
 
   /** the action set manager */
-  private ActionContributionAdmin                         _admin           = null;
+  private ActionContributionAdmin _admin = null;
 
   /**
    * <p>
