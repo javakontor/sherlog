@@ -1,5 +1,8 @@
 package org.javakontor.sherlog.application.extender.internal.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.javakontor.sherlog.application.action.Action;
 
@@ -10,25 +13,28 @@ import org.javakontor.sherlog.application.action.Action;
  *
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
-public class ActionSpecification {
+public class ActionEntry extends AbstractBundleAwareEntry {
 
   /** the id */
-  private String _id;
+  private String          _id;
 
   /** the action group id */
-  private String _actionGroupId;
+  private String          _actionGroupId;
 
   /** the label */
-  private String _label;
+  private String          _label;
 
   /** the short cut */
-  private String _shortcut;
+  private String          _shortcut;
 
   /** the implementing class */
-  private String _actionClass;
+  private String          _actionClass;
 
   /** the action - set through the framework */
-  private Action _action;
+  private Action          _action;
+
+  /** list of all services */
+  private List<Reference> _serviceFilter = new LinkedList<Reference>();
 
   /**
    * <p>
@@ -82,6 +88,18 @@ public class ActionSpecification {
 
   public void setActionClass(String actionClass) {
     _actionClass = actionClass;
+  }
+
+  public List<Reference> getReferences() {
+    return _serviceFilter;
+  }
+
+  public void setReferences(List<Reference> serviceFilter) {
+    _serviceFilter = serviceFilter;
+  }
+
+  public boolean hasReferences() {
+    return _serviceFilter != null && !_serviceFilter.isEmpty();
   }
 
   public Action getAction() {

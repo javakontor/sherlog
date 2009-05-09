@@ -2,7 +2,7 @@ package org.javakontor.sherlog.application.extender.internal.model;
 
 import org.javakontor.sherlog.application.action.ActionGroupType;
 
-public class ActionGroupSpecification extends ActionGroupElementSpecificationContainer {
+public class ActionGroupEntry extends ActionDefinition {
   /** - */
   private String          _id;
 

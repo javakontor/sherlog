@@ -15,4 +15,3 @@ Import-Package: org.codehaus.jackson;version="0.9.9.6",
  org.osgi.util.tracker;version="1.4.2"
 Service-Component: OSGI-INF/component.xml
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.javakontor.sherlog.application.extender
