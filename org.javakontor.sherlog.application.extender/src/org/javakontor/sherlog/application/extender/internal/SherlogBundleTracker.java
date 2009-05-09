@@ -219,7 +219,7 @@ public class SherlogBundleTracker extends BundleTracker {
         }
 
         // add the action
-        _actionContributionAdmin.addAction(spec.getId(), spec.getActionGroupId(), spec.getLabel(), spec.getLabel(),
+        _actionContributionAdmin.addAction(spec.getId(), spec.getActionGroupId(), spec.getLabel(), spec.getShortcut(),
             action);
 
         spec.setAction(action);
