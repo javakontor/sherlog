@@ -1,25 +1,21 @@
 package org.javakontor.sherlog.application.internal.heap;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import org.javakontor.sherlog.application.internal.ApplicationMessages;
 
@@ -27,30 +23,32 @@ import org.javakontor.sherlog.application.internal.ApplicationMessages;
  * This panel displays information about the memory consumption of the current VM. It provides a button that triggers
  * the garbage collector.
  * 
+ * @author Nils Hartmann (nils@nilshartmann.net)
+ * 
  */
 public class HeapPanel extends JPanel {
 
-  public static final Font  STANDARD_FONT    = new Font("Dialog", Font.PLAIN, 13);
+  public static final Font      STANDARD_FONT    = new Font("Dialog", Font.PLAIN, 13);
 
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
+  private static final long     serialVersionUID = 1L;
 
-  public final static int   MAX_LENGTH       = "132M/256M".length();
+  public final static int       MAX_LENGTH       = "132M/256M".length();
 
-  private final HeapLabel   _heapLabel;
+  private final HeapProgressBar _heapBar;
 
-  private final JLabel      _gcLabel;
+  private final JLabel          _gcLabel;
 
-  private final ImageIcon   _gcIcon;
+  private final ImageIcon       _gcIcon;
 
-  private final ImageIcon   _gcRunningIcon;
+  private final ImageIcon       _gcRunningIcon;
 
   /**
    * A {@link Timer}, that periodically collects the heap state information
    */
-  private Timer             _timer;
+  private Timer                 _timer;
 
   public void dispose() {
     if (this._timer != null) {
@@ -68,13 +66,14 @@ public class HeapPanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
     // create components
-    this._heapLabel = new HeapLabel();
+    this._heapBar = new HeapProgressBar();
+    // this._heapLabel = new HeapLabel();
 
     this._gcLabel = new JLabel(this._gcIcon);
     this._gcLabel.addMouseListener(new GcIconMouseListener());
     this._gcLabel.setToolTipText(ApplicationMessages.runGarbageCollector);
 
-    add(this._heapLabel); // Label displaying heap state
+    add(this._heapBar); // Label displaying heap state
     add(Box.createHorizontalStrut(5)); // fixed space
     add(this._gcLabel); // icon displaying the "trash can"
 
@@ -83,49 +82,62 @@ public class HeapPanel extends JPanel {
 
   }
 
+  /**
+   * A {@link TimerTask} that periodically updates the progress bar with the current heap state
+   */
   class NotifyTask extends TimerTask {
     @Override
     public void run() {
-
+      // determine current heap state
       final HeapState heapState = HeapState.getCurrentHeapState();
+
+      // set heap state
       setHeapState(heapState);
     }
   }
 
+  /**
+   * Set the specified {@link HeapState} to the progress bar
+   */
   public void setHeapState(final HeapState heapState) {
     SwingUtilities.invokeLater(new Runnable() {
-
       public void run() {
-        HeapPanel.this._heapLabel.setHeapState(heapState);
+        HeapPanel.this._heapBar.setHeapState(heapState);
       }
     });
 
   }
 
   /**
-   * A label displaying memory statistics
+   * A {@link JProgressBar} that displayes heap state information
    */
-  class HeapLabel extends JLabel {
-
+  class HeapProgressBar extends JProgressBar {
     /**
-     * The default serialVersionUID
+     * 
      */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Color used to display the currently used memory
-     */
-    private final Color       _memUsedColor;
-
-    /**
-     * The {@link HeapState} that is currently displayed
-     */
     private HeapState         _currentHeapState;
+
+    public HeapProgressBar() {
+      setStringPainted(true);
+    }
 
     @Override
     public Dimension getPreferredSize() {
+      // determine a reasonable pref size by calculating the maximal text width
       final Dimension dim = new Dimension(getTextWidth(), super.getPreferredSize().height);
       return dim;
+    }
+
+    /**
+     * Calculate a optimal panel width
+     */
+    public int getTextWidth() {
+      final int columns = MAX_LENGTH;
+      final FontMetrics metrics = getFontMetrics(getFont());
+      final int width = metrics.charWidth('M') * columns;
+      return width;
     }
 
     @Override
@@ -138,67 +150,29 @@ public class HeapPanel extends JPanel {
       return getPreferredSize();
     }
 
-    HeapLabel() {
-      super();
-      this._memUsedColor = UIManager.getColor("ProgressBar.selectionBackground"); // new Color(102, 204, 255);
-      setFont(STANDARD_FONT);
-      setBorder(BorderFactory.createLineBorder(Color.GRAY));
-      setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    /**
-     * Paint the panel
-     */
-    @Override
-    public void paint(Graphics g) {
-      if (this._currentHeapState != null) {
-
-        final Color color = g.getColor();
-        g.setColor(this._memUsedColor);
-        final int height = HeapPanel.this._gcIcon.getIconHeight();
-        long x = (getWidth() / this._currentHeapState.getTotalMemoryInMb());
-        if (x < 1) {
-          x = 1;
-        }
-        final int width = (int) (x * this._currentHeapState.getUsedMemoryInMb());
-        g.drawRect(0, 0, width, height);
-        g.fillRect(0, 0, width, height);
-        g.setColor(color);
-      }
-      super.paint(g);
-    }
-
-    /**
-     * Calculate a optimal panel width
-     */
-    public int getTextWidth() {
-      final int columns = MAX_LENGTH;
-      final FontMetrics metrics = getFontMetrics(getFont());
-      final int width = metrics.charWidth('2') * columns;
-      return width;
-    }
-
     /**
      * 
      * Set the heap state that should be displayed and re-paints the component
      * 
      * @param heapState
      */
-    public void setHeapState(HeapState heapState) {
+    public void setHeapState(final HeapState heapState) {
       // redraw only if neccessary
       if ((heapState != null) && heapState.equals(this._currentHeapState)) {
         return;
       }
       this._currentHeapState = heapState;
 
-      // update the component and Re-paint
-      setText(heapState.getUsedMemoryInMb() + "/" + heapState.getTotalMemoryInMb() + "M");
-      repaint();
+      // update the component with new heap state information and Re-paint
+      setString(heapState.getUsedMemoryInMb() + "M/" + heapState.getTotalMemoryInMb() + "M");
+      setMaximum((int) heapState.getTotalMemoryInMb());
+      setValue((int) heapState.getUsedMemoryInMb());
 
       setToolTipText(String.format(ApplicationMessages.heapUsageToolTip, heapState.getUsedMemoryInMb(), heapState
           .getTotalMemoryInMb(), heapState.getMaxMemoryInMb()));
 
     }
+
   }
 
   /**
@@ -214,7 +188,7 @@ public class HeapPanel extends JPanel {
     private boolean isRunning = false;
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(final MouseEvent e) {
       if (!this.isRunning && (e.getButton() == MouseEvent.BUTTON1)) {
         this.isRunning = true;
 
