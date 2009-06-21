@@ -53,7 +53,7 @@ public class WindowMenu {
     public WindowMenuActionGroup() {
       super(WINDOW_MENU_ID, MENUBAR_ID + "(last)", ApplicationMessages.windowMenuTitle, ActionGroupType.simple);
 
-      this._staticActionGroups = new ActionGroupContribution[] { new ArrangeActionGroup(),
+      this._staticActionGroups = new ActionGroupContribution[] { new ArrangeActionGroupContribution(),
           new DefaultActionGroupContribution(TOOLS_MENU_ID, WINDOW_MENU_TARGET_ID, ApplicationMessages.toolsMenuTitle) };
     }
 
@@ -68,24 +68,24 @@ public class WindowMenu {
     }
   }
 
-  public ActionContribution getArrangeActionGroupContirbution(final String label, final int arrangeMode) {
+  public ActionContribution getArrangeActionGroupContribution(final String label, final int arrangeMode) {
     return new DefaultActionContribution(WINDOW_ARRANGE_MENU_ID + "." + arrangeMode, WINDOW_ARRANGE_MENU_TARGET_ID,
         label, null, new ArrangeAction(arrangeMode));
   }
 
-  class ArrangeActionGroup extends DefaultActionGroupContribution {
+  class ArrangeActionGroupContribution extends DefaultActionGroupContribution {
 
     private final ActionContribution[] _actions;
 
-    public ArrangeActionGroup() {
+    public ArrangeActionGroupContribution() {
       super(WINDOW_ARRANGE_MENU_ID, WINDOW_MENU_TARGET_ID + "(first)", ApplicationMessages.arrangeMenuTitle,
           ActionGroupType.simple);
 
       this._actions = new ActionContribution[] {
-          getArrangeActionGroupContirbution(ApplicationMessages.horizontalMenuTitle, Arranger.HORIZONTAL),
-          getArrangeActionGroupContirbution(ApplicationMessages.verticalMenuTitle, Arranger.VERTICAL),
-          getArrangeActionGroupContirbution(ApplicationMessages.arrangeWindowsMenuTitle, Arranger.ARRANGE),
-          getArrangeActionGroupContirbution(ApplicationMessages.cascadeMenuTitle, Arranger.CASCADE) };
+          getArrangeActionGroupContribution(ApplicationMessages.horizontalMenuTitle, Arranger.HORIZONTAL),
+          getArrangeActionGroupContribution(ApplicationMessages.verticalMenuTitle, Arranger.VERTICAL),
+          getArrangeActionGroupContribution(ApplicationMessages.arrangeWindowsMenuTitle, Arranger.ARRANGE),
+          getArrangeActionGroupContribution(ApplicationMessages.cascadeMenuTitle, Arranger.CASCADE) };
     }
 
     @Override
