@@ -5,10 +5,6 @@ import org.javakontor.sherlog.application.action.ActionGroupType;
 /**
  * <p>
  * </p>
- * <p>
- * This class <b>is not intended</b> to be subclassed by clients. To contribute an action or an action group, you can
- * use an instance of type {@link DefaultActionContribution} or {@link DefaultActionGroupContribution}.
- * </p>
  * 
  * @see ActionContribution
  * @see ActionGroupContribution
@@ -25,6 +21,8 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
   private ActionContribution[]      _staticActionContributions;
 
   private ActionGroupContribution[] _staticActionGroupContributions;
+
+  private boolean                   _final = false;
 
   public DefaultActionGroupContribution() {
     super();
@@ -68,7 +66,19 @@ public class DefaultActionGroupContribution extends AbstractActionGroupElementCo
    * @return
    */
   public boolean isFinal() {
-    return false;
+    return this._final;
+  }
+
+  /**
+   * Sets whether this ActionGroupContribution should be final or not.
+   * 
+   * <p>
+   * If an ActionGroupContribution is <b>final</b> no more Actions or ActionGroups can be added to it.
+   * 
+   * @param finalFlag
+   */
+  public void setFinal(final boolean finalFlag) {
+    this._final = finalFlag;
   }
 
   /**

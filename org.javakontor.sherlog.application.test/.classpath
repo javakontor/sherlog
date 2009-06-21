@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.application"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.test.libs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.log4j"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.util"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
