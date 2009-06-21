@@ -206,7 +206,8 @@ public class MenuBuilder {
 
   }
 
-  protected JMenuItem createMenuItem(final ActionContribution action, final boolean radioButton) {
+  protected JMenuItem createMenuItem(final ActionContribution actionContribution, final boolean radioButton) {
+    final Action action = actionContribution.getAction();
     // Create a Swing-Action that delegates to "our" action
     final MenuItemAdapter menuItemAdapter = new MenuItemAdapter(action);
     // Create the menuitem according to the type of the Action and its ActionGroup
@@ -223,8 +224,8 @@ public class MenuBuilder {
     if (action instanceof ToggleAction) {
       jSubMenuItem.addItemListener(new ToggleMenuItemListener(jSubMenuItem, (ToggleAction) action));
     }
-    setShortcut(jSubMenuItem, action);
-    setTextAndMnemonic(jSubMenuItem, action.getLabel());
+    setShortcut(jSubMenuItem, actionContribution);
+    setTextAndMnemonic(jSubMenuItem, actionContribution.getLabel());
 
     return jSubMenuItem;
   }
@@ -241,27 +242,27 @@ public class MenuBuilder {
     /**
      * the serialVersionUID
      */
-    private static final long        serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The action of the menu item
      */
-    private final ActionContribution _action;
+    private final Action      _action;
 
-    public MenuItemAdapter(final ActionContribution action) {
+    public MenuItemAdapter(final Action action) {
       super();
       this._action = action;
 
-      setEnabled(action.getAction().isEnabled());
+      setEnabled(action.isEnabled());
       // add an PropertyChangeListener to track changes of the Action's "enabled"-property
-      action.getAction().addPropertyChangeListener(Action.ENABLED_PROPERTY, this);
+      action.addPropertyChangeListener(Action.ENABLED_PROPERTY, this);
     }
 
     /**
      * [Menu-&gt;Action] Runs {@link ActionContribution#execute()} when the menu item is invoked
      */
     public void actionPerformed(final ActionEvent e) {
-      this._action.getAction().execute();
+      this._action.execute();
     }
 
     /**

@@ -3,6 +3,7 @@ package org.javakontor.sherlog.application.menu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.javakontor.sherlog.application.action.Action;
 import org.javakontor.sherlog.application.action.ActionContextAware;
 import org.javakontor.sherlog.application.action.contrib.ActionContribution;
 import org.javakontor.sherlog.application.action.set.ActionSet;
@@ -41,7 +42,7 @@ public class ContextMenu<C> {
     return this._popupMenu;
   }
 
-  public JPopupMenu getPreparedPopupMenu(ActionSet actionGroupRegistry, C actionContext) {
+  public JPopupMenu getPreparedPopupMenu(final ActionSet actionGroupRegistry, final C actionContext) {
     this._currentActionContext = actionContext;
     // TODO!!
     this._menuBuilder.build(actionGroupRegistry);
@@ -60,12 +61,13 @@ public class ContextMenu<C> {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected JMenuItem createMenuItem(ActionContribution action, boolean radioButton) {
+    protected JMenuItem createMenuItem(final ActionContribution actionContribution, final boolean radioButton) {
+      final Action action = actionContribution.getAction();
       if (action instanceof ActionContextAware) {
-        ActionContextAware<C> contextAware = (ActionContextAware<C>) action;
+        final ActionContextAware<C> contextAware = (ActionContextAware<C>) action;
         contextAware.setActionContext(getCurrentActionContext());
       }
-      return super.createMenuItem(action, radioButton);
+      return super.createMenuItem(actionContribution, radioButton);
     }
   }
 

@@ -59,7 +59,7 @@ public abstract class AbstractView<M extends Model<M, E>, E extends Enum<E>> ext
 
   /**
    * Forwards the ModelChangedEvent to {@link #onModelChanged(ModelChangedEvent)}. This method makes sure,
-   * {@link #onModelChanged(ModelChangedEvent)} is called on the Event Dispatcher Thread.
+   * {@link #onModelChanged(ModelChangedEvent)} is executed on the Event Dispatcher Thread.
    * 
    * <p>
    * Subclasses should override {@link #onModelChanged(ModelChangedEvent)} to react on the event
