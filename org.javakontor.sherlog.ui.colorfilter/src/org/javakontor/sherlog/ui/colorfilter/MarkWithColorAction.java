@@ -2,20 +2,19 @@ package org.javakontor.sherlog.ui.colorfilter;
 
 import java.awt.Color;
 
+import org.javakontor.sherlog.application.action.AbstractAction;
 import org.javakontor.sherlog.application.action.ActionContextAware;
-import org.javakontor.sherlog.application.action.contrib.ActionContribution;
 import org.javakontor.sherlog.domain.LogEvent;
 import org.javakontor.sherlog.ui.logview.tableview.LogEventTableModel;
 
-public class MarkWithColorAction extends ActionContribution implements ActionContextAware<LogEventTableModel> {
+public class MarkWithColorAction extends AbstractAction implements ActionContextAware<LogEventTableModel> {
 
   private final Color _color;
 
   private LogEvent[]  _selectedEvents;
 
   public MarkWithColorAction(final String colorName, final Color color) {
-    super("markWithCtxMenuTitle" + colorName, ColorFilterMenus.MARK_WITH_COLOR_TARGET_ACTIONGROUP_ID, String.format(
-        ColorFilterMessages.markWithCtxMenuTitle, colorName));
+    super();
     this._color = color;
   }
 

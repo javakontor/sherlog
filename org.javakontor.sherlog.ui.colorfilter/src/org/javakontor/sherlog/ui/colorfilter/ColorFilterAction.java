@@ -19,11 +19,12 @@ class ColorFilterAction extends AbstractToggleAction implements ActionContextAwa
   LogEventStore       _logEventStore;
 
   ColorFilterAction(final String colorName, final Color color) {
-    super("filter" + colorName + "Action", ColorFilterMenus.FILTER_BY_COLOR_TARGET_ACTIONGROUP_ID, String.format(
-        ColorFilterMessages.filterByCtxMenuTitle, colorName));
+    // super("filter" + colorName + "Action", ColorFilterMenus.FILTER_BY_COLOR_TARGET_ACTIONGROUP_ID, String.format(
+    // ColorFilterMessages.filterByCtxMenuTitle, colorName));
     this._color = color;
   }
 
+  @Override
   public void execute() {
     // active is already set to the "new" state
     if (!isActive()) {

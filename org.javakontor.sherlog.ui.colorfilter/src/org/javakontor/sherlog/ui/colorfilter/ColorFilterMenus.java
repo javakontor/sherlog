@@ -6,11 +6,12 @@ import java.util.List;
 
 import org.javakontor.sherlog.application.action.contrib.ActionContribution;
 import org.javakontor.sherlog.application.action.contrib.ActionGroupContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionContribution;
+import org.javakontor.sherlog.application.action.contrib.DefaultActionGroupContribution;
 import org.javakontor.sherlog.ui.logview.LogViewConstants;
 import org.osgi.framework.BundleContext;
 
 /**
- * TODO own bundle ?
  * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  */
@@ -33,42 +34,38 @@ public class ColorFilterMenus {
 
   public void registerMenus(final BundleContext bundleContext) throws Exception {
     final List<ActionContribution> markWithColorActions = new LinkedList<ActionContribution>();
-    final ActionContribution[] filterByColorAction = new ColorFilterAction[this._colorNames.length];
+    final ActionContribution[] filterByColorAction = new DefaultActionContribution[this._colorNames.length];
 
     for (int i = 0; i < this._colorNames.length; i++) {
-      markWithColorActions.add(new MarkWithColorAction(this._colorNames[i], this._colors[i]));
-      filterByColorAction[i] = new ColorFilterAction(this._colorNames[i], this._colors[i]);
+      final String colorName = this._colorNames[i];
+      markWithColorActions.add(new DefaultActionContribution("markWithCtxMenuTitle" + colorName,
+          ColorFilterMenus.MARK_WITH_COLOR_TARGET_ACTIONGROUP_ID, String.format(
+              ColorFilterMessages.markWithCtxMenuTitle, colorName), null, new MarkWithColorAction(this._colorNames[i],
+              this._colors[i])));
+      filterByColorAction[i] = new DefaultActionContribution("filter" + colorName + "Action",
+          ColorFilterMenus.FILTER_BY_COLOR_TARGET_ACTIONGROUP_ID, String.format(
+              ColorFilterMessages.filterByCtxMenuTitle, colorName), null, new ColorFilterAction(this._colorNames[i],
+              this._colors[i]));
     }
-    // super("unmark", ColorFilterMenus.MARK_WITH_COLOR_TARGET_ACTIONGROUP_ID + "(last)",
-    // ColorFilterMessages.removeColorMarker);
-    markWithColorActions.add(new UnmarkAction());
+    // super("unmark", ,
 
-    final StaticActionGroup markWithColorActionGroup = new StaticActionGroup(MARK_WITH_COLOR_ACTIONGROUP_ID,
-        ColorFilterMessages.markCtxMenuTitle, markWithColorActions.toArray(new ActionContribution[0]));
-    final StaticActionGroup filterByColorActionGroup = new StaticActionGroup(FILTER_BY_COLOR_ACTIONGROUP_ID,
-        ColorFilterMessages.filterCtxMenuTitle, filterByColorAction);
+    final DefaultActionContribution unmarkContribution = new DefaultActionContribution("unmark",
+        ColorFilterMenus.MARK_WITH_COLOR_TARGET_ACTIONGROUP_ID + "(last)", ColorFilterMessages.removeColorMarker, null,
+        new UnmarkAction());
+
+    // ColorFilterMessages.removeColorMarker);
+    markWithColorActions.add(unmarkContribution);
+
+    final DefaultActionGroupContribution markWithColorActionGroup = new DefaultActionGroupContribution(
+        MARK_WITH_COLOR_ACTIONGROUP_ID, LogViewConstants.CONTEXT_MENU_ID, ColorFilterMessages.markCtxMenuTitle);
+    markWithColorActionGroup.setStaticActionContributions(markWithColorActions.toArray(new ActionContribution[0]));
+
+    final DefaultActionGroupContribution filterByColorActionGroup = new DefaultActionGroupContribution(
+        FILTER_BY_COLOR_ACTIONGROUP_ID, LogViewConstants.CONTEXT_MENU_ID, ColorFilterMessages.filterCtxMenuTitle);
+    filterByColorActionGroup.setStaticActionContributions(filterByColorAction);
 
     bundleContext.registerService(ActionGroupContribution.class.getName(), markWithColorActionGroup, null);
     bundleContext.registerService(ActionGroupContribution.class.getName(), filterByColorActionGroup, null);
-  }
-
-  class StaticActionGroup extends ActionGroupContribution implements StaticActionProvider {
-
-    private final ActionContribution[] _actions;
-
-    public StaticActionGroup(final String id, final String label, final ActionContribution... actions) {
-      super(id, LogViewConstants.CONTEXT_MENU_ID, label);
-      this._actions = actions;
-    }
-
-    public ActionContribution[] getActionContributions() {
-      return this._actions;
-    }
-
-    public boolean isFinal() {
-      return false;
-    }
-
   }
 
 }
