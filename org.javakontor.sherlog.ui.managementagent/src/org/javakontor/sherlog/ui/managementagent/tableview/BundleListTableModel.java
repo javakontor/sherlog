@@ -74,6 +74,23 @@ class BundleListTableModel extends AbstractTableModel implements SortableTableMo
 
     return null;
   }
+  
+  public int getRow(Bundle bundle) {
+    if (bundle == null) {
+      return -1;
+    }
+    System.err.println("Looking for bundle " + bundle.getSymbolicName());
+    int i=0;
+    for (Bundle bundleRow : _bundles) {
+      if (bundle.equals(bundleRow)) {
+        System.err.println("Bundle " + bundle.getSymbolicName() + " found at: " + i);    
+        return i; 
+      }
+      i++;
+    }
+    System.err.println("Bundle " + bundle.getSymbolicName() + " NOT FOUND!");
+    return -1;
+  }
 
   protected String getBundleStateAsString(Bundle bundle) {
     switch (bundle.getState()) {

@@ -37,7 +37,8 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
   private Bundle              _selectedBundle;
 
   private BundleListener      _bundleListener;
-  private ServiceListener _serviceListener;
+
+  private ServiceListener     _serviceListener;
 
   public BundleListModel(BundleContext bundleContext) {
     super();
@@ -58,7 +59,6 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
 
             switch (event.getType()) {
             case BundleEvent.INSTALLED:
-              addBundle(event.getBundle());
               fireModelChangedEvent(BundleListModelReasonForChange.bundleListChanged);
               break;
             case BundleEvent.UNINSTALLED:
@@ -81,7 +81,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     for (Bundle bundle : bundles) {
       addBundle(bundle);
     }
-    
+
     // add a service listener to update the statusbar if a service change
     _serviceListener = new ServiceListener() {
       public void serviceChanged(ServiceEvent event) {
@@ -104,13 +104,19 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
   }
 
   public void setSelectedBundle(Bundle selectedBundle) {
+    if (selectedBundle == null && _selectedBundle == null) {
+      return;
+    }
+    if (selectedBundle != null && selectedBundle.equals(_selectedBundle)) {
+      return;
+    }
     _selectedBundle = selectedBundle;
     fireModelChangedEvent(BundleListModelReasonForChange.selectionChanged);
 
     updateStatusMessage();
     sendSetSelectedBundleRequest(selectedBundle);
   }
-  
+
   protected void updateStatusMessage() {
     if (_selectedBundle != null) {
       ServiceReference[] registeredServices = _selectedBundle.getRegisteredServices();
@@ -157,7 +163,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
 
     try {
       _selectedBundle.start();
-      sendInfoStatusMessage("Bundle " + _selectedBundle.getSymbolicName() + " installed");
+      sendInfoStatusMessage("Bundle " + _selectedBundle.getSymbolicName() + " started");
     } catch (BundleException e) {
       _logger.error("Bundle start failed: ", e);
       sendErrorStatusMessage("Bundle start failed: " + e);
@@ -206,7 +212,8 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
   public void installNewBundle(File file) {
     URI uri = file.toURI();
     try {
-      _bundleContext.installBundle(uri.toString());
+      Bundle installedBundle = _bundleContext.installBundle(uri.toString());
+      setSelectedBundle(installedBundle);
     } catch (BundleException ex) {
       _logger.error("Could not install bundle from '" + uri.toString() + "': " + ex, ex);
       sendErrorStatusMessage("Could not install bundle: " + ex);
@@ -241,7 +248,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     handleRequest(new SetStatusMessageRequest(this, statusMessage));
 
   }
-  
+
   public void sendSetSelectedBundleRequest(Bundle bundle) {
     // handle the request
     handleRequest(new SetSelectedBundleRequest(this, bundle));

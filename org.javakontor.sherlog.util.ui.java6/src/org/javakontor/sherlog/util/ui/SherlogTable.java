@@ -37,6 +37,16 @@ public class SherlogTable extends JTable {
   public int convertRowIndexToModel(int i) {
     return super.convertRowIndexToModel(i);
   }
+  
+  
+
+  /* (non-Javadoc)
+   * @see javax.swing.JTable#convertRowIndexToView(int)
+   */
+  @Override
+  public int convertRowIndexToView(int modelRowIndex) {
+    return super.convertRowIndexToView(modelRowIndex);
+  }
 
   /*
    * (non-Javadoc)

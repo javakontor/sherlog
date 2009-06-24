@@ -1,6 +1,7 @@
 package org.javakontor.sherlog.ui.managementagent.tableview;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -46,6 +47,7 @@ public class BundleListView extends AbstractView<BundleListModel, BundleListMode
       case bundleListChanged:
         _bundleListTableModel.setBundles(getModel().getBundles());
         _bundleListTableModel.fireTableDataChanged();
+        selectSelectedBundle();
         break;
 
       case selectionChanged:
@@ -54,6 +56,7 @@ public class BundleListView extends AbstractView<BundleListModel, BundleListMode
         _updateBundleMenuItem.setEnabled(getModel().canUpdateSelectedBundle());
         _uninstallBundleMenuItem.setEnabled(getModel().canUninstallSelectedBundle());
         _copyLocationToClipboardMenuItem.setEnabled(getModel().hasSelectedBundle());
+        selectSelectedBundle();
         break;
       case bundleStateChanged:
         _startBundleMenuItem.setEnabled(getModel().canStartSelectedBundle());
@@ -105,6 +108,21 @@ public class BundleListView extends AbstractView<BundleListModel, BundleListMode
 
   public JMenuItem getCopyLocationToClipboardMenuItem() {
     return _copyLocationToClipboardMenuItem;
+  }
+  
+  /**
+   * Selects the currently selected bundle in the bundle table
+   */
+  protected void selectSelectedBundle() {
+    int row = _bundleListTableModel.getRow(getModel().getSelectedBundle());
+    if (row != -1) {
+      int viewIndex = _bundleTable.convertRowIndexToView(row);
+      System.err.println("viewIndex for bundle " + getModel().getSelectedBundle().getSymbolicName() + " -> " + viewIndex);
+      _bundleTable.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);
+      Rectangle rect = 
+        _bundleTable.getCellRect(viewIndex, 0, true);
+      _bundleTable.scrollRectToVisible(rect);
+    }
   }
 
   @Override
