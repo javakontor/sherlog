@@ -19,6 +19,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.BundleListener;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -35,6 +37,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
   private Bundle              _selectedBundle;
 
   private BundleListener      _bundleListener;
+  private ServiceListener _serviceListener;
 
   public BundleListModel(BundleContext bundleContext) {
     super();
@@ -45,6 +48,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
 
     this._selectedBundle = null;
 
+    // TODO use BundleTracker ?
     this._bundleListener = new BundleListener() {
 
       public void bundleChanged(final BundleEvent event) {
@@ -77,6 +81,14 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     for (Bundle bundle : bundles) {
       addBundle(bundle);
     }
+    
+    // add a service listener to update the statusbar if a service change
+    _serviceListener = new ServiceListener() {
+      public void serviceChanged(ServiceEvent event) {
+        updateStatusMessage();
+      }
+    };
+    this._bundleContext.addServiceListener(_serviceListener);
   }
 
   @Override
@@ -84,6 +96,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     super.dispose();
 
     this._bundleContext.removeBundleListener(this._bundleListener);
+    this._bundleContext.removeServiceListener(_serviceListener);
   }
 
   public Bundle getSelectedBundle() {
@@ -94,6 +107,11 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     _selectedBundle = selectedBundle;
     fireModelChangedEvent(BundleListModelReasonForChange.selectionChanged);
 
+    updateStatusMessage();
+    sendSetSelectedBundleRequest(selectedBundle);
+  }
+  
+  protected void updateStatusMessage() {
     if (_selectedBundle != null) {
       ServiceReference[] registeredServices = _selectedBundle.getRegisteredServices();
       int registeredServiceCount = (registeredServices == null ? 0 : registeredServices.length);
@@ -105,8 +123,6 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     } else {
       sendInfoStatusMessage("No bundle selected");
     }
-    
-    sendSetSelectedBundleRequest(selectedBundle);
   }
 
   public boolean hasSelectedBundle() {
