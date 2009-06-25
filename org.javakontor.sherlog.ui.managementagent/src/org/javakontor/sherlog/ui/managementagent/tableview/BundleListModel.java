@@ -59,6 +59,7 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
 
             switch (event.getType()) {
             case BundleEvent.INSTALLED:
+              addBundle(event.getBundle());
               fireModelChangedEvent(BundleListModelReasonForChange.bundleListChanged);
               break;
             case BundleEvent.UNINSTALLED:
@@ -213,7 +214,9 @@ public class BundleListModel extends AbstractModel<BundleListModel, BundleListMo
     URI uri = file.toURI();
     try {
       Bundle installedBundle = _bundleContext.installBundle(uri.toString());
+      installedBundle.start();
       setSelectedBundle(installedBundle);
+      fireModelChangedEvent(BundleListModelReasonForChange.bundleListChanged);
     } catch (BundleException ex) {
       _logger.error("Could not install bundle from '" + uri.toString() + "': " + ex, ex);
       sendErrorStatusMessage("Could not install bundle: " + ex);
