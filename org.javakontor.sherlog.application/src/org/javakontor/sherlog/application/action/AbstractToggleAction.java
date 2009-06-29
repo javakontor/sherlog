@@ -35,12 +35,12 @@ public abstract class AbstractToggleAction extends AbstractAction implements Tog
    * @see org.javakontor.sherlog.application.action.Action#execute()
    */
   public void execute() {
-    if (!isActive()) {
+    // When execute() is called, that activate state has already been set to it's
+    // new state.
+    if (isActive()) {
       activate();
-      setActive(true);
     } else {
       deactivate();
-      setActive(false);
     }
   }
 
