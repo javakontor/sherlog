@@ -19,8 +19,11 @@
 <project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.util.ui,org.javakontor.sherlog.util.ui"/>
 <project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.util.ui.java6,org.javakontor.sherlog.util.ui.java6"/>
 <project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.log4j,org.javakontor.sherlog.log4j"/>
-<project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.ui.colorfilter,org.javakontor.sherlog.ui.colorfilter"/>
 <project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/sherlog-mac-starter,sherlog-mac-starter"/>
 <project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/test-logfiles,test-logfiles"/>
+<project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.application.extender,org.javakontor.sherlog.application.extender"/>
+<project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.application.whiteboard,org.javakontor.sherlog.application.whiteboard"/>
+<project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.launch,org.javakontor.sherlog.launch"/>
+<project reference="0.9.3,http://svn.javakontor.org/sherlog/trunk/org.javakontor.sherlog.ui.colorfilter,org.javakontor.sherlog.ui.colorfilter"/>
 </provider>
 </psf>
