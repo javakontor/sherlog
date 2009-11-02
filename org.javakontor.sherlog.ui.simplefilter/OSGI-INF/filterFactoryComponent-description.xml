@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<component name="SimpleLogEventFilterFactoryComponent">
+	<implementation
+		class="org.javakontor.sherlog.ui.simplefilter.SimpleLogEventFilterFactoryComponent" />
+	<service>
+		<provide interface="org.javakontor.sherlog.domain.filter.LogEventFilterFactory" />
+	</service>
+</component>
