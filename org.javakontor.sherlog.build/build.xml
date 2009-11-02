@@ -1,25 +1,26 @@
 <?xml version="1.0"?>
-<project name="build.sherlog"
+<project name="build.ant4eclipse"
          basedir="."
          default="build"
          xmlns:ant4eclipse="antlib:org.ant4eclipse">
 
-	<import file="a4e-pde-macros.xml" />
+	<import file="${basedir}/a4e-pde-macros.xml" />
 
 	<!-- define environment properties -->
-	<property file="${basedir}/environment.properties" />
+	<property file="${basedir}\environment.properties" />
 
 	<!-- define your jdk location here -->
-	<ant4eclipse:jreContainer>
+	<ant4eclipse:installedJREs>
 		<jre id="jdk15" location="${jdk15.location}" />
 		<jre id="jdk16" location="${jdk16.location}" />
-	</ant4eclipse:jreContainer>
+	</ant4eclipse:installedJREs>
 
+	<!-- define the target platform location -->
 	<ant4eclipse:targetPlatform id="target.platform">
-		<location dir="${basedir}/../target.platform/codehaus" />
-		<location dir="${basedir}/../target.platform/ebr" />
-		<location dir="${basedir}/../target.platform/equinox-3.5/plugins" />
-		<location dir="${basedir}/../target.platform/javakontor" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\codehaus" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\ebr" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\equinox-3.5" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\javakontor" />
 	</ant4eclipse:targetPlatform>
 
 	<!-- =================================
@@ -27,22 +28,68 @@
          ================================= -->
 	<target name="build">
 
-		<delete dir="${destination}" quiet="true" />
-		<mkdir dir="${destination}" />
+		<!-- Step 1: iterate over the project set and build each project -->
+		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
+		                               allWorkspaceProjects="true"
+		                               projectReferenceTypes="jdt"
+		                               resolveBuildOrder="false">
 
-		<ant4eclipse:executeProjectSet workspace="${basedir}/.."
-		                               teamprojectset="${teamprojectset}"
-		                               projectReferenceTypes="jdt">
+			<ant4eclipse:forEachProject filter="(org.eclipse.jdt.core.javanature=*)">
 
-			<ant4eclipse:jdtClasspathContainerArgument key="target.platform"
-			                                           value="target.platform" />
+				<!-- Execute the JDT project -->
+				<ant4eclipse:executeJdtProject workspaceDirectory="${basedir}/.."
+				                               projectName="${executeProjectSet.project.name}" >
+
+					<jdtClasspathContainerArgument key="target.platform"
+					                               value="target.platform" />
+
+					<ant4eclipse:forEachOutputDirectory>
+						<echo>Scrubbing directory '${executeJdtProject.output.directory}'</echo>
+						<delete dir="${executeJdtProject.output.directory}"
+						        quiet="true" />
+						<mkdir dir="${executeJdtProject.output.directory}" />
+					</ant4eclipse:forEachOutputDirectory>
+
+				</ant4eclipse:executeJdtProject>
+
+			</ant4eclipse:forEachProject>
+
+		</ant4eclipse:executeProjectSet>
+
+
+		<!-- Step 2: iterate over the project set and build each project -->
+		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
+		                               allWorkspaceProjects="true"
+		                               projectReferenceTypes="jdt"
+		                               resolveBuildOrder="false">
+
+			<!-- <ant4eclipse:forEachProject filter="(org.eclipse.pde.PluginNature=*)">
+
+				<ant4eclipse:executeJdtProject workspaceDirectory="R:\environments\sherlog-environment\workspace"
+				                               projectName="${executeProjectSet.project.name}">
+
+					<jdtClasspathContainerArgument key="target.platform"
+					                               value="target.platform" />
+
+					<ant4eclipse:forEachOutputDirectory>
+						<echo>Scrubbing directory '${executeJdtProject.output.directory}'</echo>
+						<delete dir="${executeJdtProject.output.directory}"
+						        quiet="true" />
+						<mkdir dir="${executeJdtProject.output.directory}" />
+					</ant4eclipse:forEachOutputDirectory>
+
+				</ant4eclipse:executeJdtProject>
+
+			</ant4eclipse:forEachProject> -->
 
 			<ant4eclipse:forEachProject filter="(org.eclipse.pde.PluginNature=*)">
 
 				<buildPlugin workspaceDirectory="${basedir}/.."
-				             projectName="${executeProjectSet.project.name}"
-				             targetPlatformId="target.platform"
-				             destination="${destination}" />
+				             projectname="${executeProjectSet.project.name}"
+				             targetplatformid="target.platform"
+				             destination="${destination}">
+
+				</buildPlugin>
 
 			</ant4eclipse:forEachProject>
 
