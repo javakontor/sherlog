@@ -53,38 +53,42 @@ public class LogEventFilterView extends AbstractView<LogEventFilterModel, LogEve
   @Override
   public void onModelChanged(ModelChangedEvent<LogEventFilterModel, LogEventFilterModelReasonForChange> event) {
 
-    switch (event.getReasonForChange()) {
-    case filterAdded: {
-      createEditor((LogEventFilter) event.getObjects()[0]);
-      break;
-    }
-    case filterRemoved: {
-      disposeEditor((LogEventFilter) event.getObjects()[0]);
-      break;
-    }
-    case factoryAdded: {
-      handleFactoryAdded((FilterConfigurationEditorFactory) event.getObjects()[0]);
-      break;
-    }
-    case factoryRemoved: {
-      removedFactory((FilterConfigurationEditorFactory) event.getObjects()[0]);
-      break;
-    }
-    case factoryManagerAdded: {
-      for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
-        createEditor(logEventFilter);
+    try {
+      switch (event.getReasonForChange()) {
+      case filterAdded: {
+        createEditor((LogEventFilter) event.getObjects()[0]);
+        break;
       }
-      break;
-    }
-    case factoryManagerRemoved: {
-      for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
-        disposeEditor(logEventFilter);
+      case filterRemoved: {
+        disposeEditor((LogEventFilter) event.getObjects()[0]);
+        break;
       }
-      break;
-    }
-    default:
-      // ignore
-      break;
+      case factoryAdded: {
+        handleFactoryAdded((FilterConfigurationEditorFactory) event.getObjects()[0]);
+        break;
+      }
+      case factoryRemoved: {
+        removedFactory((FilterConfigurationEditorFactory) event.getObjects()[0]);
+        break;
+      }
+      case factoryManagerAdded: {
+        for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
+          createEditor(logEventFilter);
+        }
+        break;
+      }
+      case factoryManagerRemoved: {
+        for (LogEventFilter logEventFilter : getModel().getLogEventFilter()) {
+          disposeEditor(logEventFilter);
+        }
+        break;
+      }
+      default:
+        // ignore
+        break;
+      }
+    } catch (Exception e) {
+      //
     }
   }
 
