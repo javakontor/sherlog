@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Loadwizzard Bundle
+Bundle-SymbolicName: org.javakontor.sherlog.ui.loadwizard
+Bundle-Version: 1.0.0
+Bundle-Activator: org.javakontor.sherlog.ui.loadwizard.internal.Activator
+Import-Package: com.jgoodies.forms.builder,
+ com.jgoodies.forms.debug,
+ com.jgoodies.forms.factories,
+ com.jgoodies.forms.layout,
+ org.apache.commons.logging;version="1.1.1",
+ org.javakontor.sherlog.application.action,
+ org.javakontor.sherlog.application.action.contrib,
+ org.javakontor.sherlog.application.menu,
+ org.javakontor.sherlog.application.mvc,
+ org.javakontor.sherlog.application.request,
+ org.javakontor.sherlog.application.view,
+ org.javakontor.sherlog.domain.impl.reader,
+ org.javakontor.sherlog.domain.reader,
+ org.javakontor.sherlog.domain.store,
+ org.javakontor.sherlog.util,
+ org.javakontor.sherlog.util.nls,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component;version="1.0.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Service-Component: OSGI-INF/loadlogfilewizard-component-description.xml
+Bundle-Vendor: javakontor.org

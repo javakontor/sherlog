@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project name="build.ant4eclipse"
+         basedir="."
+         default="build"
+         xmlns:ant4eclipse="antlib:org.ant4eclipse">
+
+	<!-- import the ant4eclipse pde macros -->
+	<import file="${basedir}/ant4eclipse/macros/a4e-pde-macros.xml" />
+
+	<!-- define environment properties -->
+	<property file="${basedir}\environment.properties" />
+
+	<!-- define your jdk location here -->
+	<ant4eclipse:installedJREs>
+		<jre id="jdk15" location="${jdk15.location}" />
+		<jre id="jdk16" location="${jdk16.location}" />
+	</ant4eclipse:installedJREs>
+
+	<!-- define the target platform location -->
+	<ant4eclipse:targetPlatform id="target.platform">
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\codehaus" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\ebr" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\equinox-3.6" />
+		<location dir="R:\environments\sherlog-environment\workspace\target.platform\javakontor" />
+	</ant4eclipse:targetPlatform>
+
+	<!-- =================================
+          target: build
+         ================================= -->
+	<target name="build">
+
+		<!-- iterate over all projects in the workspace -->
+		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
+		                               allWorkspaceProjects="true">
+
+			<!-- execute the contained build steps for all plug-in projects -->
+			<ant4eclipse:forEachProject filter="(executeProjectSet.org.eclipse.pde.PluginNature=*)">
+
+				<!--call the build plug-in project -->
+				<buildPlugin workspaceDirectory="${basedir}/.."
+				             projectname="${executeProjectSet.project.name}"
+				             targetplatformid="target.platform"
+				             destination="${destination}">
+
+				</buildPlugin>
+
+			</ant4eclipse:forEachProject>
+
+		</ant4eclipse:executeProjectSet>
+
+	</target>
+
+</project>

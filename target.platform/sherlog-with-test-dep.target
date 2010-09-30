@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.5"?>
+
+<target name="sherlog.target">
+<locations>
+<location path="${workspace_loc}/target.platform/ebr" type="Directory"/>
+<location path="${workspace_loc}/target.platform/codehaus" type="Directory"/>
+<location path="${workspace_loc}/target.platform/equinox-3.6" type="Directory"/>
+<location path="${workspace_loc}/target.platform/javakontor" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/ebr" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/jemmy" type="Directory"/>
+<location path="${workspace_loc}/target.platform/test/junit4osgi" type="Directory"/>
+<location path="${workspace_loc}/target.platform/sherlog-1.0.1" type="Directory"/>
+</locations>
+</target>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<component name="filterConfigurationEditorFactoryManagerComponent"
+	immediate="true">
+	<implementation
+		class="org.javakontor.sherlog.util.servicemanager.DefaultServiceManager" />
+
+	<property name="service.type" value="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory" />
+
+	<service>
+		<provide
+			interface="org.javakontor.sherlog.util.servicemanager.ServiceManager" />
+	</service>
+
+	<reference name="filterConfigurationEditorFactory"
+		interface="org.javakontor.sherlog.ui.filter.FilterConfigurationEditorFactory"
+		bind="bindService" unbind="unbindService" cardinality="0..n"
+		policy="dynamic" />
+
+</component>

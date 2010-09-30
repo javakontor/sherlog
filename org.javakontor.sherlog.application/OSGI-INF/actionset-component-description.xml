@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<component name="actionGroupRegistryComponent" immediate="true">
+
+  <implementation class="org.javakontor.sherlog.application.internal.action.ActionSetComponent"/>
+
+  <service>
+    <provide interface="org.javakontor.sherlog.application.action.set.ActionSetManager" />
+    <provide interface="org.javakontor.sherlog.application.action.ActionAdmin"/>
+    <provide interface="org.javakontor.sherlog.application.action.contrib.ActionContributionAdmin"/>
+  </service>
+
+</component>
