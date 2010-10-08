@@ -23,8 +23,8 @@ public class SimpleOsgiTest extends AbstractEclipseArtefactLocatorTest {
   }
 
   protected String[] getTestBundlesNames() {
-    return new String[] { "null,org.javakontor.sherlog.core,1.0.0", "null,org.javakontor.sherlog.util,1.0.0",
-        "null,org.javakontor.sherlog.core,1.0.0", "null,org.javakontor.sherlog.core.impl,1.0.0",
+    return new String[] { "null,org.javakontor.sherlog.util,1.0.0",
+        "null,org.javakontor.sherlog.domain,1.0.0", "null,org.javakontor.sherlog.domain.impl,1.0.0",
         "null,org.eclipse.equinox.ds,1.0.0", "null,org.eclipse.equinox.log,1.0.0",
         "null,org.eclipse.equinox.util,1.0.0", "null,org.eclipse.osgi.services,1.0.0" };
   }
