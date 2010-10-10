@@ -8,7 +8,8 @@
 	<import file="${basedir}/ant4eclipse/macros/a4e-pde-macros.xml" />
 
 	<!-- define environment properties -->
-	<property file="${basedir}\environment.properties" />
+	<property file="${basedir}/build.properties" />
+	<property file="${basedir}/default-build.properties" />
 
 	<!-- define your jdk location here -->
 	<ant4eclipse:installedJREs>

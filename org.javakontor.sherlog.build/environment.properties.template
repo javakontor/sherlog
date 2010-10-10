@@ -1,4 +1,0 @@
-jdk15.location=R:/software/jdk/jdk15
-jdk16.location=R:/software/jdk/jdk16
-teamprojectset=${basedir}/projectset-build.psf
-destination=${basedir}/destination
