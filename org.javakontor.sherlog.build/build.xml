@@ -79,6 +79,7 @@
 			      workspaceDirectory="${basedir}/.."
 			      projectname="${executeProjectSet.project.name}">
 				      <ant4eclipse:forEachSourceDirectory>
+				      	<echo>running tests in ${basedir}/../${executeProjectSet.project.name} - ${executeJdtProject.source.directory}</echo>
 				        <junit dir="${basedir}/../${executeProjectSet.project.name}" fork="yes">
 						  <jvmarg line="-Xmx128m -ea" />
 				          <classpath>
@@ -87,7 +88,7 @@
 				          <formatter type="xml" />
 				          <batchtest todir="${junitTestResultsDirectory}">
 				            <fileset dir="${executeJdtProject.source.directory}">
-				              <include name="**/All*Tests.java" />
+				              <include name="**/*Test.java" />
 				            </fileset>
 				          </batchtest>
 				        </junit>
