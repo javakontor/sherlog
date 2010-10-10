@@ -74,7 +74,7 @@
 	
     	
     	<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.." allWorkspaceProjects="true">
-    		<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true))(executeProjectSet.project.name=*.test)))">
+    		<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))(executeProjectSet.project.name=*.test))">
 		      <forEachSourceDirectory>
 		        <junit dir="${basedir}/${executeProjectSet.project.name}" fork="yes">
 				  <jvmarg line="-Xmx128m -ea" />
