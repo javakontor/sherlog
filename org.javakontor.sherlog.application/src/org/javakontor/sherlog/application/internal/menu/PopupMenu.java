@@ -16,7 +16,7 @@ public class PopupMenu implements MenuRoot {
     _popupMenu = popupMenu;
   }
 
-  public void add(Iterable<JMenuItem> menuItems) {
+  public void addAll(Iterable<JMenuItem> menuItems) {
     for (JMenuItem item : menuItems) {
       _popupMenu.add(item);
     }

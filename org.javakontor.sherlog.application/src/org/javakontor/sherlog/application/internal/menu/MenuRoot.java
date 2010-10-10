@@ -29,5 +29,5 @@ public interface MenuRoot {
    * @param menuItems
    *          the items to be added
    */
-  public void add(Iterable<JMenuItem> menuItems);
+  public void addAll(Iterable<JMenuItem> menuItems);
 }

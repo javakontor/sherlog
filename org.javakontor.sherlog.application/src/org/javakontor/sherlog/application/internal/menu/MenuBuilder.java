@@ -80,17 +80,11 @@ public class MenuBuilder {
         final JMenuItem subMenuItem = createMenuItem(menuItem.getAction(), false);
         menuRootItems.add(subMenuItem);
       } else {
-
-        // if (menuItem.isAction()) {
-        // System.err.println("WARNING! An Action (" + menuItem.getElement().getId()
-        // + "' has been added to menubar. Only ActionGroups are supported. Action will be ignored");
-        // continue;
-        // }
         final Collection<JComponent> subMenuItems = buildSubMenuItems(actionSet, menuItem);
         menuRootItems.add(createMenu(menuItem.getActionGroup(), subMenuItems));
       }
     }
-    this._menuRoot.add(menuRootItems);
+    this._menuRoot.addAll(menuRootItems);
   }
 
   private List<LocatableElement> createLocatableWrapper(
