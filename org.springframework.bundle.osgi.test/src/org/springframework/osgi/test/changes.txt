@@ -1,0 +1,10 @@
+AbstractOsgiTests:
+
+	private Bundle installBundle(Resource location) throws Exception {
+
+		if (location.getFile().isFile()) {
+			return platformContext.installBundle(bundleLocation, location
+					.getInputStream());
+		} else {
+			return platformContext.installBundle(bundleLocation);
+		}
