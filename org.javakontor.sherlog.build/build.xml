@@ -29,7 +29,10 @@
 	<!-- =================================
           target: build
          ================================= -->
-	<target name="build">
+	<target name="build" depends="build-projects, test-projects"/>
+		
+	<target name="build-projects">
+		<scrub-directory dir="${destination}" />
 
 		<!-- iterate over all projects in the workspace -->
 		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
@@ -58,5 +61,37 @@
 		</ant4eclipse:executeProjectSet>
 
 	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: run-junit-tests                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-projects">
+		<property name="junitTestResultsDirectory"
+		          value="${destination}/junittests" />
+		<mkdir dir="${junitTestResultsDirectory}" />
+		<echo>   Ergebnisse in: ${junitTestResultsDirectory}</echo>
+		<echo> * Running JUnit-Tests *</echo>
+	
+    	
+    	<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.." allWorkspaceProjects="true">
+    		<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true))(executeProjectSet.project.name=*.test)))">
+		      <forEachSourceDirectory>
+		        <junit dir="${basedir}/${executeProjectSet.project.name}" fork="yes">
+				  <jvmarg line="-Xmx128m -ea" />
+		          <classpath>
+		            <path refid="executeJdtProject.classpath.absolute.runtime.path"/>
+		          </classpath>
+		          <formatter type="xml" />
+		          <batchtest todir="${junitTestResultsDirectory}">
+		            <fileset dir="${executeJdtProject.source.directory}">
+		              <include name="**/All*Tests.java" />
+		            </fileset>
+		          </batchtest>
+		        </junit>
+		      </forEachSourceDirectory>
+    		</ant4eclipse:forEachProject>
+    	</ant4eclipse:executeProjectSet>
+    </target>
+
 
 </project>
