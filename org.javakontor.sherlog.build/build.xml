@@ -18,10 +18,10 @@
 
 	<!-- define the target platform location -->
 	<ant4eclipse:targetPlatform id="target.platform">
-		<location dir="R:\environments\sherlog-environment\workspace\target.platform\codehaus" />
-		<location dir="R:\environments\sherlog-environment\workspace\target.platform\ebr" />
-		<location dir="R:\environments\sherlog-environment\workspace\target.platform\equinox-3.6" />
-		<location dir="R:\environments\sherlog-environment\workspace\target.platform\javakontor" />
+		<location dir="${basedir}/../target.platform/codehaus" />
+		<location dir="${basedir}/../target.platform/ebr" />
+		<location dir="${basedir}/../target.platform/equinox-3.6" />
+		<location dir="${basedir}/../target.platform/javakontor" />
 	</ant4eclipse:targetPlatform>
 
 	<!-- =================================
