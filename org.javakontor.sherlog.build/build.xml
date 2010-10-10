@@ -46,6 +46,16 @@
 				</buildPlugin>
 
 			</ant4eclipse:forEachProject>
+			
+				<!-- execute the contained build steps for all jdt projects -->
+				<ant4eclipse:forEachProject filter="(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))">
+
+					<buildJdtProject workspaceDirectory="${basedir}/.." 
+						projectname="${executeProjectSet.project.name}" 
+						defaultCompilerOptionsFile="${basedir}/default-compiler-options.properties">
+					</buildJdtProject>
+
+				</ant4eclipse:forEachProject>			
 
 		</ant4eclipse:executeProjectSet>
 
