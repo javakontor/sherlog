@@ -4,9 +4,10 @@
          default="build"
          xmlns:ant4eclipse="antlib:org.ant4eclipse">
 
-	<!-- import the ant4eclipse pde macros -->
+	<!-- import the ant4eclipse macros -->
 	<import file="${basedir}/ant4eclipse/macros/a4e-pde-macros.xml" />
-
+	<import file="${basedir}/ant4eclipse/macros/a4e-jdt-macros.xml" />
+		
 	<!-- define environment properties -->
 	<property file="${basedir}/build.properties" />
 	<property file="${basedir}/default-build.properties" />
@@ -36,7 +37,6 @@
 
 			<!-- execute the contained build steps for all plug-in projects -->
 			<ant4eclipse:forEachProject filter="(executeProjectSet.org.eclipse.pde.PluginNature=*)">
-
 				<!--call the build plug-in project -->
 				<buildPlugin workspaceDirectory="${basedir}/.."
 				             projectname="${executeProjectSet.project.name}"
@@ -44,19 +44,17 @@
 				             destination="${destination}">
 
 				</buildPlugin>
-
 			</ant4eclipse:forEachProject>
 			
-				<!-- execute the contained build steps for all jdt projects -->
-				<ant4eclipse:forEachProject filter="(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))">
+			<!-- execute the contained build steps for all jdt projects -->
+			<ant4eclipse:forEachProject filter="(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))">
+				<!-- build jdt project -->
+				<buildJdtProject workspaceDirectory="${basedir}/.." 
+					projectname="${executeProjectSet.project.name}" 
+					defaultCompilerOptionsFile="${basedir}/default-compiler-options.properties">
+				</buildJdtProject>
 
-					<buildJdtProject workspaceDirectory="${basedir}/.." 
-						projectname="${executeProjectSet.project.name}" 
-						defaultCompilerOptionsFile="${basedir}/default-compiler-options.properties">
-					</buildJdtProject>
-
-				</ant4eclipse:forEachProject>			
-
+			</ant4eclipse:forEachProject>			
 		</ant4eclipse:executeProjectSet>
 
 	</target>
