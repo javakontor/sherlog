@@ -75,21 +75,25 @@
     	
     	<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.." allWorkspaceProjects="true">
     		<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))(executeProjectSet.project.name=*.test))">
-		      <ant4eclipse:forEachSourceDirectory>
-		        <junit dir="${basedir}/${executeProjectSet.project.name}" fork="yes">
-				  <jvmarg line="-Xmx128m -ea" />
-		          <classpath>
-		            <path refid="executeJdtProject.classpath.absolute.runtime.path"/>
-		          </classpath>
-		          <formatter type="xml" />
-		          <batchtest todir="${junitTestResultsDirectory}">
-		            <fileset dir="${executeJdtProject.source.directory}">
-		              <include name="**/All*Tests.java" />
-		            </fileset>
-		          </batchtest>
-		        </junit>
-		      </ant4eclipse:forEachSourceDirectory>
-    		</ant4eclipse:forEachProject>
+				<ant4eclipse:executeJdtProject 
+			      workspaceDirectory="${basedir}"
+			      projectname="${executeProjectSet.project.name}">
+				      <ant4eclipse:forEachSourceDirectory>
+				        <junit dir="${basedir}/${executeProjectSet.project.name}" fork="yes">
+						  <jvmarg line="-Xmx128m -ea" />
+				          <classpath>
+				            <path refid="executeJdtProject.classpath.absolute.runtime.path"/>
+				          </classpath>
+				          <formatter type="xml" />
+				          <batchtest todir="${junitTestResultsDirectory}">
+				            <fileset dir="${executeJdtProject.source.directory}">
+				              <include name="**/All*Tests.java" />
+				            </fileset>
+				          </batchtest>
+				        </junit>
+				    </ant4eclipse:forEachSourceDirectory>
+				</ant4eclipse:executeJdtProject>
+			</ant4eclipse:forEachProject>
     	</ant4eclipse:executeProjectSet>
     </target>
 
