@@ -16,11 +16,11 @@ public class RequestHandlerImpl implements RequestHandler {
    * @param successor
    *          der Vorgänger in der RequestChain
    */
-  public RequestHandlerImpl(RequestHandler successor) {
+  public RequestHandlerImpl(final RequestHandler successor) {
     this._successor = successor;
   }
 
-  public void setSuccessor(RequestHandler successor) {
+  public void setSuccessor(final RequestHandler successor) {
     this._successor = successor;
   }
 
@@ -32,11 +32,12 @@ public class RequestHandlerImpl implements RequestHandler {
    * 
    * @precondition request != null
    */
-  public final void handleRequest(Request request) {
+  public final void handleRequest(final Request request) {
     Assert.notNull("Parameter request muss ungleich null sein!", request);
 
     if (canHandleRequest(request)) {
       doHandleRequest(request);
+      request.setHandled();
     } else {
       if (this._successor != null) {
         beforePassOnSuccessor(request);
@@ -45,7 +46,7 @@ public class RequestHandlerImpl implements RequestHandler {
     }
   }
 
-  protected void beforePassOnSuccessor(Request request) {
+  protected void beforePassOnSuccessor(final Request request) {
     //
   }
 
@@ -58,7 +59,7 @@ public class RequestHandlerImpl implements RequestHandler {
    * 
    * @return true, wenn der Request behandelt werden kann, false sonst.
    */
-  public boolean canHandleRequest(Request request) {
+  public boolean canHandleRequest(final Request request) {
     return false;
   }
 
@@ -69,7 +70,7 @@ public class RequestHandlerImpl implements RequestHandler {
    * @param request
    *          der Request, der zu behandeln ist.
    */
-  public void doHandleRequest(Request request) {
-    // 
+  public void doHandleRequest(final Request request) {
+    //
   }
 }
