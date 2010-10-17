@@ -54,15 +54,13 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
 
     // add flavours
     for (final ServiceReference reference : _textLogEventProviderReferences) {
-      final LogEventFlavourImpl flavour = new LogEventFlavourImpl();
-      flavour.setType(LogEventFlavour.TEXT);
-      flavour.setDescription((String) reference.getProperty("logevent.flavour"));
+      final String description = (String) reference.getProperty("logevent.flavour");
+      final LogEventFlavourImpl flavour = new LogEventFlavourImpl(description, LogEventFlavour.TEXT);
       result.add(flavour);
     }
     for (final ServiceReference reference : _objectLogEventProviderReferences) {
-      final LogEventFlavourImpl flavour = new LogEventFlavourImpl();
-      flavour.setType(LogEventFlavour.BINARY);
-      flavour.setDescription((String) reference.getProperty("logevent.flavour"));
+      final String description = (String) reference.getProperty("logevent.flavour");
+      final LogEventFlavourImpl flavour = new LogEventFlavourImpl(description, LogEventFlavour.BINARY);
       result.add(flavour);
     }
 
@@ -74,11 +72,6 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * @see org.lumberjack.core.reader.LogEventReaderFactory#getLogEventReader(java .net.URL, java.lang.String)
    */
   public LogEventReader getLogEventReader(final URL url, final LogEventFlavour logEventFlavour) {
-
-    return getLogEventReader(new URL[] { url }, logEventFlavour);
-  }
-
-  public LogEventReader getLogEventReader(final URL[] url, final LogEventFlavour logEventFlavour) {
 
     //
     if (logEventFlavour.getType() == LogEventFlavour.BINARY) {
@@ -148,7 +141,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * @param serviceReference
    * @return
    */
-  private LogEventReader getTextLogEventReader(final URL[] url, final ServiceReference serviceReference) {
+  private LogEventReader getTextLogEventReader(final URL url, final ServiceReference serviceReference) {
 
     final TextLogEventProvider logEventProvider = (TextLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_TEXT_LOG_EVENT_PROVIDER, serviceReference);
@@ -156,7 +149,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
     LogEventReader logEventReader = null;
 
     try {
-      logEventReader = new TextInputStreamReader(url, logEventProvider);
+      logEventReader = new TextInputStreamReader(new UrlLogEventReaderInputSource(url), logEventProvider);
     } catch (final Exception e) {
       e.printStackTrace();
     }
@@ -170,7 +163,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * @param serviceReference
    * @return
    */
-  private LogEventReader getObjectLogEventReader(final URL[] url, final ServiceReference serviceReference) {
+  private LogEventReader getObjectLogEventReader(final URL url, final ServiceReference serviceReference) {
 
     final ObjectLogEventProvider logEventProvider = (ObjectLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_OBJECT_LOG_EVENT_PROVIDER, serviceReference);
@@ -178,7 +171,8 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
     LogEventReader logEventReader = null;
 
     try {
-      logEventReader = new ObjectInputStreamReader(url, serviceReference.getBundle(), logEventProvider);
+      logEventReader = new ObjectInputStreamReader(new UrlLogEventReaderInputSource(url), serviceReference.getBundle(),
+          logEventProvider);
     } catch (final Exception e) {
       e.printStackTrace();
     }

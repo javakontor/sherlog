@@ -5,5 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.test.libs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.domain"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.javakontor.sherlog.domain.impl"/>
+	<classpathentry kind="lib" path="/target.platform/equinox-3.6/plugins/org.eclipse.osgi_3.6.1.R36x_v20100806.jar"/>
+	<classpathentry kind="lib" path="/target.platform/equinox-3.6/plugins/org.eclipse.osgi.services_3.2.100.v20100503.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

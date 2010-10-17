@@ -2,7 +2,6 @@ package org.javakontor.sherlog.domain.impl.internal.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -13,23 +12,23 @@ import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.domain.reader.LogEventHandler;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
 
-public abstract class AbstractURLLogEventReader extends AbstractFilterable implements LogEventReader {
+public abstract class AbstractLogEventReader extends AbstractFilterable implements LogEventReader {
 
-  private final List<LogEventHandler> _listener = new ArrayList<LogEventHandler>();
+  private final List<LogEventHandler>     _listener = new ArrayList<LogEventHandler>();
 
-  private boolean                     _isActive;
+  private boolean                         _isActive;
 
-  private boolean                     _stopRequested;
+  private boolean                         _stopRequested;
 
-  // private final boolean infoCorruptedLogfile = true;
-
-  private final URL[]                 _urls;
+  private final LogEventReaderInputSource _inputSource;
 
   /**
-   * @param urls
+   * @param inputSource
+   *          The {@link LogEventReaderInputSource} to read log events from
    */
-  public AbstractURLLogEventReader(final URL[] urls) {
-    _urls = urls;
+  public AbstractLogEventReader(final LogEventReaderInputSource inputSource) {
+    assert inputSource != null;
+    _inputSource = inputSource;
     _isActive = false;
   }
 
@@ -98,15 +97,11 @@ public abstract class AbstractURLLogEventReader extends AbstractFilterable imple
     // notify LogEventHandler
     fireSetup();
 
-    for (final URL url : _urls) {
-
-      final LogEventSource logEventSource = new LogEventSourceImpl(url.toExternalForm());
-      try {
-        readLogFileStream(url.openStream(), logEventSource);
-      } catch (final IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+    final LogEventSource logEventSource = new LogEventSourceImpl(_inputSource.getId());
+    try {
+      readLogFileStream(_inputSource.openStream(), logEventSource);
+    } catch (final IOException e) {
+      e.printStackTrace();
     }
 
     // notify LogEventHandler
