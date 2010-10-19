@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.domain.impl.internal.reader;
+package org.javakontor.sherlog.domain.reader;
 
 import java.io.IOException;
 import java.io.InputStream;

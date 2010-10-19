@@ -10,6 +10,7 @@ import java.util.concurrent.CancellationException;
 import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider;
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

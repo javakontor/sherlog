@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider;
 import org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider;
+import org.javakontor.sherlog.domain.impl.reader.UrlLogEventReaderInputSource;
 import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;

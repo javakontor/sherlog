@@ -1,8 +1,10 @@
-package org.javakontor.sherlog.domain.impl.internal.reader;
+package org.javakontor.sherlog.domain.impl.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 
 public class UrlLogEventReaderInputSource implements LogEventReaderInputSource {
 

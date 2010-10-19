@@ -11,6 +11,7 @@ import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.domain.reader.LogEventHandler;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 
 public abstract class AbstractLogEventReader extends AbstractFilterable implements LogEventReader {
 
@@ -51,7 +52,7 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
     _stopRequested = true;
   }
 
-  public boolean isActive() {
+  public boolean isRunning() {
     return _isActive;
   }
 

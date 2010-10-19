@@ -11,6 +11,7 @@ import java.util.concurrent.CancellationException;
 import org.javakontor.sherlog.domain.LogEventSource;
 import org.javakontor.sherlog.domain.impl.reader.AbstractLogEvent;
 import org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider;
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 import org.osgi.framework.Bundle;
 
 public class ObjectInputStreamReader extends AbstractLogEventReader {
