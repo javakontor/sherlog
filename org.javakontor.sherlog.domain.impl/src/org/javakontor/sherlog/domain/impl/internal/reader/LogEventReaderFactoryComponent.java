@@ -1,15 +1,14 @@
 package org.javakontor.sherlog.domain.impl.internal.reader;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider;
 import org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider;
-import org.javakontor.sherlog.domain.impl.reader.UrlLogEventReaderInputSource;
 import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
 
@@ -69,20 +68,25 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
     return result.toArray(new LogEventFlavour[0]);
   }
 
-  /**
-   * @see org.lumberjack.core.reader.LogEventReaderFactory#getLogEventReader(java .net.URL, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.javakontor.sherlog.domain.reader.LogEventReaderFactory#getLogEventReader(org.javakontor.sherlog.domain.reader
+   * .LogEventReaderInputSource, org.javakontor.sherlog.domain.reader.LogEventFlavour)
    */
-  public LogEventReader getLogEventReader(final URL url, final LogEventFlavour logEventFlavour) {
+  public LogEventReader getLogEventReader(final LogEventReaderInputSource inputSource,
+      final LogEventFlavour logEventFlavour) {
 
     //
     if (logEventFlavour.getType() == LogEventFlavour.BINARY) {
       final ServiceReference serviceReference = getObjectLogEventProviderReference(logEventFlavour);
-      return getObjectLogEventReader(url, serviceReference);
+      return getObjectLogEventReader(inputSource, serviceReference);
     }
 
     if (logEventFlavour.getType() == LogEventFlavour.TEXT) {
       final ServiceReference serviceReference = getTextLogEventProviderReference(logEventFlavour);
-      return getTextLogEventReader(url, serviceReference);
+      return getTextLogEventReader(inputSource, serviceReference);
     }
 
     throw new RuntimeException();
@@ -142,7 +146,8 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
    * @param serviceReference
    * @return
    */
-  private LogEventReader getTextLogEventReader(final URL url, final ServiceReference serviceReference) {
+  private LogEventReader getTextLogEventReader(final LogEventReaderInputSource inputSource,
+      final ServiceReference serviceReference) {
 
     final TextLogEventProvider logEventProvider = (TextLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_TEXT_LOG_EVENT_PROVIDER, serviceReference);
@@ -150,7 +155,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
     LogEventReader logEventReader = null;
 
     try {
-      logEventReader = new TextInputStreamReader(new UrlLogEventReaderInputSource(url), logEventProvider);
+      logEventReader = new TextInputStreamReader(inputSource, logEventProvider);
     } catch (final Exception e) {
       e.printStackTrace();
     }
@@ -160,11 +165,12 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
   }
 
   /**
-   * @param url
+   * @param inputSource
    * @param serviceReference
    * @return
    */
-  private LogEventReader getObjectLogEventReader(final URL url, final ServiceReference serviceReference) {
+  private LogEventReader getObjectLogEventReader(final LogEventReaderInputSource inputSource,
+      final ServiceReference serviceReference) {
 
     final ObjectLogEventProvider logEventProvider = (ObjectLogEventProvider) _componentContext.locateService(
         DS_REFERENCE_NAME_OBJECT_LOG_EVENT_PROVIDER, serviceReference);
@@ -172,8 +178,7 @@ public class LogEventReaderFactoryComponent implements LogEventReaderFactory {
     LogEventReader logEventReader = null;
 
     try {
-      logEventReader = new ObjectInputStreamReader(new UrlLogEventReaderInputSource(url), serviceReference.getBundle(),
-          logEventProvider);
+      logEventReader = new ObjectInputStreamReader(inputSource, serviceReference.getBundle(), logEventProvider);
     } catch (final Exception e) {
       e.printStackTrace();
     }

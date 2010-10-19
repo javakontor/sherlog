@@ -1,7 +1,5 @@
 package org.javakontor.sherlog.domain.reader;
 
-import java.net.URL;
-
 /**
  * <p>
  * The {@link LogEventReaderFactory} can be used to create {@link LogEventReader}.
@@ -23,24 +21,14 @@ public interface LogEventReaderFactory {
 
   /**
    * <p>
-   * Returns a new {@link LogEventReader} for the specified {@link LogEventFlavour} and the specified URL.
+   * Returns a new {@link LogEventReader} for the specified {@link LogEventFlavour} and the specified inputSource.
    * </p>
    * 
-   * @param url
-   *          the URL
+   * @param inputSource
+   *          the LogEventReaderInputSource that is used to read the log events from
    * @param logEventFlavour
    *          the log event flavour
    * @return
    */
-  public LogEventReader getLogEventReader(URL url, LogEventFlavour logEventFlavour);
-
-  /**
-   * <p>
-   * </p>
-   * 
-   * @param port
-   * @param logEventFlavour
-   * @return
-   */
-  public LogEventReader getLogEventReader(int port, LogEventFlavour logEventFlavour);
+  public LogEventReader getLogEventReader(LogEventReaderInputSource inputSource, LogEventFlavour logEventFlavour);
 }

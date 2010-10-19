@@ -20,7 +20,7 @@ public class HistogramPanelTest extends TestCase {
     _histogramPanel = new HistogramPanel();
     _frame.setContentPane(_histogramPanel);
     _frame.pack();
-    _frame.setVisible(true);
+//    _frame.setVisible(true);
   }
 
   @Override
@@ -32,15 +32,15 @@ public class HistogramPanelTest extends TestCase {
 
   public void testNoEvents() throws Exception {
     // TODO: assert NO_EVENTS_PANEL
-    Thread.sleep(5000);
+//    Thread.sleep(5000);
   }
 
   public void testEvents() throws Exception {
-    for (int i = 0; i < 15; i++) {
-      _histogramPanel.setLogEvents(LogEventGenerator.generateLogEventList(500));
-      Thread.sleep(500);
-      _histogramPanel.setLogEvents(null);
-      Thread.sleep(5000);
-    }
+//    for (int i = 0; i < 15; i++) {
+//      _histogramPanel.setLogEvents(LogEventGenerator.generateLogEventList(500));
+//      Thread.sleep(500);
+//      _histogramPanel.setLogEvents(null);
+//      Thread.sleep(5000);
+//    }
   }
 }

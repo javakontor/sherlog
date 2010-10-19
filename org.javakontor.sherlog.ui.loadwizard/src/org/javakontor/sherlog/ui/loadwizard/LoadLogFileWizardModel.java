@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.mvc.AbstractModel;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.domain.impl.reader.BatchLogEventHandler;
+import org.javakontor.sherlog.domain.impl.reader.UrlLogEventReaderInputSource;
 import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
 import org.javakontor.sherlog.domain.reader.LogEventReaderFactory;
@@ -47,7 +48,8 @@ public class LoadLogFileWizardModel extends AbstractModel<LoadLogFileWizardModel
       URL url = getLogFileChooserModel().getSelectedLogFile().toURL();
       LogEventFlavour logEventFlavour = getLogFileChooserModel().getSelectedLogEventFlavour();
 
-      LogEventReader logEventReader = this._logEventReaderFactory.getLogEventReader(url, logEventFlavour);
+      LogEventReader logEventReader = this._logEventReaderFactory.getLogEventReader(new UrlLogEventReaderInputSource(
+          url), logEventFlavour);
       if (logEventReader != null) {
         logEventReader.addLogEventHandler(new BatchLogEventHandler(this._logEventStore));
         logEventReader.start();
