@@ -7,7 +7,7 @@ import org.javakontor.sherlog.domain.LogEvent;
  * An abstract adapter class for receiving log event reader events. The methods in this class are empty. This class
  * exists as convenience for creating log event handler objects.
  * </p>
- *
+ * 
  * @author Nils Hartmann (nils@nilshartmann.net)
  * @author Gerd W&uuml;therich (gerd@gerd-wuetherich.de)
  */
@@ -37,8 +37,8 @@ public class DefaultLogEventHandler implements LogEventHandler {
   /**
    * {@inheritDoc}
    */
-  public void handleException(Exception exception) {
-    // empty implementation...
+  public void handleException(final Exception exception) {
+    System.err.println(exception);
   }
 
   /**

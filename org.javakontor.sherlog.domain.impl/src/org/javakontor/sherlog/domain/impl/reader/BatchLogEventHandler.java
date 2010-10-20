@@ -43,9 +43,4 @@ public class BatchLogEventHandler extends DefaultLogEventHandler {
     _logEventStore.addLogEvents(_list);
   }
 
-  @Override
-  public void handleException(final Exception exception) {
-    System.err.println(exception);
-  }
-
 }

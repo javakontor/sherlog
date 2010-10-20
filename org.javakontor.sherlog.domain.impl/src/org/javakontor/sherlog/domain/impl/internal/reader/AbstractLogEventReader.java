@@ -12,8 +12,12 @@ import org.javakontor.sherlog.domain.impl.filter.AbstractFilterable;
 import org.javakontor.sherlog.domain.reader.LogEventHandler;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
 import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractLogEventReader extends AbstractFilterable implements LogEventReader {
+
+  Logger                                  _logger   = LoggerFactory.getLogger(getClass());
 
   private final List<LogEventHandler>     _listener = new ArrayList<LogEventHandler>();
 
@@ -22,6 +26,8 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
   private boolean                         _stopRequested;
 
   private final LogEventReaderInputSource _inputSource;
+
+  private InputStream                     _logInputStream;
 
   /**
    * @param inputSource
@@ -40,7 +46,7 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
         try {
           readLogFiles();
         } catch (final CancellationException e) {
-          e.printStackTrace();
+          _logger.info("Reader canceled: " + e, e);
         }
         _isActive = false;
       }
@@ -49,6 +55,13 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
   }
 
   public void stop() {
+    if (_logInputStream != null) {
+      try {
+        _logInputStream.close();
+      } catch (final IOException ioe) {
+        _logger.warn("Could not close input stream: " + ioe, ioe);
+      }
+    }
     _stopRequested = true;
   }
 
@@ -67,10 +80,6 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
   public final void removeLogEventHandler(final LogEventHandler handler) {
     _listener.remove(handler);
   }
-
-  // public boolean corruptedLogfileInfo() {
-  // return this.infoCorruptedLogfile;
-  // }
 
   protected final void fireLogEventHandler(final LogEvent event) {
     if (!isFiltered(event)) {
@@ -100,7 +109,8 @@ public abstract class AbstractLogEventReader extends AbstractFilterable implemen
 
     final LogEventSource logEventSource = new LogEventSourceImpl(_inputSource.getId());
     try {
-      readLogFileStream(_inputSource.openStream(), logEventSource);
+      _logInputStream = _inputSource.openStream();
+      readLogFileStream(_logInputStream, logEventSource);
     } catch (final IOException e) {
       e.printStackTrace();
     }

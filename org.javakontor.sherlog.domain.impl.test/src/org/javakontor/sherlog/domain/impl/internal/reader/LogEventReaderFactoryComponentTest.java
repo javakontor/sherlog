@@ -6,12 +6,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-import java.net.URL;
-
 import org.javakontor.sherlog.domain.impl.reader.ObjectLogEventProvider;
 import org.javakontor.sherlog.domain.impl.reader.TextLogEventProvider;
 import org.javakontor.sherlog.domain.reader.LogEventFlavour;
 import org.javakontor.sherlog.domain.reader.LogEventReader;
+import org.javakontor.sherlog.domain.reader.LogEventReaderInputSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,8 +62,8 @@ public class LogEventReaderFactoryComponentTest {
     ServiceReference textReference = newTextLogEventProviderServiceReference("log4j.text");
     _component.setTextLogEventProvider(textReference);
 
-    LogEventReader logEventReader = _component
-        .getLogEventReader(new URL("file:/a.log"), aBinaryFlavour("log4j.binary"));
+    LogEventReader logEventReader = _component.getLogEventReader(mock(LogEventReaderInputSource.class),
+        aBinaryFlavour("log4j.binary"));
     assertThat(logEventReader, is(notNullValue()));
 
     verify(_componentContextMock).locateService("objectLogEventProvider", binaryReference);
@@ -79,7 +78,8 @@ public class LogEventReaderFactoryComponentTest {
     ServiceReference textReference = newTextLogEventProviderServiceReference("log4j.text");
     _component.setTextLogEventProvider(textReference);
 
-    LogEventReader logEventReader = _component.getLogEventReader(new URL("file:/a.log"), aTextFlavour("log4j.text"));
+    LogEventReader logEventReader = _component.getLogEventReader(mock(LogEventReaderInputSource.class),
+        aTextFlavour("log4j.text"));
     assertThat(logEventReader, is(notNullValue()));
 
     verify(_componentContextMock).locateService("textLogEventProvider", textReference);
