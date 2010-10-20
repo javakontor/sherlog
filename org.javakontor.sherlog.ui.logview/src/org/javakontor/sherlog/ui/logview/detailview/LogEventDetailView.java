@@ -68,9 +68,9 @@ public class LogEventDetailView extends AbstractView<LogEventDetailModel, Defaul
     LogEvent logEvent = getModel().getLogEvent();
 
     // render HTML
-    String details = String.format(DETAILS_FORMAT, logEvent.getTimeStamp(), logEvent.getIdentifier(), logEvent
-        .getLogLevel(), logEvent.getThreadName(), logEvent.getLogEventSource(), logEvent.getCategory(), logEvent
-        .getMessage(), logEvent.getThrowableInformationAsString());
+    String details = String.format(DETAILS_FORMAT, logEvent.getTimeStamp(), logEvent.getIdentifier(),
+        logEvent.getLogLevel(), logEvent.getThreadName(), logEvent.getLogEventSource().getSource(),
+        logEvent.getCategory(), logEvent.getMessage(), logEvent.getThrowableInformationAsString());
 
     // set the text
     this._detailsPane.setText(details);
