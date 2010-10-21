@@ -26,7 +26,7 @@ public class WindowMenu {
 
   private final ServiceRegistration _registration;
 
-  ApplicationWindow                 _applicationWindow;
+  ApplicationWindow          _applicationWindow;
 
   public WindowMenu(final BundleContext context, final ApplicationWindow applicationWindow) {
     this._applicationWindow = applicationWindow;

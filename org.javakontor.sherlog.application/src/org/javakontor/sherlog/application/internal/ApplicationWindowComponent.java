@@ -27,7 +27,7 @@ public class ApplicationWindowComponent {
 
   private ComponentContext             _componentContext;
 
-  private DefaultApplicationWindow     _mainFrame;
+  private ApplicationWindow     _mainFrame;
 
   private ActionSetManager             _actionSetManager;
 
@@ -59,7 +59,7 @@ public class ApplicationWindowComponent {
       public void run() {
         try {
           synchronized (ApplicationWindowComponent.this._lock) {
-            ApplicationWindowComponent.this._mainFrame = new DefaultApplicationWindow(
+            ApplicationWindowComponent.this._mainFrame = new ApplicationWindow(
                 ApplicationMessages.applicationWindowTitle);
             ApplicationWindowComponent.this._mainFrame.addWindowListener(new ApplicationWindowListener());
             ApplicationWindowComponent.this._mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

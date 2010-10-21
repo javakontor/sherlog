@@ -38,9 +38,9 @@ public class LookAndFeelMenu {
 
   private final ServiceRegistration      _serviceRegistration;
 
-  private final DefaultApplicationWindow _mainFrame;
+  private final ApplicationWindow _mainFrame;
 
-  public LookAndFeelMenu(final DefaultApplicationWindow mainFrame, final BundleContext bundleContext) {
+  public LookAndFeelMenu(final ApplicationWindow mainFrame, final BundleContext bundleContext) {
     super();
     this._mainFrame = mainFrame;
 
