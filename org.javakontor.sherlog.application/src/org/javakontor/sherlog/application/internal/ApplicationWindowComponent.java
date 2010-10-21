@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.javakontor.sherlog.application.action.MenuConstants;
 import org.javakontor.sherlog.application.action.set.ActionSet;
 import org.javakontor.sherlog.application.action.set.ActionSetManager;
+import org.javakontor.sherlog.application.contrib.ApplicationStatusBarContribution;
 import org.javakontor.sherlog.application.view.ViewContribution;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -23,29 +24,31 @@ import org.osgi.service.component.ComponentContext;
 
 public class ApplicationWindowComponent {
 
-  private final Log                    _logger     = LogFactory.getLog(getClass());
+  private final Log                               _logger     = LogFactory.getLog(getClass());
 
-  private ComponentContext             _componentContext;
+  private ComponentContext                        _componentContext;
 
-  private ApplicationWindow     _mainFrame;
+  private ApplicationWindow                       _mainFrame;
 
-  private ActionSetManager             _actionSetManager;
+  private ActionSetManager                        _actionSetManager;
 
-  public ApplicationWindowMenuBar      _applicationWindowMenuBar;
+  public ApplicationWindowMenuBar                 _applicationWindowMenuBar;
 
   // private MenuActionTracker _menuActionTracker;
 
-  private FileMenu                     _fileMenu;
+  private FileMenu                                _fileMenu;
 
-  private WindowMenu                   _windowMenu;
+  private WindowMenu                              _windowMenu;
 
-  private LookAndFeelMenu              _lafMenu;
+  private LookAndFeelMenu                         _lafMenu;
 
-  private final Object                 _lock       = new Object();
+  private final Object                            _lock       = new Object();
 
-  private final List<ServiceReference> _dialogList = new LinkedList<ServiceReference>();
+  private final List<ServiceReference>            _dialogList = new LinkedList<ServiceReference>();
 
-  public BundleContext                 _bundleContext;
+  private ApplicationStatusBarContributionTracker _applicationStatusBarContributionTracker;
+
+  public BundleContext                            _bundleContext;
 
   /**
    * @param context
@@ -69,14 +72,12 @@ public class ApplicationWindowComponent {
             for (final ServiceReference dialogReference : ApplicationWindowComponent.this._dialogList) {
               addDialog(dialogReference);
             }
-            // for (ServiceReference actionReference : _actionList) {
-            // addAction(actionReference);
-            // }
 
-            // ApplicationWindowComponent.this._menuActionTracker = new MenuActionTracker(context.getBundleContext(),
-            // MenuConstants.MENUBAR_ID, new MenuBar(ApplicationWindowComponent.this._mainFrame.getJMenuBar()));
             createDefaultMenus(context);
-            // ApplicationWindowComponent.this._menuActionTracker.open();
+
+            ApplicationWindowComponent.this._applicationStatusBarContributionTracker = new ApplicationStatusBarContributionTracker(
+                ApplicationWindowComponent.this._bundleContext, ApplicationWindowComponent.this._mainFrame);
+            ApplicationWindowComponent.this._applicationStatusBarContributionTracker.open();
 
             ApplicationWindowComponent.this._mainFrame.setVisible(true);
           }
@@ -86,9 +87,6 @@ public class ApplicationWindowComponent {
       }
 
     });
-
-    // _actionGroupServiceTracker = new ActionGroupServiceTracker(context.getBundleContext());
-    // _actionGroupServiceTracker.open();
 
   }
 
@@ -119,7 +117,6 @@ public class ApplicationWindowComponent {
   }
 
   protected void createDefaultMenus(final ComponentContext context) throws Exception {
-
     this._fileMenu = new FileMenu(this, context.getBundleContext());
     this._windowMenu = new WindowMenu(context.getBundleContext(), this._mainFrame);
     this._lafMenu = new LookAndFeelMenu(this._mainFrame, context.getBundleContext());
@@ -152,16 +149,10 @@ public class ApplicationWindowComponent {
   protected void deactivate(final ComponentContext context) {
     this._componentContext = null;
 
-    // if (this._menuActionTracker != null) {
-    // try {
-    // this._menuActionTracker.close();
-    // } catch (Exception ex) {
-    // this._logger.error("Could not dispose menuActionTracker: " + ex, ex);
-    // ex.printStackTrace();
-    // } finally {
-    // this._menuActionTracker = null;
-    // }
-    // }
+    if (this._applicationStatusBarContributionTracker != null) {
+      this._applicationStatusBarContributionTracker.close();
+      this._applicationStatusBarContributionTracker = null;
+    }
 
     if (this._mainFrame != null) {
       try {
@@ -221,6 +212,19 @@ public class ApplicationWindowComponent {
         this._dialogList.remove(dialogReference);
       }
     }
+  }
+
+  protected void setStatusBarContribution(final ApplicationStatusBarContribution statusBarContribution) {
+    SwingUtilities.invokeLater(new Runnable() {
+
+      public void run() {
+        ApplicationWindowComponent.this._mainFrame.addStatusBarContribution(statusBarContribution);
+      }
+    });
+  }
+
+  protected void unsetStatusBarContribution(final ApplicationStatusBarContribution statusBarContribution) {
+
   }
 
   public void bindActionSetManager(final ActionSetManager actionSetManager) {

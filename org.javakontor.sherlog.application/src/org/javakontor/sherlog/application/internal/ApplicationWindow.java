@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
+import org.javakontor.sherlog.application.contrib.ApplicationStatusBarContribution;
 import org.javakontor.sherlog.application.internal.util.Arranger;
 import org.javakontor.sherlog.application.internal.util.WallpaperDesktopPane;
 import org.javakontor.sherlog.application.internal.window.DialogFrame;
@@ -52,7 +53,7 @@ public class ApplicationWindow extends JFrame implements RequestHandler {
   /** the internal used desktop pane * */
   private WallpaperDesktopPane          _desktopPane;
 
-  private ApplicationStatusBar          statusPanel;
+  private ApplicationStatusBar          _statusBar;
 
   private RequestHandler                _requestHandler;
 
@@ -82,8 +83,8 @@ public class ApplicationWindow extends JFrame implements RequestHandler {
 
   @Override
   public void dispose() {
-    if (this.statusPanel != null) {
-      this.statusPanel.dispose();
+    if (this._statusBar != null) {
+      this._statusBar.dispose();
     }
     super.dispose();
   }
@@ -142,6 +143,18 @@ public class ApplicationWindow extends JFrame implements RequestHandler {
       validate();
       repaint();
     }
+  }
+
+  public void addStatusBarContribution(final ApplicationStatusBarContribution contribution) {
+    Assert.notNull("Parameter contribution has to be set!", contribution);
+
+    this._statusBar.addContribution(contribution);
+  }
+
+  public void removeStatusBarContribution(final ApplicationStatusBarContribution contribution) {
+    Assert.notNull("Parameter contribution has to be set!", contribution);
+
+    this._statusBar.removeContribution(contribution);
   }
 
   /**
@@ -209,8 +222,8 @@ public class ApplicationWindow extends JFrame implements RequestHandler {
 
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(this._desktopPane, BorderLayout.CENTER);
-    this.statusPanel = new ApplicationStatusBar();
-    getContentPane().add(this.statusPanel, java.awt.BorderLayout.SOUTH);
+    this._statusBar = new ApplicationStatusBar();
+    getContentPane().add(this._statusBar, java.awt.BorderLayout.SOUTH);
 
     this.getGlassPane().setVisible(true);
     final Image image = new ImageIcon(getClass().getResource("background.jpg")).getImage();
