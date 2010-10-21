@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.ui.loadwizard;
+package org.javakontor.sherlog.util.ui;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;

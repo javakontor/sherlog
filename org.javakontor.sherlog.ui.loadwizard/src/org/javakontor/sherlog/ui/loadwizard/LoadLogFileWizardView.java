@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.DefaultReasonForChange;
 import org.javakontor.sherlog.ui.loadwizard.filechooser.LogFileChooserView;
+import org.javakontor.sherlog.util.ui.DefaultButtonFocusListener;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
