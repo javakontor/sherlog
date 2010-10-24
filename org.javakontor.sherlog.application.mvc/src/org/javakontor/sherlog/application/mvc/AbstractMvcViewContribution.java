@@ -3,7 +3,6 @@ package org.javakontor.sherlog.application.mvc;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.management.Descriptor;
 import javax.swing.JPanel;
 
 import org.javakontor.sherlog.application.request.Request;
@@ -84,7 +83,7 @@ public abstract class AbstractMvcViewContribution<M extends Model<M, ?>, V exten
    * </p>
    * 
    * @param descriptor
-   *          the {@link Descriptor}
+   *          the {@link ViewContributionDescriptor}
    * @param viewClass
    *          the view class
    * @param controllerClass

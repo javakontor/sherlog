@@ -3,7 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.application bundle
 Bundle-SymbolicName: org.javakontor.sherlog.application
 Bundle-Version: 1.0.0
-Import-Package: org.apache.commons.logging;version="1.1.1",
+Import-Package: javax.swing,
+ javax.swing.border,
+ javax.swing.event,
+ org.apache.commons.logging;version="1.1.1",
  org.javakontor.sherlog.util,
  org.javakontor.sherlog.util.nls,
  org.javakontor.sherlog.util.servicemanager,

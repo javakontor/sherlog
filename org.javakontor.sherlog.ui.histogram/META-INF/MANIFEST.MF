@@ -4,7 +4,8 @@ Bundle-Name: org.javakontor.sherlog.ui.histogram bundle
 Bundle-SymbolicName: org.javakontor.sherlog.ui.histogram
 Bundle-Version: 1.0.0
 Bundle-Activator: org.javakontor.sherlog.ui.histogram.Activator
-Import-Package: org.javakontor.sherlog.application.request,
+Import-Package: javax.swing,
+ org.javakontor.sherlog.application.request,
  org.javakontor.sherlog.application.view,
  org.javakontor.sherlog.domain,
  org.javakontor.sherlog.domain.store,
