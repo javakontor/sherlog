@@ -117,7 +117,6 @@ public class BundleListView extends AbstractView<BundleListModel, BundleListMode
     int row = _bundleListTableModel.getRow(getModel().getSelectedBundle());
     if (row != -1) {
       int viewIndex = _bundleTable.convertRowIndexToView(row);
-      System.err.println("viewIndex for bundle " + getModel().getSelectedBundle().getSymbolicName() + " -> " + viewIndex);
       _bundleTable.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);
       Rectangle rect = 
         _bundleTable.getCellRect(viewIndex, 0, true);
