@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.util
 Bundle-SymbolicName: org.javakontor.sherlog.util
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.javakontor.sherlog.util,
  org.javakontor.sherlog.util.exception,

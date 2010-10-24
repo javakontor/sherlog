@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.ui.logview
 Bundle-SymbolicName: org.javakontor.sherlog.ui.logview
-Bundle-Version: 1.0.1
+Bundle-Version: 1.0.1.qualifier
 Import-Package: javax.swing,
  javax.swing.event,
  javax.swing.table,

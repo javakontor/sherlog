@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.domain.logeventflavour.textexample bundle
 Bundle-SymbolicName: org.javakontor.sherlog.domain.logeventflavour.textexample
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Import-Package: org.javakontor.sherlog.domain,
  org.javakontor.sherlog.domain.impl.reader,
  org.javakontor.sherlog.util,

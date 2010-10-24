@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.ui.filter
 Bundle-SymbolicName: org.javakontor.sherlog.ui.filter
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Import-Package: javax.swing,
  org.javakontor.sherlog.application.request,
  org.javakontor.sherlog.domain.filter,

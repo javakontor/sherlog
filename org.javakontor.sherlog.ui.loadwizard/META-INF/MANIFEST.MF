@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Loadwizzard Bundle
 Bundle-SymbolicName: org.javakontor.sherlog.ui.loadwizard
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.javakontor.sherlog.ui.loadwizard.internal.Activator
 Import-Package: com.jgoodies.forms.builder,
  com.jgoodies.forms.debug,

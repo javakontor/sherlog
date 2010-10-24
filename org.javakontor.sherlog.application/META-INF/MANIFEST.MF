@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.application bundle
 Bundle-SymbolicName: org.javakontor.sherlog.application
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Import-Package: javax.swing,
  javax.swing.border,
  javax.swing.event,

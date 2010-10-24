@@ -2,10 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.ui.managementagent bundle
 Bundle-SymbolicName: org.javakontor.sherlog.ui.managementagent
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Import-Package: javax.swing,
  javax.swing.event,
+ javax.swing.table,
  javax.swing.text,
+ javax.swing.text.html,
  org.apache.commons.logging;version="1.1.1",
  org.javakontor.sherlog.application.action,
  org.javakontor.sherlog.application.action.contrib,

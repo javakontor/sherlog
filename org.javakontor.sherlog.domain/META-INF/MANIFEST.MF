@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.javakontor.sherlog.domain bundle
 Bundle-SymbolicName: org.javakontor.sherlog.domain
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Export-Package: org.javakontor.sherlog.domain,
  org.javakontor.sherlog.domain.filter,
  org.javakontor.sherlog.domain.reader,
