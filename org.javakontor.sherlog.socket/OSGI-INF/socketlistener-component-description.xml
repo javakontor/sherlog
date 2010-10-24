@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<component name="socketListenerComponent" immediate="true">
+	<implementation
+		class="org.javakontor.sherlog.socket.ui.SocketListenerComponent" />
+	<reference name="logEventStore"
+		interface="org.javakontor.sherlog.domain.store.LogEventStore"
+		bind="setLogEventStore" unbind="unsetLogEventStore"
+		cardinality="1..1" policy="static" />
+	<reference name="logEventReaderFactory"
+		interface="org.javakontor.sherlog.domain.reader.LogEventReaderFactory"
+		bind="setLogEventReaderFactory" unbind="unsetLogEventReaderFactory"
+		cardinality="0..1" policy="static" />
+</component>
