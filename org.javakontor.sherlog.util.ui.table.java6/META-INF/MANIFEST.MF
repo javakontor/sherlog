@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Table UI (Java6)
+Bundle-SymbolicName: org.javakontor.sherlog.util.ui.table.java6
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Sherlog Development Team
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.javakontor.sherlog.util.ui.table;version="2.0.0"

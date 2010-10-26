@@ -1,4 +1,4 @@
-package org.javakontor.sherlog.util.ui;
+package org.javakontor.sherlog.util.ui.table;
 
 import javax.swing.JTable;
 import javax.swing.JViewport;

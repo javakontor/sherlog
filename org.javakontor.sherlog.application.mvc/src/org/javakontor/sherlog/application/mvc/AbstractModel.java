@@ -87,7 +87,7 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
    * @param reasonForChange
    *          the reason for change
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   protected void fireModelChangedEvent(E reasonForChange) {
     Assert.notNull("Parameter reasonForChange has to be set!", reasonForChange);
 
@@ -105,7 +105,7 @@ public abstract class AbstractModel<M extends Model<M, E>, E extends Enum<E>> ex
    * @param objects
    *          the associated objects
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   protected void fireModelChangedEvent(E reasonForChange, Object... objects) {
     Assert.notNull("Parameter reasonForChange has to be set!", reasonForChange);
     Assert.notNull("Parameter objects has to be set!", objects);

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Table UI Bundle (JDK1.5)
+Bundle-SymbolicName: org.javakontor.sherlog.util.ui.table
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Sherlog Development Team
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.javakontor.sherlog.util.ui.table

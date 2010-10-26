@@ -11,7 +11,7 @@ import javax.swing.ListSelectionModel;
 import org.javakontor.sherlog.application.mvc.AbstractView;
 import org.javakontor.sherlog.application.mvc.ModelChangedEvent;
 import org.javakontor.sherlog.ui.managementagent.BundleListMessages;
-import org.javakontor.sherlog.util.ui.SherlogTable;
+import org.javakontor.sherlog.util.ui.table.SherlogTable;
 
 public class BundleListView extends AbstractView<BundleListModel, BundleListModelReasonForChange> {
 

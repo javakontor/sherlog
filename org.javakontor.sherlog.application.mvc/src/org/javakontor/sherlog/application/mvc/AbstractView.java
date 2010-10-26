@@ -2,8 +2,8 @@ package org.javakontor.sherlog.application.mvc;
 
 import javax.swing.JPanel;
 
-import org.javakontor.sherlog.util.Assert;
 import org.javakontor.sherlog.util.ui.GuiExecutor;
+import org.javakontor.sherlog.util.Assert;
 
 /**
  * <p>

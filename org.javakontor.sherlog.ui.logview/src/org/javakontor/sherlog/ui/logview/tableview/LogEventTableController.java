@@ -13,7 +13,7 @@ import org.javakontor.sherlog.application.menu.ContextMenu;
 import org.javakontor.sherlog.application.mvc.AbstractController;
 import org.javakontor.sherlog.application.request.RequestHandler;
 import org.javakontor.sherlog.domain.LogEvent;
-import org.javakontor.sherlog.util.ui.SherlogTable;
+import org.javakontor.sherlog.util.ui.table.SherlogTable;
 
 public class LogEventTableController extends
     AbstractController<LogEventTableModel, LogEventTableView, LogEventTableModelReasonForChange> {

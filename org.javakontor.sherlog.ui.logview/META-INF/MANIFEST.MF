@@ -24,6 +24,7 @@ Import-Package: javax.swing,
  org.javakontor.sherlog.util.nls,
  org.javakontor.sherlog.util.servicemanager,
  org.javakontor.sherlog.util.ui,
+ org.javakontor.sherlog.util.ui.table,
  org.osgi.framework;version="1.4.0",
  org.osgi.service.component;version="1.0.0",
  org.osgi.util.tracker;version="1.3.3"

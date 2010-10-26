@@ -28,7 +28,7 @@ public class ManagementAgentModel extends AbstractModel<ManagementAgentModel, De
     Assert.notNull(bundleContext);
 
     this._bundleListModel = new BundleListModel(bundleContext);
-    this._bundleDetailModel = new BundleDetailModel(bundleContext);
+    this._bundleDetailModel = new BundleDetailModel();
   }
 
   public BundleListModel getBundleListModel() {

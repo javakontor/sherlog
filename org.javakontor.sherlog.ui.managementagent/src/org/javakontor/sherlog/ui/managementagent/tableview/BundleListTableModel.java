@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import org.javakontor.sherlog.ui.managementagent.BundleListMessages;
-import org.javakontor.sherlog.util.ui.SortableTableModel;
+import org.javakontor.sherlog.util.ui.table.SortableTableModel;
 import org.osgi.framework.Bundle;
 
 class BundleListTableModel extends AbstractTableModel implements SortableTableModel {

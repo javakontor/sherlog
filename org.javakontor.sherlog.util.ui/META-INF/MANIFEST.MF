@@ -4,7 +4,7 @@ Bundle-Name: org.javakontor.sherlog.util.ui bundle
 Bundle-SymbolicName: org.javakontor.sherlog.util.ui
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.javakontor.sherlog.util.ui;version="1.0.0"
+Export-Package: org.javakontor.sherlog.util.ui;version="2.0.1"
 Import-Package: javax.swing,
  javax.swing.event,
  javax.swing.table,
