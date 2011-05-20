@@ -4,7 +4,8 @@ Bundle-Name: Socket
 Bundle-SymbolicName: org.javakontor.sherlog.socket
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.javakontor.sherlog.socket.Activator
-Import-Package: org.apache.commons.logging,
+Import-Package: javax.swing,
+ org.apache.commons.logging,
  org.javakontor.sherlog.application.action,
  org.javakontor.sherlog.application.action.contrib,
  org.javakontor.sherlog.domain.impl.reader,

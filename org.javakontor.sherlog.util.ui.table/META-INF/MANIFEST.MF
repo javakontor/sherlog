@@ -6,3 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Sherlog Development Team
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.javakontor.sherlog.util.ui.table
+Import-Package: javax.swing,
+ javax.swing.table
