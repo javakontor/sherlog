@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.5"?>
+<?pde version="3.6"?>
 
 <target name="sherlog.target">
 <locations>
@@ -7,7 +7,6 @@
 <location path="${project_loc:target.platform}/ebr" type="Directory"/>
 <location path="${project_loc:target.platform}/codehaus" type="Directory"/>
 <location path="${project_loc:target.platform}/javakontor" type="Directory"/>
-<location path="${project_loc:target.platform}/sherlog-1.0.1" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/ebr" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/gemini-web-1.1.0.RELEASE" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/gemini-web-1.1.0.RELEASE/dep" type="Directory"/>
@@ -15,5 +14,6 @@
 <location path="${project_loc:target.platform}/springstack/spring-dm-1.2.1/extensions" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/spring-dm-1.2.1" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/spring-security-3.0.3.RELEASE" type="Directory"/>
+<location path="${project_loc:target.platform}/sherlog-1.0.2" type="Directory"/>
 </locations>
 </target>
