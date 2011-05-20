@@ -16,7 +16,7 @@
 	<!-- TASK DEFINITIONS -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<taskdef classpathref="path.emma" resource="emma_ant.properties" />
-	
+
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- MACROS  -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -27,7 +27,7 @@
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- CONFIGURATION -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	
+
 	<!-- define environment properties -->
 	<property file="${basedir}/build.properties" />
 	<property file="${basedir}/default-build.properties" />
@@ -49,8 +49,8 @@
 	<!-- =================================
           target: build build sherlog an run tests
          ================================= -->
-	<target name="build" depends="build-projects, test-projects"/>
-		
+	<target name="build" depends="build-projects, test-projects" />
+
 	<!-- =================================
           target: build-projects
            build all sherlog projects
@@ -68,24 +68,25 @@
 				<buildPlugin workspaceDirectory="${basedir}/.."
 				             projectname="${executeProjectSet.project.name}"
 				             targetplatformid="target.platform"
-				             destination="${destination}">
+				             destination="${destination}"
+				             newBundleVersion="${sherlog-version}">
 
 				</buildPlugin>
 			</ant4eclipse:forEachProject>
-			
+
 			<!-- execute the contained build steps for all jdt projects -->
 			<ant4eclipse:forEachProject filter="(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))">
 				<!-- build jdt project -->
-				<buildJdtProject workspaceDirectory="${basedir}/.." 
-					projectname="${executeProjectSet.project.name}" 
-					defaultCompilerOptionsFile="${basedir}/default-compiler-options.properties">
+				<buildJdtProject workspaceDirectory="${basedir}/.."
+				                 projectname="${executeProjectSet.project.name}"
+				                 defaultCompilerOptionsFile="${basedir}/default-compiler-options.properties">
 				</buildJdtProject>
 
-			</ant4eclipse:forEachProject>			
+			</ant4eclipse:forEachProject>
 		</ant4eclipse:executeProjectSet>
 
 	</target>
-	
+
 
 	<!-- =================================
           target: test-projects
@@ -98,26 +99,27 @@
 		<echo>   Ergebnisse in: ${junitTestResultsDirectory}</echo>
 		<echo> * Running JUnit-Tests *</echo>
 
-    	
-    <property name="coverage.directory" value="${destination}/coverage" />
+
+		<property name="coverage.directory" value="${destination}/coverage" />
 		<scrub-directory dir="${coverage.directory}" />
 
 		<mkdir dir="${coverage.directory}/classes" />
-	
-    	
-   	<!-- Instrument the classes -->
+
+
+		<!-- Instrument the classes -->
 		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
-	                               allWorkspaceProjects="true">
+		                               allWorkspaceProjects="true">
 
 			<!-- only need to instrument plug-in projects as all other projects are tests -->
 			<ant4eclipse:forEachProject filter="(executeProjectSet.org.eclipse.pde.PluginNature=*)">
-				<ant4eclipse:executeJdtProject workspaceDirectory="${basedir}/.." projectName="${executeProjectSet.project.name}">
+				<ant4eclipse:executeJdtProject workspaceDirectory="${basedir}/.."
+				                               projectName="${executeProjectSet.project.name}">
 					<ant4eclipse:forEachSourceDirectory>
 						<echo> * Instrumenting ${executeProjectSet.project.name} -
 							${executeJdtProject.output.directory}</echo>
 						<emma enabled="${coverage.enabled}">
-							<instr instrpath="${executeJdtProject.output.directory}" 
-								mode="overwrite"
+							<instr instrpath="${executeJdtProject.output.directory}"
+							       mode="overwrite"
 							       metadatafile="${coverage.directory}/metadata.emma"
 							       merge="true" />
 						</emma>
@@ -125,37 +127,38 @@
 				</ant4eclipse:executeJdtProject>
 			</ant4eclipse:forEachProject>
 		</ant4eclipse:executeProjectSet>
-    	
-		<!-- Execute tests -->    	
-  	<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.." allWorkspaceProjects="true">
-  		<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))(executeProjectSet.project.name=*.test))">
-				<ant4eclipse:executeJdtProject 
-			      workspaceDirectory="${basedir}/.."
-			      projectname="${executeProjectSet.project.name}">
-				      <ant4eclipse:forEachSourceDirectory>
-				      	<echo>running tests in ${basedir}/../${executeProjectSet.project.name} - ${executeJdtProject.source.directory}</echo>
-				        <junit dir="${basedir}/../${executeProjectSet.project.name}" fork="yes">
-						  	<jvmarg line="-Xmx128m -ea" />
-				          <classpath>
-				            <path refid="executeJdtProject.classpath.absolute.runtime.path"/>
-				          	<path refid="path.emma" />
-				          </classpath>
-									<sysproperty key="emma.coverage.out.file"
-									             value="${coverage.directory}/coverage-${executeProjectSet.project.name}.emma" />
-									<sysproperty key="emma.coverage.out.merge"
-									             value="false" />
-				          <formatter type="xml" />
-				          <batchtest todir="${junitTestResultsDirectory}">
-				            <fileset dir="${executeJdtProject.source.directory}">
-				              <include name="**/*Test.java" />
-				            </fileset>
-				          </batchtest>
-				        </junit>
-				    </ant4eclipse:forEachSourceDirectory>
+
+		<!-- Execute tests -->
+		<ant4eclipse:executeProjectSet workspaceDirectory="${basedir}/.."
+		                               allWorkspaceProjects="true">
+			<ant4eclipse:forEachProject filter="(&amp;(&amp;(executeProjectSet.org.eclipse.jdt.core.javanature=true)(!(executeProjectSet.org.eclipse.pde.PluginNature=true)))(executeProjectSet.project.name=*.test))">
+				<ant4eclipse:executeJdtProject workspaceDirectory="${basedir}/.."
+				                               projectname="${executeProjectSet.project.name}">
+					<ant4eclipse:forEachSourceDirectory>
+						<echo>running tests in ${basedir}/../${executeProjectSet.project.name} - ${executeJdtProject.source.directory}</echo>
+						<junit dir="${basedir}/../${executeProjectSet.project.name}"
+						       fork="yes">
+							<jvmarg line="-Xmx128m -ea" />
+							<classpath>
+								<path refid="executeJdtProject.classpath.absolute.runtime.path" />
+								<path refid="path.emma" />
+							</classpath>
+							<sysproperty key="emma.coverage.out.file"
+							             value="${coverage.directory}/coverage-${executeProjectSet.project.name}.emma" />
+							<sysproperty key="emma.coverage.out.merge"
+							             value="false" />
+							<formatter type="xml" />
+							<batchtest todir="${junitTestResultsDirectory}">
+								<fileset dir="${executeJdtProject.source.directory}">
+									<include name="**/*Test.java" />
+								</fileset>
+							</batchtest>
+						</junit>
+					</ant4eclipse:forEachSourceDirectory>
 				</ant4eclipse:executeJdtProject>
 			</ant4eclipse:forEachProject>
-  	</ant4eclipse:executeProjectSet>
-		
+		</ant4eclipse:executeProjectSet>
+
 		<!--  Emma Coverage-Report erzeugen (XML only) -->
 		<emma enabled="${coverage.enabled}">
 			<report>
@@ -164,6 +167,6 @@
 				<xml outfile="${coverage.directory}/coverage.xml" />
 			</report>
 		</emma>
-   </target>
+	</target>
 
 </project>
