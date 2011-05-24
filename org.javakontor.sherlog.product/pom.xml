@@ -67,6 +67,11 @@
 			<version>1.0.2</version>
 		</dependency>
 		<dependency>
+			<groupId>org.javakontor.sherlog.ui.histogram</groupId>
+			<artifactId>mock</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.javakontor.sherlog.application</groupId>
 			<artifactId>extender</artifactId>
 			<version>1.0.2</version>
