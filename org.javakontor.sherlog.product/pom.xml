@@ -118,11 +118,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.javakontor.sherlog.ui</groupId>
-			<artifactId>histogram</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.javakontor.sherlog.ui</groupId>
 			<artifactId>simplefilter</artifactId>
 			<version>1.0.2</version>
 		</dependency>
