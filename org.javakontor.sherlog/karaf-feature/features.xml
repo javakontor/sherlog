@@ -1,0 +1,43 @@
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+    
+    <feature name="org.javakontor.sherlog.product" version="1.0.2">
+        <bundle>mvn:org.javakontor.sherlog.util/logging/1.0.2</bundle>
+        <bundle>mvn:jackson-mapper-asl/jackson-mapper-asl/0.9.9</bundle>
+        <bundle>mvn:org.javakontor.sherlog.util/ui/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/loadwizard/1.0.2</bundle>
+        <bundle>mvn:org.slf4j/jcl-over-slf4j/1.6.1</bundle>
+        <bundle>mvn:org.javakontor.sherlog.application/whiteboard/1.0.2 </bundle>
+        <bundle>mvn:org.javakontor.sherlog.application/mvc/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog/log4j/1.0.2</bundle>
+        <bundle>mvn:com.springsource.javax/servlet/2.5.0</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/logview/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/managementagent/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.util.ui.table/java6/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui.histogram/mock/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.application/extender/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog/application/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.domain.logeventflavour/l4jbinary/1.0.2 </bundle>
+        <bundle>mvn:org.slf4j/slf4j-log4j12/1.6.1</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/filter/1.0.2</bundle>
+        <bundle>mvn:com.springsource.org.jfree/chart/1.0.9</bundle>
+        <bundle>mvn:org.javakontor.sherlog/domain/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.domain/impl/1.0.2</bundle>
+        <bundle>mvn:osgi/cmpn/4.2.0</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/colorfilter/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/simplefilter/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog.domain.logeventflavour/textexample/1.0.2 </bundle>
+        <bundle>mvn:org.slf4j/slf4j-api/1.6.1</bundle>
+        <bundle>mvn:log4j/log4j/1.2.16</bundle>
+        <bundle>mvn:org.javakontor.com.jgoodies/forms/1.2.1</bundle>
+        <bundle>mvn:osgi/core/4.2.0</bundle>
+        <bundle>mvn:com.springsource.org/jfree/1.0.12</bundle>
+        <bundle>mvn:org.javakontor.sherlog.ui/timefilter/1.0.2</bundle>
+        <bundle>mvn:org.javakontor.sherlog/util/1.0.2</bundle>
+        <bundle>mvn:jackson-core-asl/jackson-core-asl/0.9.9</bundle>
+        <feature version="1.6.0">org.apache.felix.scr</feature>
+    </feature>
+
+    <feature name="org.apache.felix.scr" version="1.6.0">
+        <bundle>mvn:org.apache.felix/org.apache.felix.scr/1.6.0</bundle>
+    </feature>
+</features>
