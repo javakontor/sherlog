@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: org.javakontor.sherlog.ui.histogram.mock
-Bundle-SymbolicName: org.javakontor.sherlog.ui.histogram.mock
-Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Gerd Wuetherich (gerd@gerd-wuetherich.de)
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.javakontor.sherlog.domain
-Export-Package: org.javakontor.sherlog.ui.histogram.mock
