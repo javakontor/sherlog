@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.pde.ui.EquinoxLauncher">
+<booleanAttribute key="append.args" value="true"/>
+<booleanAttribute key="automaticAdd" value="true"/>
+<booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/[Sherlog] Sherlog"/>
+<booleanAttribute key="default" value="true"/>
+<booleanAttribute key="default_auto_start" value="true"/>
+<intAttribute key="default_start_level" value="4"/>
+<booleanAttribute key="includeOptional" value="true"/>
+<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -console -clean -dev bin"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m -Declipse.ignoreApp=true -Dosgi.noShutdown=true"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.javakontor.sherlog}"/>
+<stringAttribute key="pde.version" value="3.3"/>
+<booleanAttribute key="show_selected_only" value="false"/>
+<stringAttribute key="target_bundles" value="com.springsource.javax.activation@default:default,com.springsource.javax.mail@default:default,com.springsource.javax.servlet@default:default,com.springsource.org.apache.log4j@2:default,com.springsource.org.jfree.chart@2:default,com.springsource.org.jfree@2:default,com.springsource.slf4j.api@default:default,com.springsource.slf4j.log4j@default:false,com.springsource.slf4j.org.apache.commons.logging@1:default,jackson-core-asl@default:default,jackson-mapper-asl@default:default,javassist@default:default,org.eclipse.equinox.cm@default:default,org.eclipse.equinox.ds@2:true,org.eclipse.equinox.servletbridge.extensionbundle@default:false,org.eclipse.equinox.transforms.hook@default:false,org.eclipse.equinox.util@2:default,org.eclipse.equinox.weaving.hook@default:false,org.eclipse.osgi.services@2:default,org.eclipse.osgi@-1:true,org.javakontor.com.jgoodies.forms@3:default,org.javakontor.org.osgi.service.component.annotations@default:default,org.javakontor.sherlog.application.extender@3:default,org.javakontor.sherlog.application.mvc@default:default,org.javakontor.sherlog.application.whiteboard@3:default,org.javakontor.sherlog.application@3:default,org.javakontor.sherlog.domain.impl@3:default,org.javakontor.sherlog.domain.logeventflavour.l4jbinary@default:default,org.javakontor.sherlog.domain.logeventflavour.textexample@default:default,org.javakontor.sherlog.domain@default:default,org.javakontor.sherlog.log4j@default:false,org.javakontor.sherlog.ui.colorfilter@default:default,org.javakontor.sherlog.ui.filter@default:default,org.javakontor.sherlog.ui.loadwizard@default:default,org.javakontor.sherlog.ui.logview@default:default,org.javakontor.sherlog.ui.managementagent@default:default,org.javakontor.sherlog.ui.simplefilter@default:default,org.javakontor.sherlog.util.logging@default:default,org.javakontor.sherlog.util.ui.table.java6@default:default,org.javakontor.sherlog.util.ui@default:default,org.javakontor.sherlog.util@default:default"/>
+<stringAttribute key="timestamp" value="1321617251347"/>
+<booleanAttribute key="tracing" value="false"/>
+<booleanAttribute key="useCustomFeatures" value="false"/>
+<booleanAttribute key="useDefaultConfigArea" value="true"/>
+<stringAttribute key="workspace_bundles" value="org.javakontor.sherlog.weaving@default:true"/>
+</launchConfiguration>
