@@ -3,7 +3,6 @@
 
 <target name="sherlog.target">
 <locations>
-<location path="${project_loc:target.platform}/equinox-3.6-CORE" type="Directory"/>
 <location path="${project_loc:target.platform}/ebr" type="Directory"/>
 <location path="${project_loc:target.platform}/codehaus" type="Directory"/>
 <location path="${project_loc:target.platform}/javakontor" type="Directory"/>
@@ -15,5 +14,6 @@
 <location path="${project_loc:target.platform}/springstack/spring-dm-1.2.1" type="Directory"/>
 <location path="${project_loc:target.platform}/springstack/spring-security-3.0.3.RELEASE" type="Directory"/>
 <location path="${project_loc:target.platform}/sherlog-1.0.2" type="Directory"/>
+<location path="${project_loc:target.platform}/equinox-3.7" type="Directory"/>
 </locations>
 </target>
