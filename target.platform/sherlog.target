@@ -15,5 +15,6 @@
 <location path="${project_loc:target.platform}/springstack/spring-security-3.0.3.RELEASE" type="Directory"/>
 <location path="${project_loc:target.platform}/sherlog-1.0.2" type="Directory"/>
 <location path="${project_loc:target.platform}/equinox-3.7" type="Directory"/>
+<location path="${project_loc:target.platform}/build/" type="Directory"/>
 </locations>
 </target>
