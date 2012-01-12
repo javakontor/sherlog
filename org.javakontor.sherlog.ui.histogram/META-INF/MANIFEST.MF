@@ -20,3 +20,8 @@ Import-Package: javax.swing,
  org.osgi.framework;version="1.4.0",
  org.osgi.util.tracker;version="1.3.3"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.javakontor.sherlog.ui.histogram;
+  uses:="org.javakontor.sherlog.application.view,
+   javax.swing,
+   org.osgi.framework,
+   org.javakontor.sherlog.domain.store"

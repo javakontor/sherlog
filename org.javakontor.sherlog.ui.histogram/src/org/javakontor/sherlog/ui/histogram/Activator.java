@@ -26,7 +26,7 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-
+		
 		// create new HistogramViewContribution
 		_viewContribution = new HistogramViewContribution();
 
