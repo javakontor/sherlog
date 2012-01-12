@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.javakontor.sherlog.test.pde
+Bundle-SymbolicName: org.javakontor.sherlog.test.pde
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.javakontor.sherlog.domain,
+ org.javakontor.sherlog.domain.impl,
+ org.junit;bundle-version="4.8.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
