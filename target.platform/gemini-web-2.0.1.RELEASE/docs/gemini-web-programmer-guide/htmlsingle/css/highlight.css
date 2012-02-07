@@ -1,0 +1,35 @@
+/* 
+   code highlight CSS resembling the Eclipse IDE default color schema and the EclipseRT Virgo Website
+   @author Christopher Frost
+*/
+
+.hl-keyword {
+  color: #7F0055;
+  font-weight: bold; 
+}
+
+.hl-comment {
+  color: #646571;
+  font-style: italic;
+}
+
+.hl-multiline-comment {
+  color: #646571;
+  font-style: italic;
+}
+
+.hl-tag {
+  color: #646571;
+}
+
+.hl-attribute {
+  color: #7F0055;
+}
+
+.hl-value {
+  color: #0093CF;
+}
+
+.hl-string {
+  color: #0093CF;
+}

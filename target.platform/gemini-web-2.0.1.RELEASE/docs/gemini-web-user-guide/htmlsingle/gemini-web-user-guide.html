@@ -1,0 +1,272 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Gemini Web User Guide</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.74.0"><!--Begin Google Analytics code--><script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script><script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-2728886-3");
+			pageTracker._setDomainName("none");
+			pageTracker._setAllowLinker(true);
+			pageTracker._trackPageview();
+		</script><!--End Google Analytics code--></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e1"></a>Gemini Web User Guide</h1></div><div><span class="productname">Gemini Web Container<br></span></div><div><p class="releaseinfo">2.0.1.RELEASE</p></div></div><div><div><div class="legalnotice"><a name="d0e11"></a><p>
+				Copyright &copy; 2009, 2010 VMware Inc. and others
+			</p><p>
+				Contributors:
+				</p><div class="itemizedlist"><ul type="disc"><li><p>
+							VMware Inc. - initial contribution
+						</p></li><li><p>
+							Violeta Georgieva, SAP AG - Tomcat context configuration
+						</p></li></ul></div><p>
+			</p></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#introduction">1. Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#intro">1.1. Introduction</a></span></dt><dt><span class="section"><a href="#about-this-guide">1.2. About This Guide</a></span></dt></dl></dd><dt><span class="chapter"><a href="#installation">2. Installing Gemini Web</a></span></dt><dd><dl><dt><span class="section"><a href="#installation-prereqs">2.1. Prerequisites</a></span></dt><dt><span class="section"><a href="#installation-zip">2.2. Installing from the ZIP Download</a></span></dt></dl></dd><dt><span class="chapter"><a href="#configuring">3. Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="#configuring-tomcat">3.1. Configuring the Embedded Tomcat Servlet Container</a></span></dt><dt><span class="section"><a href="#configuring-osgi-framework">3.2. Configuring the OSGi Framework</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="introduction"></a>1.&nbsp;Overview</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="intro"></a>1.1&nbsp;Introduction</h2></div></div></div><p>
+			Gemini Web Container implements the Web Container defined by the Web Applications Specification chapter of the OSGi Service Platform Release 4 Version 4.2 Enterprise Specification. 
+			This specification may be downloaded <a class="ulink" href="http://www.osgi.org/Download/Release4V42" target="_top">here</a>.
+		</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="about-this-guide"></a>1.2&nbsp;About This Guide</h2></div></div></div><p>
+			This User Guide contains step-by-step instructions on how to use Gemini Web Container. This User Guide will enable you to:
+			</p><div class="itemizedlist"><ul type="disc"><li><p>
+						Install Gemini Web Container
+					</p></li><li><p>
+						Deploy and request a simple web application
+					</p></li><li><p>
+						Configure Tomcat
+					</p></li><li><p>
+						Configure OSGi Framework
+					</p></li></ul></div><p>
+		</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="installation"></a>2.&nbsp;Installing Gemini Web</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="installation-prereqs"></a>2.1&nbsp;Prerequisites</h2></div></div></div><p>
+			The Gemini Web Container, or GW for short, requires Java SE 6 or later to be installed. Java is available from
+			<a class="ulink" href="http://www.java.com/" target="_top">http://www.java.com/</a> and elsewhere.
+		</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="installation-zip"></a>2.2&nbsp;Installing from the ZIP Download</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>
+					<a class="ulink" href="http://download.eclipse.org/equinox/" target="_top">Download</a> the Equinox JAR, for example <a class="ulink" href="http://download.eclipse.org/equinox/drops/R-3.6-201006080911/download.php?dropFile=org.eclipse.osgi_3.6.0.v20100517.jar" target="_top">org.eclipse.osgi_3.6.0.v20100517.jar</a>, and move it to a suitable directory (e.g. ~/gemini-web-test). 
+					On the <a class="ulink" href="http://download.eclipse.org/equinox/" target="_top">Download</a> page, first choose the desired Release or Build, then download the JAR from the Framework section. 
+				</p></li><li><p>
+					Gemini Web Container is distributed as a ZIP file.
+					<a class="ulink" href="http://www.eclipse.org/gemini/web/download" target="_top">Download</a> Gemini Web Container and unzip it to ~/gemini-web-test/gemini-web. 
+				</p></li><li><p>
+					Configure Equinox by creating a directory ~/gemini-web-test/configuration and create files config.ini and Java6-server.profile in the configuration directory. 
+					Example files which work with 1.1.0.RELEASE are available in <a class="ulink" href="http://wiki.eclipse.org/images/5/5e/Config.ini.zip" target="_top">config.ini.zip</a> and <a class="ulink" href="http://wiki.eclipse.org/images/3/32/Java6-server.profile.zip" target="_top">Java6-server.profile.zip</a>. 
+					Essentially config.ini ensures that Java6-server.profile is used and that the dependencies of Gemini Web Container, which come in the dep directory, are installed and then the Gemini Web Container bundles are installed and started. 
+					Java6-server.profile ensures that javax.xml.ws is exported at version 2.1.1 from the system bundle as the Tomcat bundles in Gemini Web Container depend on that version. 
+				</p></li><li><p>
+					Start Equinox as follows:
+					</p><pre class="programlisting">java -jar org.eclipse.osgi_3.6.0.v20100517.jar -console</pre></li><li><p>
+					You can then deploy WAR files (a trivial example is available in <a class="ulink" href="http://wiki.eclipse.org/images/a/a0/Simple-war.war.zip" target="_top">Simple-war.war.zip</a>) and web bundles using the install and start commands from the console.
+					</p><pre class="programlisting">osgi&gt; install file:simple-war.war
+Bundle id is 40
+osgi&gt; start 40</pre></li><li><p>
+					Drive the WAR or web bundle using a web browser, e.g. http://localhost:8080/simple-war should display "Hello World!". 
+				</p></li><li><p>
+					Stop Gemini Web Container as follows:
+					</p><pre class="programlisting">osgi&gt; close</pre><p>
+					</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Tip]" src="images/tip.gif"></td><th align="left">Tip</th></tr><tr><td align="left" valign="top">
+						You need to stop any old instance of Gemini Web before starting it again. Otherwise, the new instance will not start correctly, because the old one still occupies the http port (and, perhaps, other system resources).
+					</td></tr></table></div><p>
+				</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="configuring"></a>3.&nbsp;Configuration</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="configuring-tomcat"></a>3.1&nbsp;Configuring the Embedded Tomcat Servlet Container</h2></div></div></div><p>
+			Gemini Web Container
+			embeds an OSGi-enhanced version of the <a class="ulink" href="http://tomcat.apache.org/" target="_top">Tomcat Servlet Container</a>
+			in order to provide support for deploying Java EE WARs and OSGi <span class="emphasis"><em>Web Application Bundles</em></span>. 
+			You configure the embedded Servlet container using the standard Apache Tomcat configuration.
+			The main difference is that the configuration file is called <code class="filename">tomcat-server.xml</code> rather than <code class="literal">server.xml</code>.  
+			If you do not want to use the default settings, you can provide the <code class="literal">tomcat-server.xml</code> file located in the <code class="literal">$GW_HOME/config</code> directory. 
+		</p><p>Here's an extract of the default configuration distributed with the GW.</p><pre class="programlisting">&lt;<span class="hl-tag">?xml version='1.0' encoding='utf-8'?</span>&gt;
+&lt;<span class="hl-tag">Server</span> <span class="hl-attribute">port</span>=<span class="hl-value">"8005"</span> <span class="hl-attribute">shutdown</span>=<span class="hl-value">"SHUTDOWN"</span>&gt;
+  &lt;<span class="hl-tag">Listener</span> <span class="hl-attribute">className</span>=<span class="hl-value">"org.apache.catalina.core.JasperListener"</span> /&gt;
+
+  &lt;<span class="hl-tag">Service</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Catalina"</span>&gt;
+    
+    &lt;<span class="hl-tag">Connector</span> <span class="hl-attribute">port</span>=<span class="hl-value">"8080"</span> <span class="hl-attribute">protocol</span>=<span class="hl-value">"HTTP/1.1"</span> 
+               <span class="hl-attribute">connectionTimeout</span>=<span class="hl-value">"20000"</span> 
+               <span class="hl-attribute">redirectPort</span>=<span class="hl-value">"8443"</span> /&gt;
+
+    &lt;<span class="hl-tag">Connector</span> <span class="hl-attribute">port</span>=<span class="hl-value">"8009"</span> <span class="hl-attribute">protocol</span>=<span class="hl-value">"AJP/1.3"</span> <span class="hl-attribute">redirectPort</span>=<span class="hl-value">"8443"</span> /&gt;
+
+    &lt;<span class="hl-tag">Engine</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Catalina"</span> <span class="hl-attribute">defaultHost</span>=<span class="hl-value">"localhost"</span>&gt;
+
+      &lt;<span class="hl-tag">Host</span> <span class="hl-attribute">name</span>=<span class="hl-value">"localhost"</span> <span class="hl-attribute">deployOnStartup</span>=<span class="hl-value">"false"</span> <span class="hl-attribute">autoDeploy</span>=<span class="hl-value">"false"</span>
+            <span class="hl-attribute">unpackWARs</span>=<span class="hl-value">"false"</span> <span class="hl-attribute">createDirs</span>=<span class="hl-value">"false"</span>&gt;
+
+      &lt;<span class="hl-tag">/Host</span>&gt;
+    &lt;<span class="hl-tag">/Engine</span>&gt;
+  &lt;<span class="hl-tag">/Service</span>&gt;
+&lt;<span class="hl-tag">/Server</span>&gt;</pre><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="overview-tomcat-servlet-container"></a>Description of the Default Apache Tomcat Configuration</h3></div></div></div><p>
+				The following bullets describe the main elements and attributes in the default <code class="literal">tomcat-server.xml</code> file; for details about updating this file to further configure the embedded Apache Tomcat server, see the <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/config/index.html" target="_top">Apache Tomcat Configuration Reference</a>.
+			</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip: Relative paths"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Tip]" src="images/tip.gif"></td><th align="left">Relative paths</th></tr><tr><td align="left" valign="top"><p>If the configured path to a directory or file does not represent an absolute path, GW typically interprets it as a path relative to the <code class="filename">$GW_HOME</code> directory.</p></td></tr></table></div><div class="itemizedlist"><ul type="disc"><li><p>The root element of the <code class="literal">tomcat-server.xml</code> file is <code class="literal">&lt;Server&gt;</code>. The attributes of this element represent the characteristics of the entire embedded Tomcat servlet container. The <code class="literal">shutdown</code> attribute specifies the command string that the shutdown port number receives via a TCP/IP connection in order to shut down the servlet container. The <code class="literal">port</code> attribute specifies the TCP/IP port number that listens for a shutdown message.</p></li><li><p>The <code class="literal">&lt;Listener&gt;</code> XML elements specify the list of lifecycle listeners that monitor and manage the embedded Tomcat servlet container. Each listener class is a Java Management Extensions (JMX) MBean that listens to a specific component of the servlet container and has been programmed to do something at certain lifecycle events of the component, such as before starting up, after stopping, and so on.</p></li><li><p>The <code class="literal">&lt;Service&gt;</code> XML element groups together one or more connectors and a single engine. Connectors define a transport mechanism, such as HTTP, that clients use to send and receive messages to and from the associated service. There are many transports that a client can use, which is why a <code class="literal">&lt;Service&gt;</code> element can have many <code class="literal">&lt;Connector&gt;</code> elements. The engine then defines how these requests and responses that the connector receives and sends are in turn handled by the servlet container; you can define only a single <code class="literal">&lt;Engine&gt;</code> element for any given <code class="literal">&lt;Service&gt;</code> element.</p><p>The sample <code class="literal">tomcat-server.xml</code> file above includes two <code class="literal">&lt;Connector&gt;</code> elements: one for the HTTP transport, and one for the AJP transport. The file also includes a single <code class="literal">&lt;Engine&gt;</code> element, as required.</p></li><li><p>The first connector listens for HTTP requests at the <code class="literal">8080</code> TCP/IP port. The connector, after accepting a connection from a client, waits for a maximum of 20000 milliseconds for a request URI; if it does not receive one from the client by then, the connector times out. If this connector receives a request from the client that requires the SSL transport, the servlet container automatically redirects the request to port <code class="literal">8443</code>. </p></li><li><p>The second AJP Connector element represents a Connector component that communicates with a web connector via the AJP protocol. </p></li><li><p>
+						The engine has a logical name of <code class="literal">Catalina</code>; this is the name used in all log and error messages so you can easily identify problems. 
+						The value of the <code class="literal">defaultHost</code> attribute refers to the name of a <code class="literal">&lt;Host&gt;</code> child element of <code class="literal">&lt;Engine&gt;</code>; this host processes requests directed to host names on this servlet container.
+					</p></li><li><p>
+						The <code class="literal">&lt;Host&gt;</code> child element represents a virtual host, which is an association of a network name for a server (such as <code class="literal">www.mycompany.com</code>) with the particular server on which Catalina is running.  
+					</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-tomcat-connectors"></a>Connector Configuration</h3></div></div></div><p>The Gemini Web Container supports the configuration of any connector supported by Apache Tomcat. 
+				See the default configuration above for syntax examples, and for further details of the configuration properties supported for various <code class="literal">&lt;Connector&gt;</code> implementations, consult the official <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/config/http.html" target="_top">Tomcat HTTP Connector</a> documentation.
+				For detailed instructions on how to configure Tomcat's SSL support, consult the official <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html" target="_top">Tomcat SSL Configuration HOW-TO</a>.
+			</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-tomcat-clustering"></a>Cluster Configuration</h3></div></div></div><p>
+				Gemini Web Container supports standard Apache Tomcat cluster configuration.
+				By default, clustering of the embedded servlet container is disabled, and the default configuration does not include any clustering information.  
+				See <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/cluster-howto.html" target="_top">Tomcat Clustering/Session Replication HOW-TO</a> for detailed information about enabling and configuring clustering.
+			</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-default-web-xml"></a>Default web.xml Configuration</h3></div></div></div><p>
+				Java Servlet specification enables web applications to provide deployment descriptor (<code class="literal">web.xml</code>) in the <code class="literal">WEB-INF</code> directory.
+				Apache Tomcat introduces a default <code class="literal">web.xml</code> which is similar to web application's <code class="literal">web.xml</code>, but provides configurations that are applied to all web applications.
+				When deploying a web application, Apache Tomcat uses the default <code class="literal">web.xml</code> file as a base configuration. 
+				If the web application provides its own configurations via <code class="literal">web.xml</code> (the one located in the web application's <code class="literal">WEB-INF</code>) or annotations, they overwrite the default ones.
+				In Gemini Web Container you can also provide default configurations for all web applications.
+				If you want to change/extend the default configurations, you can provide the default <code class="literal">web.xml</code> file located in the <code class="literal">$GW_HOME/config</code> directory. 
+			</p><p>
+				</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Tip]" src="images/tip.gif"></td><th align="left">Tip</th></tr><tr><td align="left" valign="top">Be careful when changing/extending the default <code class="literal">web.xml</code> as this will affect all web applications.</td></tr></table></div><p>
+			</p><p>
+				Here's an extract of the default configuration distributed with the GW.
+			</p><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="ISO-8859-1"?</span>&gt;
+&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee"</span>
+    <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span>
+    <span class="hl-attribute">version</span>=<span class="hl-value">"3.0"</span>&gt;
+
+    &lt;<span class="hl-tag">servlet</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;default&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">servlet-class</span>&gt;org.apache.catalina.servlets.DefaultServlet&lt;<span class="hl-tag">/servlet-class</span>&gt;
+        &lt;<span class="hl-tag">init-param</span>&gt;
+            &lt;<span class="hl-tag">param-name</span>&gt;debug&lt;<span class="hl-tag">/param-name</span>&gt;
+            &lt;<span class="hl-tag">param-value</span>&gt;0&lt;<span class="hl-tag">/param-value</span>&gt;
+        &lt;<span class="hl-tag">/init-param</span>&gt;
+        &lt;<span class="hl-tag">init-param</span>&gt;
+            &lt;<span class="hl-tag">param-name</span>&gt;listings&lt;<span class="hl-tag">/param-name</span>&gt;
+            &lt;<span class="hl-tag">param-value</span>&gt;false&lt;<span class="hl-tag">/param-value</span>&gt;
+        &lt;<span class="hl-tag">/init-param</span>&gt;
+        &lt;<span class="hl-tag">load-on-startup</span>&gt;1&lt;<span class="hl-tag">/load-on-startup</span>&gt;
+    &lt;<span class="hl-tag">/servlet</span>&gt;
+
+    &lt;<span class="hl-tag">servlet</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;jsp&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">servlet-class</span>&gt;org.apache.jasper.servlet.JspServlet&lt;<span class="hl-tag">/servlet-class</span>&gt;
+        &lt;<span class="hl-tag">init-param</span>&gt;
+            &lt;<span class="hl-tag">param-name</span>&gt;fork&lt;<span class="hl-tag">/param-name</span>&gt;
+            &lt;<span class="hl-tag">param-value</span>&gt;false&lt;<span class="hl-tag">/param-value</span>&gt;
+        &lt;<span class="hl-tag">/init-param</span>&gt;
+        &lt;<span class="hl-tag">init-param</span>&gt;
+            &lt;<span class="hl-tag">param-name</span>&gt;xpoweredBy&lt;<span class="hl-tag">/param-name</span>&gt;
+            &lt;<span class="hl-tag">param-value</span>&gt;false&lt;<span class="hl-tag">/param-value</span>&gt;
+        &lt;<span class="hl-tag">/init-param</span>&gt;
+        &lt;<span class="hl-tag">load-on-startup</span>&gt;3&lt;<span class="hl-tag">/load-on-startup</span>&gt;
+    &lt;<span class="hl-tag">/servlet</span>&gt;
+
+    &lt;<span class="hl-tag">servlet-mapping</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;default&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">url-pattern</span>&gt;/&lt;<span class="hl-tag">/url-pattern</span>&gt;
+    &lt;<span class="hl-tag">/servlet-mapping</span>&gt;
+
+    &lt;<span class="hl-tag">servlet-mapping</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;jsp&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">url-pattern</span>&gt;*.jsp&lt;<span class="hl-tag">/url-pattern</span>&gt;
+    &lt;<span class="hl-tag">/servlet-mapping</span>&gt;
+
+    &lt;<span class="hl-tag">servlet-mapping</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;jsp&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">url-pattern</span>&gt;*.jspx&lt;<span class="hl-tag">/url-pattern</span>&gt;
+    &lt;<span class="hl-tag">/servlet-mapping</span>&gt;
+
+    &lt;<span class="hl-tag">session-config</span>&gt;
+        &lt;<span class="hl-tag">session-timeout</span>&gt;30&lt;<span class="hl-tag">/session-timeout</span>&gt;
+    &lt;<span class="hl-tag">/session-config</span>&gt;
+
+    &lt;<span class="hl-tag">mime-mapping</span>&gt;
+        &lt;<span class="hl-tag">extension</span>&gt;abs&lt;<span class="hl-tag">/extension</span>&gt;
+        &lt;<span class="hl-tag">mime-type</span>&gt;audio/x-mpeg&lt;<span class="hl-tag">/mime-type</span>&gt;
+    &lt;<span class="hl-tag">/mime-mapping</span>&gt;
+    ......
+    &lt;<span class="hl-tag">mime-mapping</span>&gt;
+        &lt;<span class="hl-tag">extension</span>&gt;ppt&lt;<span class="hl-tag">/extension</span>&gt;
+        &lt;<span class="hl-tag">mime-type</span>&gt;application/vnd.ms-powerpoint&lt;<span class="hl-tag">/mime-type</span>&gt;
+    &lt;<span class="hl-tag">/mime-mapping</span>&gt;
+
+    &lt;<span class="hl-tag">welcome-file-list</span>&gt;
+        &lt;<span class="hl-tag">welcome-file</span>&gt;index.html&lt;<span class="hl-tag">/welcome-file</span>&gt;
+        &lt;<span class="hl-tag">welcome-file</span>&gt;index.htm&lt;<span class="hl-tag">/welcome-file</span>&gt;
+        &lt;<span class="hl-tag">welcome-file</span>&gt;index.jsp&lt;<span class="hl-tag">/welcome-file</span>&gt;
+    &lt;<span class="hl-tag">/welcome-file-list</span>&gt;
+
+&lt;<span class="hl-tag">/web-app</span>&gt;
+</pre><p>
+				The following bullets describe the main elements in the default <code class="literal">web.xml</code> file.
+				</p><div class="itemizedlist"><ul type="disc"><li><p>The <code class="literal">&lt;Servlet&gt;</code> XML element declares a given servlet and its configurations. The sample <code class="literal">web.xml</code> file above includes two &lt;Servlet&gt; elements.</p><div class="itemizedlist"><ul type="circle"><li><p>
+									The default servlet serves static resources and processes the requests that are not mapped to any servlet.
+									For details about default servlet configuration, see the <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/default-servlet.html" target="_top">Apache Tomcat Default Servlet Reference.</a>.
+								</p></li><li><p>
+									The jsp servlet serves the requests to JavaServer Pages. It is mapped to the URL pattern "*.jsp" and "*.jspx".
+									For details about jsp servlet configuration, see the <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/jasper-howto.html" target="_top">Apache Tomcat Jasper 2 JSP Engine.</a>.
+								</p></li></ul></div></li><li><p>The <code class="literal">&lt;servlet-mapping&gt;</code> XML element specifies the mapping between the servlet and URL pattern.</p></li><li><p>
+							The <code class="literal">&lt;session-config&gt;</code> XML element defines the session configuration for one web application. 
+							The sample <code class="literal">web.xml</code> file above specifies that the session timeout for all web applications will be 30 minutes by default.
+						</p></li><li><p>
+							The <code class="literal">&lt;mime-mapping&gt;</code> XML element defines a mapping between a filename extension and a mime type. 
+							When serving static resources, a "Content-Type" header will be generated based on these mappings.
+						</p></li><li><p>
+							The <code class="literal">&lt;welcome-file-list&gt;</code> XML element specifies a list of welcome files. 
+							When a request URI refers to a directory, the default servlet looks for a "welcome file" within that directory.
+							If the "welcome file" exists it will be served, otherwise 404 status or directory listing will be returned, depending on the default servlet configuration.
+						</p></li></ul></div><p>
+			</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-tomcat-contexts"></a>Context Configuration</h3></div></div></div><p>
+				Gemini Web Container supports standard Apache Tomcat web application context configuration.
+				The <a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/config/index.html" target="_top">Apache Tomcat Configuration Reference</a> has a section on
+				<a class="ulink" href="http://tomcat.apache.org/tomcat-7.0-doc/config/context.html" target="_top">The Context Container</a> which describes the mechanism that
+				is used in GW for searching context configuration files and details the context configuration properties.
+			</p><p>
+				Context configuration files may be placed in the following locations,
+				where <code class="literal">[enginename]</code> is the name of Tomcat's engine ('Catalina' by default) and <code class="literal">[hostname]</code> names
+				a virtual host ('localhost' by default), both of which are configured in <code class="literal">tomcat-server.xml</code>:
+				</p><div class="itemizedlist"><ul type="disc"><li><p><code class="literal">$GW_HOME/config/context.xml</code> provides the default context configuration file for all web applications.</p></li><li><p>
+							The <code class="literal">$GW_HOME/config/[enginename]/[hostname]</code> directory may contain:
+					  		</p><div class="itemizedlist"><ul type="circle"><li><p>
+										The default context configuration for all web applications of a given virtual host in the file <code class="literal">context.xml.default</code>.
+									</p></li><li><p>
+										Individual web applications' context configuration files as described in the Apache Tomcat Configuration Reference.
+										For example, the context for a web application with
+										context path <code class="literal">foo</code> may be configured in <code class="literal">foo.xml</code>.
+									</p></li></ul></div><p>
+						</p></li></ul></div><p>
+			</p><p>
+				Note that the following context configuration features are not supported in Gemini Web Container:
+				</p><div class="itemizedlist"><ul type="disc"><li><p>Custom class loaders.</p></li><li><p>Specifying the context path. This is specified using the <code class="literal">Web-ContextPath</code> header in the web application's <code class="literal">MANIFEST.MF</code> file.</p></li><li><p>Specifying the document base directory.</p></li></ul></div><p>
+			</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="configuring-osgi-framework"></a>3.2&nbsp;Configuring the OSGi Framework</h2></div></div></div><p>
+			This section provides information about configuring the OSGi framework by updating the following files in the
+			<code class="literal">$GW_HOME/configuration</code> directory:
+		</p><div class="table"><a name="configuring-osgi-framework-table"></a><p class="title"><b>Table&nbsp;3.1.&nbsp;OSGi Framework Configuration Files </b></p><div class="table-contents"><table summary="OSGi Framework Configuration Files " style="border-collapse: collapse;border-top: 1.0pt solid ; border-bottom: 1.0pt solid ; border-left: 1.0pt solid ; border-right: 1.0pt solid ; "><colgroup><col><col></colgroup><thead><tr><th style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">Property File</th><th style="border-bottom: 1.0pt solid ; ">Description</th></tr></thead><tbody><tr><td style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">
+							<code class="literal">config.ini</code>
+						</td><td style="border-bottom: 1.0pt solid ; ">Configures the <a class="link" href="#configuring-framework-properties" title="Configuring OSGi Framework Properties">OSGi framework properties</a>.</td></tr><tr><td style="border-right: 1.0pt solid ; ">
+							<code class="literal">java6-server.profile</code>
+						</td><td style="">Configures the <a class="link" href="#configuring-framework-profile" title="Configuring OSGi Framework Profile">OSGi framework profile</a>.</td></tr></tbody></table></div></div><br class="table-break"><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-framework-properties"></a>Configuring OSGi Framework Properties</h3></div></div></div><p>
+				You specify the framework properties in the <code class="literal">$GW_HOME/configuration/config.ini</code> file. 
+				The properties relevant to users are described in the following table.
+			</p><div class="table"><a name="configuring-framework-properties-table"></a><p class="title"><b>Table&nbsp;3.2.&nbsp;Framework Properties</b></p><div class="table-contents"><table summary="Framework Properties" style="border-collapse: collapse;border-top: 1.0pt solid ; border-bottom: 1.0pt solid ; border-left: 1.0pt solid ; border-right: 1.0pt solid ; "><colgroup><col><col></colgroup><thead><tr><th style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">Property</th><th style="border-bottom: 1.0pt solid ; ">Description</th></tr></thead><tbody><tr><td style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">
+								<code class="literal">osgi.bundles</code>
+							</td><td style="border-bottom: 1.0pt solid ; ">
+								The comma-separated list of bundles which are automatically installed and optionally started once the system is up and running.
+							</td></tr><tr><td style="border-right: 1.0pt solid ; ">
+								<code class="literal">osgi.java.profile</code>
+							</td><td style="">
+								Specifies the profile to use using a <code class="literal">file:</code> URI with default value
+								<code class="literal">file:configuration/java6-server.profile</code>.
+							</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="configuring-framework-profile"></a>Configuring OSGi Framework Profile</h3></div></div></div><p>
+				You specify the framework profile in the <code class="literal">$GW_HOME/configuration/java6-server.profile</code> file. 
+				The properties relevant to users are described in the following table.
+			</p><p>
+				<span class="bold"><strong>WARNING:</strong></span> We advise you not to change the framework profile unless you are sure you know exactly what
+				you are doing; updating the profile could cause GW to fail.
+			</p><div class="table"><a name="configuring-framework-profile-table"></a><p class="title"><b>Table&nbsp;3.3.&nbsp;Framework Profile Properties</b></p><div class="table-contents"><table summary="Framework Profile Properties" style="border-collapse: collapse;border-top: 1.0pt solid ; border-bottom: 1.0pt solid ; border-left: 1.0pt solid ; border-right: 1.0pt solid ; "><colgroup><col><col></colgroup><thead><tr><th style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">Property</th><th style="border-bottom: 1.0pt solid ; ">Description</th></tr></thead><tbody><tr><td style="border-right: 1.0pt solid ; border-bottom: 1.0pt solid ; ">
+								<code class="literal">org.osgi.framework.bootdelegation</code>
+							</td><td style="border-bottom: 1.0pt solid ; ">
+								<p>
+									This property specifies the packages which are loaded by delegation to the application class loader.
+									Bundles can load classes belonging to these packages without importing the packages.
+									The <code class="literal">.*</code> wildcard matches any package suffix. 
+									<code class="literal">java.*</code> is always boot delegated and must not be specified in this property.
+									Note that the ordering of the packages does not matter.
+								</p>
+							</td></tr><tr><td style="border-right: 1.0pt solid ; ">
+								<code class="literal">org.osgi.framework.system.packages</code>
+							</td><td style="">
+								<p>
+									This property specifies the packages which are exported by the system bundle.
+								</p>
+								<p>
+									It is very occasionally necessary to extend the set, for example when configuring email logging appenders since the implementation of <code class="literal">javax.mail</code>	is intimately related to the implementation of <code class="literal">javax.activation</code>.
+								</p>
+							</td></tr></tbody></table></div></div><br class="table-break"></div></div></div></div><!--Begin LoopFuse code--><script src="http://loopfuse.net/webrecorder/js/listen.js" type="text/javascript"></script><script type="text/javascript">
+			_lf_cid = "LF_48be82fa";
+			_lf_remora();
+		</script><!--End LoopFuse code--></body></html>
