@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.6"?>
+<?pde version="3.8"?>
 
-<target name="sherlog.target" sequenceNumber="11">
+<target name="sherlog.target" sequenceNumber="12">
 <locations>
-<location path="${project_loc:target.platform}/equinox-3.7" type="Directory"/>
 <location path="${project_loc:target.platform}/javakontor" type="Directory"/>
 <location path="${project_loc:target.platform}/build/" type="Directory"/>
 <location path="${project_loc:target.platform}/ebr" type="Directory"/>
@@ -11,5 +10,6 @@
 <location path="${project_loc:target.platform}/sherlog-1.0.2" type="Directory"/>
 <location path="${project_loc:target.platform}/gemini-web-2.0.1.RELEASE" type="Directory"/>
 <location path="${project_loc:target.platform}/gemini-web-2.0.1.RELEASE/dep" type="Directory"/>
+<location path="${project_loc:target.platform}/equinox-3.8.2" type="Directory"/>
 </locations>
 </target>
