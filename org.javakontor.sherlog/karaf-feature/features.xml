@@ -14,7 +14,6 @@
         <bundle>mvn:org.javakontor.sherlog.ui.histogram/mock/1.0.2</bundle>
         <bundle>mvn:org.javakontor.sherlog.application/extender/1.0.2</bundle>
         <bundle>mvn:org.javakontor.sherlog/application/1.0.2</bundle>
-        <bundle>mvn:org.javakontor.sherlog.domain.logeventflavour/l4jbinary/1.0.2 </bundle>
         <bundle>mvn:org.javakontor.sherlog.ui/filter/1.0.2</bundle>
         <bundle>mvn:com.springsource.org.jfree/chart/1.0.9</bundle>
         <bundle>mvn:org.javakontor.sherlog/domain/1.0.2</bundle>
